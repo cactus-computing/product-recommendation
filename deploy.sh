@@ -1,1 +1,4 @@
-docker run -p 8888:8888 -v C:\Users\vicen\Documents\GitHub\MVP_inventory:/home/jovyan --user root -e NB_USER=jovyan -e GRANT_SUDO=yes  # unsafe, dev only
+#To deploy
+docker-compose run web django-admin startproject inventory_test .
+#once deploy, just run this command
+docker-compose up
