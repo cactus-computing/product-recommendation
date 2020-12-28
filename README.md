@@ -11,13 +11,13 @@ docker-compose up
 ```
 git clone https://github.com/vescobarb/MVP_inventory.git
 ```
-# First Time Run
+then run the following command to start a django project
 
 ```
 docker-compose run web django-admin startproject inventory_test .
 ```
 
-then 
+then create the containers
 
 ```
 docker-compose up
