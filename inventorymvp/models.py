@@ -1,22 +1,13 @@
 from django.db import models
 from django.utils import timezone
 import os
-from uuid import uuid4
 
 def path_and_rename(path):
     def wrapper(instance, filename):
         ext = filename.split('.')[-1]
         name = filename.split('.')[0]
         # get filename
-        filename = f'{name}-{timezone.now().strftime("%Y-%m-%d")}.{ext}'
-        '''
-        if instance.pk:
-            filename = f'{name}-{timezone.now}.{ext}'
-        else:
-            # set filename as random string
-            filename = '{}.{}'.format(uuid4().hex, ext)
-        '''
-
+        filename = f'{name}-{timezone.now().strftime("%Y-%m-% %H:%M")}.{ext}'
         # return the whole path to the file
         return os.path.join(path, filename)
     return wrapper

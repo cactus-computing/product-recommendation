@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('myapp', '0002_snippet_last_name'),
+        ('inventorymvp', '0002_snippet_last_name'),
     ]
 
     operations = [
