@@ -66,7 +66,7 @@ if settings.DEBUG:
 To add models to database:
 
 ```
-docker-compose run web /usr/local/bin/python manage.py makemigrations myapp
+docker-compose run web /usr/local/bin/python manage.py makemigrations inventorymvp
 ```
 
 ```
@@ -78,7 +78,7 @@ To connect to the app shell
 ```
 docker-compose run web /usr/local/bin/python manage.py shell
 ```
-
+docker-compose run web /usr/local/bin/python manage.py rename_app myapp inventorymvp
 Creating an admin user
 
 ```
