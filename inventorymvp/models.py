@@ -2,25 +2,54 @@ from django.db import models
 from django.utils import timezone
 import os
 from datetime import datetime
+import logging
+from django.forms import ValidationError
+
+logger = logging.Logger(__name__)
+
 
 def path_and_rename(path):
-    def wrapper(instance, filename):
+    def wrapper(instance, filename, company):
         ext = filename.split('.')[-1]
         name = filename.split('.')[0]
+        company = company.lower().replace(' ', '_')
         # get filename
-        filename = f'{name}_{datetime.timestamp(timezone.now())}.{ext}'
+        filename = f'{company}_{datetime.timestamp(timezone.now())}.{ext}'
         # return the whole path to the file
         return os.path.join(path, filename)
     return wrapper
+    
+def handle_uploaded_file(f, company):
+    filename = path_and_rename('documents')
+    filename = filename(f, f.name, company)
+    with open(filename, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
 
+    return filename
 
-class Snippet(models.Model):
+class User(models.Model):
     name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    email = models.EmailField()
+    #password = None
+    email = models.EmailField(max_length=180, unique=True)
     company = models.CharField(max_length=100)
-    document = models.FileField(upload_to=path_and_rename('files'))
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    recieve_info_flag = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
+
+    def create_user(self):
+        pass
+
+    def search(self, email_string):
+        try:
+            uid = self.objects.get(email=email_string)
+        except User.DoesNotExist:
+            return None
+        return uid
+
+class CompanyData(models.Model):
+    document_location = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
