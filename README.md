@@ -8,9 +8,14 @@ docker-compose up --build
 
 # Dev Environment Setup
 
+Clone the repository
 ```
 git clone https://github.com/vescobarb/MVP_inventory.git
 ```
+
+Download/Get credentials. You need a `.env` file which contains secret configuration parameters. Talk to the administrator.
+
+
 then run the following command to start a django project
 
 ```
