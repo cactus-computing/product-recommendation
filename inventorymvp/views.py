@@ -3,7 +3,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.db import utils
 from .forms import FileSubmissionForm
 from .models import User, CompanyData, handle_uploaded_file
-#from .storage import upload_blob
 import logging
 from django.core.mail import send_mail
 
@@ -27,7 +26,7 @@ def snippet_detail(request):
             except utils.IntegrityError:
                 user = User.objects.get(email=email)
             
-            file_path_or_url = handle_uploaded_file(request.FILES['document'], company=company)
+            file_path_or_url = handle_uploaded_file(request.FILES['document'], company=company, local=False)
             stored_file = CompanyData(document_location=file_path_or_url, user=user)
             stored_file.save()
             email_message = f"""Hola, {name}!\n\nTu data está siendo procesada y te enviarémos un correo a penas tengamos el resultado.\n\nGracias por confiar en nosotros!\n\nEquipo de StockApp"""

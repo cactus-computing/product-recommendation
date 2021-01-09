@@ -13,8 +13,12 @@ Clone the repository
 git clone https://github.com/vescobarb/MVP_inventory.git
 ```
 
-Download/Get credentials. You need a `.env` file which contains secret configuration parameters. Talk to the administrator.
+Download/Get credentials. You need a `.env` file which contains secret configuration parameters. Talk to the administrator if you do not have gcloud premissions.
 
+```
+gsutil cp gs://cactus-stockapp/credentials/.env ./invetory_test/
+gsutil cp gs://cactus-stockapp/credentials/service_account_key.json ./inventorymvp/
+```
 
 then run the following command to start a django project
 

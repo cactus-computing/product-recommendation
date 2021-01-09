@@ -131,3 +131,6 @@ dmypy.json
 # Documentos
 
 documents/*
+
+# Secrets
+service_account_key.json

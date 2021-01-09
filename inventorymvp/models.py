@@ -4,6 +4,7 @@ import os
 from datetime import datetime
 import logging
 from django.forms import ValidationError
+from .storage import upload_blob_to_default_bucket
 
 logger = logging.Logger(__name__)
 
@@ -19,13 +20,18 @@ def path_and_rename(path):
         return os.path.join(path, filename)
     return wrapper
     
-def handle_uploaded_file(f, company):
+def handle_uploaded_file(f, company, local=True):
     filename = path_and_rename('documents')
     filename = filename(f, f.name, company)
-    with open(filename, 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
-
+    
+    if local:
+        with open(filename, 'wb+') as destination:
+            for chunk in f.chunks():
+                destination.write(chunk)
+    else:
+        blob_name = 'company_data/' + filename.split('/')[-1]
+        filename = upload_blob_to_default_bucket(f, blob_name)
+    
     return filename
 
 class User(models.Model):
