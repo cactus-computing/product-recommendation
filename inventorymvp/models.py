@@ -5,6 +5,7 @@ from datetime import datetime
 import logging
 from django.forms import ValidationError
 from .storage import upload_blob_to_default_bucket
+import pandas as pd
 
 logger = logging.Logger(__name__)
 
@@ -30,32 +31,28 @@ def handle_uploaded_file(f, company, local=True):
                 destination.write(chunk)
     else:
         blob_name = 'company_data/' + filename.split('/')[-1]
-        filename = upload_blob_to_default_bucket(f, blob_name)
+        filename, gc_url = upload_blob_to_default_bucket(f, blob_name)
     
-    return filename
+    return filename, gc_url
+
+def get_available_fields(file_path):
+    if '.csv' in file_path:
+        df = pd.read_csv(file_path, chunksize=1, index_col=0).get_chunk(1)
+        return list(df.columns)
+
 
 class User(models.Model):
-    name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    name = models.CharField(max_length=250)
+    last_name = models.CharField(max_length=250)
     #password = None
-    email = models.EmailField(max_length=180, unique=True)
-    company = models.CharField(max_length=100)
+    email = models.EmailField(max_length=250, unique=True)
+    company = models.CharField(max_length=250)
     created_at = models.DateTimeField(auto_now_add=True)
     recieve_info_flag = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
 
-    def create_user(self):
-        pass
-
-    def search(self, email_string):
-        try:
-            uid = self.objects.get(email=email_string)
-        except User.DoesNotExist:
-            return None
-        return uid
-
 class CompanyData(models.Model):
-    document_location = models.CharField(max_length=100)
+    document_location = models.CharField(max_length=500)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

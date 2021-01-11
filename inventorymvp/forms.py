@@ -14,16 +14,25 @@ ALLOWED_EXTENSIONS = [
     'xls'
 ]
 
+FIELDS = [
+    'Fecha',
+    'Codigo del Producto',
+    'Cantidad Vendida'
+]
 
+FIELDS_2 = [
+    ('Fecha', 'Fecha'),
+    ('Cod', 'Codigo del Producto'),
+    ('Cant', 'Cantidad Vendida')
+]
 
 class FileSubmissionForm(forms.Form):
     validate_extension = FileExtensionValidator(ALLOWED_EXTENSIONS, message=f"Extension no permitida. Por favor usar un archivo alguna de las siguientes extensiones: {', '.join(ALLOWED_EXTENSIONS)}")
 
-
-    name = forms.CharField(label='Nombre', max_length=180, required=True)
-    last_name = forms.CharField(label='Apellido', max_length=180, required=True)
-    email = forms.EmailField(label='Email', max_length=180, required=True)
-    company = forms.CharField(label='Empresa', max_length=180, required=True)
+    name = forms.CharField(label='Nombre', max_length=250, required=True)
+    last_name = forms.CharField(label='Apellido', max_length=250, required=True)
+    email = forms.EmailField(label='Email', max_length=250, required=True)
+    company = forms.CharField(label='Empresa', max_length=250, required=True)
 
     document = forms.FileField(label='Excel/CSV', required=False, validators=[validate_extension])
     recieve_info_flag = forms.BooleanField(label='Suscribirme a la lista de mails', required=False)
@@ -43,3 +52,31 @@ class FileSubmissionForm(forms.Form):
             raise ValidationError(('Extension no permitida'), code='invalid')
         
         return self.cleaned_data
+
+class FieldSelectionForm(forms.Form):
+    date = forms.ChoiceField(
+        choices=FIELDS_2,
+    )
+    product_code = forms.ChoiceField(
+        choices=FIELDS_2,
+    )
+    quantity = forms.ChoiceField(
+        choices=FIELDS_2,
+    )
+
+    date.widget.attrs.update({'class' : 'form-control'})
+    product_code.widget.attrs.update({'class' : 'form-control'})
+    quantity.widget.attrs.update({'class' : 'form-control'})
+
+        
+
+    def __init__(self, available_fields=None, *args, **kwargs):
+        super(forms.Form, self).__init__(*args, **kwargs)
+        self.fields['date'].label = 'Fecha'
+        self.fields['product_code'].label = 'Código de producto'
+        self.fields['quantity'].label = 'Cantidad'
+
+        if available_fields is not None:
+            for key in self.fields:
+                self.fields[key].choices = available_fields
+        
