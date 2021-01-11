@@ -13,7 +13,7 @@ credentials = service_account.Credentials.from_service_account_file(
 logger = logging.Logger(__name__)
 
 
-def upload_blob_to_default_bucket(source_file, destination_blob_name):
+def upload_blob_to_default_bucket(df, destination_blob_name):
     """Uploads a file to the bucket.
     Parameters:
         - source_file: a file object containing the file which you need to upload.
@@ -26,18 +26,16 @@ def upload_blob_to_default_bucket(source_file, destination_blob_name):
     bucket = client.bucket(BUCKET_NAME)
     blob = bucket.blob(destination_blob_name)
 
-    blob.upload_from_file(source_file)
+    blob.upload_from_string(df.to_csv(), 'text/csv')
     
     
     gcs_path = f"gs://{BUCKET_NAME}/{blob.name}"
 
-    print(
-        "File {} uploaded to GCS: {}.".format(
-            source_file, destination_blob_name
-        )
+    logger.info(
+        "Dataframe uploaded to GCS: {}.".format( destination_blob_name )
     )
 
-    print(gcs_path)
+    logger.info(gcs_path)
     return gcs_path, blob.public_url
 
 def dataframe_to_gcs(df, name_to_update):

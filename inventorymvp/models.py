@@ -34,18 +34,25 @@ def handle_uploaded_file(f, company, local=True):
         - filename: the filename as a gs:// pattern or a local path
         - gc_url: if local is True, it returns the url of the object
     '''
+    
+    if ('xlsx' in f.name) or ('xls' in f.name):
+        is_excel = True
+        df = pd.read_excel(f.read(), sheet_name=0)
+        f.name = f.name.replace('xlsx', 'csv')
+        f.name = f.name.replace('xls', 'csv')
+    elif 'csv' in f.name:
+        is_excel = False
+        df = pd.read_csv(f)
 
     filename = path_and_rename('documents')
     filename = filename(f, f.name, company)
     
     if local:
-        with open(filename, 'wb+') as destination:
-            for chunk in f.chunks():
-                destination.write(chunk)
+        df.to_csv(filename)
         gc_url = None
     else:
         blob_name = 'company_data/' + filename.split('/')[-1]
-        filename, gc_url = upload_blob_to_default_bucket(f, blob_name)
+        filename, gc_url = upload_blob_to_default_bucket(df, blob_name)
     
     return filename, gc_url
 
@@ -57,10 +64,6 @@ def get_available_fields(file_path):
     '''
     if '.csv' in file_path:
         df = pd.read_csv(file_path, chunksize=1, index_col=0).get_chunk(1)
-        return list(df.columns)
-
-    if ('.xlsx' in file_path) or ('.xls' in file_path):
-        df = pd.read_excel(file_path, chunksize=1, index_col=0).get_chunk(1)
         return list(df.columns)
 
 def rename_dataset(file_path, new_columns):
