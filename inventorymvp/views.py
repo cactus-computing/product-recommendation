@@ -10,7 +10,14 @@ from django.urls import reverse
 logger = logging.Logger(__name__)
 
 
-def snippet_detail(request):
+def main_form(request):
+    '''
+    Main function for handling landing page operations and form submission.
+    Parameters:
+        - request: contains the details of the user as well as the file in the .POST and .FILES method.
+    Returns:
+        - conditional to program flow: renders the landing page or redirects to the field selection form (field_selection function).
+    '''
     if request.method == "POST":
         form = FileSubmissionForm(request.POST, request.FILES)
 
@@ -50,6 +57,14 @@ def snippet_detail(request):
 
 
 def field_selection(request):
+    '''
+    Field selection page handling.
+    Parameters:
+        - request: request.POST contains the form data
+    Returns:
+        - renders the field selection form to rename the uploaded dataframes or if handled correctly
+        it redirects to the Landing Page
+    '''
 
     if request.session['available_fields'] is None:
         available_fields = [

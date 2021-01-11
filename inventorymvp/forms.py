@@ -2,7 +2,6 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, ButtonHolder
 from django import forms
 from django.forms import ValidationError
-#from .models import User, CompanyData
 from django.core.validators import RegexValidator, FileExtensionValidator
 import logging
 
@@ -27,6 +26,9 @@ FIELDS_2 = [
 ]
 
 class FileSubmissionForm(forms.Form):
+    '''
+    This is the main form in the website. It allowes a user tu submit his details and a file.
+    '''
     validate_extension = FileExtensionValidator(ALLOWED_EXTENSIONS, message=f"Extension no permitida. Por favor usar un archivo alguna de las siguientes extensiones: {', '.join(ALLOWED_EXTENSIONS)}")
 
     name = forms.CharField(label='Nombre', max_length=250, required=True)
@@ -54,6 +56,9 @@ class FileSubmissionForm(forms.Form):
         return self.cleaned_data
 
 class FieldSelectionForm(forms.Form):
+    '''
+    This form allows a user to rename his/her file fields according to our standard.
+    '''
     date = forms.ChoiceField(
         choices=FIELDS_2,
     )
