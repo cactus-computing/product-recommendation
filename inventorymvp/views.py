@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db import utils
 from .forms import FileSubmissionForm, FieldSelectionForm
-from .models import User, CompanyData, handle_uploaded_file, get_available_fields
+from .models import User, CompanyData, handle_uploaded_file, get_available_fields, rename_dataset
 import logging
 from django.core.mail import send_mail
 from django.urls import reverse
@@ -39,7 +39,7 @@ def snippet_detail(request):
                 recipient_list=[email],
                 fail_silently=False,
             )
-
+            request.session['file_path'] = file_path
             request.session['available_fields'] = get_available_fields(file_path)
             request.session['user_id'] = user.id
             return HttpResponseRedirect(reverse('field-selection'))
@@ -50,13 +50,6 @@ def snippet_detail(request):
 
 
 def field_selection(request):
-    if request.method == "POST":
-        form = FieldSelectionForm(request.POST)
-        print(f"User id: {request.session['user_id']}")
-        
-        user = get_object_or_404(User, pk=request.session['user_id'])
-        print(f"User name: {user.name}")
-        return render(request, 'form/form.html', { 'user': user, 'has_submitted': True,  'no_user': True })
 
     if request.session['available_fields'] is None:
         available_fields = [
@@ -69,6 +62,15 @@ def field_selection(request):
         for key in request.session['available_fields']:
             available_fields.append((key, key))
 
-    form = FieldSelectionForm(available_fields=available_fields)
+
+    if request.method == "POST":
+        form = FieldSelectionForm(available_fields, request.POST)
+        
+        user = get_object_or_404(User, pk=request.session['user_id'])
+        if form.is_valid():
+            rename_dataset(request.session['file_path'], form.cleaned_data)
+            return render(request, 'form/form.html', { 'user': user, 'has_submitted': True,  'no_user': True })
+    else:
+        form = FieldSelectionForm(available_fields=available_fields)
 
     return render(request, 'form/field_selection.html', { 'form':form })

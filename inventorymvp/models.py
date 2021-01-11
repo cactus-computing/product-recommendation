@@ -4,7 +4,7 @@ import os
 from datetime import datetime
 import logging
 from django.forms import ValidationError
-from .storage import upload_blob_to_default_bucket
+from .storage import upload_blob_to_default_bucket, dataframe_to_gcs
 import pandas as pd
 
 logger = logging.Logger(__name__)
@@ -40,7 +40,16 @@ def get_available_fields(file_path):
         df = pd.read_csv(file_path, chunksize=1, index_col=0).get_chunk(1)
         return list(df.columns)
 
+def rename_dataset(file_path, new_columns):
+    
+    new_columns = { v: k for k, v in new_columns.items() }
+    df = pd.read_csv(file_path)
+    df = df.rename(columns=new_columns)
+    dataframe_to_gcs(df, file_path)
+    
 
+    
+    
 class User(models.Model):
     name = models.CharField(max_length=250)
     last_name = models.CharField(max_length=250)
