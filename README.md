@@ -1,16 +1,16 @@
 # MVP_inventory
 
-# Runnig Dev Envirnoment
+## Runnig Dev Envirnoment
 
 ```
 docker-compose up --build
 ```
 
-# Dev Environment Setup
+## Dev Environment Setup
 
 Clone the repository
 ```
-git clone https://github.com/vescobarb/MVP_inventory.git
+git clone https://github.com/vescobarb/MVP_inventory.git stockapp
 ```
 
 Download/Get credentials. You need a `.env` file which contains secret configuration parameters. Talk to the administrator if you do not have gcloud premissions.
@@ -19,60 +19,125 @@ Download/Get credentials. You need a `.env` file which contains secret configura
 gsutil cp gs://cactus-stockapp/credentials/.env ./invetory_test/
 gsutil cp gs://cactus-stockapp/credentials/service_account_key.json ./inventorymvp/
 ```
-
-then run the following command to start a django project
-
-```
-docker-compose run web django-admin startproject inventory_test .
-```
-
-then create the containers
-
+Create containers
 ```
 docker-compose up
 ```
-
-then from an other terminal (because app is running on the frist one)
-
-```
-docker-compose run web django-admin startapp myapp
-```
-
-add the following lines to inventory_test/settings.py under ``` BASE_DIR = Path(__file__).resolve().parent.parent ```
-
-```
-MEDIA_URL = '/documents/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'documents')
-To migrate the app to a Data Base
-```
-
-Inside INSTALLED_APPS paste this:
-```
-'myapp',
-'crispy_forms',
-```
-Inside
-``` 
-TEMPLATES = [
-    ...
-        'OPTIONS': {
-            'context_processors':
-```
-paste:
-```
-'django.template.context_processors.media',
-```
-Replace urlpatterns whit this:
-```
-urlpatterns = [
-    path('', include('myapp.urls')),
-    path('admin/', admin.site.urls),
-    ]
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-```
-
 To add models to database:
+```
+docker-compose run web /usr/local/bin/python manage.py migrate
+```
+## Prod Environment Setup
+
+Ubuntu 18.04
+
+Clone the repository
+```
+git clone https://github.com/vescobarb/MVP_inventory.git stockapp
+```
+
+Move to stockapp directory
+
+Download/Get credentials. You need a `.env` file which contains secret configuration parameters. Talk to the administrator if you do not have gcloud premissions.
+
+```
+gsutil cp gs://cactus-stockapp/credentials/.env ./invetory_test/
+gsutil cp gs://cactus-stockapp/credentials/service_account_key.json ./inventorymvp/
+```
+
+Move to ```/usr/local/stockapp```
+
+install pip, nginx:
+
+```
+sudo apt update
+sudo apt install python3-pip python3-dev libpq-dev nginx curl
+```
+
+Install virtualenv
+```
+sudo -H pip3 install --upgrade pip
+sudo -H pip3 install virtualenv
+```
+
+Create a user and give permissions:
+
+```
+sudo adduser stockapp --disabled-login --disabled-password --gecos "Stockapp system user"
+sudo chown stockapp.stockapp . -R
+sudo chmod g+rwx . -R
+sudo su stockapp
+```
+
+Create and activate
+```
+virtualenv .vevn
+source .venv/bin/activate
+```
+Install requirements
+```
+.venv/bin/python3 -m pip install -r requirements.txt
+```
+you should be ready to deploy:
+
+```
+gunicorn --bind 0.0.0.0:8000 invetory_test.wsgi
+```
+Exit stockapp user to do sudo operations
+Move systemd socket file:
+```
+mv /gunicornnginxfiles/gunicorn.socket /etc/systemd/system/gunicorn.socket
+```
+Move systemd service file
+
+```
+mv /gunicornnginxfiles/gunicorn.service /etc/systemd/system/gunicorn.service
+```
+
+Now we init and enable systemd:
+
+```
+sudo systemctl start gunicorn.socket
+sudo systemctl enable gunicorn.socket
+```
+
+Verify the systemd status:
+```
+sudo systemctl status gunicorn.socket
+```
+Test your socket activation
+```
+curl --unix-socket /run/gunicorn.sock localhost
+sudo systemctl status gunicorn.socket
+```
+if any change is needes, change it and reload socket:
+```
+sudo systemctl daemon-reload
+sudo systemctl restart gunicorn
+```
+
+Cofigure Nginx for auth pass for gunicorn
+move
+sudo mv /gunicornnginxfiles/invetory_test /etc/nginx/sites-available/invetory_test
+
+Now we can habilitar the file binding it to site-enable directory
+```
+sudo ln -s /etc/nginx/sites-available/invetory_test /etc/nginx/sites-enabled
+```
+
+Test the config:
+```
+sudo nginx -t
+```
+
+Finnaly we open our firewall to the normal traffict of 80 port:
+```
+sudo ufw delete allow 8000
+sudo ufw allow 'Nginx Full'
+```
+
+## Usful commands
+
 
 ```
 docker-compose run web /usr/local/bin/python manage.py makemigrations inventorymvp
@@ -87,10 +152,9 @@ To connect to the app shell
 ```
 docker-compose run web /usr/local/bin/python manage.py shell
 ```
-docker-compose run web /usr/local/bin/python manage.py rename_app myapp inventorymvp
+
 Creating an admin user
 
 ```
 docker-compose run web /usr/local/bin/python manage.py createsuperuser
 ```
-
