@@ -6,6 +6,7 @@ After=network.target
 [Service]
 User=sammy
 Group=www-data
+EnvironmentFile=/usr/local/stockapp/invetory_test/.env
 WorkingDirectory=/usr/local/stockapp
 ExecStart=/usr/local/stockapp/.venv/bin/gunicorn \
           --access-logfile - \
