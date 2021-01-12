@@ -19,35 +19,14 @@ Download/Get credentials. You need a `.env` file which contains secret configura
 gsutil cp gs://cactus-stockapp/credentials/.env ./invetory_test/
 gsutil cp gs://cactus-stockapp/credentials/service_account_key.json ./inventorymvp/
 ```
-
 Create containers
-
 ```
 docker-compose up
 ```
-
 To add models to database:
-
-```
-docker-compose run web /usr/local/bin/python manage.py makemigrations inventorymvp
-```
-
 ```
 docker-compose run web /usr/local/bin/python manage.py migrate
 ```
-
-To connect to the app shell
-
-```
-docker-compose run web /usr/local/bin/python manage.py shell
-```
-
-Creating an admin user
-
-```
-docker-compose run web /usr/local/bin/python manage.py createsuperuser
-```
-
 ## Prod Environment Setup
 
 Ubuntu 18.04
@@ -155,4 +134,27 @@ Finnaly we open our firewall to the normal traffict of 80 port:
 ```
 sudo ufw delete allow 8000
 sudo ufw allow 'Nginx Full'
+```
+
+## Usful commands
+
+
+```
+docker-compose run web /usr/local/bin/python manage.py makemigrations inventorymvp
+```
+
+```
+docker-compose run web /usr/local/bin/python manage.py migrate
+```
+
+To connect to the app shell
+
+```
+docker-compose run web /usr/local/bin/python manage.py shell
+```
+
+Creating an admin user
+
+```
+docker-compose run web /usr/local/bin/python manage.py createsuperuser
 ```
