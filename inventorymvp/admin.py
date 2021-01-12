@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Snippet
+from .models import User, CompanyData
 
-admin.site.register(Snippet)
+admin.site.register(User)
+admin.site.register(CompanyData)
 
