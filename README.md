@@ -77,7 +77,7 @@ sudo su stockapp
 
 Create and activate
 ```
-virtualenv .vevn
+virtualenv .venv
 source .venv/bin/activate
 ```
 Install requirements
