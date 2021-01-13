@@ -26,6 +26,7 @@ def main_form(request):
             name = form.cleaned_data['name']
             last_name = form.cleaned_data['last_name']
             email = form.cleaned_data['email']
+            phone = form.cleaned_data['phone']
             company = form.cleaned_data['company']
             recieve_info_flag = form.cleaned_data['recieve_info_flag']
             user = User(name=name, last_name=last_name, email=email, company=company, recieve_info_flag=recieve_info_flag)
@@ -38,16 +39,17 @@ def main_form(request):
             file_path, gc_url = handle_uploaded_file(request.FILES['document'], company=company, local=False)
             stored_file = CompanyData(document_location=file_path, user=user)
             stored_file.save()
-            email_message = f"""Hola, {name}!\n\nTu data está siendo procesada y te enviarémos un correo a penas tengamos el resultado.\n\nGracias por confiar en nosotros!\n\nEquipo de StockApp"""
-            email_intern = f"""Nombre:{name} {last_name}\n\nEmpresa:{company}\n\nEmail: {email}\n\nEmail info:{recieve_info_flag}"""
+
+            email_cliente = f"""Hola, {name}!\n\nTu data está siendo procesada y te enviarémos un correo a penas tengamos el resultado.\n\nGracias por confiar en nosotros!\n\nEquipo de StockApp"""
+            email_interno = f"""Nombre:{name} {last_name}\n\nEmpresa: {company}\n\nEmail: {email}\n\nTelefono: {phone}\n\nEmail info: {recieve_info_flag}"""
             message1 = ('StockApp Forecasting',
-            email_message, 
+            email_cliente, 
             'agustin.escobar@cactusco.cl', 
-            [email,'vicente.escobar@cactusco.cl'])
-            message2 = (f'Cliente:{name} {last_name},{company}',
-            email_intern, 
+            [email])
+            message2 = (f'Nuevo Registro!! Cliente: {name} {last_name}, {company}',
+            email_interno, 
             'agustin.escobar@cactusco.cl', 
-            ['agustin.escobar@cactusco.cl','vicente.escobar@cactusco.cl',email])
+            ['agustin.escobar@cactusco.cl', 'vicente.escobar@cactusco.cl', 'rodrigo.oyarzun25@gmail.com'])
             send_mass_mail((message1, message2), fail_silently=False)
 
             request.session['file_path'] = file_path
