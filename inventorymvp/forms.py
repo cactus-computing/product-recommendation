@@ -34,8 +34,7 @@ class FileSubmissionForm(forms.Form):
     name = forms.CharField(label='Nombre', max_length=250, required=True)
     last_name = forms.CharField(label='Apellido', max_length=250, required=True)
     email = forms.EmailField(label='Email', max_length=250, required=True)
-    #phone_regex = RegexValidator(regex=r'^\+?1?\d{12}$', message="Phone number must be entered in the format: '+56987654321'.")
-    phone = forms.CharField(label='Telefono', max_length=12, required=True)#,validators=[phone_regex]
+    phone = forms.CharField(label='Telefono', max_length=12, required=True)
     company = forms.CharField(label='Empresa', max_length=250, required=True)
 
     document = forms.FileField(label='Excel/CSV', required=False, validators=[validate_extension])

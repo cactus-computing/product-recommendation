@@ -41,7 +41,7 @@ def main_form(request):
             stored_file.save()
 
             email_cliente = f"""Hola, {name}!\n\nTu data está siendo procesada y te enviarémos un correo a penas tengamos el resultado.\n\nGracias por confiar en nosotros!\n\nEquipo de StockApp"""
-            email_interno = f"""Nombre:{name} {last_name}\n\nEmpresa: {company}\n\nEmail: {email}\n\nTelefono: {phone}\n\nEmail info: {recieve_info_flag}"""
+            email_interno = f"""Datos del nuevo contacto:\n\nNombre:{name} {last_name}\n\nEmpresa: {company}\n\nEmail: {email}\n\nTelefono: {phone}\n\nEmail info: {recieve_info_flag}"""
             message1 = ('StockApp Forecasting',
             email_cliente, 
             'agustin.escobar@cactusco.cl', 
