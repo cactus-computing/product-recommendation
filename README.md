@@ -92,12 +92,12 @@ gunicorn --bind 0.0.0.0:8000 invetory_test.wsgi
 Exit stockapp user to do sudo operations
 Move systemd socket file:
 ```
-mv /gunicornnginxfiles/gunicorn.socket /etc/systemd/system/gunicorn.socket
+sudo mv /deployfiles/gunicorn.socket /etc/systemd/system/gunicorn.socket
 ```
 Move systemd service file
 
 ```
-mv /gunicornnginxfiles/gunicorn.service /etc/systemd/system/gunicorn.service
+sudo mv /deployfiles/gunicorn.service /etc/systemd/system/gunicorn.service
 ```
 
 Now we init and enable systemd:
@@ -124,7 +124,7 @@ sudo systemctl restart gunicorn
 
 Cofigure Nginx for auth pass for gunicorn
 move
-sudo mv /gunicornnginxfiles/invetory_test /etc/nginx/sites-available/invetory_test
+sudo mv /deployfiles/invetory_test /etc/nginx/sites-available/invetory_test
 
 Now we can habilitar the file binding it to site-enable directory
 ```
@@ -139,6 +139,7 @@ sudo nginx -t
 Finnaly we open our firewall to the normal traffict of 80 port:
 ```
 sudo ufw delete allow 8000
+sudo ufw allow ssh
 sudo ufw allow 'Nginx Full'
 ```
 
