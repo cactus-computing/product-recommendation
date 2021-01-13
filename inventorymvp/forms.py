@@ -34,6 +34,7 @@ class FileSubmissionForm(forms.Form):
     name = forms.CharField(label='Nombre', max_length=250, required=True)
     last_name = forms.CharField(label='Apellido', max_length=250, required=True)
     email = forms.EmailField(label='Email', max_length=250, required=True)
+    phone = forms.CharField(label='Telefono', max_length=12, required=True)
     company = forms.CharField(label='Empresa', max_length=250, required=True)
 
     document = forms.FileField(label='Excel/CSV', required=False, validators=[validate_extension])
@@ -42,6 +43,7 @@ class FileSubmissionForm(forms.Form):
     name.widget.attrs.update({'class' : 'form-control'})
     last_name.widget.attrs.update({'class' : 'form-control'})
     email.widget.attrs.update({'class' : 'form-control'})
+    phone.widget.attrs.update({'class' : 'form-control'})
     company.widget.attrs.update({'class' : 'form-control'})
     document.widget.attrs.update({'class' : 'form-control-file'})
     recieve_info_flag.widget.attrs.update({'class' : 'form-check'})

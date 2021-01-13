@@ -3,7 +3,6 @@ from django.utils import timezone
 import os
 from datetime import datetime
 import logging
-from django.forms import ValidationError
 from .storage import upload_blob_to_default_bucket, dataframe_to_gcs
 import pandas as pd
 
@@ -93,6 +92,7 @@ class User(models.Model):
     last_name = models.CharField(max_length=250)
     #password = None
     email = models.EmailField(max_length=250, unique=True)
+    phone = models.CharField(max_length=12)
     company = models.CharField(max_length=250)
     created_at = models.DateTimeField(auto_now_add=True)
     recieve_info_flag = models.BooleanField(default=False)

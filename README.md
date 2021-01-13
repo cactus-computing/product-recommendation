@@ -6,6 +6,12 @@
 docker-compose up --build
 ```
 
+Download/Get credentials. You need a `.env` file which contains secret configuration parameters. Talk to the administrator if you do not have gcloud premissions.
+
+```
+gsutil cp gs://cactus-stockapp/credentials/.env-dev ./invetory_test/.env
+```
+
 ## Dev Environment Setup
 
 Clone the repository
@@ -16,7 +22,7 @@ git clone https://github.com/vescobarb/MVP_inventory.git stockapp
 Download/Get credentials. You need a `.env` file which contains secret configuration parameters. Talk to the administrator if you do not have gcloud premissions.
 
 ```
-gsutil cp gs://cactus-stockapp/credentials/.env ./invetory_test/
+gsutil cp gs://cactus-stockapp/credentials/.env-dev ./invetory_test/.env
 gsutil cp gs://cactus-stockapp/credentials/service_account_key.json ./inventorymvp/
 ```
 Create containers
@@ -71,7 +77,7 @@ sudo su stockapp
 
 Create and activate
 ```
-virtualenv .vevn
+virtualenv .venv
 source .venv/bin/activate
 ```
 Install requirements

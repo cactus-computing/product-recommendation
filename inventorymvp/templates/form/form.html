@@ -25,7 +25,7 @@
             <div class="row align-items-center">
                 <div class="col-12 col-md-7 col-lg-6 order-md-1 aos-init aos-animate">
                     <h1 class="display-3 text-center text-md-left">Bienvenido a <span class="cactus">StockApp</span></h1>  
-                    <small>by <span class="cactus">Cactus</span> </small>
+                    <medium>by <span class="cactus">CactusCo</span> </medium>
                     <br><br>
                     <p class="lead text-center text-md-left text-muted mb-6 mb-lg-8">
                         Predecimos tu demanda futura para que te enfoques en los productos que más y mejor se venden.
@@ -40,13 +40,13 @@
                             <div class="card-body">
                             <h5 class="card-title">Intente nuevamente</h5>
                             
-                            <a href="" class="btn btn-primary">Intentar de nuevo</a>
+                            <a href="/" class="btn btn-primary">Intentar de nuevo</a>
                             </div>
                         </div>
                     {% elif not has_submitted %}
                         <form class="card" method="post" enctype="multipart/form-data">
                             <div class="card-body">
-                                <h4 class="card-title">¡Inscribete y prueba gratuitamente!</h4>
+                                <h4 class="card-title">¡Inscríbete y prueba gratuitamente!</h4>
                                 {% csrf_token %}
                                 {% block content %}
                                     <div class="form-group">
@@ -64,7 +64,7 @@
                             <div class="card-body">
                             <h5 class="card-title">Datos guardados correctamente.</h5>
                             <p class="card-text">Estaremos en contacto via correo electronico pronto. {{ file_name }}</p>
-                            <a href="" class="btn btn-primary">Subir otro archivo</a>
+                            <a href="/" class="btn btn-primary">Subir otro archivo</a>
                             </div>
                         </div>
                     {% endif %}

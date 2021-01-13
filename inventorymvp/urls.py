@@ -7,3 +7,5 @@ urlpatterns = [
     path('field_selection', views.field_selection, name='field-selection'),
 ]
 
+handler404 = views.error404
+          
