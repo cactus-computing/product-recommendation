@@ -39,7 +39,7 @@ Ubuntu 18.04
 
 Clone the repository
 ```
-git clone https://github.com/vescobarb/MVP_inventory.git stockapp
+sudo git clone https://github.com/vescobarb/MVP_inventory.git stockapp
 ```
 
 Move to stockapp directory
@@ -47,8 +47,8 @@ Move to stockapp directory
 Download/Get credentials. You need a `.env` file which contains secret configuration parameters. Talk to the administrator if you do not have gcloud premissions.
 
 ```
-gsutil cp gs://cactus-stockapp/credentials/.env ./invetory_test/
-gsutil cp gs://cactus-stockapp/credentials/service_account_key.json ./inventorymvp/
+sudp gsutil cp gs://cactus-stockapp/credentials/.env ./invetory_test/
+sudo gsutil cp gs://cactus-stockapp/credentials/service_account_key.json ./inventorymvp/
 ```
 
 Move to ```/usr/local/stockapp```
@@ -56,8 +56,8 @@ Move to ```/usr/local/stockapp```
 install pip, nginx:
 
 ```
-sudo apt update
-sudo apt install python3-pip python3-dev libpq-dev nginx curl
+sudo apt update -y
+sudo apt install python3-pip python3-dev libpq-dev nginx curl -y
 ```
 
 Install virtualenv
@@ -124,7 +124,9 @@ sudo systemctl restart gunicorn
 
 Cofigure Nginx for auth pass for gunicorn
 move
+```
 sudo mv /deployfiles/invetory_test /etc/nginx/sites-available/invetory_test
+```
 
 Now we can habilitar the file binding it to site-enable directory
 ```
