@@ -6,6 +6,12 @@
 docker-compose up --build
 ```
 
+Download/Get credentials. You need a `.env` file which contains secret configuration parameters. Talk to the administrator if you do not have gcloud premissions.
+
+```
+gsutil cp gs://cactus-stockapp/credentials/.env-dev ./invetory_test/.env
+```
+
 ## Dev Environment Setup
 
 Clone the repository

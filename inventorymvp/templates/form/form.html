@@ -40,13 +40,13 @@
                             <div class="card-body">
                             <h5 class="card-title">Intente nuevamente</h5>
                             
-                            <a href="" class="btn btn-primary">Intentar de nuevo</a>
+                            <a href="/" class="btn btn-primary">Intentar de nuevo</a>
                             </div>
                         </div>
                     {% elif not has_submitted %}
                         <form class="card" method="post" enctype="multipart/form-data">
                             <div class="card-body">
-                                <h4 class="card-title">¡Inscribete y prueba gratuitamente!</h4>
+                                <h4 class="card-title">¡Inscríbete y prueba gratuitamente!</h4>
                                 {% csrf_token %}
                                 {% block content %}
                                     <div class="form-group">
@@ -64,7 +64,7 @@
                             <div class="card-body">
                             <h5 class="card-title">Datos guardados correctamente.</h5>
                             <p class="card-text">Estaremos en contacto via correo electronico pronto. {{ file_name }}</p>
-                            <a href="" class="btn btn-primary">Subir otro archivo</a>
+                            <a href="/" class="btn btn-primary">Subir otro archivo</a>
                             </div>
                         </div>
                     {% endif %}

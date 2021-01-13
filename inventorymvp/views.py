@@ -4,8 +4,9 @@ from django.db import utils
 from .forms import FileSubmissionForm, FieldSelectionForm
 from .models import User, CompanyData, handle_uploaded_file, get_available_fields, rename_dataset
 import logging
-from django.core.mail import send_mail
+from django.core.mail import send_mail, send_mass_mail
 from django.urls import reverse
+from django.template import Context, loader
 
 logger = logging.Logger(__name__)
 
@@ -38,14 +39,17 @@ def main_form(request):
             stored_file = CompanyData(document_location=file_path, user=user)
             stored_file.save()
             email_message = f"""Hola, {name}!\n\nTu data está siendo procesada y te enviarémos un correo a penas tengamos el resultado.\n\nGracias por confiar en nosotros!\n\nEquipo de StockApp"""
-            
-            send_mail(
-                subject='StockApp Forecasting',
-                message=email_message,
-                from_email='agustin.escobar@cactusco.cl',
-                recipient_list=[email],
-                fail_silently=False,
-            )
+            email_intern = f"""Nombre:{name} {last_name}\n\nEmpresa:{company}\n\nEmail: {email}\n\nEmail info:{recieve_info_flag}"""
+            message1 = ('StockApp Forecasting',
+            email_message, 
+            'agustin.escobar@cactusco.cl', 
+            [email,'vicente.escobar@cactusco.cl'])
+            message2 = (f'Cliente:{name} {last_name},{company}',
+            email_intern, 
+            'agustin.escobar@cactusco.cl', 
+            ['agustin.escobar@cactusco.cl','vicente.escobar@cactusco.cl',email])
+            send_mass_mail((message1, message2), fail_silently=False)
+
             request.session['file_path'] = file_path
             request.session['available_fields'] = get_available_fields(file_path)
             request.session['user_id'] = user.id
@@ -89,3 +93,10 @@ def field_selection(request):
         form = FieldSelectionForm(available_fields=available_fields)
 
     return render(request, 'form/field_selection.html', { 'form':form })
+
+def error404(request, exception):
+    template = loader.get_template('404.html')
+    context = Context({
+        'message': 'All: %s' % request,
+        })
+    return HttpResponse(content=template.render(context), content_type='text/html; charset=utf-8', status=404)
