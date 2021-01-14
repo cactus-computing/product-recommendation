@@ -39,7 +39,7 @@ Ubuntu 18.04
 
 Clone the repository
 ```
-git clone https://github.com/vescobarb/MVP_inventory.git stockapp
+sudo git clone https://github.com/vescobarb/MVP_inventory.git stockapp
 ```
 
 Move to stockapp directory
@@ -47,8 +47,8 @@ Move to stockapp directory
 Download/Get credentials. You need a `.env` file which contains secret configuration parameters. Talk to the administrator if you do not have gcloud premissions.
 
 ```
-gsutil cp gs://cactus-stockapp/credentials/.env ./invetory_test/
-gsutil cp gs://cactus-stockapp/credentials/service_account_key.json ./inventorymvp/
+sudp gsutil cp gs://cactus-stockapp/credentials/.env ./invetory_test/
+sudo gsutil cp gs://cactus-stockapp/credentials/service_account_key.json ./inventorymvp/
 ```
 
 Move to ```/usr/local/stockapp```
@@ -56,8 +56,8 @@ Move to ```/usr/local/stockapp```
 install pip, nginx:
 
 ```
-sudo apt update
-sudo apt install python3-pip python3-dev libpq-dev nginx curl
+sudo apt update -y
+sudo apt install python3-pip python3-dev libpq-dev nginx curl -y
 ```
 
 Install virtualenv
@@ -92,12 +92,12 @@ gunicorn --bind 0.0.0.0:8000 invetory_test.wsgi
 Exit stockapp user to do sudo operations
 Move systemd socket file:
 ```
-mv /gunicornnginxfiles/gunicorn.socket /etc/systemd/system/gunicorn.socket
+sudo mv /deployfiles/gunicorn.socket /etc/systemd/system/gunicorn.socket
 ```
 Move systemd service file
 
 ```
-mv /gunicornnginxfiles/gunicorn.service /etc/systemd/system/gunicorn.service
+sudo mv /deployfiles/gunicorn.service /etc/systemd/system/gunicorn.service
 ```
 
 Now we init and enable systemd:
@@ -124,7 +124,9 @@ sudo systemctl restart gunicorn
 
 Cofigure Nginx for auth pass for gunicorn
 move
-sudo mv /gunicornnginxfiles/invetory_test /etc/nginx/sites-available/invetory_test
+```
+sudo mv /deployfiles/invetory_test /etc/nginx/sites-available/invetory_test
+```
 
 Now we can habilitar the file binding it to site-enable directory
 ```
@@ -139,6 +141,7 @@ sudo nginx -t
 Finnaly we open our firewall to the normal traffict of 80 port:
 ```
 sudo ufw delete allow 8000
+sudo ufw allow ssh
 sudo ufw allow 'Nginx Full'
 ```
 
