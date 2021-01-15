@@ -11,6 +11,10 @@ class UserRegistration(forms.Form):
     '''
     This form allows the user to submit his email.
     '''
-    
+    name = forms.CharField(label='Name', max_length=250, required=True)
+    company = forms.CharField(label='Company', max_length=250, required=True)
     email = forms.EmailField(label='Email', max_length=250, required=True)
+    
+    name.widget.attrs.update({'class' : 'form-control', 'placeholder': 'Nombre'})
+    company.widget.attrs.update({'class' : 'form-control', 'placeholder': 'Compañía'})
     email.widget.attrs.update({'class' : 'form-control', 'placeholder': 'Email'})

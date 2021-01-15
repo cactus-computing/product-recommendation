@@ -24,7 +24,9 @@ def landing(request):
 
         if form.is_valid():
             email = form.cleaned_data['email']
-            new_user = User(email=email)
+            name = form.cleaned_data['name']
+            company = form.cleaned_data['company']
+            new_user = User(email=email, name=name, company=company)
             try:
                 new_user.save()
             except utils.IntegrityError:
