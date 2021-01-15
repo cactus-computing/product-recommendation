@@ -157,6 +157,11 @@ docker-compose run web /usr/local/bin/python manage.py makemigrations stockapp
 docker-compose run web /usr/local/bin/python manage.py migrate
 ```
 
+Resets migrations
+```
+docker-compose run web /usr/local/bin/python manage.py migrate your_app zero
+```
+
 To connect to the app shell
 
 ```
@@ -168,3 +173,4 @@ Creating an admin user
 ```
 docker-compose run web /usr/local/bin/python manage.py createsuperuser
 ```
+
