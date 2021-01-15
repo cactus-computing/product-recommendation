@@ -52,6 +52,20 @@ sudo gsutil cp gs://cactus-stockapp/credentials/.env-dev ./cactusco/.env
 sudo gsutil cp gs://cactus-stockapp/credentials/service_account_key.json ./cactusco/service_account_key.json
 ```
 
+```
+sudo apt update 
+sudo apt install software-properties-common
+```
+```
+sudo add-apt-repository ppa:deadsnakes/ppa 
+```
+```
+sudo apt update 
+sudo apt install python3.9.1
+```
+```
+python3.9.1 -V 
+```
 Move to ```/usr/local/stockapp```
 
 install pip, nginx:
@@ -93,12 +107,12 @@ gunicorn --bind 0.0.0.0:8000 cactusco.wsgi
 Exit stockapp user to do sudo operations
 Move systemd socket file:
 ```
-sudo mv gs://cactus-stockapp/credentials/gunicorn.socket /etc/systemd/system/gunicorn.socket
+sudo gsutil cp gs://cactus-stockapp/credentials/gunicorn.socket /etc/systemd/system/gunicorn.socket
 ```
 Move systemd service file
 
 ```
-sudo mv gs://cactus-stockapp/credentials/gunicorn.service /etc/systemd/system/gunicorn.service
+sudo gsutil cp gs://cactus-stockapp/credentials/gunicorn.service /etc/systemd/system/gunicorn.service
 ```
 
 Now we init and enable systemd:
@@ -126,7 +140,7 @@ sudo systemctl restart gunicorn
 Cofigure Nginx for auth pass for gunicorn
 move
 ```
-sudo mv gs://cactus-stockapp/credentials/stockapp /etc/nginx/sites-available/stockapp
+sudo gsutil cp gs://cactus-stockapp/credentials/cactusco /etc/nginx/sites-available/cactusco
 ```
 
 Now we can habilitar the file binding it to site-enable directory
@@ -138,7 +152,10 @@ Test the config:
 ```
 sudo nginx -t
 ```
-
+if anything goes wrong we can check files and then restar nginx:
+```
+sudo systemctl restart gunicorn
+```
 Finnaly we open our firewall to the normal traffict of 80 port:
 ```
 sudo ufw delete allow 8000
