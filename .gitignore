@@ -138,4 +138,5 @@ documents/*
 
 # Secrets
 service_account_key.json
-.env-dev
+.env
+/yaml/

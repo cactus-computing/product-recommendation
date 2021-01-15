@@ -92,12 +92,12 @@ gunicorn --bind 0.0.0.0:8000 invetory_test.wsgi
 Exit stockapp user to do sudo operations
 Move systemd socket file:
 ```
-sudo mv /deployfiles/gunicorn.socket /etc/systemd/system/gunicorn.socket
+sudo mv gs://cactus-stockapp/credentials/gunicorn.socket /etc/systemd/system/gunicorn.socket
 ```
 Move systemd service file
 
 ```
-sudo mv /deployfiles/gunicorn.service /etc/systemd/system/gunicorn.service
+sudo mv gs://cactus-stockapp/credentials/gunicorn.service /etc/systemd/system/gunicorn.service
 ```
 
 Now we init and enable systemd:
@@ -125,7 +125,7 @@ sudo systemctl restart gunicorn
 Cofigure Nginx for auth pass for gunicorn
 move
 ```
-sudo mv /deployfiles/invetory_test /etc/nginx/sites-available/invetory_test
+sudo mv gs://cactus-stockapp/credentials/invetory_test /etc/nginx/sites-available/invetory_test
 ```
 
 Now we can habilitar the file binding it to site-enable directory
