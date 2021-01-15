@@ -14,7 +14,7 @@ def landing(request):
     '''
     Main function for handling landing page operations and form submission.
     Parameters:
-        - request: contains the details of the user as well as the file in the .POST and .FILES method.
+        - request: contains the details of the user email in the .POST attribute.
     Returns:
         - conditional to program flow: renders the landing page or redirects to the field selection form (field_selection function).
     '''

@@ -9,7 +9,7 @@ logger = logging.Logger(__name__)
 
 class UserRegistration(forms.Form):
     '''
-    This is the main form in the website. It allowes a user tu submit his details and a file.
+    This form allows the user to submit his email.
     '''
     
     email = forms.EmailField(label='Email', max_length=250, required=True)
