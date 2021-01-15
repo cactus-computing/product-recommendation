@@ -159,7 +159,7 @@ docker-compose run web /usr/local/bin/python manage.py migrate
 
 Resets migrations
 ```
-docker-compose run web /usr/local/bin/python manage.py migrate your_app zero
+docker-compose run web /usr/local/bin/python manage.py migrate landing zero
 ```
 
 To connect to the app shell
