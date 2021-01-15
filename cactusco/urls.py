@@ -19,7 +19,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', include('stockapp.urls')),
+    path('', include('landing.urls')),
+    path('stockapp/', include('stockapp.urls')),
     path('admin/', admin.site.urls),
     ]
 
