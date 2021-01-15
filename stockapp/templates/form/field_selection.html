@@ -1,41 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StockApp</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+{% extends 'main.html' %}
 
-    <style>
-        body {
-            font-family: HKGroteskPro,serif;
-        }
-        .cactus {color:green;}
-        .btn-primary {
-            background-color:green;
-            border-color:green;}
-    </style>
-    
-</head>
-<body style="padding: 40px;" enctype="multipart/form-data">
-    <br><br><br>
-    <section class="pt-4 pt-md-11">
-       <div class="container">
-           <h1 class="">Seleccione los campos correspondientes</h1>
-           <p>Para poder modelar correctamente la data, necesitamos que se configuren correctamente los campos del archivo enviado. Tienes que hacer match en los siguientes cambios: Fecha, Código de producto y Cantidad de unidades vendidas. El campo de fecha debe ser a nivel de día por lo menos (si está por hora, minutos o segundo no hay problema).</p>
-           <br><br><br><br>
-           <form class="card" method="post" enctype="multipart/form-data">
-            <div class="card-body">
-                
-                    <form class="form-group" method="POST">
-                    {% csrf_token %}
-                    {{ form.as_table }}
-                    </form>
-                <button class="btn btn-primary" type="submit">Enviar</button>
-            </div>
-        </form>
-       </div>
-    </section>
+{% block content %}
+<br><br><br>
+<section class="pt-4 pt-md-11">
+    <div class="container">
+        <h1 class="">Seleccione los campos correspondientes</h1>
+        <p>Para poder modelar correctamente la data, necesitamos que se configuren correctamente los campos del archivo enviado. Tienes que hacer match en los siguientes cambios: Fecha, Código de producto y Cantidad de unidades vendidas. El campo de fecha debe ser a nivel de día por lo menos (si está por hora, minutos o segundo no hay problema).</p>
+        <br><br><br><br>
+        <form class="card" method="post" enctype="multipart/form-data">
+        <div class="card-body">
+            
+                <form method="POST">
+                {% csrf_token %}
+                {{ form.as_table }}
+                </form>
+            <button class="btn btn-primary" type="submit">Enviar</button>
+        </div>
+    </form>
+    </div>
+</section>
 </body>
 </html>
+{% endblock %}

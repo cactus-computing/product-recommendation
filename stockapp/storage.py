@@ -26,7 +26,7 @@ def upload_blob_to_default_bucket(df, destination_blob_name):
     bucket = client.bucket(BUCKET_NAME)
     blob = bucket.blob(destination_blob_name)
 
-    blob.upload_from_string(df.to_csv(), 'text/csv')
+    blob.upload_from_string(df.to_csv(index=False), 'text/csv')
     
     
     gcs_path = f"gs://{BUCKET_NAME}/{blob.name}"
