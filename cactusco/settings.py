@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'stockapp',
+    'landing',
     'crispy_forms',
     'django_rename_app',
 ]
