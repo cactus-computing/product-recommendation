@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cactus Co.</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <style>
+        body {
+            font-family: HKGroteskPro,serif;
+            background-color: #F8F9FA;
+
+        }
+        .cactus {color:green;}
+        .btn-primary {
+            background-color:green;
+            border-color:green;}
+
+        .btn,.form-control{display: inline-block; width: auto;}
+        .container {
+            max-width: 1400px;
+            
+        }
+        input, select, textarea {
+            max-width: 500px;
+        }
+
+    </style>
+    
+</head>
+<body>
+
+    {% block content %}
+    {% endblock %}
+    
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+</html>

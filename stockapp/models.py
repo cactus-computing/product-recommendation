@@ -47,7 +47,7 @@ def handle_uploaded_file(f, company, local=True):
     filename = filename(f, f.name, company)
     
     if local:
-        df.to_csv(filename)
+        df.to_csv(filename, index=False)
         gc_url = None
     else:
         blob_name = 'company_data/' + filename.split('/')[-1]
