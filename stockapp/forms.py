@@ -31,20 +31,20 @@ class FileSubmissionForm(forms.Form):
     '''
     validate_extension = FileExtensionValidator(ALLOWED_EXTENSIONS, message=f"Extension no permitida. Por favor usar un archivo alguna de las siguientes extensiones: {', '.join(ALLOWED_EXTENSIONS)}")
 
-    name = forms.CharField(label='Nombre', max_length=250, required=True)
-    last_name = forms.CharField(label='Apellido', max_length=250, required=True)
+    name = forms.CharField(label='Name', max_length=250, required=True)
+    last_name = forms.CharField(label='Last Name', max_length=250, required=True)
     email = forms.EmailField(label='Email', max_length=250, required=True)
-    phone = forms.CharField(label='Telefono', max_length=12, required=True)
-    company = forms.CharField(label='Empresa', max_length=250, required=True)
+    phone = forms.CharField(label='Phone', max_length=12, required=True)
+    company = forms.CharField(label='Company', max_length=250, required=True)
 
     document = forms.FileField(label='Excel/CSV', required=False, validators=[validate_extension])
     recieve_info_flag = forms.BooleanField(label='Suscribirme a la lista de mails', required=False)
     
-    name.widget.attrs.update({'class' : 'form-control'})
-    last_name.widget.attrs.update({'class' : 'form-control'})
-    email.widget.attrs.update({'class' : 'form-control'})
-    phone.widget.attrs.update({'class' : 'form-control'})
-    company.widget.attrs.update({'class' : 'form-control'})
+    name.widget.attrs.update({'class' : 'form-control', 'placeholder': 'Nombre'})
+    last_name.widget.attrs.update({'class' : 'form-control', 'placeholder': 'Apellido'})
+    email.widget.attrs.update({'class' : 'form-control', 'placeholder': 'Email'})
+    phone.widget.attrs.update({'class' : 'form-control', 'placeholder': 'Telefono'})
+    company.widget.attrs.update({'class' : 'form-control', 'placeholder': 'Empresa'})
     document.widget.attrs.update({'class' : 'form-control-file'})
     recieve_info_flag.widget.attrs.update({'class' : 'form-check'})
 

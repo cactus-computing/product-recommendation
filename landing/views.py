@@ -32,6 +32,25 @@ def landing(request):
             except utils.IntegrityError:
                 user = User.objects.get(email=email)
             
+            client_message = f"""Hola, {name}!\n\n¡Ya estas en nuestros registros!.\n\nUna persona de nuestro equipo se contactará contigo antes de 24 horas."""
+            internal_message = f"""Datos del nuevo contacto:\n\nNombre:{name}\n\nEmpresa: {company}\n\nEmail: {email}"""
+            
+            message1 = (
+                '[Cactus Co] Bienvenida', #subject 
+                client_message,  #message
+                'agustin.escobar@cactusco.cl', # from
+                [email] # to
+            )
+
+            message2 = (
+                f'Nuevo Registro en CactusCo.cl',
+                internal_message, 
+                'agustin.escobar@cactusco.cl', 
+                ['agustin.escobar@cactusco.cl', 'vicente.escobar@cactusco.cl', 'rodrigo.oyarzun25@gmail.com']
+            )
+
+            send_mass_mail((message1, message2), fail_silently=False)
+
             submitted = True
 
     form = UserRegistration
