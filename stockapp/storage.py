@@ -3,7 +3,7 @@ from google.oauth2 import service_account
 import pandas as pd
 import logging
 # Instantiates a client
-KEY_PATH = "inventorymvp/service_account_key.json"
+KEY_PATH = "cactusco/service_account_key.json"
 BUCKET_NAME = "cactus-stockapp"
 
 credentials = service_account.Credentials.from_service_account_file(

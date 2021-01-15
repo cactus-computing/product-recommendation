@@ -7,7 +7,7 @@ import django.utils.timezone
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('inventorymvp', '0006_auto_20201231_2031'),
+        ('stockapp', '0006_auto_20201231_2031'),
     ]
 
     operations = [
