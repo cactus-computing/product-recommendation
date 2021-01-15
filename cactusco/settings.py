@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'inventorymvp',
+    'stockapp',
     'crispy_forms',
     'django_rename_app',
 ]

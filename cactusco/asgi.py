@@ -1,5 +1,5 @@
 """
-ASGI config for cactuscos project.
+ASGI config for cactusco project.  
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 

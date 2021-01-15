@@ -9,7 +9,8 @@ docker-compose up --build
 Download/Get credentials. You need a `.env` file which contains secret configuration parameters. Talk to the administrator if you do not have gcloud premissions.
 
 ```
-gsutil cp gs://cactus-stockapp/credentials/.env-dev ./invetory_test/.env
+gsutil cp gs://cactus-stockapp/credentials/.env-dev ./cactusco/.env
+gsutil cp gs://cactus-stockapp/credentials/service_account_key.json ./cactusco/service_account_key.json
 ```
 
 ## Dev Environment Setup
@@ -22,8 +23,8 @@ git clone https://github.com/vescobarb/MVP_inventory.git stockapp
 Download/Get credentials. You need a `.env` file which contains secret configuration parameters. Talk to the administrator if you do not have gcloud premissions.
 
 ```
-gsutil cp gs://cactus-stockapp/credentials/.env-dev ./invetory_test/.env
-gsutil cp gs://cactus-stockapp/credentials/service_account_key.json ./inventorymvp/
+gsutil cp gs://cactus-stockapp/credentials/.env-dev ./cactusco/.env
+gsutil cp gs://cactus-stockapp/credentials/service_account_key.json ./cactusco/service_account_key.json
 ```
 Create containers
 ```
@@ -47,8 +48,8 @@ Move to stockapp directory
 Download/Get credentials. You need a `.env` file which contains secret configuration parameters. Talk to the administrator if you do not have gcloud premissions.
 
 ```
-sudp gsutil cp gs://cactus-stockapp/credentials/.env ./invetory_test/
-sudo gsutil cp gs://cactus-stockapp/credentials/service_account_key.json ./inventorymvp/
+sudo gsutil cp gs://cactus-stockapp/credentials/.env-dev ./cactusco/.env
+sudo gsutil cp gs://cactus-stockapp/credentials/service_account_key.json ./cactusco/service_account_key.json
 ```
 
 Move to ```/usr/local/stockapp```
@@ -87,7 +88,7 @@ Install requirements
 you should be ready to deploy:
 
 ```
-gunicorn --bind 0.0.0.0:8000 invetory_test.wsgi
+gunicorn --bind 0.0.0.0:8000 cactusco.wsgi
 ```
 Exit stockapp user to do sudo operations
 Move systemd socket file:
@@ -125,12 +126,12 @@ sudo systemctl restart gunicorn
 Cofigure Nginx for auth pass for gunicorn
 move
 ```
-sudo mv gs://cactus-stockapp/credentials/invetory_test /etc/nginx/sites-available/invetory_test
+sudo mv gs://cactus-stockapp/credentials/stockapp /etc/nginx/sites-available/stockapp
 ```
 
 Now we can habilitar the file binding it to site-enable directory
 ```
-sudo ln -s /etc/nginx/sites-available/invetory_test /etc/nginx/sites-enabled
+sudo ln -s /etc/nginx/sites-available/cactusco /etc/nginx/sites-enabled
 ```
 
 Test the config:
@@ -149,7 +150,7 @@ sudo ufw allow 'Nginx Full'
 
 
 ```
-docker-compose run web /usr/local/bin/python manage.py makemigrations inventorymvp
+docker-compose run web /usr/local/bin/python manage.py makemigrations stockapp
 ```
 
 ```
