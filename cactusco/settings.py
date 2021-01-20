@@ -41,6 +41,7 @@ ALLOWED_HOSTS = [env('HOST')]
 # Application definition
 
 INSTALLED_APPS = [
+    'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -137,11 +139,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-#STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 PROJECT_PATH = os.path.abspath(os.path.dirname(__name__))
-STATICFILES_DIRS = [
-    os.path.join(PROJECT_PATH, 'static')
-]
+STATIC_ROOT = os.path.join(PROJECT_PATH, 'static')
+
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
