@@ -7,14 +7,29 @@ import logging
 
 logger = logging.Logger(__name__)
 
-class UserRegistration(forms.Form):
+class ContactForm(forms.Form):
     '''
     This form allows the user to submit his email.
     '''
     name = forms.CharField(label='Name', max_length=250, required=True)
-    company = forms.CharField(label='Company', max_length=250, required=True)
     email = forms.EmailField(label='Email', max_length=250, required=True)
+    subject = forms.CharField(label='Name', max_length=250, required=True)
+    message = forms.CharField(widget=forms.Textarea, max_length=250, required=True)
+    
     
     name.widget.attrs.update({'class' : 'form-control', 'placeholder': 'Nombre'})
-    company.widget.attrs.update({'class' : 'form-control', 'placeholder': 'Compañía'})
+    subject.widget.attrs.update({'class' : 'form-control', 'placeholder': 'Asunto'})
+    message.widget.attrs.update({'class' : 'form-control', 'placeholder': 'Escribe tu mensaje'})
     email.widget.attrs.update({'class' : 'form-control', 'placeholder': 'Email'})
+
+class SuscriptionForm(forms.Form):
+    '''
+    This form allows the user to submit his email.
+    '''
+    #name = forms.CharField(label='Name', max_length=250, required=True)
+    email = forms.EmailField(label='Email', max_length=250, required=True)
+    #company = forms.CharField(label='Name', max_length=250, required=True)
+
+    #name.widget.attrs.update({'class' : 'form-control', 'placeholder': 'Nombre'})
+    email.widget.attrs.update({'class' : 'form-control', 'placeholder': 'Ingresa tu email', 'type':"email", "name":"email"  })
+    #company.widget.attrs.update({'class' : 'form-control', 'placeholder': 'Escribe tu mensaje'})
