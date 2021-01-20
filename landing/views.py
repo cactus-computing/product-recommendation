@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+import datetime
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db import utils
 from .forms import ContactForm, SuscriptionForm
@@ -85,7 +86,7 @@ def landing(request):
     contactForm = ContactForm
     suscriptionForm = SuscriptionForm
 
-    return render(request, 'landing.html', { 'contactForm': contactForm, 'suscriptionForm': suscriptionForm, 'has_submitted': submitted })   
+    return render(request, 'landing.html', { 'contactForm': contactForm, 'suscriptionForm': suscriptionForm, 'has_submitted': submitted, 'countDownDateTime': datetime.datetime.now() })   
 
 
 def error404(request, exception):

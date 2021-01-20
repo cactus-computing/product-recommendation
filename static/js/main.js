@@ -195,5 +195,17 @@
     loop: true,
     items: 1
   });
+  
+  $('#countdown').countdown(getLaunchDate(), function(event) {
+    var $this = $(this).html(event.strftime(''
+      + '<span>%D</span><label>d</label> '
+      + '<span>%H</span><label>h</label> '
+      + '<span>%M</span><label>m</label> '
+      + '<span>%S</span><label>s</label> '));
+  });
 
 })(jQuery);
+
+function getLaunchDate() {
+  return new Date("2021-01-28 12:00");
+}
