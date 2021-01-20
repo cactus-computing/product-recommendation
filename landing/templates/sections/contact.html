@@ -22,12 +22,12 @@
               <div class="email">
                 <i class="icofont-envelope"></i>
                 <h4>Email:</h4>
-                <p>info@example.com</p>
+                <p>contacto@cactusco.cl</p>
               </div>
 
               <div class="phone">
                 <i class="icofont-phone"></i>
-                <h4>Call:</h4>
+                <h4>Llamar:</h4>
                 <p>+56 9 71412967</p>
               </div>
               <!-- 
@@ -37,27 +37,32 @@
 
             </div>
         <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
-          <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+          <form action="" method="post" role="form" class="php-email-form">
+            {% csrf_token %}
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="name">Tu Nombre</label>
-                <input type="text" name="name" class="form-control" id="name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                {{ contactForm.name }}
+                <!--<input type="text" name="name" class="form-control" id="name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />-->
                 <div class="validate"></div>
               </div>
               <div class="form-group col-md-6">
                 <label for="name">Tu Email</label>
-                <input type="email" class="form-control" name="email" id="email" data-rule="email" data-msg="Please enter a valid email" />
+                {{ contactForm.email }}
+                <!--<input type="email" class="form-control" name="email" id="email" data-rule="email" data-msg="Please enter a valid email" />-->
                 <div class="validate"></div>
               </div>
             </div>
             <div class="form-group">
               <label for="name">Asunto</label>
-              <input type="text" class="form-control" name="subject" id="subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+              {{ contactForm.subject }}
+              <!--<input type="text" class="form-control" name="subject" id="subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />-->
               <div class="validate"></div>
             </div>
             <div class="form-group">
               <label for="name">Mensaje</label>
-              <textarea class="form-control" name="message" rows="10" data-rule="required" data-msg="Please write something for us"></textarea>
+              {{ contactForm.message }}
+              <!--<textarea class="form-control" name="message" rows="10" data-rule="required" data-msg="Please write something for us"></textarea>-->
               <div class="validate"></div>
             </div>
             <div class="mb-3">

@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db import utils
-from .forms import UserRegistration
-from .models import User
+from .forms import ContactForm, SuscriptionForm
+from .models import Suscription
 import logging
-from django.core.mail import send_mail, send_mass_mail
+from django.core.mail import EmailMessage, send_mass_mail
 from django.urls import reverse
 from django.template import Context, loader
 
@@ -20,42 +20,72 @@ def landing(request):
     '''
     submitted = False
     if request.method == "POST":
-        form = UserRegistration(request.POST)
-
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            name = form.cleaned_data['name']
-            company = form.cleaned_data['company']
-            new_user = User(email=email, name=name, company=company)
-            try:
-                new_user.save()
-            except utils.IntegrityError:
-                user = User.objects.get(email=email)
+        contactForm = ContactForm(request.POST)
+        suscriptionForm = SuscriptionForm(request.POST)
+        if contactForm.is_valid():
+            email = contactForm.cleaned_data['email']
+            name = contactForm.cleaned_data['name']
+            subject = contactForm.cleaned_data['subject']
+            message = contactForm.cleaned_data['message']
             
-            client_message = f"""Hola, {name}!\n\n¡Ya estas en nuestros registros!.\n\nUna persona de nuestro equipo se contactará contigo antes de 24 horas."""
-            internal_message = f"""Datos del nuevo contacto:\n\nNombre:{name}\n\nEmpresa: {company}\n\nEmail: {email}"""
+            client_message = f"""Hola, {name}!\n\n¡Gracias por contactarte con nosotros! Nuestro equipo se contactará contigo antes de 24 horas."""
+            internal_message = f"""Datos del nuevo contacto:\n\nNombre:{name}\n\nEmail: {email}"""
             
-            message1 = (
+            client_mail = (
                 '[Cactus Co] Bienvenida', #subject 
                 client_message,  #message
                 'agustin.escobar@cactusco.cl', # from
                 [email] # to
             )
 
-            message2 = (
-                f'Nuevo Registro en CactusCo.cl',
-                internal_message, 
-                'agustin.escobar@cactusco.cl', 
+            internal_mail = (
+                f'Contacto en CactusCo.cl',
+                internal_message,
+                'contacto@cactusco.cl',
                 ['agustin.escobar@cactusco.cl', 'vicente.escobar@cactusco.cl', 'rodrigo.oyarzun25@gmail.com']
             )
-
-            send_mass_mail((message1, message2), fail_silently=False)
+            
+            send_mass_mail((client_mail, internal_mail), fail_silently=False)
 
             submitted = True
 
-    form = UserRegistration
+        if suscriptionForm.is_valid():
+            
+            email = suscriptionForm.cleaned_data['email']
 
-    return render(request, 'landing.html', { 'form':form, 'has_submitted': submitted })   
+            suscription = Suscription(email=email)
+            
+            try:
+                suscription.save()
+            except utils.IntegrityError:
+                suscription = Suscription.objects.get(email=suscription)
+
+            client_message = f"""Hola, {email}!\n\n¡Ya estas en nuestros registros!.\n\nTe enviaremos información y actualizaciones sobre los avances de nuestra plataforma directamente a tu mail."""
+
+            client_mail = (
+                'Bienvenido a CactusCo',
+                client_message,
+                'contacto@cactusco.cl',
+                [email]
+            )
+            
+            client_message = f"""Hola, {email}!\n\n¡Ya estas en nuestros registros!.\n\nTe enviaremos información y actualizaciones sobre los avances de nuestra plataforma directamente a tu mail."""
+
+            internal_mail = (
+                f'Contacto en CactusCo.cl',
+                internal_message,
+                'contacto@cactusco.cl',
+                ['agustin.escobar@cactusco.cl', 'vicente.escobar@cactusco.cl', 'rodrigo.oyarzun25@gmail.com']
+            )
+
+            internal_message = f"""Datos de la suscripcioón:\n\nEmail: {email}\n\nFecha de creación: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M')}"""
+            send_mass_mail((client_mail, internal_mail), fail_silently=False)
+            
+
+    contactForm = ContactForm
+    suscriptionForm = SuscriptionForm
+
+    return render(request, 'landing.html', { 'contactForm': contactForm, 'suscriptionForm': suscriptionForm, 'has_submitted': submitted })   
 
 
 def error404(request, exception):
