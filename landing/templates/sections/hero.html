@@ -1,18 +1,25 @@
 {% load static %}
 {% block hero %}
+<br><br>
 <section id="hero" class="d-flex align-items-center">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
-                <h1> Nunca fue tan fácil usar Inteligencia Artificial en tu negocio </h1>  
-                <h2 >
-                    Cactusco es tu equipo de data science on demand, nuestra plataforma funciona para todo tipo de negocios y problemas de forma rapida y fácil, puedes subir un archivo ecxel o conectarte a nuestra API para una mejor experiencia
-                </h2>
+            <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center ">
+                <h1> Nunca fue tan fácil usar Inteligencia Artificial en tu negocio </h1> 
+                <br> 
+                <h5 class= text-justify>
+                    Cactusco es tu equipo de data science on demand, 
+                    nuestra plataforma funciona para todo tipo de negocios y 
+                    problemas de forma rápida y fácil, puedes subir un archivo 
+                    excel o conectarte a nuestra API para una mejor experiencia.
+                </h5>
+              
                 {% if has_submitted %}
                 <h2>¡Gracias! Estaremos en contacto pronto.</h2>
                 {% else %}
+                <br>
                 <div class="d-flex">
-                    <a href="#contact" class="btn-get-started scrollto">Comenzar</a>
+                    <a href="#contact" class="btn-get-started scrollto">Quiero saber más</a>
                     <!--<a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="venobox btn-watch-video" data-vbtype="video" data-autoplay="true"> Watch Video <i class="icofont-play-alt-2"></i></a>-->
                 </div>
 

@@ -41,26 +41,22 @@
             {% csrf_token %}
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label for="name">Tu Nombre</label>
                 {{ contactForm.name }}
                 <!--<input type="text" name="name" class="form-control" id="name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />-->
                 <div class="validate"></div>
               </div>
               <div class="form-group col-md-6">
-                <label for="name">Tu Email</label>
                 {{ contactForm.email }}
                 <!--<input type="email" class="form-control" name="email" id="email" data-rule="email" data-msg="Please enter a valid email" />-->
                 <div class="validate"></div>
               </div>
             </div>
             <div class="form-group">
-              <label for="name">Asunto</label>
               {{ contactForm.subject }}
               <!--<input type="text" class="form-control" name="subject" id="subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />-->
               <div class="validate"></div>
             </div>
             <div class="form-group">
-              <label for="name">Mensaje</label>
               {{ contactForm.message }}
               <!--<textarea class="form-control" name="message" rows="10" data-rule="required" data-msg="Please write something for us"></textarea>-->
               <div class="validate"></div>
