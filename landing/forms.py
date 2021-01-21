@@ -13,12 +13,12 @@ class ContactForm(forms.Form):
     '''
     name = forms.CharField(label='Name', max_length=250, required=True)
     email = forms.EmailField(label='Email', max_length=250, required=True)
-    phone = forms.CharField(label='Name', max_length=250, required=True)
-    message = forms.CharField(widget=forms.Textarea, max_length=250, required=True)
+    phone = forms.CharField(label='Name', max_length=9, min_length=9, required=False)
+    message = forms.CharField(widget=forms.Textarea, max_length=1000, required=True)
     
     
     name.widget.attrs.update({'class' : 'form-control', 'placeholder': 'Nombre'})
-    phone.widget.attrs.update({'class' : 'form-control', 'placeholder': 'Telefono'})
+    phone.widget.attrs.update({'class' : 'form-control', 'placeholder': 'Teléfono (opcional)'})
     message.widget.attrs.update({'class' : 'form-control', 'placeholder': 'Escribe tu mensaje'})
     email.widget.attrs.update({'class' : 'form-control', 'placeholder': 'Email'})
 

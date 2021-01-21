@@ -42,7 +42,7 @@
 
             </div>
         <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
-          <form action="thanks/contact" method="post" role="form" class="php-email-form">
+          <form  action="thanks/contact" method="post" class="php-email-form">
             {% csrf_token %}
             <div class="form-row">
               <div class="form-group col-md-6">
@@ -51,19 +51,18 @@
                 <div class="validate"></div>
               </div>
               <div class="form-group col-md-6">
-                {{ contactForm.email }}
-                <!--<input type="email" class="form-control" name="email" id="email" data-rule="email" data-msg="Please enter a valid email" />-->
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">+56</div>
+                    </div>
+                    {{ contactForm.phone }}
+                    <!--<input type="email" class="form-control" name="email" id="email" data-rule="email" data-msg="Please enter a valid email" />-->
+                  </div>
                 <div class="validate"></div>
               </div>
             </div>
             <div class="form-group">
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <div class="input-group-text">+56</div>
-                </div>
-                {{ contactForm.phone }}
-              </div>
-              
+                {{ contactForm.email }}
               <!--<input type="text" class="form-control" name="subject" id="subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />-->
               <div class="validate"></div>
             </div>
