@@ -19,6 +19,49 @@ def landing(request):
     Returns:
         - conditional to program flow: renders the landing page or redirects to the field selection form (field_selection function).
     '''
+
+    contactForm = ContactForm
+    suscriptionForm = SuscriptionForm
+
+    return render(request, 'landing.html', { 'contactForm': contactForm, 'suscriptionForm': suscriptionForm, 'countDownDateTime': datetime.datetime.now() })   
+
+def thanks_suscription(request):
+    if request.method == "POST":
+        suscriptionForm = SuscriptionForm(request.POST)
+        if suscriptionForm.is_valid():
+            
+            email = suscriptionForm.cleaned_data['email']
+
+            suscription = Suscription(email=email)
+            
+            try:
+                suscription.save()
+            except utils.IntegrityError:
+                suscription = Suscription.objects.get(email=suscription)
+
+            client_message = f"""Hola, {email}!\n\n¡Ya estas en nuestros registros!.\n\nTe enviaremos información y actualizaciones sobre los avances de nuestro producto directamente a tu mail."""
+
+            client_mail = (
+                'Bienvenido a CactusCo',
+                client_message,
+                'contacto@cactusco.cl',
+                [email]
+            )
+                
+            internal_message = f"""Datos de la suscripcioón:\n\nEmail: {email}\n\nFecha de creación: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M')}"""
+            internal_mail = (
+                f'Contacto en CactusCo.cl',
+                internal_message,
+                'contacto@cactusco.cl',
+                ['agustin.escobar@cactusco.cl', 'vicente.escobar@cactusco.cl', 'rodrigo.oyarzun25@gmail.com']
+            )
+
+            
+            send_mass_mail((client_mail, internal_mail), fail_silently=False)
+
+    return render(request, 'thanks.html', {'message': '¡Gracias por suscribirte!'})
+
+def thanks_contact(request):
     submitted = False
     if request.method == "POST":
         
@@ -49,48 +92,7 @@ def landing(request):
             send_mass_mail((client_mail, internal_mail), fail_silently=False)
 
             submitted = True
-        
-        suscriptionForm = SuscriptionForm(request.POST)
-        if suscriptionForm.email is None:
-            if suscriptionForm.is_valid():
-                
-                email = suscriptionForm.cleaned_data['email']
-
-                suscription = Suscription(email=email)
-                
-                try:
-                    suscription.save()
-                except utils.IntegrityError:
-                    suscription = Suscription.objects.get(email=suscription)
-
-                client_message = f"""Hola, {email}!\n\n¡Ya estas en nuestros registros!.\n\nTe enviaremos información y actualizaciones sobre los avances de nuestro producto directamente a tu mail."""
-
-                client_mail = (
-                    'Bienvenido a CactusCo',
-                    client_message,
-                    'contacto@cactusco.cl',
-                    [email]
-                )
-                
-                internal_message = f"""Datos del nuevo suscriptor\n\nEmail: {email}"""
-                internal_mail = (
-                    f'Contacto en CactusCo.cl',
-                    internal_message,
-                    'contacto@cactusco.cl',
-                    ['agustin.escobar@cactusco.cl', 'vicente.escobar@cactusco.cl', 'rodrigo.oyarzun25@gmail.com']
-                )
-
-                internal_message = f"""Datos de la suscripcioón:\n\nEmail: {email}\n\nFecha de creación: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M')}"""
-                send_mass_mail((client_mail, internal_mail), fail_silently=False)
-            
-
-    contactForm = ContactForm
-    suscriptionForm = SuscriptionForm
-
-    return render(request, 'landing.html', { 'contactForm': contactForm, 'suscriptionForm': suscriptionForm, 'has_submitted': submitted, 'countDownDateTime': datetime.datetime.now() })   
-
-def thanks(request):
-    return render(request, 'thanks.html')
+    return render(request, 'thanks.html', {'message': '¡Gracias por tu contacto!'})
 
 def error404(request, exception):
     template = loader.get_template('404.html')
