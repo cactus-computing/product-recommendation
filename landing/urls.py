@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     path('', views.landing),
+    path('thanks', views.thanks),
 ]
 
 handler404 = views.error404

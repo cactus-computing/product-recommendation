@@ -21,16 +21,16 @@ def landing(request):
     '''
     submitted = False
     if request.method == "POST":
+        
         contactForm = ContactForm(request.POST)
-        suscriptionForm = SuscriptionForm(request.POST)
         if contactForm.is_valid():
             email = contactForm.cleaned_data['email']
             name = contactForm.cleaned_data['name']
-            subject = contactForm.cleaned_data['subject']
+            phone = contactForm.cleaned_data['phone']
             message = contactForm.cleaned_data['message']
             
             client_message = f"""Hola, {name}!\n\n¡Gracias por contactarte con nosotros! Nuestro equipo se contactará contigo antes de 24 horas."""
-            internal_message = f"""Datos del nuevo contacto:\n\nNombre:{name}\n\nEmail: {email}"""
+            internal_message = f"""Datos del nuevo contacto:\n\nNombre:{name}\n\nEmail: {email}\n\nEmail: {phone}"""
             
             client_mail = (
                 '[Cactus Co] Bienvenida', #subject 
@@ -49,38 +49,39 @@ def landing(request):
             send_mass_mail((client_mail, internal_mail), fail_silently=False)
 
             submitted = True
+        
+        suscriptionForm = SuscriptionForm(request.POST)
+        if suscriptionForm.email is None:
+            if suscriptionForm.is_valid():
+                
+                email = suscriptionForm.cleaned_data['email']
 
-        if suscriptionForm.is_valid():
-            
-            email = suscriptionForm.cleaned_data['email']
+                suscription = Suscription(email=email)
+                
+                try:
+                    suscription.save()
+                except utils.IntegrityError:
+                    suscription = Suscription.objects.get(email=suscription)
 
-            suscription = Suscription(email=email)
-            
-            try:
-                suscription.save()
-            except utils.IntegrityError:
-                suscription = Suscription.objects.get(email=suscription)
+                client_message = f"""Hola, {email}!\n\n¡Ya estas en nuestros registros!.\n\nTe enviaremos información y actualizaciones sobre los avances de nuestro producto directamente a tu mail."""
 
-            client_message = f"""Hola, {email}!\n\n¡Ya estas en nuestros registros!.\n\nTe enviaremos información y actualizaciones sobre los avances de nuestra plataforma directamente a tu mail."""
+                client_mail = (
+                    'Bienvenido a CactusCo',
+                    client_message,
+                    'contacto@cactusco.cl',
+                    [email]
+                )
+                
+                internal_message = f"""Datos del nuevo suscriptor\n\nEmail: {email}"""
+                internal_mail = (
+                    f'Contacto en CactusCo.cl',
+                    internal_message,
+                    'contacto@cactusco.cl',
+                    ['agustin.escobar@cactusco.cl', 'vicente.escobar@cactusco.cl', 'rodrigo.oyarzun25@gmail.com']
+                )
 
-            client_mail = (
-                'Bienvenido a CactusCo',
-                client_message,
-                'contacto@cactusco.cl',
-                [email]
-            )
-            
-            client_message = f"""Hola, {email}!\n\n¡Ya estas en nuestros registros!.\n\nTe enviaremos información y actualizaciones sobre los avances de nuestra plataforma directamente a tu mail."""
-
-            internal_mail = (
-                f'Contacto en CactusCo.cl',
-                internal_message,
-                'contacto@cactusco.cl',
-                ['agustin.escobar@cactusco.cl', 'vicente.escobar@cactusco.cl', 'rodrigo.oyarzun25@gmail.com']
-            )
-
-            internal_message = f"""Datos de la suscripcioón:\n\nEmail: {email}\n\nFecha de creación: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M')}"""
-            send_mass_mail((client_mail, internal_mail), fail_silently=False)
+                internal_message = f"""Datos de la suscripcioón:\n\nEmail: {email}\n\nFecha de creación: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M')}"""
+                send_mass_mail((client_mail, internal_mail), fail_silently=False)
             
 
     contactForm = ContactForm
@@ -88,6 +89,8 @@ def landing(request):
 
     return render(request, 'landing.html', { 'contactForm': contactForm, 'suscriptionForm': suscriptionForm, 'has_submitted': submitted, 'countDownDateTime': datetime.datetime.now() })   
 
+def thanks(request):
+    return render(request, 'thanks.html')
 
 def error404(request, exception):
     template = loader.get_template('404.html')
