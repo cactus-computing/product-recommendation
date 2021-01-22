@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'stockapp',
     'landing',
+    'user_panel',
     'crispy_forms',
     'django_rename_app',
 ]
