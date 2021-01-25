@@ -34,8 +34,13 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
+def get_host():
+    hosts = []
+    for e, host in enumerate(env('HOST').split(",")):
+        hosts.append(host)
+    return hosts
 
-ALLOWED_HOSTS = [env('HOST')]
+ALLOWED_HOSTS = get_host()
 
 
 # Application definition
