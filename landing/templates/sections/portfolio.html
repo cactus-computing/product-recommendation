@@ -1,0 +1,54 @@
+{% load static %}
+{% block portfolio %}
+<section id="portfolio" class="portfolio">
+    <div class="container">
+    <!--
+      <div class="section-title">
+        <span>Portfolio</span>
+        <h2>Portfolio</h2>
+        <p>Sit sint consectetur velit quisquam cupiditate impedit suscipit alias</p>
+      </div>
+      -->
+
+      <div class="row portfolio-container">
+        {% for prod in recommendedProducts %}
+            <div class="col-lg-4 col-md-6 portfolio-item filter-card">
+                <img src="{% static prod.img_name %}" class="img-fluid" alt="">
+                <div class="portfolio-info">
+                <h4>{{ prod.name }}</h4>
+                <p></p>
+                <a class="preview-link" data-toggle="collapse" href="#collapse{{ prod.code }}" role="button"   aria-expanded="false" aria-controls="collapse{{ prod.code }}" title="{{ prod.name }}"><i class="bx bx-plus"></i></a>
+                <!--<a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>-->
+                </div>
+            </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section><!-- End Portfolio Section -->
+  
+{% for prod in recommendedProducts %}
+    <section class="collapse cta" id="collapse{{ prod.code }}">
+        <div class="container">
+            <p class="ml-4">Productos similares</p>
+            <div class="row">
+                {% for prod_rec in prod.recommended %}
+                    <div class="col-4 mt-4">
+                        <div class="card" style="width: 18rem; ">
+                            <div class="card-body">
+                            <h5 class="card-title">Producto {{ forloop.counter }}: <small> {% widthratio prod_rec.score 1 100 %} % match </small></h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ prod_rec.name }}</h6>
+                            <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <a href="#" class="card-link">Card link</a>
+                            <a href="#" class="card-link">Another link</a>-->
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col mt-4">
+                <h3 class="text-center">¡Nosotros te diremos que productos poner aquí!</h3> 
+            </div>
+        </div>
+    </section>
+{% endfor %}
+{% endblock %}
