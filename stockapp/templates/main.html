@@ -46,6 +46,11 @@
 
     <!-- Template Main JS File -->
     <script src="{% static 'js/main.js' %}"></script>
+    <script>
+        jQuery('.preview-link').click( function(e) {
+            jQuery('.collapse').collapse('hide');
+        });
+    </script>
 </body>
 
 
