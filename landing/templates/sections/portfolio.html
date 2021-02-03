@@ -53,28 +53,8 @@
                     </div>
                 {% endfor %}
             </div>    
-        </div>
-    </section>
-{% endfor %}
-<!--
-{% for prod in recommendedProducts %}
-    <section class="collapse cta" id="collapse{{ prod.code }}">
-        <div class="container">
-            <h4 class="row mt-4">Productos complementarios</h4>
-            <div class="row">
-                {% for prod_rec in prod.related_products %}
-                    <div class="col-4 mt-4 card">
-                            <img src="{% static prod_rec.img_name %}" class="card-img-top" alt="">
-                            <div class="card-body">
-                            <h5 class="card-title">Producto {{ forloop.counter }}: <small> {% widthratio prod_rec.score 1 100 %} % match </small></h5>
-                            <h6 class="card-subtitle mb-2 text-muted">{{ prod_rec.name }}</h6>
-                            </div>
-                    </div>
-                {% endfor %}
-            </div>    
             <h3 class="text-center mt-4">¡Nosotros te diremos que productos poner aquí!</h3> 
         </div>
     </section>
 {% endfor %}
--->
 {% endblock %}
