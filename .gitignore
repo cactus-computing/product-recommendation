@@ -140,3 +140,6 @@ documents/*
 service_account_key.json
 .env
 /yaml/
+
+# Other files
+eNno
