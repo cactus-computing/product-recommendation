@@ -99,7 +99,7 @@ def thanks_suscription(request):
                 f'Contacto en CactusCo.cl',
                 internal_message,
                 'contacto@cactusco.cl',
-                ['agustin.escobar@cactusco.cl', 'vicente.escobar@cactusco.cl', 'rodrigo.oyarzun25@gmail.com']
+                ['agustin@cactusco.cl', 'vicente@cactusco.cl', 'rodrigo@cactusco.cl']
             )
 
             
@@ -124,7 +124,7 @@ def thanks_contact(request):
             client_mail = (
                 '[Cactus Co] Bienvenida', #subject 
                 client_message,  #message
-                'agustin.escobar@cactusco.cl', # from
+                'agustin@cactusco.cl', # from
                 [email] # to
             )
 
@@ -132,7 +132,7 @@ def thanks_contact(request):
                 f'Contacto en CactusCo.cl',
                 internal_message,
                 'contacto@cactusco.cl',
-                ['agustin.escobar@cactusco.cl', 'vicente.escobar@cactusco.cl', 'rodrigo.oyarzun25@gmail.com']
+                ['agustin@cactusco.cl', 'vicente@cactusco.cl', 'rodrigo@cactusco.cl']
             )
             
             send_mass_mail((client_mail, internal_mail), fail_silently=False)
