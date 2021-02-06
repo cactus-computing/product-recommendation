@@ -2,6 +2,7 @@
 
 ## Runnig Dev Envirnoment
 
+To build your local environment in docker run
 ```
 docker-compose up --build
 ```
