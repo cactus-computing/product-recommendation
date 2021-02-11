@@ -38,17 +38,6 @@
                             <button class="btn btn-primary" type="submit">Iniciar Sesión</button>
                         </div>
                     </form>
-                {% else %}
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Gracias, {{ user.name }}!</h4>
-                        </div>
-                        <div class="card-body">
-                        <h5 class="card-title">Datos guardados correctamente.</h5>
-                        <p class="card-text">Estaremos en contacto via correo electronico pronto. {{ file_name }}</p>
-                        <a href="/" class="btn btn-primary">Subir otro archivo</a>
-                        </div>
-                    </div>
                 {% endif %}
                 
             </div>
