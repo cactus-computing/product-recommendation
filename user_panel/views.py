@@ -12,13 +12,6 @@ class ProtectView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, 'welcome.html')
 
-def welcome(request):
-    # Si estamos identificados devolvemos la portada
-    if request.user.is_authenticated:
-        return render(request, "welcome.html")
-    # En otro caso redireccionamos al login
-    return redirect(reverse('login'))
-
 def register(request):
     # Creamos el formulario de autenticación vacío
     form = UserCreationForm()
@@ -73,4 +66,4 @@ def logout(request):
     # Finalizamos la sesión
     do_logout(request)
     # Redireccionamos a la portada
-    return redirect('login')
+    return redirect('logout')
