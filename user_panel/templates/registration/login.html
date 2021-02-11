@@ -1,0 +1,58 @@
+{% extends "main.html" %}
+
+{% block content %}
+<!-- ======= Featured Services Section ======= -->
+<br><br><br>
+<section id="login" class="login section-bg pt-4 pt-md-11">
+    <div class="container">
+        <div class="section-title">
+            <h2>Iniciar sesión</h2>
+        </div>
+        <div class="row align-items-center">
+                {% if user is None %}
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Credenciales invalidas :(</h4>
+                        </div>
+                        <div class="card-body">
+                        <h5 class="card-title">Intente nuevamente</h5>
+                        
+                        <a href="/pr/login" class="btn btn-primary">Intentar de nuevo</a>
+                        </div>
+                    </div>
+                {% elif not has_submitted %}
+                    <form class="card" method="post" enctype="multipart/form-data" style="width: 24rem;">
+                        <div class="card-body" >
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    {{ form.username }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form.password }}
+                            </div>
+                            <div class="form-group">
+                                <a href="/pr/register">Registrar nuevo usuario</a>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Iniciar Sesión</button>
+                        </div>
+                    </form>
+                {% else %}
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Gracias, {{ user.name }}!</h4>
+                        </div>
+                        <div class="card-body">
+                        <h5 class="card-title">Datos guardados correctamente.</h5>
+                        <p class="card-text">Estaremos en contacto via correo electronico pronto. {{ file_name }}</p>
+                        <a href="/" class="btn btn-primary">Subir otro archivo</a>
+                        </div>
+                    </div>
+                {% endif %}
+                
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

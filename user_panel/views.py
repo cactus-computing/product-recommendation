@@ -1,15 +1,23 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout as do_logout
+#from django.utils.http import urlencode
+from django.urls import reverse
+from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
+
+class ProtectView(LoginRequiredMixin, View):
+    def get(self, request):
+        return render(request, 'welcome.html')
 
 def welcome(request):
     # Si estamos identificados devolvemos la portada
     if request.user.is_authenticated:
         return render(request, "welcome.html")
     # En otro caso redireccionamos al login
-    return redirect('pr/login')
+    return redirect(reverse('login'))
 
 def register(request):
     # Creamos el formulario de autenticación vacío
@@ -65,4 +73,4 @@ def logout(request):
     # Finalizamos la sesión
     do_logout(request)
     # Redireccionamos a la portada
-    return redirect('/')
+    return redirect('login')
