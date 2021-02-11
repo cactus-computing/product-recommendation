@@ -2,6 +2,7 @@
 
 ## Runnig Dev Envirnoment
 
+To build your local environment in docker run
 ```
 docker-compose up --build
 ```
@@ -107,12 +108,12 @@ gunicorn --bind 0.0.0.0:8000 cactusco.wsgi
 Exit stockapp user to do sudo operations
 Move systemd socket file:
 ```
-sudo gsutil cp gs://cactus-stockapp/credentials/gunicorn.socket /etc/systemd/system/gunicorn.socket
+sudo cp deploy_files/gunicorn.socket /etc/systemd/system/gunicorn.socket
 ```
 Move systemd service file
 
 ```
-sudo gsutil cp gs://cactus-stockapp/credentials/gunicorn.service /etc/systemd/system/gunicorn.service
+sudo cp deploy_files/gunicorn.service /etc/systemd/system/gunicorn.service
 ```
 
 Now we init and enable systemd:
@@ -141,7 +142,7 @@ sudo systemctl restart gunicorn
 Cofigure Nginx for auth pass for gunicorn
 move
 ```
-sudo gsutil cp gs://cactus-stockapp/credentials/cactusco /etc/nginx/sites-available/cactusco
+sudo cp deploy_files/cactusco /etc/nginx/sites-available/cactusco
 ```
 
 Now we can habilitar the file binding it to site-enable directory
@@ -188,14 +189,14 @@ sudo apt install python-certbot-nginx
 ```
 Now we certify our domain
 ```
-sudo certbot --nginx -d www.cactusco.cl
+sudo certbot --nginx -d www.cactusco.cl -d cactusco.cl
 ```
 Then reload nginx
 ```
 sudo systemctl reload nginx
 ```
 
-## Usful commands
+## Useful commands
 
 
 ```

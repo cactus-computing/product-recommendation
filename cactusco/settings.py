@@ -35,7 +35,9 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 
 
-ALLOWED_HOSTS = ["localhost"]
+def get_hosts():
+    return env('HOST').split(",")
+ALLOWED_HOSTS = get_hosts()
 
 
 # Application definition
