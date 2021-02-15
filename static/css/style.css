@@ -204,12 +204,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Get Startet Button */
-.get-started-btn {
-  margin-left: 25px;
+.nav-menu .get-started-btn {
+  margin-left: 20px;
+  position: relative;
   background: #fff;
   color: #5f687b;
   border-radius: 4px;
-  padding: 8px 25px;
+  padding: 8px 20px;
   white-space: nowrap;
   transition: 0.3s;
   font-size: 14px;
@@ -217,7 +218,7 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid #cdd1d9;
 }
 
-.get-started-btn:hover {
+.nav-menu .get-started-btn:hover {
   background: #206bfb;
   color: #fff;
   border-color: #206bfb;
@@ -1365,4 +1366,16 @@ section {
     -moz-text-align-last: center;
     text-align-last: center;
   }
+}
+
+/*--------------------------------------------------------------
+# Login
+--------------------------------------------------------------*/
+
+.login-card {
+  text-align: center;
+  padding: 30px 30px;
+  position: relative;
+  max-width: 300px;
+  margin: auto;
 }

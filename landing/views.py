@@ -36,7 +36,7 @@ recommended_products = [
                 { "name": "Renew Run 2 Zapatilla Running Mujer", "score": 0.83, "img_name": 'img/zapatillas3.png' },
             ],
             "related_products": [
-                { "name": "Polerón Deportivo Hombre", "score": 0.87, "img_name": 'img/poleron-png.jfif' },
+                { "name": "Polerón Deportivo Hombre", "score": 0.87, "img_name": 'img/poleron.png' },
                 { "name": "Bolso deportivo 60L", "score": 0.84, "img_name": 'img/Bolso.png' },
                 { "name": "Calcetines deportivos", "score": 0.77, "img_name": 'img/Calcetines.png' }
             ]
