@@ -98,7 +98,7 @@ h1, h2, h3, h4, h5, h6 {
 --------------------------------------------------------------*/
 /* Desktop Navigation */
 .nav-menu ul {
-  align-items: baseline;
+  align-items:baseline;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -205,9 +205,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Get Startet Button */
-.nav-menu .get-started-btn {
+.get-started-btn {
   margin-left: 20px;
-  position: relative;
   background: #fff;
   color: #5f687b;
   border-radius: 4px;
