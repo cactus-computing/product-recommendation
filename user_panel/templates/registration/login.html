@@ -3,27 +3,32 @@
 {% block content %}
 <!-- ======= Featured Services Section ======= -->
 <br><br><br>
-<section id="login" class="login section-bg pt-4 pt-md-11">
+<section id="login" class="pt-4 pt-md-11">
     <div class="container">
         <div class="section-title">
             <h2>Iniciar sesión</h2>
         </div>
-        <div class="login-card">
-            <form class="card" method="post" enctype="multipart/form-data">
-                <div class="card-body" >
-                    {% csrf_token %}
-                    <div class="form-row">
-                        <div class="form-group">
-                            {{ form.username }}
-                        </div>
-                        <div class="form-group">
-                            {{ form.password }}
-                        </div>
+        <form class="login-card" method="post" enctype="multipart/form-data">
+            <div class="card-body" >
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group text-left">
+                        <label for="username">Email</label>
+                        {{ form.username }}
                     </div>
-                    <button class="btn btn-primary" type="submit">Iniciar Sesión</button>
+                    <div class="form-group text-left">
+                        <label for="password" class="text-left">Password</label>
+                        {{ form.password }}
+                    </div>
                 </div>
-            </form>
-        </div>
+                <button class="btn btn-primary" type="submit">Iniciar Sesión</button>
+            </div>
+            <div class="email">
+                <p>Para solicitar una demo envíanos 
+                    un mail a <a href="mailto:contacto@cactusco.cl?subject=Solicitud demo">contacto@cactusco.cl</a></p>
+            </div>
+        </form>
     </div> 
 </section>
+
 {% endblock %}
