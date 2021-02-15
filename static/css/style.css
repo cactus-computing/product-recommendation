@@ -98,6 +98,7 @@ h1, h2, h3, h4, h5, h6 {
 --------------------------------------------------------------*/
 /* Desktop Navigation */
 .nav-menu ul {
+  align-items: baseline;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -1379,3 +1380,20 @@ section {
   max-width: 300px;
   margin: auto;
 }
+
+/*--------------------------------------------------------------
+# Sidebar
+--------------------------------------------------------------*/
+/*
+.sidebar {
+  height: 100%;
+  width: 160px;
+  position: relative;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: cadetblue;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+*/
