@@ -238,3 +238,4 @@ Drop tables
 DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
 ```
+¡You are done! You can now migrate your changes to the db.
