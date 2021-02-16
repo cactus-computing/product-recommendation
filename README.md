@@ -224,3 +224,17 @@ Creating an admin user
 docker-compose run web /usr/local/bin/python manage.py createsuperuser
 ```
 
+Handiling Postgreslqo
+SSH postgres container
+```
+docker exec -it <containername> bash
+```
+Login to database
+```
+psql -U postgres
+```
+Drop tables
+```
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+```

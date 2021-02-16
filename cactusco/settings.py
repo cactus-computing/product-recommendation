@@ -89,6 +89,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'cactusco.wsgi.application'
 
+AUTH_USER_MODEL = 'user_panel.User'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
