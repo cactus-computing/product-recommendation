@@ -1406,7 +1406,7 @@ section {
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
-#id_username:focus textarea:focus, #id_password:focus textarea:focus {
+#id_username:focus, #id_password:focus {
   outline: none !important;
   border-color: #16df7e !important;
   border: 1px solid #16df7e !important;
@@ -1414,6 +1414,13 @@ section {
   
 }
 
+#user-area {
+  text-align: center;
+  position: relative;
+  padding-top: 300px;
+  margin: auto;
+  background-color: #f9f9fa;
+}
 /*--------------------------------------------------------------
 # Sidebar
 --------------------------------------------------------------*/

@@ -1,23 +1,13 @@
 {% extends "main.html" %}
 
 {% block content %}
-<!-- ======= Featured Services Section ======= -->
-<script>
-    window.onload = function() {
-        jQuery('id_username[type=text]').blur();
-        /*
-        //For putting the Focus on particular field
-        jQuery('[id$=pList]').focus();
-        */
-    };
-</script>
-<br><br><br>
-<section id="login" class="pt-4 pt-md-11">
+
+<section id="login" class="pt-6 pt-md-11">
     <div class="container">
         <div class="section-title">
             <h2>Iniciar sesión</h2>
         </div>
-        <form class="login-card"  method="post" enctype="multipart/form-data">
+        <form class="login-card "  method="post" enctype="multipart/form-data">
             <div class="card-body" >
                 {% csrf_token %}
                 <div class="form-row">
