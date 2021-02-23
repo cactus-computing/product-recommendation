@@ -34,6 +34,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
+
 def get_hosts():
     return env('HOST').split(",")
 ALLOWED_HOSTS = get_hosts()
@@ -51,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'stockapp',
     'landing',
+    'user_panel',
     'crispy_forms',
     'django_rename_app',
 ]
@@ -87,6 +89,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'cactusco.wsgi.application'
 
+AUTH_USER_MODEL = 'user_panel.User'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases

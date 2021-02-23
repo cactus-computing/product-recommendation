@@ -224,3 +224,18 @@ Creating an admin user
 docker-compose run web /usr/local/bin/python manage.py createsuperuser
 ```
 
+How to drop all public tables on DB. This is necesary when making structural changes to the database, which should be avoided. If you must do such structural changes, please discuss the changes with the team beforehand.
+First, ssh postgres container
+```
+docker exec -it <containername> bash
+```
+Login to database
+```
+psql -U postgres
+```
+Drop tables
+```
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+```
+¡You are done! You can now migrate your changes to the db.

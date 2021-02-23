@@ -1,0 +1,22 @@
+{% block welcome %}
+<!-- ======= Sidebar para despues =======
+<div class="sidebar">
+    <a href="Home">Home</a>
+    <a href=""></a>
+</div>
+ -->
+<section id="user-area" class="pt-12">
+<div class="container">
+    <h2>Área de usuario</h2>
+
+    <p>
+        Bienvenido <strong class="capitalize">{{ request.user.first_name }}</strong>, 
+        esta página es exclusiva para usuarios registrados.
+    </p>
+    <div class="left">
+        <a class="get-started-btn" href="/accounts/password_change/">Cambiar clave</a>
+    </div>
+    <hr />
+</div>
+</section>
+{% endblock %}
