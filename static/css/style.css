@@ -1384,6 +1384,18 @@ section {
   background-color: #f9f9fa;
 }
 
+.field-selection-form {
+  text-align: center;
+  padding: 30px 30px;
+  position: relative;
+  max-width: 800px;
+  margin: auto;
+  width: 100%;
+  border-top: 3px solid #16df7e;
+  border-bottom: 3px solid #16df7e;
+  background-color: #f9f9fa;
+}
+
 #id_username, #id_password {
   margin: auto;
   width: 100%;

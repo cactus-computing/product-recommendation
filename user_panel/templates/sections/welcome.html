@@ -13,6 +13,9 @@
         Bienvenido <strong class="capitalize">{{ request.user.first_name }}</strong>, 
         esta página es exclusiva para usuarios registrados.
     </p>
+    {% if has_submitted %}
+        <span>Tu archivo ha sido subido a nuestra base de datos</span>
+    {% endif %}
     <div class="left">
         <a class="get-started-btn" href="/accounts/password_change/">Cambiar clave</a>
     </div>
