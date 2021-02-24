@@ -5,7 +5,8 @@ import logging
 
 # Instantiates a client
 KEY_PATH = "cactusco/service_account_key.json"
-BUCKET_NAME = "cactus-stockapp"
+BUCKET_NAME = "cactus_recommender"
+
 
 credentials = service_account.Credentials.from_service_account_file(
     KEY_PATH, scopes=["https://www.googleapis.com/auth/cloud-platform"],
@@ -113,3 +114,4 @@ def rename_dataset(file_path, new_columns):
     df = pd.read_csv(file_path)
     df = df.rename(columns=new_columns)
     dataframe_to_gcs(df, file_path)
+

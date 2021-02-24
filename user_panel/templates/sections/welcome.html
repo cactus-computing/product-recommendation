@@ -5,18 +5,30 @@
     <a href=""></a>
 </div>
  -->
-<section id="user-area" class="pt-12">
+<section id="login" class="pt-6 pt-md-11">
 <div class="container">
-    <h2>Área de usuario</h2>
-
+    <div class="container">
+        <div class="section-title">
+            <h2>Área de usuario</h2>
+        </div>
     <p>
-        Bienvenido <strong class="capitalize">{{ request.user.first_name }}</strong>, 
+        Bienvenido <strong class="capitalize">{{ request.user.name }}</strong>, 
         esta página es exclusiva para usuarios registrados.
     </p>
+
     {% if has_submitted %}
-        <span>Tu archivo ha sido subido a nuestra base de datos</span>
+        <span class="alert">Tu archivo ha sido subido a nuestra base de datos</span>
     {% endif %}
-    <div class="left">
+    <br>
+    <form method="post" enctype="multipart/form-data" action="{% url 'field_selection' %}" style="width: 24rem;">
+        {% csrf_token %}
+        {{ form.document }}
+        <br>
+        <div class=>    
+            <button class="btn btn-primary" type="submit">Enviar</button>
+        </div>
+    </form>
+    <div style="text-align: right;">
         <a class="get-started-btn" href="/accounts/password_change/">Cambiar clave</a>
     </div>
     <hr />
