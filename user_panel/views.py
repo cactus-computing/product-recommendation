@@ -27,7 +27,7 @@ class Welcome(LoginRequiredMixin, View):
         form = FileSubmissionForm(request.POST, request.FILES)
         if form.is_valid():
             file_path, gc_url = handle_uploaded_file(request.FILES['document'], company=request.user.company, local=False)
-            stored_file = CompanyData(document_location=file_path, user=request.user)
+            stored_file = Company(document_location=file_path, user=request.user)
             stored_file.save()
             email_cliente = f"""Hola, {request.user.first_name}!\n\nTu data está siendo procesada y te enviarémos un correo a penas tengamos el resultado.\n\nGracias por confiar en nosotros!\n\nEquipo de Cactus Co"""
             email_interno = f"""Nueva data subida por {request.user.first_name} {request.user.last_name} de {request.user.company}, este es el archivo {file_path}"""
@@ -49,8 +49,8 @@ class Welcome(LoginRequiredMixin, View):
 
             request.session['file_path'] = file_path
             request.session['available_fields'] = get_available_fields(file_path)
-            request.session['user_id'] = request.user.id
-            return HttpResponseRedirect(reverse('field_selection'))
+            return HttpResponseRedirect(reverse('field-selection'), { "has_submitted": False })
+        return render(request, 'welcome.html', { 'form':form })
 
 class FieldSelection(LoginRequiredMixin, View):
     available_fields = [
@@ -61,15 +61,6 @@ class FieldSelection(LoginRequiredMixin, View):
         ('Cantidad de productos', 'Quant'), 
         ('Descripción del producto', 'Description')
     ]
-
-    def get(self, request):
-        '''
-        Field selection page handling.
-        '''
-
-        form = FieldSelectionForm(available_fields=self.available_fields)
-
-        return render(request, 'forms/field_selection.html', { 'form':form })
 
     def post(self, request):
         '''
@@ -91,3 +82,6 @@ class FieldSelection(LoginRequiredMixin, View):
             rename_dataset(request.session['file_path'], form.cleaned_data)
             return render(request, 'sections/welcome.html', { 'has_submitted': True,  'no_user': True })
 
+        form = FieldSelectionForm(available_fields=self.available_fields)
+
+        return render(request, 'forms/field_selection.html', { 'form':form })

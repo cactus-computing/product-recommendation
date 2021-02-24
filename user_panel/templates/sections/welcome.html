@@ -20,7 +20,7 @@
         <span class="alert">Tu archivo ha sido subido a nuestra base de datos</span>
     {% endif %}
     <br>
-    <form method="post" enctype="multipart/form-data" action="{% url 'field_selection' %}" style="width: 24rem;">
+    <form method="post" enctype="multipart/form-data" action="{% url 'field-selection' %}" style="width: 24rem;">
         {% csrf_token %}
         {{ form.document }}
         <br>
