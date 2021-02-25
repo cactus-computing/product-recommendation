@@ -6,6 +6,7 @@ from datetime import datetime
 from django.utils import timezone
 import os
 from collections import defaultdict
+from io import StringIO
 # Instantiates a client
 KEY_PATH = "cactusco/service_account_key.json"
 BUCKET_NAME = "cactus_recommender"
@@ -27,8 +28,8 @@ def path_and_rename(path):
         name = filename.split('.')[0]
         company = company.lower().replace(' ', '_')
         # get filename
-        # filename = f'{company}_{datetime.timestamp(timezone.now())}.{ext}'
-        filename = f'{company}.{ext}'
+        filename = f'{company}_{datetime.timestamp(timezone.now())}.{ext}'
+        #filename = f'{company}.{ext}'
         # return the whole path to the file
         return os.path.join(path, filename)
     return wrapper
@@ -42,6 +43,7 @@ def detect_delimiter(doc):
     for c in doc:
         if c in OPTIONS:
             frec[c] += 1
+    
     sep = max(frec, key=frec.get)
     print(f"found separator {sep}")
     return sep
@@ -64,8 +66,12 @@ def handle_uploaded_file(f, company, local=True):
         f.name = f.name.replace('xlsx', 'csv')
     elif 'csv' in f.name:
         print('processing csv file')
-        sep = ';'#detect_delimiter(doc)
-        df = pd.read_csv(f)
+        try: 
+            decoded_doc = doc.decode("utf-8")
+        except AttributeError:
+            decoded_doc = doc
+        sep = detect_delimiter(decoded_doc)
+        df = pd.read_csv(StringIO(decoded_doc), sep)
 
     filename = path_and_rename('documents')
     filename = filename(f, f.name, company)
@@ -158,20 +164,4 @@ def get_available_fields(file_path):
     if '.csv' in file_path:
         df = pd.read_csv(file_path, chunksize=1, index_col=0).get_chunk(1)
         return list(df.columns)
-
-def rename_dataset(file_path, new_columns):
-    '''
-    Renames the columns of a dataset using the invers of `new_columns`
-    as the rename mapper and stores it with the same name but under 
-    the folder `renamed/`
-    Parameters 
-        - file_path: path to file
-        - new_columns: dictionary similar to { 'new_column': 'current_cloumn' }
-    Returns 
-        - None
-    '''
-    new_columns = { v: k for k, v in new_columns.items() }
-    df = pd.read_csv(file_path)
-    df = df.rename(columns=new_columns)
-    dataframe_to_gcs(df, file_path)
 
