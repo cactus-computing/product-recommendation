@@ -28,8 +28,8 @@ def path_and_rename(path):
         name = filename.split('.')[0]
         company = company.lower().replace(' ', '_')
         # get filename
-        # filename = f'{company}_{datetime.timestamp(timezone.now())}.{ext}'
-        filename = f'{company}.{ext}'
+        filename = f'{company}_{datetime.timestamp(timezone.now())}.{ext}'
+        #filename = f'{company}.{ext}'
         # return the whole path to the file
         return os.path.join(path, filename)
     return wrapper
@@ -110,7 +110,6 @@ def rename_dataset(file_path, new_columns):
         - None
     '''
     new_columns = { v: k for k, v in new_columns.items() }
-    print(new_columns)
     df = pd.read_csv(file_path)
     df = df.rename(columns=new_columns)
     dataframe_to_gcs(df, file_path)
