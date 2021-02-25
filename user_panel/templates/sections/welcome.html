@@ -12,9 +12,9 @@
             <h2>Área de usuario</h2>
         </div>
     <p>
-        Bienvenido <strong class="capitalize">{{ request.user.name }}</strong>, 
-        esta página es exclusiva para usuarios registrados.
+        Bienvenido <strong class="capitalize">{{ request.user.first_name }}</strong>.
     </p>
+    <p>En esta sección puedes subir tus archivos y cargarlos a nuestra base de datos.</p>
 
     {% if has_submitted %}
         <span class="alert">Tu archivo ha sido subido a nuestra base de datos</span>
