@@ -27,7 +27,7 @@ def path_and_rename(path):
         name = filename.split('.')[0]
         company = company.lower().replace(' ', '_')
         # get filename
-        #filename = f'{company}_{datetime.timestamp(timezone.now())}.{ext}'
+        # filename = f'{company}_{datetime.timestamp(timezone.now())}.{ext}'
         filename = f'{company}.{ext}'
         # return the whole path to the file
         return os.path.join(path, filename)
@@ -40,7 +40,7 @@ def detect_delimiter(doc):
     OPTIONS = ';,  '
     frec = defaultdict(int)
     for c in doc:
-        if str(c) in OPTIONS:
+        if c in OPTIONS:
             frec[c] += 1
     sep = max(frec, key=frec.get)
     print(f"found separator {sep}")
@@ -60,15 +60,12 @@ def handle_uploaded_file(f, company, local=True):
     doc = f.read()
     if ('xlsx' in f.name) or ('xls' in f.name):
         print('processing excel file')
-        is_excel = True
         df = pd.read_excel(doc, sheet_name=0)
         f.name = f.name.replace('xlsx', 'csv')
     elif 'csv' in f.name:
         print('processing csv file')
-        is_excel = False
-        
-        sep = ';'
-        df = pd.DataFrame([x.split(sep) for x in doc.split('\n')])
+        sep = ';'#detect_delimiter(doc)
+        df = pd.read_csv(f)
 
     filename = path_and_rename('documents')
     filename = filename(f, f.name, company)
