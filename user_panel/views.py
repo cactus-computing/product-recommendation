@@ -63,18 +63,16 @@ class Welcome(LoginRequiredMixin, View):
 
         return render(request, 'welcome.html', { 'form':form })
 
-#, { "has_submitted": True, "file_path": request.session['file_path'], "url": gc_url }
 class FieldSelection(LoginRequiredMixin, View):
-    available_fields = [
-        ('Fecha', 'Date'), 
-        ('Número de boleta', 'Bill Number'),
-        ('ID de Usuario', 'User ID'),
-        ('Código de producto (SKU)', 'SKU'),
-        ('Cantidad de productos', 'Quant'), 
-        ('Descripción del producto', 'Description')
-    ]
+    available_fields = []
 
     def get(self, request):
+
+        assert 'available_fields' in request.session
+        
+        for key in request.session['available_fields']:
+            self.available_fields.append((key, key))
+
         form = FieldSelectionForm(available_fields=self.available_fields)
         return render(request, 'forms/field_selection.html', { 'form':form })
 
@@ -86,11 +84,6 @@ class FieldSelection(LoginRequiredMixin, View):
             - renders the field selection form to rename the uploaded dataframes or if handled correctly
             it redirects to the Landing Page
         '''
-
-        if 'available_fields' in request.session:
-            self.available_fields = []
-            for key in request.session['available_fields']:
-                self.available_fields.append((key, key))
 
         form = FieldSelectionForm(self.available_fields, request.POST)
 
