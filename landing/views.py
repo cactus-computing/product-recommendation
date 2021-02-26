@@ -3,7 +3,7 @@ import datetime
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db import utils
 from .forms import ContactForm, SuscriptionForm
-from .models import Suscription
+from .models import Suscription, Contact
 import logging
 from django.core.mail import EmailMessage, send_mass_mail
 from django.urls import reverse
@@ -110,7 +110,6 @@ def thanks_suscription(request):
 def thanks_contact(request):
     submitted = False
     if request.method == "POST":
-        
         contactForm = ContactForm(request.POST)
         if contactForm.is_valid():
             email = contactForm.cleaned_data['email']
@@ -118,8 +117,12 @@ def thanks_contact(request):
             phone = contactForm.cleaned_data['phone']
             message = contactForm.cleaned_data['message']
             
+            contacto = Contact(email=email, name=name, phone=phone, message=message)
+
+            contacto.save()
+
             client_message = f"""Hola, {name}!\n\n¡Gracias por contactarte con nosotros! Nuestro equipo se contactará contigo antes de 24 horas."""
-            internal_message = f"""Datos del nuevo contacto:\n\nNombre:{name}\n\nEmail: {email}\n\nEmail: {phone}"""
+            internal_message = f"""Datos del nuevo contacto:\n\nNombre:{name}\n\nEmail: {email}\n\nTelefono: {phone}\n\nMensaje:{message}"""
             
             client_mail = (
                 '[Cactus Co] Bienvenida', #subject 

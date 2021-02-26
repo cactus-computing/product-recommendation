@@ -409,7 +409,7 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (max-width: 991px) {
   #hero {
-    height: 100vh;
+    height: 150vh;
   }
   #hero .animated {
     -webkit-animation: none;
@@ -424,6 +424,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 768px) {
+  #hero {
+    height: 130vh;
+  }
   #hero h1 {
     font-size: 28px;
     line-height: 36px;
@@ -439,11 +442,36 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 575px) {
+  #hero {
+    height: 100vh;
+  }
+  #hero .animated {
+    -webkit-animation: none;
+    animation: none;
+  }
+  #hero .hero-img {
+    text-align: center;
+  }
   #hero .hero-img img {
-    width: 80%;
+    width: 50%;
   }
 }
 
+@media (max-width: 400px) {
+  #hero {
+    height: 100vh;
+  }
+  #hero .animated {
+    -webkit-animation: none;
+    animation: none;
+  }
+  #hero .hero-img {
+    text-align: center;
+  }
+  #hero .hero-img img {
+    width: 50%;
+  }
+}
 @-webkit-keyframes up-down {
   0% {
     transform: translateY(10px);
@@ -1377,6 +1405,18 @@ section {
   padding: 30px 30px;
   position: relative;
   max-width: 300px;
+  margin: auto;
+  width: 100%;
+  border-top: 3px solid #16df7e;
+  border-bottom: 3px solid #16df7e;
+  background-color: #f9f9fa;
+}
+
+.field-selection-form {
+  text-align: center;
+  padding: 30px 30px;
+  position: relative;
+  max-width: 800px;
   margin: auto;
   width: 100%;
   border-top: 3px solid #16df7e;
