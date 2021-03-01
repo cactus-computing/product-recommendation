@@ -94,3 +94,4 @@ class FieldSelection(LoginRequiredMixin, View):
         
         return render(request, 'forms/field_selection.html', { 'form':form })
         
+

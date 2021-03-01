@@ -18,3 +18,13 @@ class Suscription(models.Model):
 
     def __str__(self):
         return self.email
+
+class Contact(models.Model):
+    '''
+    Model contact. Allows the user to send his personal data.
+    '''
+    name = models.CharField(max_length=250)
+    email = models.EmailField(max_length=250)
+    phone = models.CharField(max_length=9)
+    message = models.CharField(max_length=1000)
+    
