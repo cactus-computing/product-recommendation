@@ -4,11 +4,11 @@ Requires=gunicorn.socket
 After=network.target
 
 [Service]
-User=landing
+User=cactus
 Group=www-data
-EnvironmentFile=/usr/local/landing_cactusco/cactusco/.env
-WorkingDirectory=/usr/local/landing_cactusco
-ExecStart=/usr/local/landing_cactusco/.venv/bin/gunicorn --access-logfile - --workers 3 --bind unix:/run/gunicorn.sock cactusco.wsgi:application
+EnvironmentFile=/usr/local/CactusCo/cactusco/.env
+WorkingDirectory=/usr/local/CactusCo
+ExecStart=/usr/local/CactusCo/.venv/bin/gunicorn --access-logfile - --workers 3 --bind unix:/run/gunicorn.sock cactusco.wsgi:application
 
 [Install]
 WantedBy=multi-user.target
