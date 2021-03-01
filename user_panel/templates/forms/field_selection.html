@@ -1,0 +1,27 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<br><br><br>
+<section class="pt-4 pt-md-11">
+    <div class="container">
+        <h1 class="">Seleccione los campos correspondientes</h1>
+        <p>Para poder modelar correctamente la data, necesitamos que se configuren correctamente los campos del archivo enviado. 
+            Tienes que hacer match en los siguientes campos:
+        </p>
+        <br><br><br><br>
+        <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch"></div>
+        <form method="POST" enctype="multipart/form-data" class="field-selection-form">
+            <div class="card-body">
+                {% csrf_token %}
+                <div class="form-row">
+                    {{ form.as_table }}
+                </div>
+            </div>
+            <div class="mb-3">
+            <button class="btn btn-primary" type="submit">Guardar</button>
+    </form>
+    </div>
+</section>
+</body>
+</html>
+{% endblock %}
