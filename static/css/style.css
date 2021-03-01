@@ -480,6 +480,8 @@ h1, h2, h3, h4, h5, h6 {
   #hero {
     height: 100vh;
   }
+}
+
 @media (max-width: 320px) {
   #hero {
     height: 130vh;
@@ -495,7 +497,7 @@ h1, h2, h3, h4, h5, h6 {
   #hero .hero-img img {
     width: 50%;
   }
-}
+
 @-webkit-keyframes up-down {
   0% {
     transform: translateY(10px);
