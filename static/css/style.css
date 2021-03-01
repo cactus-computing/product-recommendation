@@ -443,7 +443,7 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (max-width: 575px) {
   #hero {
-    height: 100vh;
+    height: 110vh;
   }
   #hero .animated {
     -webkit-animation: none;
@@ -452,7 +452,6 @@ h1, h2, h3, h4, h5, h6 {
   #hero .hero-img {
     text-align: center;
   }
-
   #hero .hero-img img {
     width: 50%;
   }
@@ -460,7 +459,7 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (max-width: 400px) {
   #hero {
-    height: 100vh;
+    height: 110vh;
   }
   #hero .animated {
     -webkit-animation: none;
@@ -469,24 +468,14 @@ h1, h2, h3, h4, h5, h6 {
   #hero .hero-img {
     text-align: center;
   }
-  
   #hero .hero-img img {
     width: 50%;
   }
 }
-
-
-@media (max-width: 400px) {
-  #hero {
-    height: 100vh;
-  }
-}
-
 @media (max-width: 320px) {
   #hero {
     height: 130vh;
   }
-}
   #hero .animated {
     -webkit-animation: none;
     animation: none;
@@ -497,7 +486,7 @@ h1, h2, h3, h4, h5, h6 {
   #hero .hero-img img {
     width: 50%;
   }
-
+}
 @-webkit-keyframes up-down {
   0% {
     transform: translateY(10px);
