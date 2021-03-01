@@ -45,4 +45,4 @@ class ProtectView(LoginRequiredMixin, View):
             request.session['file_path'] = file_path
             request.session['available_fields'] = get_available_fields(file_path)
             request.session['user_id'] = request.user.id
-            return HttpResponseRedirect(reverse('field_selection'))
+            return HttpResponseRedirect(reverse('field-selection'))
