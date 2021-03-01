@@ -1,11 +1,11 @@
 
 server {
     listen 80;
-    server_name 35.243.133.241 cactusco.cl www.cactusco.cl;
+    server_name cactusco.cl www.cactusco.cl dev.cactusco.cl;
 
     location = /favicon.ico { access_log off; log_not_found off; }
     location /static/ {
-        root /usr/local/landing_cactusco;
+        root /usr/local/CactusCo;
     }
     location / {
         include proxy_params;
