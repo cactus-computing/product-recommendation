@@ -1,6 +1,12 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
+import os
+from datetime import datetime
+import logging
+from .storage import upload_blob_to_default_bucket, dataframe_to_gcs
+import pandas as pd
 
 
 class UserManager(BaseUserManager):
@@ -46,3 +52,14 @@ class User(AbstractUser):
 class Company(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     Company = models.CharField(max_length=100)
+
+
+logger = logging.Logger(__name__)
+
+
+class CompanyData(models.Model):
+    '''
+    Company Data Model. Stores the document location and is related to the User Model.
+    '''
+    document_location = models.CharField(max_length=500)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

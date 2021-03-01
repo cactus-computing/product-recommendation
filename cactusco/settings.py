@@ -150,7 +150,7 @@ STATIC_ROOT = os.path.join(PROJECT_PATH, 'static')
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Email Settings
-EMAIL_SUBJECT_PREFIX='[Cactus] '
+EMAIL_SUBJECT_PREFIX='[Cactus]'
 EMAIL_HOST = 'smtp.gmail.com'                                                                                                                                           
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
