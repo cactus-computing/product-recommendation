@@ -251,6 +251,7 @@ Aside from the package requirements, you need to download the API credentials fo
 
 ```
 gsutil cp gs://cactus-landing/credentials/.shopify-env ./integrations/shopify/
+gsutil cp gs://cactus-landing/credentials/.magento-env ./integrations/magento/
 ```
 
 It is recommendend to create a virtualenv and install package requirements in it
