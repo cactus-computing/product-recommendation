@@ -140,6 +140,8 @@ documents/*
 service_account_key.json
 .env
 /yaml/
+.shopify-env
+res.json
 
 # Other files
 eNno
