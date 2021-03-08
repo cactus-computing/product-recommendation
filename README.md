@@ -240,3 +240,22 @@ DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
 ```
 ¡You are done! You can now migrate your changes to the db.
+
+# Integrations
+
+Integrations are the set of scripts we use to connect to online stores such as Shopify or Magento. We will use them as scripts for the moment but eventually we'll automate them.
+
+## Requirements
+
+Aside from the package requirements, you need to download the API credentials for the integrations. You need to have installed the GC SDK.
+
+```
+gsutil cp gs://cactus-landing/credentials/.shopify-env ./integrations/shopify/
+```
+
+It is recommendend to create a virtualenv and install package requirements in it
+
+```
+source activate .venv
+pip install -r requirements.txt
+```
