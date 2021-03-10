@@ -31,7 +31,7 @@ productdata = {
       "linked_product_type": "simple",
       "position": 0,
       "extension_attributes": {
-        "qty": 0
+        "qty": 2
       }
     }
   ]
