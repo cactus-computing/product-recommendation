@@ -19,8 +19,8 @@ API_URL = 'https://magento23.reversso.dev/index.php/rest/V1/'
 
 client = None
 
-sku1 = "MS09"
-sku2 = "MS09-XS-Black"
+sku_principal = "MS09"
+sku_relacionado = "MS09-XS-Black"
 
 productdata = {
   "items": [
@@ -54,7 +54,6 @@ def setup():
     token = oauth.Token(key=TOKEN, secret=SECRET)
 
     client = oauth.Client(consumer, token)
-    pass
 
 
 def post_related_product():
