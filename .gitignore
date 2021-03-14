@@ -143,6 +143,7 @@ service_account_key.json
 .shopify-env
 .magento-env
 .woocommerce-env
+wc-keys.json
 res.json
 orders.json
 products.json
