@@ -25,7 +25,11 @@ wcapi = API(
 
 def get_orders(wcapi=wcapi):
     endpoint = "orders"
-    resp = wcapi.get(endpoint).json()
+    params = {
+        'per_page': 100,
+        'page': 1,
+    }
+    resp = wcapi.get(endpoint, params=params).json()
     filename = './integrations/woocommerce/orders.json'
     with open(filename, 'w+') as f:
         f.write(json.dumps(resp))
@@ -35,7 +39,11 @@ def get_orders(wcapi=wcapi):
 
 def get_products(wcapi=wcapi):
     endpoint = "products"
-    resp = wcapi.get(endpoint).json()
+    params = {
+        'per_page': 100,
+        'page': 1,
+    }
+    resp = wcapi.get(endpoint, params=params).json()
     filename = './integrations/woocommerce/products.json'
     with open(filename, 'w+') as f:
         f.write(json.dumps(resp))
