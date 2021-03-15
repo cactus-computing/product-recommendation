@@ -3,10 +3,10 @@ import oauth2 as oauth
 from woocommerce import API
 import sys
 from datetime import datetime
-from django.utils import timezone
 from storage import  upload_blob_to_default_bucket
 import os
 import logging
+
 
 with open('./integrations/woocommerce/wc-keys.json') as f:
   keys = json.load(f) 
@@ -26,17 +26,16 @@ wcapi = API(
     version="wc/v3"
 )
 
-def get_orders_prod(wcapi=wcapi):
+def get_orders_prod(wcapi=wcapi, endpoints=["orders", "products"]):
     logger.info("Getting orders and products")
-    endpoints = ["orders", "products"]
     for endpoint in endpoints:
         logger.info(f"Getting {endpoint}")
-        pages = []
-        for e in range(10000):
+        json_file = []
+        for e in range(100):
             params = {
                     'per_page': 100,
                     'page': e+1,
-                    #'status':['completed'],
+                    'status':['any'],
                     'order':'asc',
                 }
             if endpoint == "orders":
@@ -49,15 +48,10 @@ def get_orders_prod(wcapi=wcapi):
             if resp == []:
                 break
             else:
-                for page in resp:
-                    pages.append(page)
-        filename = f'./integrations/woocommerce/{endpoint}.json'
-        with open(filename, 'w+') as f:
-            f.write(json.dumps(pages))
+                for item in resp:
+                    json_file.append(item)
         blob_name = f"{COMPANY}/{endpoint}_{DATE}.json"
-        logger.info(f"File {blob_name} saved in GCS")
-        upload_blob_to_default_bucket(filename,blob_name)
-        #os.remove(filename)
+        upload_blob_to_default_bucket(json_file,blob_name)
 
 def upload_upsell(wcapi=wcapi):
 

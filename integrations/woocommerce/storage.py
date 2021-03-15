@@ -7,6 +7,8 @@ from django.utils import timezone
 import os
 from collections import defaultdict
 from io import StringIO
+import json
+
 # Instantiates a client
 KEY_PATH = "cactusco/service_account_key.json"
 BUCKET_NAME = "cactus_recommender"
@@ -19,7 +21,7 @@ credentials = service_account.Credentials.from_service_account_file(
 logger = logging.Logger(__name__)
 
 
-def upload_blob_to_default_bucket(filename, destination_blob_name):
+def upload_blob_to_default_bucket(json_file, destination_blob_name):
     """Uploads a file to the bucket.
     Parameters:
         - source_file: a file object containing the file which you need to upload.
@@ -31,9 +33,10 @@ def upload_blob_to_default_bucket(filename, destination_blob_name):
     client = storage.Client(credentials=credentials, project=credentials.project_id,)
     bucket = client.bucket(BUCKET_NAME)
     blob = bucket.blob(destination_blob_name)
-    with open(filename, 'rb') as f:
-        blob.upload_from_file(f)
-
+    blob.upload_from_string(
+        data=json.dumps(json_file),
+        content_type='application/json'
+        )
     gcs_path = f"gs://{BUCKET_NAME}/{blob.name}"
     logger.info(
         "Dataframe uploaded to GCS: {}.".format( destination_blob_name )
