@@ -6,9 +6,12 @@ from datetime import datetime
 from django.utils import timezone
 from storage import  upload_blob_to_default_bucket
 import os
+import logging
 
 with open('./integrations/woocommerce/wc-keys.json') as f:
   keys = json.load(f) 
+
+logger = logging.Logger(__name__)
 
 COMPANY = sys.argv[1]
 METHOD = sys.argv[2]
@@ -24,22 +27,24 @@ wcapi = API(
 )
 
 def get_orders_prod(wcapi=wcapi):
+    logger.info("Getting orders and products")
     endpoints = ["orders", "products"]
     for endpoint in endpoints:
+        logger.info(f"Getting {endpoint}")
         pages = []
         for e in range(10000):
-            if endpoint == "orders"
-                params = {
+            params = {
                     'per_page': 100,
                     'page': e+1,
-                    #'after':, #Limit response to resources published after a given ISO8601 compliant date.
+                    #'status':['completed'],
+                    'order':'asc',
                 }
+            if endpoint == "orders":
+                pass
+                #params['after'] = "" #Limit response to resources published after a given ISO8601 compliant date.
             else:
-                params = {
-                    'per_page': 100,
-                    'page': e+1,
-                    #'exclude':, #Ensure result set excludes specific IDs.
-                }
+                pass
+                #params['exclude'] = "" #Ensure result set excludes specific IDs.
             resp = wcapi.get(endpoint, params=params).json()
             if resp == []:
                 break
@@ -50,6 +55,7 @@ def get_orders_prod(wcapi=wcapi):
         with open(filename, 'w+') as f:
             f.write(json.dumps(pages))
         blob_name = f"{COMPANY}/{endpoint}_{DATE}.json"
+        logger.info(f"File {blob_name} saved in GCS")
         upload_blob_to_default_bucket(filename,blob_name)
         #os.remove(filename)
 
