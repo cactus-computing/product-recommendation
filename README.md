@@ -252,6 +252,7 @@ Aside from the package requirements, you need to download the API credentials fo
 ```
 gsutil cp gs://cactus-landing/credentials/.shopify-env ./integrations/shopify/
 gsutil cp gs://cactus-landing/credentials/.magento-env ./integrations/magento/
+gsutil cp gs://cactus-landing/credentials/wc-keys.json ./integrations/woocommerce/
 ```
 
 It is recommendend to create a virtualenv and install package requirements in it
@@ -259,4 +260,16 @@ It is recommendend to create a virtualenv and install package requirements in it
 ```
 source activate .venv
 pip install -r requirements.txt
+```
+
+## WooCommerce script run
+
+Getting orders and products:
+```
+docker-compose run web /usr/local/bin/python ./integrations/woocommerce/wc.py <company name> get_data
+```
+
+Uploading related products to WooCommerce
+```
+docker-compose run web /usr/local/bin/python ./integrations/woocommerce/wc.py <company name> post_data
 ```

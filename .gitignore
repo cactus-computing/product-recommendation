@@ -141,8 +141,12 @@ service_account_key.json
 .env
 /yaml/
 .shopify-env
-res.json
 .magento-env
+.woocommerce-env
+wc-keys.json
+res.json
+orders.json
+products.json
 
 # Other files
 eNno
