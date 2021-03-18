@@ -13,4 +13,4 @@ gunicorn==20.0.4
 whitenoise==5.2.0
 python-dotenv==0.15.0
 oauth2.3==1.5.211
-WooCommerce==2.1.1
+WooCommerce==3.0.0

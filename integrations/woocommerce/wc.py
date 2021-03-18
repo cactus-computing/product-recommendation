@@ -25,7 +25,8 @@ wcapi = API(
     url=API_URL,
     consumer_key=CONSUMER_KEY,
     consumer_secret=CONSUMER_SECRET,
-    version="wc/v3"
+    version="wc/v3",
+    query_string_auth=True
 )
 
 def get_orders_prod(wcapi=wcapi, endpoints=["orders", "products"]):
@@ -33,7 +34,7 @@ def get_orders_prod(wcapi=wcapi, endpoints=["orders", "products"]):
     for endpoint in endpoints:
         logger.info(f"Getting {endpoint}")
         json_file = []
-        for e in range(100):
+        for e in range(1000):
             print(e)
             params = {
                     'per_page': 50,
@@ -48,6 +49,7 @@ def get_orders_prod(wcapi=wcapi, endpoints=["orders", "products"]):
                 pass
                 #params['exclude'] = "" #Ensure result set excludes specific IDs.
             resp = wcapi.get(endpoint, params=params).json()
+            print(resp)
             logger.info(resp)
             if resp == []:
                 break
