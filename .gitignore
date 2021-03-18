@@ -147,7 +147,8 @@ wc-keys.json
 res.json
 orders.json
 products.json
-
+*.json
+*.csv
 # Other files
 eNno
 .vscode

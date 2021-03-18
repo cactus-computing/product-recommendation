@@ -6,12 +6,14 @@ from datetime import datetime
 from storage import  upload_blob_to_default_bucket
 import os
 import logging
-
+import time
 
 with open('./integrations/woocommerce/wc-keys.json') as f:
   keys = json.load(f) 
-
+  
+logging.basicConfig(filename='./integrations/woocommerce/app.log', filemode='w')
 logger = logging.Logger(__name__)
+
 
 COMPANY = sys.argv[1]
 METHOD = sys.argv[2]
@@ -32,8 +34,9 @@ def get_orders_prod(wcapi=wcapi, endpoints=["orders", "products"]):
         logger.info(f"Getting {endpoint}")
         json_file = []
         for e in range(100):
+            print(e)
             params = {
-                    'per_page': 100,
+                    'per_page': 50,
                     'page': e+1,
                     'status':['any'],
                     'order':'asc',
@@ -45,25 +48,36 @@ def get_orders_prod(wcapi=wcapi, endpoints=["orders", "products"]):
                 pass
                 #params['exclude'] = "" #Ensure result set excludes specific IDs.
             resp = wcapi.get(endpoint, params=params).json()
+            logger.info(resp)
             if resp == []:
                 break
             else:
                 for item in resp:
                     json_file.append(item)
+            time.sleep(1)
         blob_name = f"{COMPANY}/{endpoint}_{DATE}.json"
         upload_blob_to_default_bucket(json_file,blob_name)
 
 def upload_upsell(wcapi=wcapi):
-
-    id_producto = "14"
-    up_sell = ["18"]
-    coss_sell = ["12"]
-    data = {
-        "upsell_ids": up_sell,
-        "cross_sell_ids": coss_sell
-    }
-    
-    print(wcapi.put(f"products/{id_producto}", data).json())
+    with open(F'./integrations/woocommerce/{COMPANY}/makerschile_cross_selling_run_20210317.json', 'r+') as f:
+        cross_sell = json.load(f)
+    with open(F'./integrations/woocommerce/{COMPANY}/makerschile_cross_selling_run_20210317.json', 'r+') as f:
+        up_sell = json.load(f)
+    for item in cross_sell['data']:
+        id_product = item['ORIGINAL_PRODUCT_CODE']
+        cosssell = []
+        for related_item in item['RECOMMENDATIONS']:
+            coss_sell.append(related_item['RECOMMENDED_PRODUCT_ID'])
+        upsell = []
+        for item in up_sell['data']:
+            if item['ORIGINAL_PRODUCT_CODE'] == id_product:
+                for upsell_item in item['RECOMMENDATIONS']:
+                    upsell.append(upsell_item['RECOMMENDED_PRODUCT_ID'])
+        data = {
+        "upsell_ids": upsell,
+        "cross_sell_ids": cosssell
+        }
+        print(wcapi.put(f"products/{id_product}", data).json())
 
 
 if __name__ == "__main__":
@@ -71,3 +85,5 @@ if __name__ == "__main__":
         get_orders_prod()
     elif METHOD == "post_data":
         upload_upsell()
+
+    
