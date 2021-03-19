@@ -14,3 +14,5 @@ whitenoise==5.2.0
 python-dotenv==0.15.0
 oauth2.3==1.5.211
 WooCommerce==2.1.1
+glob2==0.7
+tqdm==4.59.0
