@@ -273,3 +273,14 @@ Uploading related products to WooCommerce
 ```
 docker-compose run web /usr/local/bin/python ./integrations/woocommerce/wc.py <company name> post_data
 ```
+
+
+### API Documentation
+
+The API exposes the cross selling products for a given `product_id` and `company` name. 
+
+To test this, you must upload test data to the database.
+
+```
+http://localhost:8000/api/cross_selling?sku=807&company=makerschile
+```

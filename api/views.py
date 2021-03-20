@@ -25,8 +25,9 @@ def cross_selling(request):
     General testing
     '''
     sku = request.query_params["sku"]
-    predictions = ModelPredictions.objects.filter(product_id_id=sku)[:10]
-    original_product = ProductAttributes.objects.get(product_id=sku)
+    company = request.query_params["company"]
+    predictions = ModelPredictions.objects.filter(product_id_id=sku, company=company)[:10]
+    original_product = ProductAttributes.objects.get(product_id=sku, company=company)
     product_ids = list(product.recommended_id_id for product in predictions)
     predicted_products = ProductAttributes.objects.filter(product_id__in=product_ids)
     serializer = ProductAttributesSerializer(predicted_products, many=True)
