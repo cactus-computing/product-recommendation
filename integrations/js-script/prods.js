@@ -3,6 +3,7 @@ document.body.onload = addCactusRecommendation;
 function addCactusRecommendation () {
     /* Create Div and add content */
     var recommenderSection = document.createElement("div");
+    recommenderSection.className = "up-sells-carrousel";
     var mainDiv = document.getElementById("main");
     products = [];
     var recommederSection = null
@@ -24,7 +25,7 @@ function addCactusRecommendation () {
             productDiv.appendChild(productImage);
 
             var productPrice = document.createElement("span");
-            productPrice.innerText = prod['price']
+            productPrice.innerText = "$ " + prod['price']
             productDiv.appendChild(productPrice);
 
             recommenderSection.appendChild(productDiv)

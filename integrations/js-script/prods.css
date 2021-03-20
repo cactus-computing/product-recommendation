@@ -1,0 +1,10 @@
+
+h2, span{
+    color: #000000;
+    font-family: "Montserrat", Sans-serif;
+  }
+
+.up-sells-carrousel {
+    display: flex;
+}
+
