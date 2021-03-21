@@ -147,8 +147,15 @@ wc-keys.json
 res.json
 orders.json
 products.json
+API_metadata.json
+clientes.json
 *.json
 *.csv
+./integrations/woocommerce/quema/*.json
+./integrations/woocommerce/makerschile/*.json
+./integrations/woocommerce/cactus/*.json
+./integrations/woocommerces/test_cactus/*.json
+./integrations/shopify/*.json
 # Other files
 eNno
 .vscode
