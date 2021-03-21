@@ -3,7 +3,7 @@ document.body.onload = addCactusRecommendation;
 function addCactusRecommendation () {
     /* Create Div and add content */
     var recommenderSection = document.createElement("div");
-    recommenderSection.className = "up-sells-carrousel";
+    recommenderSection.className = "cross-sells-carrousel";
     var mainDiv = document.getElementById("main");
     products = [];
     var recommederSection = null
@@ -15,18 +15,22 @@ function addCactusRecommendation () {
         data["data"].forEach( (prod) => {
             var productDiv = document.createElement("div");
             productDiv.id = prod['sku']
+            productDiv.className = "cross-sells-product";
 
             var productTitle = document.createElement("h2");
             productTitle.innerText = prod['name']
             productDiv.appendChild(productTitle);
+            productTitle.className = "product-name";
 
             var productImage = document.createElement("img");
             productImage.src = prod['href']
             productDiv.appendChild(productImage);
+            productImage.className = "product-image";
 
             var productPrice = document.createElement("span");
             productPrice.innerText = "$ " + prod['price']
             productDiv.appendChild(productPrice);
+            productPrice.className = "product-price";
 
             recommenderSection.appendChild(productDiv)
         });
