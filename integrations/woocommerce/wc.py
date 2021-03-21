@@ -59,6 +59,7 @@ def get_orders_prod(wcapi=wcapi, endpoints=["orders", "products"]):
                 pass
                 #params['exclude'] = "" #Ensure result set excludes specific IDs.
             resp = wcapi.get(endpoint, params=params).json()
+            print(resp)
             logger.info(resp)
             if resp == []:
                 break
