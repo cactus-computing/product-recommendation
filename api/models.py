@@ -13,6 +13,9 @@ class ProductAttributes(models.Model):
     sku = models.CharField(max_length=2000, default=None)
     name = models.CharField(max_length=2000)
     href = models.CharField(max_length=2000, default=None)
+    permalink = models.CharField(max_length=2000)
+    status = models.CharField(max_length=500)
+    stock_quanity = models.FloatField(null=True, default=None)
     company = models.CharField(max_length=500)
 
     def __str__(self):
