@@ -1,3 +1,4 @@
+
 # MVP_inventory
 
 ## Runnig Dev Envirnoment
@@ -303,6 +304,7 @@ cookie_related_product_amount_purchased.js
 
 2. Crea una cookie con el monto total de productos relacionados, esa cookie es luego leida por una variable de GTM y enviada a Google Analytics (GA).
 Obs: Para cada eCommerce hay que cambiar como se leen los productos comprados
+
 ### Resumen Proceso:
 
 1. Se crea una cookie por cada producto relacionado en el que el cliente hace click
@@ -314,3 +316,11 @@ Obs: Para cada eCommerce hay que cambiar como se leen los productos comprados
     5. Se envía un evento a GTM con el valor de la variable (monto total comprado de productos relacionados)
     6. Se elimina la cookie del monto total
 
+### API Documentation
+
+The API exposes the cross selling products for a given `product_id` and `company` name. 
+
+To test this, you must upload test data to the database.
+
+```
+http://localhost:8000/api/cross_selling?sku=807&company=makerschile

@@ -56,7 +56,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_rename_app',
     'rest_framework',
-    'models',
+    'api',
     'corsheaders'
 ]
 
