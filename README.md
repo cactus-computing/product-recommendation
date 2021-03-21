@@ -273,3 +273,22 @@ Uploading related products to WooCommerce
 ```
 docker-compose run web /usr/local/bin/python ./integrations/woocommerce/wc.py <company name> post_data
 ```
+
+## Uploading user product to ecommerce.cactusco.cl
+
+Delete all products
+```
+docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_product_test.py <company name> delete_prod
+```
+Create all products
+```
+docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_product_test.py <company name> delete_prod
+```
+Download products from ecommerce.cactusco.cl
+```
+docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_product_test.py <company name> delete_prod
+```
+Upload related products to ecommerce.cactusco.cl
+```
+docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_product_test.py <company name> delete_prod
+```

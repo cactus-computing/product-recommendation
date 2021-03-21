@@ -68,7 +68,8 @@ def create_prod(wcapi=wcapi):
         up_prod = {
             'create':new_prod
         }
-        logger.info(wcapi.post("products/batch", up_prod).json())
+        resp = wcapi.post("products/batch", up_prod).json()
+        logger.info(resp)
         new_prod = []
         time.sleep(1)
 
@@ -89,37 +90,38 @@ def upload_related_prod(wcapi=wcapi):
     with open(f'{UP_SELL}', 'r+') as f:
         logger.info(f'{UP_SELL}')
         upsell = json.load(f)    
-    logger.info(f'Uploading {len(cross["data"])} new products')
-    logger.info(cross['data'])
-    for e, item in enumerate(tqdm(cross['data'])):
+    logger.info(f'Uploading {len(upsell["data"])} new products')
+    for e, item in enumerate(tqdm(upsell['data'])):
+        logger.info(item)
         try:
             id_product = skus2id[str(item['ORIGINAL_PRODUCT_CODE'])]
             logger.info(f"original id: {item['ORIGINAL_PRODUCT_CODE']}, cactus id: {skus2id[str(item['ORIGINAL_PRODUCT_CODE'])]}")
-        except:
-            logger.info(f"{item['ORIGINAL_PRODUCT_CODE']} sku not maped")
+        except KeyError as e:
+            logger.error(f"{item['ORIGINAL_PRODUCT_CODE']} sku not maped")
             id_product = None
             continue
         cross_sell = []
         up_sell = []
-        for related_item in item['RECOMMENDATIONS']:
+        for upsell_ids in item['RECOMMENDATIONS']:
             try:
-                cross_sell.append(skus2id[str(related_item['RECOMMENDED_PRODUCT_ID'])])
-            except:
-                logger.info(f"{related_item['RECOMMENDED_PRODUCT_ID']} related id not maped")
-        for upsell_ids in upsell['data']:
-            if upsell_ids['ORIGINAL_PRODUCT_CODE'] == item['ORIGINAL_PRODUCT_CODE']:
-                for upsell_item in upsell_ids['RECOMMENDATIONS']:
+                up_sell.append(skus2id[str(upsell_ids['RECOMMENDED_PRODUCT_ID'])])
+            except KeyError as e:
+                logger.error(f"{upsell_ids['RECOMMENDED_PRODUCT_ID']} related id not maped")
+        for cross_ids in cross['data']:
+            if cross_ids['ORIGINAL_PRODUCT_CODE'] == item['ORIGINAL_PRODUCT_CODE']:
+                for cross_item in cross_ids['RECOMMENDATIONS']:
                     try:
-                        logger.info(skus2id[str(upsell_item['RECOMMENDED_PRODUCT_ID'])])
-                        up_sell.append(skus2id[str(upsell_item['RECOMMENDED_PRODUCT_ID'])])
-                    except:
-                        logger.info(f"{related_item['RECOMMENDED_PRODUCT_ID']} related id not maped")
+                        cross_sell.append(skus2id[str(cross_item['RECOMMENDED_PRODUCT_ID'])])
+                    except KeyError as e:
+                        logger.error(f"{cross_item['RECOMMENDED_PRODUCT_ID']} related id not maped")
         data = {
-        "upsell_ids": up_sell,
-        "cross_sell_ids": cross_sell
+            "upsell_ids": up_sell,
+            "cross_sell_ids": cross_sell
         }
         if id_product is not None:
+            logger.info(f'Cactus id: {id_product}, up_sell: {up_sell}, cross_sell: {cross_sell}')
             resp = wcapi.put(f"products/{id_product}", data).json()
+            logger.info(resp)
             with open(f'./integrations/woocommerce/{COMPANY}/response.json', 'a+') as f:
                 json.dump(resp, f)
         else:

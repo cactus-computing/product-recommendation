@@ -92,8 +92,8 @@ def upload_upsell(wcapi=wcapi):
                 for upsell_item in item['RECOMMENDATIONS']:
                     upsell.append(upsell_item['RECOMMENDED_PRODUCT_ID'])
         data = {
-        "upsell_ids": upsell,
-        "cross_sell_ids": cosssell
+            "upsell_ids": upsell,
+            "cross_sell_ids": cosssell
         }
         logger.info(wcapi.put(f"products/{id_product}", data).json())
 
