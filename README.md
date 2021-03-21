@@ -274,6 +274,26 @@ Uploading related products to WooCommerce
 docker-compose run web /usr/local/bin/python ./integrations/woocommerce/wc.py <company name> post_data
 ```
 
+
+## Uploading user product to ecommerce.cactusco.cl
+
+Delete all products
+```
+docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_product_test.py <company name> delete_prod
+```
+Create all products
+```
+docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_product_test.py <company name> delete_prod
+```
+Download products from ecommerce.cactusco.cl
+```
+docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_product_test.py <company name> delete_prod
+```
+Upload related products to ecommerce.cactusco.cl
+```
+docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_product_test.py <company name> delete_prod
+```
+
 ## Google Tag Manager (GTM)
 cookie_related_product_clicked.js crea una cookie cada vez que un usuario hace click en una sección de productos relacionados de Prat, esa cookie dura 5 días.
 Obs: para cada eCommerce hay que cambiar la clase CSS de sección de productos relacionados hasta que tengamos nuestro script de front de carrousel de productos relacionados
@@ -293,3 +313,4 @@ Obs: Para cada eCommerce hay que cambiar como se leen los productos comprados
     4. Se lee esa cookie desde una variable en GTM
     5. Se envía un evento a GTM con el valor de la variable (monto total comprado de productos relacionados)
     6. Se elimina la cookie del monto total
+
