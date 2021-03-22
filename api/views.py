@@ -24,8 +24,8 @@ def cross_selling(request):
     if request.method == "GET":
         sku = request.query_params["sku"]
         company = request.query_params["company"]
-        predictions = CrossSellPredictions.objects.filter(product_id_id=sku, company=company)[:10]
-        original_product = ProductAttributes.objects.get(product_id=sku, company=company)
+        original_product = ProductAttributes.objects.get(sku=sku, company=company)
+        predictions = CrossSellPredictions.objects.filter(product_id_id=original_product.product_id, company=company)[:10]
         product_ids = list(product.recommended_id_id for product in predictions)
         predicted_products = ProductAttributes.objects.filter(product_id__in=product_ids)
         serializer = ProductAttributesSerializer(predicted_products, many=True)
@@ -41,11 +41,12 @@ def up_selling(request):
     '''
     Given a sku and company get up_sell skus
     '''
+
     if request.method == "GET":
         sku = request.query_params["sku"]
         company = request.query_params["company"]
-        predictions = UpSellPredictions.objects.filter(product_id_id=sku, company=company)[:10]
-        original_product = ProductAttributes.objects.get(product_id=sku, company=company)
+        original_product = ProductAttributes.objects.get(sku=sku, company=company)
+        predictions = UpSellPredictions.objects.filter(product_id_id=original_product.product_id, company=company)[:4]
         product_ids = list(product.recommended_id_id for product in predictions)
         predicted_products = ProductAttributes.objects.filter(product_id__in=product_ids)
         serializer = ProductAttributesSerializer(predicted_products, many=True)
