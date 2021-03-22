@@ -225,6 +225,16 @@ Creating an admin user
 docker-compose run web /usr/local/bin/python manage.py createsuperuser
 ```
 
+To re-create a table, follow the following commands
+
+1.  Delete table and migration files
+2. Run
+```
+docker-compose run web /usr/local/bin/python manage.py makemigrations
+docker-compose run web /usr/local/bin/python manage.py migrate --fake <app_name> zero
+docker-compose run web /usr/local/bin/python manage.py migrate <app_name>
+```
+ 
 ### How to drop all public tables on DB. 
 This is necesary when making structural changes to the database, which should be avoided. If you must do such structural changes, please discuss the changes with the team beforehand.
 First, ssh postgres container

@@ -14,11 +14,11 @@ class ProductAttributes(models.Model):
     product_id = models.IntegerField(unique=True)
     sku = models.CharField(max_length=2000, default=None)
     name = models.CharField(max_length=2000)
-    price = models.FloatField()
+    price = models.FloatField(null=True, blank=True)
     href = models.CharField(max_length=2000, default=None)
     permalink = models.CharField(max_length=2000)
     status = models.CharField(max_length=500)
-    stock_quanity = models.FloatField(null=True, default=None)
+    stock_quantity = models.FloatField(null=True, blank=True, default=None)
     company = models.CharField(max_length=500)
 
     def __str__(self):
