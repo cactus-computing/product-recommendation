@@ -324,3 +324,5 @@ To test this, you must upload test data to the database.
 
 ```
 http://localhost:8000/api/cross_selling?sku=807&company=makerschile
+
+http://localhost:8000/api/up_selling?sku=807&company=makerschile
