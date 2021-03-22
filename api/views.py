@@ -46,7 +46,7 @@ def up_selling(request):
         sku = request.query_params["sku"]
         company = request.query_params["company"]
         original_product = ProductAttributes.objects.get(sku=sku, company=company)
-        predictions = ModelPredictions.objects.filter(product_id_id=original_product.product_id, company=company)[:4]
+        predictions = UpSellPredictions.objects.filter(product_id_id=original_product.product_id, company=company)[:4]
         product_ids = list(product.recommended_id_id for product in predictions)
         predicted_products = ProductAttributes.objects.filter(product_id__in=product_ids)
         serializer = ProductAttributesSerializer(predicted_products, many=True)
