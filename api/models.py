@@ -14,7 +14,7 @@ class ProductAttributes(models.Model):
     product_id = models.IntegerField(unique=True)
     sku = models.CharField(max_length=2000, default=None)
     name = models.CharField(max_length=2000)
-    price = models.FloatField(max_length=2000)
+    price = models.FloatField()
     href = models.CharField(max_length=2000, default=None)
     permalink = models.CharField(max_length=2000)
     status = models.CharField(max_length=500)
