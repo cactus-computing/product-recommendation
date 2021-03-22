@@ -4,7 +4,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import CrossSellPredictions, UpSellPredictions, ProductAttributes
-from .serializers import CrossSellPredictionsSerializer, UpSellPredictionsSerializer
+from .serializers import CrossSellPredictionsSerializer, UpSellPredictionsSerializer, ProductAttributesSerializer
 
 @api_view(['GET', 'POST'])
 def testing_api(request):
