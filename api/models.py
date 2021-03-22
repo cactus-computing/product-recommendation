@@ -24,13 +24,13 @@ class ProductAttributes(models.Model):
         return self.name
 
 
-class ModelPredictions(models.Model):
+class CrossSellPredictions(models.Model):
     '''
     Cross selling output. A relation of every product and the distance to every other product.
     '''
     
     product_id = models.ForeignKey(ProductAttributes, to_field="product_id", on_delete=models.CASCADE)
-    recommended_id = models.ForeignKey(ProductAttributes, to_field="product_id", related_name="recommended_id", on_delete=models.CASCADE)
+    recommended_id = models.ForeignKey(ProductAttributes, to_field="product_id", related_name="cross_sell_id", on_delete=models.CASCADE)
     distance = models.FloatField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -39,5 +39,19 @@ class ModelPredictions(models.Model):
     def __str__(self):
         return self.company
 
+class UpSellPredictions(models.Model):
+    '''
+    Up selling output. A relation of every product and the distance to every other product.
+    '''
+    
+    product_id = models.ForeignKey(ProductAttributes, to_field="product_id", on_delete=models.CASCADE)
+    recommended_id = models.ForeignKey(ProductAttributes, to_field="product_id", related_name="up_sell_id", on_delete=models.CASCADE)
+    distance = models.FloatField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    company = models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.company
 
 
