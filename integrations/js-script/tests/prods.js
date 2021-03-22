@@ -1,13 +1,15 @@
-document.body.onload = addCactusRecommendation;
+window.onload = addCactusRecommendation;
 
 function addCactusRecommendation () {
     /* Create Div and add content */
     var recommenderSection = document.createElement("div");
-    var mainDiv = document.getElementById("main");
+    var mainDiv = document.getElementById("elementor-inner");
     products = [];
     var recommederSection = null
+    var productSKU = document.getElementsByClassName("sku")[0].innerText
+    console.log(productSKU)
     // fetch data from API
-    fetch("http://localhost:8000/api/cross_selling?sku=6727&company=quema").then( (res) => {
+    fetch("http://localhost:8000/api/cross_selling?sku=" + productSKU+ "&company=quema").then( (res) => {
         return res.json();
     }).then( (data) => {
         console.log(data["data"][0])
