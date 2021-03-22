@@ -6,12 +6,6 @@ from rest_framework.response import Response
 from .models import CrossSellPredictions, UpSellPredictions, ProductAttributes
 from .serializers import CrossSellPredictionsSerializer, UpSellPredictionsSerializer
 
-def get_top_crosssell_predictions_for(porduct_id, k=5):
-    return CrossSellPredictions.objects.filter(porduct_id=product_id)[:k]
-
-def get_top_upssell_predictions_for(porduct_id, k=5):
-    return UpSellPredictions.objects.filter(porduct_id=product_id)[:k]
-
 @api_view(['GET', 'POST'])
 def testing_api(request):
     '''
@@ -25,16 +19,16 @@ def testing_api(request):
 @api_view(['GET', 'POST'])
 def cross_selling(request):
     '''
-    General testing
+    Given a sku and company get cross_sell skus
     '''
-    sku = request.query_params["sku"]
-    company = request.query_params["company"]
-    predictions = CrossSellPredictions.objects.filter(product_id_id=sku, company=company)[:10]
-    original_product = ProductAttributes.objects.get(product_id=sku, company=company)
-    product_ids = list(product.recommended_id_id for product in predictions)
-    predicted_products = ProductAttributes.objects.filter(product_id__in=product_ids)
-    serializer = ProductAttributesSerializer(predicted_products, many=True)
     if request.method == "GET":
+        sku = request.query_params["sku"]
+        company = request.query_params["company"]
+        predictions = CrossSellPredictions.objects.filter(product_id_id=sku, company=company)[:10]
+        original_product = ProductAttributes.objects.get(product_id=sku, company=company)
+        product_ids = list(product.recommended_id_id for product in predictions)
+        predicted_products = ProductAttributes.objects.filter(product_id__in=product_ids)
+        serializer = ProductAttributesSerializer(predicted_products, many=True)
         return Response({
             "message": f"Sending top 10 cross_sell predictions",
             "original_id": sku,
@@ -45,16 +39,16 @@ def cross_selling(request):
 @api_view(['GET', 'POST'])
 def up_selling(request):
     '''
-    General testing
+    Given a sku and company get up_sell skus
     '''
-    sku = request.query_params["sku"]
-    company = request.query_params["company"]
-    predictions = UpSellPredictions.objects.filter(product_id_id=sku, company=company)[:10]
-    original_product = ProductAttributes.objects.get(product_id=sku, company=company)
-    product_ids = list(product.recommended_id_id for product in predictions)
-    predicted_products = ProductAttributes.objects.filter(product_id__in=product_ids)
-    serializer = ProductAttributesSerializer(predicted_products, many=True)
     if request.method == "GET":
+        sku = request.query_params["sku"]
+        company = request.query_params["company"]
+        predictions = UpSellPredictions.objects.filter(product_id_id=sku, company=company)[:10]
+        original_product = ProductAttributes.objects.get(product_id=sku, company=company)
+        product_ids = list(product.recommended_id_id for product in predictions)
+        predicted_products = ProductAttributes.objects.filter(product_id__in=product_ids)
+        serializer = ProductAttributesSerializer(predicted_products, many=True)
         return Response({
             "message": f"Sending top 10 up_sell predictions",
             "original_id": sku,
