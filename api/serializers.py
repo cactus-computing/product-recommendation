@@ -1,12 +1,16 @@
 from rest_framework import serializers
-from .models import ModelPredictions, ProductAttributes
+from .models import CrossSellPredictions, UpSellPredictions, ProductAttributes
 
 
-class ModelPredictionsSerializer(serializers.ModelSerializer):
+class CrossSellPredictionsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ModelPredictions
+        model = CrossSellPredictions
         fields = "__all__"
 
+class UpSellPredictionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UpSellPredictions
+        fields = "__all__"
 
 class ProductAttributesSerializer(serializers.ModelSerializer):
     class Meta:
