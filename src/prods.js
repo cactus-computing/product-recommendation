@@ -8,7 +8,7 @@ function addCactusRecommendation () {
     products = [];
     var recommederSection = null
     // fetch data from API
-    fetch("http://localhost:8000/models/test").then( (res) => {
+    fetch("http://localhost:8000/api/cross_selling?sku=6727&company=quema").then( (res) => {
         return res.json();
     }).then( (data) => {
         console.log(data["data"][0])
