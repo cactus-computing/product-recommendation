@@ -8,6 +8,15 @@ var formatter = new Intl.NumberFormat('es-CL', {
 function addCactusRecommendation () {
     /* Create Div and add content */
     var recommenderSection = document.createElement("div");
+    var link = document.createElement("link");
+    var head = document.head;
+    
+    link.type = "text/css";
+    link.rel = "stylesheet"
+    link.href = "quema.css";
+
+    head.appendChild(link);
+
     recommenderSection.className = "cross-sells-carrousel";
     var targetDiv = document.querySelector("#main .elementor-inner");
     //var targetDiv = document.querySelector("#main .elementor-inner .elementor-section-wrap");
@@ -26,8 +35,11 @@ function addCactusRecommendation () {
 
     var productSKU = document.getElementsByClassName("sku")[0].innerText
     console.log(productSKU)
+
+    var host = "https://dev.cactusco.cl";
+    var localhost = "http://localhost:8000";
     // fetch data from API
-    fetch("https://dev.cactusco.cl/api/cross_selling?sku=" + productSKU+ "&company=quema&top-k=4").then( (res) => {
+    fetch(host + "/api/cross_selling?sku=" + productSKU+ "&company=quema&top-k=5").then( (res) => {
         return res.json();
     }).then( (data) => {
         console.log(data["data"][0])
