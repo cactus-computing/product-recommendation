@@ -159,3 +159,6 @@ clientes.json
 # Other files
 eNno
 .vscode
+
+static/django_extensions
+static/rest_framework
