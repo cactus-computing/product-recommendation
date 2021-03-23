@@ -32,6 +32,7 @@ def cross_selling(request):
         
         product_ids = list(product.recommended_code_id for product in predictions)
         predicted_products = ProductAttributes.objects.exclude(price__isnull=True).filter(id__in=product_ids)[:top_k]
+
         serializer = ProductAttributesSerializer(predicted_products, many=True)
 
         return Response({
@@ -59,6 +60,7 @@ def up_selling(request):
         
         product_ids = list(product.recommended_code_id for product in predictions)
         predicted_products = ProductAttributes.objects.exclude(price__isnull=True).filter(id__in=product_ids)[:top_k]
+
         serializer = ProductAttributesSerializer(predicted_products, many=True)
 
         return Response({
