@@ -11,7 +11,7 @@ class ProductAttributes(models.Model):
     '''
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    product_id = models.IntegerField(unique=True)
+    product_code = models.IntegerField(unique=False)
     sku = models.CharField(max_length=2000, default=None)
     name = models.CharField(max_length=2000)
     price = models.FloatField(null=True, blank=True)
@@ -30,8 +30,8 @@ class CrossSellPredictions(models.Model):
     Cross selling output. A relation of every product and the distance to every other product.
     '''
     
-    product_id = models.ForeignKey(ProductAttributes, to_field="product_id", on_delete=models.CASCADE)
-    recommended_id = models.ForeignKey(ProductAttributes, to_field="product_id", related_name="cross_sell_id", on_delete=models.CASCADE)
+    product_code = models.ForeignKey(ProductAttributes, to_field="id", on_delete=models.CASCADE)
+    recommended_code = models.ForeignKey(ProductAttributes, to_field="id", related_name="cross_sell_id", on_delete=models.CASCADE)
     distance = models.FloatField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -45,8 +45,8 @@ class UpSellPredictions(models.Model):
     Up selling output. A relation of every product and the distance to every other product.
     '''
     
-    product_id = models.ForeignKey(ProductAttributes, to_field="product_id", on_delete=models.CASCADE)
-    recommended_id = models.ForeignKey(ProductAttributes, to_field="product_id", related_name="up_sell_id", on_delete=models.CASCADE)
+    product_code = models.ForeignKey(ProductAttributes, to_field="id", on_delete=models.CASCADE)
+    recommended_code = models.ForeignKey(ProductAttributes, to_field="id", related_name="up_sell_id", on_delete=models.CASCADE)
     distance = models.FloatField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
