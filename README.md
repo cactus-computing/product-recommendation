@@ -321,22 +321,20 @@ The API exposes the cross selling products for a given `product_id` and `company
 
 To test this, you must upload test data to the database.
 To test cross_selling
-
 ```
 http://localhost:8000/api/cross_selling?name=kit impresora 3d tarjeta controladora ramps 1.4 arduino mega&company=makerschile&top-k=4
-```
-```
 http://localhost:8000/api/cross_selling?name=PMG - Karma&company=quema&top-k=4
 ```
 
+
 To test up_selling
+
 
 ```
 http://localhost:8000/api/up_selling?name=kit impresora 3d tarjeta controladora ramps 1.4 arduino mega&company=makerschile&top-k=4
-```
-```
 http://localhost:8000/api/up_selling?name=PMG - Karma&company=quema&top-k=4
 ```
+
 
 ## Upload to DB
 ```
