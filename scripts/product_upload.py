@@ -19,13 +19,14 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 def run():
-    fhand = open('api/quema_quema_products.csv')
+    client = 'quema'
+    fhand = open(f'api/{client}_products.csv')
     product = csv.reader(fhand)
     next(product)  # Advance past the header
-    fhand = open('api/quema_quema_cross.csv')
+    fhand = open(f'api/{client}_cross.csv')
     cross_sell = csv.reader(fhand)
     next(cross_sell)  # Advance past the header
-    fhand = open('api/quema_quema_upselling.csv')
+    fhand = open(f'api/{client}_upselling.csv')
     up_sell = csv.reader(fhand)
     next(up_sell)  # Advance past the header
     for row in tqdm(product):
