@@ -225,16 +225,6 @@ Creating an admin user
 docker-compose run web /usr/local/bin/python manage.py createsuperuser
 ```
 
-To re-create a table, follow the following commands
-
-1.  Delete table and migration files
-2. Run
-```
-docker-compose run web /usr/local/bin/python manage.py makemigrations
-docker-compose run web /usr/local/bin/python manage.py migrate --fake <app_name> zero
-docker-compose run web /usr/local/bin/python manage.py migrate <app_name>
-```
- 
 ### How to drop all public tables on DB. 
 This is necesary when making structural changes to the database, which should be avoided. If you must do such structural changes, please discuss the changes with the team beforehand.
 First, ssh postgres container
@@ -294,15 +284,14 @@ docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_p
 ```
 Create all products
 ```
-docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_product_test.py <company name> delete_prod
-```
+``
 Download products from ecommerce.cactusco.cl
 ```
-docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_product_test.py <company name> delete_prod
+docker-compose run web /usr/local/bin/python ./integrations/woocommerce/wc.py cactus get_data
 ```
 Upload related products to ecommerce.cactusco.cl
 ```
-docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_product_test.py <company name> delete_prod
+docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_product_test.py <company name> related_prod
 ```
 
 ## Google Tag Manager (GTM)
@@ -331,8 +320,18 @@ Obs: Para cada eCommerce hay que cambiar como se leen los productos comprados
 The API exposes the cross selling products for a given `product_id` and `company` name. 
 
 To test this, you must upload test data to the database.
-
+To test cross_selling
 ```
-http://localhost:8000/api/cross_selling?sku=807&company=makerschile
+http://localhost:8000/api/cross_selling?sku=807&company=makerschile&top-k=4
+http://localhost:8000/api/cross_selling?sku=PMG-KARMA&company=quema&top-k=4
+```
+To test up_selling
+```
+http://localhost:8000/api/up_selling?sku=807&company=makerschile&top-k=4
+http://localhost:8000/api/up_selling?sku=PMG-KARMA&company=quema&top-k=4
+```
 
-http://localhost:8000/api/up_selling?sku=807&company=makerschile
+## Upload to DB
+```
+docker-compose run web /usr/local/bin/python manage.py runscript product_upload --script-args makerschile 
+```
