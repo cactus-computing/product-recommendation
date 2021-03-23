@@ -12,7 +12,7 @@ function addCactusRecommendation () {
     var head = document.head;
     
     link.type = "text/css";
-    link.rel = "stylesheet"
+    link.rel = "stylesheet";
     link.href = "https://dev.cactusco.cl/static/css/quema.css";
 
     head.appendChild(link);
@@ -39,11 +39,11 @@ function addCactusRecommendation () {
     var host = "https://dev.cactusco.cl";
     var localhost = "http://localhost:8000";
     // fetch data from API
-    fetch(host + "/api/cross_selling?sku=" + productSKU+ "&company=quema&top-k=5").then( (res) => {
+    fetch(host + "/api/cross_selling?sku=" + productSKU+ "&company=quema&top-k=5").then( function(res) {
         return res.json();
-    }).then( (data) => {
+    }).then( function(data) {
         console.log(data["data"][0])
-        data["data"].forEach( (prod) => {
+        data["data"].forEach( function(prod) {
             var productDiv = document.createElement("div");
             productDiv.id = prod['sku']
             productDiv.className = "cross-sells-product";
