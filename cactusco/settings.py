@@ -53,11 +53,13 @@ INSTALLED_APPS = [
     'stockapp',
     'landing',
     'user_panel',
+    'api',
+    ## installed apps ##
     'crispy_forms',
     'django_rename_app',
     'rest_framework',
-    'api',
-    'corsheaders'
+    'corsheaders',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
