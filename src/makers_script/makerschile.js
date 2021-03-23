@@ -1,6 +1,6 @@
 window.onload = addCactusRecommendation;
 var CODE_STATUS = 'local' // options: local, dev, prod
-var COMPANY = "quema";
+var COMPANY = "makerschile";
 
 var HOST_DICT = {
     local: "http://localhost:8000",
@@ -22,11 +22,12 @@ function addCactusRecommendation () {
     link.type = "text/css";
     link.rel = "stylesheet";
     link.href = HOST_DICT[CODE_STATUS] + "/static/css/" + COMPANY + ".css";
+    
 
     head.appendChild(link);
 
     recommenderSection.className = "cross-sells-carrousel";
-    var targetDiv = document.querySelector("#main .elementor-inner");
+    var targetDiv = document.querySelector("#content .ast-container #secondary");
     //var targetDiv = document.querySelector("#main .elementor-inner .elementor-section-wrap");
     products = [];
 
@@ -41,11 +42,9 @@ function addCactusRecommendation () {
     productsDiv.className = "section-products";
     recommenderSection.appendChild(productsDiv);
 
-    var productName = document.querySelector(".elementor-widget-container h1").innerText;
+    var productName = document.querySelector(".entry-title").innerText;
     console.log(productName)
 
-    var host = "https://cactusco.cl";
-    var localhost = "http://localhost:8000";
     // fetch data from API
     fetch(
         HOST_DICT[CODE_STATUS] + "/api/cross_selling?name=" + productName+ "&company="+COMPANY+"&top-k=5"

@@ -8,7 +8,7 @@
 .cross-sells-carrousel {
     display: flex;
     text-align: center;
-    font-family: "Montserrat", Sans-serif;
+    font-family: "inherit";
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
@@ -19,6 +19,7 @@
     color: #333333;
     font-size: 25px;
     letter-spacing: 0.5px;
+    border-bottom: 2px solid #0274be;
 }
 
 .section-products {
@@ -27,14 +28,16 @@
     justify-content: center;
     align-items: flex-start;
     text-align: center;
-    font-family: "Montserrat", Sans-serif;
+    font-family: "inherit";
     position: relative;
 }
 
 .cross-sells-product {
     width:200px;
     height: 320px;
-	box-shadow: 2px 2px 30px rgba(0,0,0,0.2);
+	/*box-shadow: 2px 2px 30px rgba(0,0,0,0.2);*/
+    border:1px solid;
+    border-color: #ebebeb;
 	border-radius: 10px;
 	overflow: hidden;
 	margin: 10px;
