@@ -283,8 +283,6 @@ Delete all products
 docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_product_test.py <company name> delete_prod
 ```
 Create all products
-```
-``
 Download products from ecommerce.cactusco.cl
 ```
 docker-compose run web /usr/local/bin/python ./integrations/woocommerce/wc.py cactus get_data
