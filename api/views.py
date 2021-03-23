@@ -22,12 +22,14 @@ def cross_selling(request):
     Given a sku and company get cross_sell skus
     '''
     if request.method == "GET":
-        sku = request.query_params["sku"]
+
+        name = request.query_params["name"].strip().lower()
         company = request.query_params["company"]
         top_k = int(request.query_params["top-k"])
-        original_product = ProductAttributes.objects.get(sku=sku, company=company)
 
-        predictions = CrossSellPredictions.objects.filter(product_code__sku=sku, product_code__company=company)
+        original_product = ProductAttributes.objects.get(name__iexact=name, company=company)
+
+        predictions = CrossSellPredictions.objects.filter(product_code__name__iexact=name, product_code__company=company)
         predictions = predictions.exclude(product_code__price__isnull=True)
         
         product_ids = list(product.recommended_code_id for product in predictions)
@@ -37,8 +39,9 @@ def cross_selling(request):
 
         return Response({
             "message": f"Sending top 10 cross_sell predictions",
-            "original_id": sku,
+            "query_name": name,
             "original_name": original_product.name,
+            "original_code": original_product.product_code,
             "data": serializer.data
         })
 
@@ -49,13 +52,13 @@ def up_selling(request):
     '''
 
     if request.method == "GET":
-        sku = request.query_params["sku"]
+        name = request.query_params["name"].strip().lower()
         company = request.query_params["company"]
         top_k = int(request.query_params["top-k"])
 
-        original_product = ProductAttributes.objects.get(sku=sku, company=company)
+        original_product = ProductAttributes.objects.get(name__iexact=name, company=company)
 
-        predictions = UpSellPredictions.objects.filter(product_code__sku=sku, product_code__company=company)
+        predictions = UpSellPredictions.objects.filter(product_code__name__iexact=name, product_code__company=company)
         predictions = predictions.exclude(product_code__price__isnull=True)
         
         product_ids = list(product.recommended_code_id for product in predictions)
@@ -65,7 +68,8 @@ def up_selling(request):
 
         return Response({
             "message": f"Sending top 10 Up Selling predictions",
-            "original_id": sku,
+            "query_name": name,
             "original_name": original_product.name,
+            "original_code": original_product.product_code,
             "data": serializer.data
         })
