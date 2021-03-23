@@ -13,8 +13,8 @@ function addCactusRecommendation () {
     
     link.type = "text/css";
     link.rel = "stylesheet";
-    //link.href = "../../static/css/makers.css";
-    link.href = "https://dev.cactusco.cl/static/css/makers.css";
+    link.href = "../../static/css/makers.css";
+    //link.href = "https://dev.cactusco.cl/static/css/makers.css";
     
 
     head.appendChild(link);
@@ -35,14 +35,14 @@ function addCactusRecommendation () {
     productsDiv.className = "section-products";
     recommenderSection.appendChild(productsDiv);
 
-    var productSKU = document.getElementsByClassName("SKU")[0].innerText.substring(5);
-    console.log(productSKU)
+    var productName = document.querySelector(".entry-title").innerText;
+    console.log(productName)
 
-    var host = "https://dev.cactusco.cl";
+    var host = "https://cactusco.cl";
     var localhost = "http://localhost:8000";
     var company = "makerschile";
     // fetch data from API
-    fetch(host + "/api/cross_selling?sku=" + productSKU+ "&company="+company+"&top-k=5").then( function(res) {
+    fetch(host + "/api/cross_selling?name=" + productName+ "&company="+company+"&top-k=5").then( function(res) {
         return res.json();
     }).then( function(data) {
         console.log(data["data"][0])

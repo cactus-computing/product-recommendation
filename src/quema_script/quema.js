@@ -33,13 +33,13 @@ function addCactusRecommendation () {
     productsDiv.className = "section-products";
     recommenderSection.appendChild(productsDiv);
 
-    var productSKU = document.getElementsByClassName("sku")[0].innerText
-    console.log(productSKU)
+    var productName = document.querySelector(".elementor-widget-container h1").innerText;
+    console.log(productName)
 
-    var host = "https://dev.cactusco.cl";
+    var host = "https://cactusco.cl";
     var localhost = "http://localhost:8000";
     // fetch data from API
-    fetch(host + "/api/cross_selling?sku=" + productSKU+ "&company=quema&top-k=5").then( function(res) {
+    fetch(host + "/api/cross_selling?name=" + productName+ "&company=quema&top-k=5").then( function(res) {
         return res.json();
     }).then( function(data) {
         console.log(data["data"][0])
@@ -92,6 +92,6 @@ function addCactusRecommendation () {
     cactusContainer.appendChild(recommenderSection)
 
     // añade el elemento creado y su contenido al DOM
-    targetDiv.insertBefore(cactusContainer, targetDiv.nextSibling);
+    targetDiv.insertBefore(cactusContainer, targetDiv.lastChild);
     //targetDiv.appendChild(cactusContainer);
 }
