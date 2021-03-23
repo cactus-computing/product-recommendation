@@ -81,7 +81,7 @@ def run(*args):
             original_product = ProductAttributes.objects.get(product_code=cross[0], company=client_name)
             related_product = ProductAttributes.objects.get(product_code=cross[1], company=client_name)
             
-            cs = CrossSellPredictions(product_code=original_product, recommended_code=related_product, distance=cross[0], created_at=cross[3], updated_at=cross[4], company=cross[5])
+            cs = CrossSellPredictions(product_code=original_product, recommended_code=related_product, distance=cross[0], company=cross[5])
             cs.save()
             
     
