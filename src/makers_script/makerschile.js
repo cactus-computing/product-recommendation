@@ -1,4 +1,12 @@
 window.onload = addCactusRecommendation;
+var CODE_STATUS = 'local' // options: local, dev, prod
+var COMPANY = "makerschile";
+
+var HOST_DICT = {
+    local: "http://localhost:8000",
+    dev: "https://dev.cactusco.cl",
+    prod: "https://cactusco.cl"
+}
 
 var formatter = new Intl.NumberFormat('es-CL', {
     style: 'currency',
@@ -13,8 +21,7 @@ function addCactusRecommendation () {
     
     link.type = "text/css";
     link.rel = "stylesheet";
-    link.href = "../../static/css/makers.css";
-    //link.href = "https://dev.cactusco.cl/static/css/makers.css";
+    link.href = HOST_DICT[CODE_STATUS] + "/static/css/" + COMPANY + ".css";
     
 
     head.appendChild(link);
@@ -38,11 +45,10 @@ function addCactusRecommendation () {
     var productName = document.querySelector(".entry-title").innerText;
     console.log(productName)
 
-    var host = "https://cactusco.cl";
-    var localhost = "http://localhost:8000";
-    var company = "makerschile";
     // fetch data from API
-    fetch(host + "/api/cross_selling?name=" + productName+ "&company="+company+"&top-k=5").then( function(res) {
+    fetch(
+        HOST_DICT[CODE_STATUS] + "/api/cross_selling?name=" + productName+ "&company="+COMPANY+"&top-k=5"
+    ).then( function(res) {
         return res.json();
     }).then( function(data) {
         console.log(data["data"][0])
