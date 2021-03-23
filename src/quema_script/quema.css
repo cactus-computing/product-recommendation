@@ -1,0 +1,73 @@
+
+.cross-sells-carrousel {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: center;
+    font-family: "Montserrat", Sans-serif;
+    height: 390px;
+}
+.section-title{
+    position:absolute;
+}
+
+.section-products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: center;
+    font-family: "Montserrat", Sans-serif;
+    position: relative;
+    top: 30px
+}
+
+.cross-sells-product {
+    width:200px;
+    height: 320px;
+	box-shadow: 2px 2px 30px rgba(0,0,0,0.2);
+	border-radius: 10px;
+	overflow: hidden;
+	margin: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+img {
+    height: 200px;
+	width:100%;
+	object-fit: cover;
+	box-sizing: border-box;
+}
+
+.cross-sells-product .product-name {
+    font-size: 15px;
+    font-weight: 350;
+    color:#222222;
+	letter-spacing: 0.5px;
+  }
+
+  .cross-sells-product .product-price {
+    font-weight: 600;
+    color: #333333;
+    font-size: 20px;
+    letter-spacing: 0.5px;
+    color: red;
+    text-align: center;
+
+}
+
+.product-name-box{
+}
+
+.product-price-box{
+    bottom: 0;
+}
+
+.product-spacing-box {
+    height: auto;
+}

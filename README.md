@@ -1,3 +1,4 @@
+
 # MVP_inventory
 
 ## Runnig Dev Envirnoment
@@ -224,6 +225,16 @@ Creating an admin user
 docker-compose run web /usr/local/bin/python manage.py createsuperuser
 ```
 
+To re-create a table, follow the following commands
+
+1.  Delete table and migration files
+2. Run
+```
+docker-compose run web /usr/local/bin/python manage.py makemigrations
+docker-compose run web /usr/local/bin/python manage.py migrate --fake <app_name> zero
+docker-compose run web /usr/local/bin/python manage.py migrate <app_name>
+```
+ 
 ### How to drop all public tables on DB. 
 This is necesary when making structural changes to the database, which should be avoided. If you must do such structural changes, please discuss the changes with the team beforehand.
 First, ssh postgres container
@@ -240,3 +251,88 @@ DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
 ```
 ¡You are done! You can now migrate your changes to the db.
+
+# Integrations
+
+Integrations are the set of scripts we use to connect to online stores such as Shopify or Magento. We will use them as scripts for the moment but eventually we'll automate them.
+
+## Requirements
+
+Aside from the package requirements, you need to download the API credentials for the integrations. You need to have installed the GC SDK.
+
+```
+gsutil cp gs://cactus-landing/credentials/.shopify-env ./integrations/shopify/
+gsutil cp gs://cactus-landing/credentials/.magento-env ./integrations/magento/
+gsutil cp gs://cactus-landing/credentials/wc-keys.json ./integrations/woocommerce/
+```
+
+It is recommendend to create a virtualenv and install package requirements in it
+
+```
+source activate .venv
+pip install -r requirements.txt
+```
+
+## WooCommerce script run
+
+Getting orders and products:
+```
+docker-compose run web /usr/local/bin/python ./integrations/woocommerce/wc.py <company name> get_data
+```
+
+Uploading related products to WooCommerce
+```
+docker-compose run web /usr/local/bin/python ./integrations/woocommerce/wc.py <company name> post_data
+```
+
+
+## Uploading user product to ecommerce.cactusco.cl
+
+Delete all products
+```
+docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_product_test.py <company name> delete_prod
+```
+Create all products
+```
+docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_product_test.py <company name> delete_prod
+```
+Download products from ecommerce.cactusco.cl
+```
+docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_product_test.py <company name> delete_prod
+```
+Upload related products to ecommerce.cactusco.cl
+```
+docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_product_test.py <company name> delete_prod
+```
+
+## Google Tag Manager (GTM)
+cookie_related_product_clicked.js crea una cookie cada vez que un usuario hace click en una sección de productos relacionados de Prat, esa cookie dura 5 días.
+Obs: para cada eCommerce hay que cambiar la clase CSS de sección de productos relacionados hasta que tengamos nuestro script de front de carrousel de productos relacionados
+
+cookie_related_product_amount_purchased.js 
+1. Compara el nombre de cada producto comprado con los nombre de cookies de productos relacionados con click, si es que hay un producto comprado que fue marcado como "relacionado", entonces suma el valor de la compra de ese producto.
+
+2. Crea una cookie con el monto total de productos relacionados, esa cookie es luego leida por una variable de GTM y enviada a Google Analytics (GA).
+Obs: Para cada eCommerce hay que cambiar como se leen los productos comprados
+
+### Resumen Proceso:
+
+1. Se crea una cookie por cada producto relacionado en el que el cliente hace click
+2. En la página de "Gracias por su Compra" pasan los siguientes eventos:
+    1. Se leen todos los productos comprados
+    2. Se comparan con los productos relacionados con click
+    3. Se suman los montos de esos productos y se crea una cookie con el monto total
+    4. Se lee esa cookie desde una variable en GTM
+    5. Se envía un evento a GTM con el valor de la variable (monto total comprado de productos relacionados)
+    6. Se elimina la cookie del monto total
+
+### API Documentation
+
+The API exposes the cross selling products for a given `product_id` and `company` name. 
+
+To test this, you must upload test data to the database.
+
+```
+http://localhost:8000/api/cross_selling?sku=807&company=makerschile
+
+http://localhost:8000/api/up_selling?sku=807&company=makerschile
