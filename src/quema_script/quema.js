@@ -14,6 +14,7 @@ function addCactusRecommendation () {
     link.type = "text/css";
     link.rel = "stylesheet";
     link.href = "https://dev.cactusco.cl/static/css/quema.css";
+    //link.href = "../../static/css/quema.css"; // local testing
 
     head.appendChild(link);
 
