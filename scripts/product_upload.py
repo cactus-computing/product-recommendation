@@ -6,6 +6,9 @@ from api.models import CrossSellPredictions, UpSellPredictions, ProductAttribute
 from api.serializers import CrossSellPredictionsSerializer, UpSellPredictionsSerializer, ProductAttributesSerializer
 from datetime import datetime
 from tqdm import tqdm
+from google.cloud import storage
+from google.oauth2 import service_account
+
 DATE = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
 
 logging.basicConfig(
@@ -18,14 +21,34 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-def run():
-    client = 'makerschile'
-    fhand = open(f'./api/{client}_products.csv')
-    product = csv.reader(fhand)
+KEY_PATH = "cactusco/service_account_key.json"
+BUCKET_NAME = "cactus_recommender"
 
-    fhand = open(f'api/{client}_cross.csv')
+credentials = service_account.Credentials.from_service_account_file(
+    KEY_PATH, scopes=["https://www.googleapis.com/auth/cloud-platform"],
+)
+
+
+def run():
+    client_name = 'makerschile'
+
+    client = storage.Client(credentials=credentials, project=credentials.project_id)
+    bucket = client.bucket(BUCKET_NAME)
+
+    blob = bucket.blob(f"{client_name}/{client_name}_products.csv")
+    blob.download_to_filename(f'./scripts/data/{client_name}_products.csv')
+    blob = bucket.blob(f"{client_name}/{client_name}_cross.csv")
+    blob.download_to_filename(f'./scripts/data/{client_name}_cross.csv')
+    blob = bucket.blob(f"{client_name}/{client_name}_up.csv")
+    blob.download_to_filename(f'./scripts/data/{client_name}_up.csv')
+    
+    logger.info(f"Process {client_name}")
+    
+    fhand = open(f'./scripts/data/{client_name}_products.csv')
+    product = csv.reader(fhand)
+    fhand = open(f'./scripts/data/{client_name}_cross.csv')
     cross_sell = csv.reader(fhand)
-    fhand = open(f'api/{client}_up.csv')
+    fhand = open(f'./scripts/data/{client_name}_up.csv')
     up_sell = csv.reader(fhand)
 
     # Subir todos los productos a ProductAttributes
@@ -34,7 +57,10 @@ def run():
             logger.info("Reading products. Fields:")
             logger.info(", ".join(row))
         else:
-            p, created = ProductAttributes.objects.get_or_create(product_code=row[0], name=row[1], sku=row[0], price=row[3] if row[3]!='' else None, permalink=row[4], stock_quantity=row[5], status=row[6], company=row[7], href=row[8], created_at=row[9], updated_at=row[10])
+            sku = row[2]
+            if row[2] == '':
+                sku = row[0]
+            p, created = ProductAttributes.objects.get_or_create(product_code=row[0], name=row[1], sku=sku, price=row[3] if row[3]!='' else None, permalink=row[4], stock_quantity=row[5], status=row[6], company=row[7], href=row[8])
 
     # Iterar sobre los UpSells y subirlos, relacionando el product_code con el ID
     for e, up in tqdm(enumerate(up_sell)):
@@ -42,9 +68,9 @@ def run():
             logger.info("Reading Up Sells. Fields:")
             logger.info(", ".join(up))
         else:
-            original_product = ProductAttributes.objects.get(product_code=up[0], company=client)
-            related_product = ProductAttributes.objects.get(product_code=up[1], company=client)
-            us = UpSellPredictions(product_code=original_product, recommended_code=related_product, distance=up[2], created_at=up[3], updated_at=up[4], company=up[5])
+            original_product = ProductAttributes.objects.get(product_code=up[0], company=client_name)
+            related_product = ProductAttributes.objects.get(product_code=up[1], company=client_name)
+            us = UpSellPredictions(product_code=original_product, recommended_code=related_product, distance=up[2], company=up[5])
             us.save()
 
     for e, cross in tqdm(enumerate(cross_sell)):
@@ -52,8 +78,8 @@ def run():
             logger.info("Reading Cross. Fields:")
             logger.info(", ".join(cross))
         else:
-            original_product = ProductAttributes.objects.get(product_code=cross[0], company=client)
-            related_product = ProductAttributes.objects.get(product_code=cross[1], company=client)
+            original_product = ProductAttributes.objects.get(product_code=cross[0], company=client_name)
+            related_product = ProductAttributes.objects.get(product_code=cross[1], company=client_name)
             
             cs = CrossSellPredictions(product_code=original_product, recommended_code=related_product, distance=cross[0], created_at=cross[3], updated_at=cross[4], company=cross[5])
             cs.save()
