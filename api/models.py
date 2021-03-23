@@ -11,7 +11,7 @@ class ProductAttributes(models.Model):
     '''
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    product_id = models.IntegerField(unique=False)
+    product_code = models.IntegerField(unique=False)
     sku = models.CharField(max_length=2000, default=None)
     name = models.CharField(max_length=2000)
     price = models.FloatField(null=True, blank=True)

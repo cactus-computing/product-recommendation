@@ -28,12 +28,12 @@ def cross_selling(request):
         original_product = ProductAttributes.objects.get(sku=sku, company=company)
 
         predictions = CrossSellPredictions.objects.filter(product_code__sku=sku, product_code__company=company)
-        predictions = predictions.exclude(product_code__price__isnull=True)[:100]
+        predictions = predictions.exclude(product_code__price__isnull=True)
         
         product_ids = list(product.recommended_code_id for product in predictions)
         predicted_products = ProductAttributes.objects.exclude(price__isnull=True).filter(id__in=product_ids)[:top_k]
         serializer = ProductAttributesSerializer(predicted_products, many=True)
-        
+
         return Response({
             "message": f"Sending top 10 cross_sell predictions",
             "original_id": sku,
@@ -51,16 +51,19 @@ def up_selling(request):
         sku = request.query_params["sku"]
         company = request.query_params["company"]
         top_k = int(request.query_params["top-k"])
+
+        original_product = ProductAttributes.objects.get(sku=sku, company=company)
+
         predictions = UpSellPredictions.objects.filter(product_code__sku=sku, product_code__company=company)
-        predictions = predictions.exclude(product_code__price__isnull=True)[:100]
+        predictions = predictions.exclude(product_code__price__isnull=True)
         
         product_ids = list(product.recommended_code_id for product in predictions)
         predicted_products = ProductAttributes.objects.exclude(price__isnull=True).filter(id__in=product_ids)[:top_k]
         serializer = ProductAttributesSerializer(predicted_products, many=True)
 
         return Response({
-            "message": f"Sending top 10 up_sell predictions",
+            "message": f"Sending top 10 Up Selling predictions",
             "original_id": sku,
-            "original_name": None,
+            "original_name": original_product.name,
             "data": serializer.data
         })
