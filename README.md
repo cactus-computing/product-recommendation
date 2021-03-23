@@ -330,3 +330,8 @@ To test up_selling
 http://localhost:8000/api/up_selling?sku=807&company=makerschile&top-k=4
 http://localhost:8000/api/up_selling?sku=PMG-KARMA&company=quema&top-k=4
 ```
+
+## Upload to DB
+```
+docker-compose run web /usr/local/bin/python manage.py runscript product_upload --script-args makerschile 
+```

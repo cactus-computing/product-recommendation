@@ -29,9 +29,9 @@ credentials = service_account.Credentials.from_service_account_file(
 )
 
 
-def run():
-    client_name = 'makerschile'
-
+def run(*args):
+    client_name = args[0]
+    
     client = storage.Client(credentials=credentials, project=credentials.project_id)
     bucket = client.bucket(BUCKET_NAME)
 
