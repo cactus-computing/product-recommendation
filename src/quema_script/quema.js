@@ -22,24 +22,43 @@ function addCactusRecommendation () {
     link.type = "text/css";
     link.rel = "stylesheet";
     link.href = HOST_DICT[CODE_STATUS] + "/static/css/" + COMPANY + ".css";
-
+    //link.href = "/Users/rodrigooyarzun/Documents/Proyectos/Cactus/CactusCo/static/css/quema.css";
     head.appendChild(link);
 
-    recommenderSection.className = "cross-sells-carrousel";
+    /*Create --> <script type="text/javascript" src="js/lightslider.js"></script>*/
+    var scriptSlider = document.createElement("script");
+    
+    scriptSlider.type = "text/javascript";
+    scriptSlider.src = "slider.js";
+    head.appendChild(scriptSlider);
+
+    recommenderSection.className = "cross-sell-slider";
+    recommenderSection.id = "cross-sell-slider"
     var targetDiv = document.querySelector("#main .elementor-inner");
     //var targetDiv = document.querySelector("#main .elementor-inner .elementor-section-wrap");
     products = [];
 
     var titleDiv = document.createElement("div");
-    titleDiv.className = "section-title";
+    titleDiv.className = "cross-sell-title";
     var sectionTitle = document.createElement("h2");
     sectionTitle.innerText = "Productos Relacionados";
     titleDiv.appendChild(sectionTitle)
     recommenderSection.appendChild(titleDiv)
 
     var productsDiv = document.createElement("div");
-    productsDiv.className = "section-products";
+    productsDiv.className = "cross-sell-slide";
+    productsDiv.id = "cross-sell-slide";
     recommenderSection.appendChild(productsDiv);
+
+        var arrowLeft = document.createElement("button");
+        arrowLeft.className = "ctrl-btn pro-prev";
+        arrowLeft.innerText = "<";
+        recommenderSection.appendChild(arrowLeft);
+
+        var arrowRight = document.createElement("button");
+        arrowRight.className = "ctrl-btn pro-next";
+        arrowRight.innerText = ">";
+        recommenderSection.appendChild(arrowRight);
 
     var productName = document.querySelector(".elementor-widget-container h1").innerText;
     console.log(productName)
@@ -48,7 +67,7 @@ function addCactusRecommendation () {
     var localhost = "http://localhost:8000";
     // fetch data from API
     fetch(
-        HOST_DICT[CODE_STATUS] + "/api/cross_selling?name=" + productName+ "&company="+COMPANY+"&top-k=5"
+        host + "/api/cross_selling?name=" + productName+ "&company="+COMPANY+"&top-k=10"
     ).then( function(res) {
         return res.json();
     }).then( function(data) {
@@ -56,7 +75,7 @@ function addCactusRecommendation () {
         data["data"].forEach( function(prod) {
             var productDiv = document.createElement("div");
             productDiv.id = prod['sku']
-            productDiv.className = "cross-sells-product";
+            productDiv.className = "cross-sell-product";
                 var productImageLink = document.createElement("a")
                 productImageLink.href = prod['permalink']
                  
