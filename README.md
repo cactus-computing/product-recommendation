@@ -10,6 +10,7 @@
 - [Integrations](##integrations)
 - [Django scripts](##djangoscripts)
 - [API Documentation](##api-documentation)
+- [Google Tag Manager (GTM)](##google-tag-manager-(gtm))
 
 
 
