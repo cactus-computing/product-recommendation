@@ -26,9 +26,6 @@ def upload_blob_to_default_bucket(json_file, destination_blob_name):
     Parameters:
         - source_file: a file object containing the file which you need to upload.
         - destination_blob_name: the name the object will have once stored in google cloud platform"""
-    # bucket_name = "your-bucket-name"
-    # source_file_name = "local/path/to/file"
-    # destination_blob_name = "storage-object-name"
 
     client = storage.Client(credentials=credentials, project=credentials.project_id,)
     bucket = client.bucket(BUCKET_NAME)

@@ -42,12 +42,6 @@ def run(*args):
                 'status':['any'],
                 'order':'asc',
             }
-        if endpoint == "orders":
-            pass
-            #params['after'] = "" #Limit response to resources published after a given ISO8601 compliant date.
-        else:
-            pass
-            #params['exclude'] = "" #Ensure result set excludes specific IDs.
         resp = wcapi.get(endpoint, params=params).json()
         if resp == []:
             break
@@ -58,7 +52,7 @@ def run(*args):
     blob_name = f"{COMPANY}/{endpoint}.json"
     upload_blob_to_default_bucket(json_file,blob_name)
     if COMPANY == "cactus":
-        with open(F'./scripts/wc/{endpoint}.json', 'w+') as f:
+        with open(f'./scripts/wc/{endpoint}.json', 'w+') as f:
             json.dump(json_file, f)
 
 

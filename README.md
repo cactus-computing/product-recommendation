@@ -8,11 +8,9 @@
 - [Useful commands](##useful-commands)
 - [How to drop all public tables on DB. ](##how-to-drop-all-public-tables-on-db. )
 - [Integrations](##integrations)
-- [Django scripts](##djangoscripts)
+- [Django scripts](##django-scripts)
 - [API Documentation](##api-documentation)
 - [Google Tag Manager (GTM)](##google-tag-manager-(gtm))
-
-
 
 ## Dev Environment Setup
 
@@ -35,7 +33,7 @@ To add models to database:
 ```
 docker-compose run web /usr/local/bin/python manage.py migrate
 ```
-
+- [Index](##index)
 ## Runnig Dev Envirnoment
 
 To build your local environment in docker run
@@ -49,7 +47,7 @@ Download/Get credentials. You need a `.env` file which contains secret configura
 gsutil cp gs://cactus-stockapp/credentials/.env-dev ./cactusco/.env
 gsutil cp gs://cactus-stockapp/credentials/service_account_key.json ./cactusco/service_account_key.json
 ```
-
+- [Index](##index)
 ## Prod Environment Setup
 
 Ubuntu 18.04
@@ -210,7 +208,7 @@ Then reload nginx
 ```
 sudo systemctl reload nginx
 ```
-
+- [Index](##index)
 ## Useful commands
 
 
@@ -238,7 +236,7 @@ Creating an admin user
 ```
 docker-compose run web /usr/local/bin/python manage.py createsuperuser
 ```
-
+- [Index](##index)
 ## How to drop all public tables on DB. 
 
 This is necesary when making structural changes to the database, which should be avoided. If you must do such structural changes, please discuss the changes with the team beforehand.
@@ -256,7 +254,7 @@ DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
 ```
 ¡You are done! You can now migrate your changes to the db.
-
+- [Index](##index)
 ## Integrations
 
 Integrations are the set of scripts we use to connect to online stores such as Shopify or Magento. We will use them as scripts for the moment but eventually we'll automate them.
@@ -278,7 +276,6 @@ source activate .venv
 pip install -r requirements.txt
 ```
 
-
 ### Uploading user product to ecommerce.cactusco.cl
 
 Delete all products
@@ -294,16 +291,17 @@ Upload related products to ecommerce.cactusco.cl
 ```
 docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_product_test.py <company name> related_prod
 ```
+- [Index](##index)
 ## Django scripts
 ### Get products
 ```
-docker-compose run web /usr/local/bin/python manage.py runscript wc_get_data --script-args quema
+docker-compose run web /usr/local/bin/python manage.py runscript wc_get_products --script-args quema
 ```
 ### Upload to DB
 ```
 docker-compose run web /usr/local/bin/python manage.py runscript product_upload --script-args makerschile 
 ```
-
+- [Index](##index)
 ## API Documentation
 
 The API exposes the cross selling products for a given `product_id` and `company` name. 
@@ -323,8 +321,7 @@ To test up_selling
 http://localhost:8000/api/up_selling?name=kit impresora 3d tarjeta controladora ramps 1.4 arduino mega&company=makerschile&top-k=4
 http://localhost:8000/api/up_selling?name=PMG - Karma&company=quema&top-k=4
 ```
-
-
+- [Index](##index)
 ## Google Tag Manager (GTM)
 cookie_related_product_clicked.js crea una cookie cada vez que un usuario hace click en una sección de productos relacionados de Prat, esa cookie dura 5 días.
 Obs: para cada eCommerce hay que cambiar la clase CSS de sección de productos relacionados hasta que tengamos nuestro script de front de carrousel de productos relacionados
@@ -345,3 +342,4 @@ Obs: Para cada eCommerce hay que cambiar como se leen los productos comprados
     4. Se lee esa cookie desde una variable en GTM
     5. Se envía un evento a GTM con el valor de la variable (monto total comprado de productos relacionados)
     6. Se elimina la cookie del monto total
+- [Index](##index)
