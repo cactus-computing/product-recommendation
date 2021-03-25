@@ -1,6 +1,6 @@
 "use strict";
 
-productScroll();
+
 
 function productScroll() {
   let slider = document.getElementById("cross-sell-slide-box");
@@ -8,7 +8,6 @@ function productScroll() {
   let prev = document.getElementsByClassName("pro-prev");
   let slide = document.getElementById("cross-sell-slide");
   let item = document.getElementById("cross-sell-slide");
-
   for (let i = 0; i < next.length; i++) {
     //refer elements by class name
 
@@ -21,6 +20,7 @@ function productScroll() {
         //avoid slide left beyond the first item
         position -= 1;
         slide.scroll({ left: slide.scrollLeft -= visibleProductsWanted * width });
+        console.log("izquierda");
         //translateX(position); //translate items
       }
     });
@@ -30,6 +30,7 @@ function productScroll() {
         //avoid slide right beyond the last item
         position += 1;
         slide.scroll({ left: slide.scrollLeft += visibleProductsWanted * width });
+        console.log("izquierda");
         //translateX(position); //translate items
       }
     });
