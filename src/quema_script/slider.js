@@ -13,13 +13,15 @@ function productScroll() {
     //refer elements by class name
 
     let position = 0; //slider postion
-
+    let width = 210; // product box + margin width
+    let visibleProductsWanted = 3;
     prev[i].addEventListener("click", function() {
       //click previos button
       if (position > 0) {
         //avoid slide left beyond the first item
         position -= 1;
-        translateX(position); //translate items
+        slide.scroll({ left: slide.scrollLeft -= visibleProductsWanted * width });
+        //translateX(position); //translate items
       }
     });
 
@@ -27,7 +29,8 @@ function productScroll() {
       if (position >= 0 && position < hiddenItems()) {
         //avoid slide right beyond the last item
         position += 1;
-        translateX(position); //translate items
+        slide.scroll({ left: slide.scrollLeft += visibleProductsWanted * width });
+        //translateX(position); //translate items
       }
     });
   }
@@ -43,7 +46,9 @@ function productScroll() {
 function translateX(position) {
   //translate items
   let slide = document.getElementById("cross-sell-slide");
-  slide.style.left = position * -210 + "px";
+  let width = 210; //product box + margin width
+  slide.scroll({ left: slide.scrollLeft += 630 });
+  // slide.style.left = position * -210 + "px";
 }
 
 function getCount(parent, getChildrensChildren) {

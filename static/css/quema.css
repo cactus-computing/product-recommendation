@@ -17,10 +17,6 @@ header .site-header {
     text-align: center;
 }
 
-#cactusContainer .slider::-webkit-scrollbar {
-    display: none;
-  }
-
 #cactusContainer .cross-sell-title h2{
     font-weight: 600;
     color: #333333;
@@ -63,8 +59,12 @@ header .site-header {
     margin: auto;
     overflow-x: scroll;
     overflow-y: hidden;
+    scroll-behavior: smooth;
 }
 
+#cactusContainer .cross-sell-slide::-webkit-scrollbar {
+    display: none;
+  }
 
 #cactusContainer .cross-sell-slide-box .cross-sell-product:last-child {
     margin-right: 0;
@@ -76,7 +76,7 @@ header .site-header {
     height: 320px;
     border: 1px solid;
     border-color: #ebebeb;
-	box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 	border-radius: 10px;
 	margin-right: 10px;
     position: relative;
