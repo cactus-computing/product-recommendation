@@ -25,6 +25,10 @@ var CLIENT_METADATA = {
         'target-div': "#content .ast-container #secondary",
         'product-name-selector': ".entry-title"
     },
+    'sparta': {
+      'target-div': "#maincontent .product-main-wrapper",
+      'product-name-selector': ".page-title"
+  },
 }
 
 function addCactusRecommendation () {

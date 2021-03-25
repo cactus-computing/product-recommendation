@@ -1,0 +1,128 @@
+/*By Rorro, Mic Drop.*/
+
+header .site-header {
+    width: auto;
+}
+
+#cactusContainer{
+    display: block;
+}
+
+#cactusContainer .cross-sell-slider {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-family: "Montserrat", Sans-serif;
+    text-align: center;
+}
+
+#cactusContainer .cross-sell-title h2{
+    font-weight: 600;
+    color: #333333;
+    font-size: 25px;
+    letter-spacing: 0.5px;
+    margin-bottom: 0 !important;
+}
+
+#cactusContainer .cross-sell-slide-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 370px;
+    position: relative;
+    max-width: 1140px;
+}
+
+#cactusContainer .cross-sell-slide-box .cross-sell-slide{
+    display: flex;
+    position: relative;
+    left: 0;
+    padding: 5px;
+    margin: auto;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+}
+
+#cactusContainer .cross-sell-slide::-webkit-scrollbar {
+    display: none;
+  }
+
+#cactusContainer .cross-sell-slide-box .cross-sell-product:last-child {
+    margin-right: 0;
+  }  
+
+  #cactusContainer .cross-sell-product {
+    width:200px; 
+    min-width:200px;
+    height: 320px;
+    border: 1px solid;
+    border-color: #ebebeb;
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+	border-radius: 10px;
+	margin-right: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+#cactusContainer .cross-sell-product img {
+    height: 200px;
+	width: 200px;
+	object-fit: cover;
+	box-sizing: border-box;
+    
+    border-radius: 10px;
+    /*border-color: #ebebeb;
+    border: 1px solid;*/
+}
+
+#cactusContainer .cross-sell-product .product-name{
+    font-size: 15px;
+    font-weight: 600;
+    color: #929292;
+	letter-spacing: 0.5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    text-align: center;
+    margin-bottom: 0 !important;
+  }
+
+#cactusContainer .cross-sell-product .product-price {
+    font-weight: 600;
+    color: #333333;
+    font-size: 20px;
+    letter-spacing: 0.5px;
+    color: red;
+    text-align: center;
+}
+
+#cactusContainer .product-price-box{
+    bottom: 0;
+    margin-bottom: 7px;
+}
+
+#cactusContainer .ctrl-btn {
+    padding: 10px 10px;
+    min-width: 50px;
+    background: #fff;
+    box-shadow: 2px 2px 30px rgba(0,0,0,0.2);
+    border: 1px solid;
+    border-radius: 10px;
+    border-color: #ebebeb;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    margin: 5px;
+}
+  
+@media only screen and (max-width: 600px) {
+    #cactusContainer .ctrl-btn {
+        display: none;
+        }
+    } 
