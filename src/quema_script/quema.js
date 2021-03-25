@@ -1,5 +1,5 @@
 window.onload = addCactusRecommendation;
-const CODE_STATUS = 'local' // options: local, dev, prod
+const CODE_STATUS = 'dev' // options: local, dev, prod
 const COMPANY = "quema";
 
 const HOST_DICT = {
@@ -22,20 +22,12 @@ function addCactusRecommendation () {
     link.type = "text/css";
     link.rel = "stylesheet";
     link.href = HOST_DICT[CODE_STATUS] + "/static/css/" + COMPANY + ".css";
-    //link.href = "/Users/rodrigooyarzun/Documents/Proyectos/Cactus/CactusCo/static/css/quema.css";
     head.appendChild(link);
 
-    /*Create --> <script type="text/javascript" src="slider.js"></script>*/
-    //const scriptSlider = document.createElement("script");
-    
-    //scriptSlider.type = "text/javascript";
-    //scriptSlider.src = "slider.js";
-    //head.appendChild(scriptSlider);
 
     recommenderSection.className = "cross-sell-slider";
     recommenderSection.id = "cross-sell-slider"
     const targetDiv = document.querySelector("#main .elementor-inner");
-    //var targetDiv = document.querySelector("#main .elementor-inner .elementor-section-wrap");
     products = [];
 
     const titleDiv = document.createElement("div");
@@ -66,21 +58,17 @@ function addCactusRecommendation () {
         slideBoxDiv.appendChild(arrowRight);
 
     const productName = document.querySelector(".elementor-widget-container h1").innerText;
-    console.log(productName)
 
-    const host = "https://dev.cactusco.cl";
-    const localhost = "http://localhost:8000";
+
 
     // fetch data from API
     fetch(
-        host + "/api/cross_selling?name=" + productName+ "&company="+COMPANY+"&top-k=10"
+      HOST_DICT[CODE_STATUS] + "/api/cross_selling?name=" + productName+ "&company="+COMPANY+"&top-k=20"
     ).then( function(res) {
         return res.json();
     }).then( function(data) {
         let success = false
-        console.log(data);
         if (data["empty"] === false){
-            console.log('data not is empty')
             success = true
         }
 
@@ -126,7 +114,6 @@ function addCactusRecommendation () {
         return success;
 
     }).then(function (success) {
-        console.log(success)
         if (success){
             const cactusContainer = document.createElement("div");
             cactusContainer.id = "cactusContainer"
@@ -160,7 +147,6 @@ function productScroll() {
           //avoid slide left beyond the first item
           position -= 1;
           slide.scroll({ left: slide.scrollLeft -= visibleProductsWanted * width });
-          console.log("izquierda");
           //translateX(position); //translate items
         }
       });
@@ -170,7 +156,6 @@ function productScroll() {
           //avoid slide right beyond the last item
           position += 1;
           slide.scroll({ left: slide.scrollLeft += visibleProductsWanted * width });
-          console.log("izquierda");
           //translateX(position); //translate items
         }
       });
