@@ -138,7 +138,7 @@ function addCactusRecommendation () {
             cactusContainer.class = "cactusRecommendation"
 
             cactusContainer.appendChild(recommenderSection)
-            targetDiv.insertBefore(cactusContainer, targetDiv.lastChild);
+            targetDiv.insertBefore(cactusContainer, targetDiv.nextSibling);
         }
         productScroll();
     });
