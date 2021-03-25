@@ -45,20 +45,25 @@ function addCactusRecommendation () {
     titleDiv.appendChild(sectionTitle)
     recommenderSection.appendChild(titleDiv)
 
-    var productsDiv = document.createElement("div");
-    productsDiv.className = "cross-sell-slide";
-    productsDiv.id = "cross-sell-slide";
-    recommenderSection.appendChild(productsDiv);
+    var slideBoxDiv = document.createElement("div");
+    slideBoxDiv.className = "cross-sell-slide-box";
+    slideBoxDiv.id = "cross-sell-slide-box";
+    recommenderSection.appendChild(slideBoxDiv);
 
         var arrowLeft = document.createElement("button");
         arrowLeft.className = "ctrl-btn pro-prev";
         arrowLeft.innerText = "<";
-        recommenderSection.appendChild(arrowLeft);
+        slideBoxDiv.appendChild(arrowLeft);
+
+        var productsDiv = document.createElement("div");
+        productsDiv.className = "cross-sell-slide";
+        productsDiv.id = "cross-sell-slide";
+        slideBoxDiv.appendChild(productsDiv);
 
         var arrowRight = document.createElement("button");
         arrowRight.className = "ctrl-btn pro-next";
         arrowRight.innerText = ">";
-        recommenderSection.appendChild(arrowRight);
+        slideBoxDiv.appendChild(arrowRight);
 
     var productName = document.querySelector(".elementor-widget-container h1").innerText;
     console.log(productName)

@@ -3,7 +3,7 @@
 productScroll();
 
 function productScroll() {
-  let slider = document.getElementById("cross-sell-slider");
+  let slider = document.getElementById("cross-sell-slide-box");
   let next = document.getElementsByClassName("pro-next");
   let prev = document.getElementsByClassName("pro-prev");
   let slide = document.getElementById("cross-sell-slide");
@@ -34,7 +34,7 @@ function productScroll() {
 
   function hiddenItems() {
     //get hidden items
-    let items = getCount(item, false)+1;
+    let items = getCount(item, false);
     let visibleItems = slider.offsetWidth / 210;
     return items - Math.ceil(visibleItems);
   }
