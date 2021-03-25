@@ -70,13 +70,20 @@ function addCactusRecommendation () {
 
     const host = "https://cactusco.cl";
     const localhost = "http://localhost:8000";
+
     // fetch data from API
     fetch(
         host + "/api/cross_selling?name=" + productName+ "&company="+COMPANY+"&top-k=10"
     ).then( function(res) {
         return res.json();
     }).then( function(data) {
-        console.log(data["data"][0])
+        var success = false
+
+        if (data["empty"] === false){
+            console.log('data not is empty')
+            success = true
+        }
+
         data["data"].forEach( function(prod) {
             const productDiv = document.createElement("div");
             productDiv.id = prod['sku']
@@ -116,16 +123,17 @@ function addCactusRecommendation () {
 
             productsDiv.appendChild(productDiv)
         });
+        return success;
+
+    }).then(function (success) {
+        console.log(success)
+        if (success){
+            var cactusContainer = document.createElement("div");
+            cactusContainer.id = "cactusContainer"
+            cactusContainer.class = "cactusRecommendation"
+
+            cactusContainer.appendChild(recommenderSection)
+            targetDiv.insertBefore(cactusContainer, targetDiv.lastChild);
+        }
     });
-    
-
-    const cactusContainer = document.createElement("div");
-    cactusContainer.id = "cactusContainer"
-    cactusContainer.class = "cactusRecommendation"
-
-    cactusContainer.appendChild(recommenderSection)
-
-    // añade el elemento creado y su contenido al DOM
-    targetDiv.insertBefore(cactusContainer, targetDiv.lastChild);
-    //targetDiv.appendChild(cactusContainer);
 }
