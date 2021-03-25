@@ -33,7 +33,7 @@ function addCactusRecommendation () {
     const titleDiv = document.createElement("div");
     titleDiv.className = "cross-sell-title";
     const sectionTitle = document.createElement("h2");
-    sectionTitle.innerText = "Productos Relacionados";
+    sectionTitle.innerText = "Productos Complementarios";
     titleDiv.appendChild(sectionTitle)
     recommenderSection.appendChild(titleDiv)
 
