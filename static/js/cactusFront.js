@@ -1,22 +1,22 @@
 window.onload = addCactusRecommendation;
 
-var cactusScript = document.getElementById('CactusScript');
-var COMPANY = cactusScript.src.match(/(\?|\&)([^=]+)\=([^&]+)/)[3]
+const cactusScript = document.getElementById('CactusScript');
+const COMPANY = cactusScript.src.match(/(\?|\&)([^=]+)\=([^&]+)/)[3]
 
-var CODE_STATUS = 'local' // options: local, dev, prod
+const CODE_STATUS = 'dev' // options: local, dev, prod
 
-var HOST_DICT = {
+const HOST_DICT = {
     local: "http://localhost:8000",
     dev: "https://dev.cactusco.cl",
     prod: "https://cactusco.cl"
 }
 
-var formatter = new Intl.NumberFormat('es-CL', {
+const formatter = new Intl.NumberFormat('es-CL', {
     style: 'currency',
     currency: 'CLP',
   })
 
-var CLIENT_METADATA = {
+const CLIENT_METADATA = {
     'quema': {
         'target-div': "#main .elementor-inner",
         'product-name-selector': ".elementor-widget-container h1"
@@ -29,9 +29,9 @@ var CLIENT_METADATA = {
 
 function addCactusRecommendation () {
     /* Create Div and add content */
-    var recommenderSection = document.createElement("div");
-    var link = document.createElement("link");
-    var head = document.head;
+    const recommenderSection = document.createElement("div");
+    const link = document.createElement("link");
+    const head = document.head;
     
     link.type = "text/css";
     link.rel = "stylesheet";
@@ -41,7 +41,7 @@ function addCactusRecommendation () {
 
     recommenderSection.className = "cross-sell-slider";
     recommenderSection.id = "cross-sell-slider"
-    var targetDiv = document.querySelector(CLIENT_METADATA[COMPANY]['target-div']);
+    const targetDiv = document.querySelector(CLIENT_METADATA[COMPANY]['target-div']);
     products = [];
 
     const titleDiv = document.createElement("div");
@@ -74,7 +74,7 @@ function addCactusRecommendation () {
     slideBoxDiv.appendChild(arrowRight);
     //------ end slider stuff --------//
 
-    var productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
+    const productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
     console.log(productName)
     
     // fetch data from API
@@ -83,7 +83,7 @@ function addCactusRecommendation () {
     ).then( function(res) {
         return res.json();
     }).then( function(data) {
-        var success = false
+        let success = false
 
         if (data["empty"] === false){
             console.log('data is not empty, carrying on')
@@ -133,7 +133,7 @@ function addCactusRecommendation () {
 
     }).then(function (success) {
         if (success){
-            var cactusContainer = document.createElement("div");
+            const cactusContainer = document.createElement("div");
             cactusContainer.id = "cactusContainer"
             cactusContainer.class = "cactusRecommendation"
 
