@@ -1,82 +1,97 @@
 window.onload = addCactusRecommendation;
-var CODE_STATUS = 'local' // options: local, dev, prod
-var COMPANY = "quema";
+const CODE_STATUS = 'dev' // options: local, dev, prod
+const COMPANY = "quema";
 
-var HOST_DICT = {
+const HOST_DICT = {
     local: "http://localhost:8000",
     dev: "https://dev.cactusco.cl",
     prod: "https://cactusco.cl"
 }
 
-var formatter = new Intl.NumberFormat('es-CL', {
+const formatter = new Intl.NumberFormat('es-CL', {
     style: 'currency',
     currency: 'CLP',
   })
 
 function addCactusRecommendation () {
     /* Create Div and add content */
-    var recommenderSection = document.createElement("div");
-    var link = document.createElement("link");
-    var head = document.head;
+    const recommenderSection = document.createElement("div");
+    const link = document.createElement("link");
+    const head = document.head;
     
     link.type = "text/css";
     link.rel = "stylesheet";
     link.href = HOST_DICT[CODE_STATUS] + "/static/css/" + COMPANY + ".css";
-
     head.appendChild(link);
 
-    recommenderSection.className = "cross-sells-carrousel";
-    var targetDiv = document.querySelector("#main .elementor-inner");
-    //var targetDiv = document.querySelector("#main .elementor-inner .elementor-section-wrap");
+
+    recommenderSection.className = "cross-sell-slider";
+    recommenderSection.id = "cross-sell-slider"
+    const targetDiv = document.querySelector("#main .elementor-inner");
     products = [];
 
-    var titleDiv = document.createElement("div");
-    titleDiv.className = "section-title";
-    var sectionTitle = document.createElement("h2");
+    const titleDiv = document.createElement("div");
+    titleDiv.className = "cross-sell-title";
+    const sectionTitle = document.createElement("h2");
     sectionTitle.innerText = "Productos Relacionados";
     titleDiv.appendChild(sectionTitle)
     recommenderSection.appendChild(titleDiv)
 
-    var productsDiv = document.createElement("div");
-    productsDiv.className = "section-products";
-    recommenderSection.appendChild(productsDiv);
+    const slideBoxDiv = document.createElement("div");
+    slideBoxDiv.className = "cross-sell-slide-box";
+    slideBoxDiv.id = "cross-sell-slide-box";
+    recommenderSection.appendChild(slideBoxDiv);
 
-    var productName = document.querySelector(".elementor-widget-container h1").innerText;
-    console.log(productName)
+        const arrowLeft = document.createElement("button");
+        arrowLeft.className = "ctrl-btn pro-prev";
+        arrowLeft.innerText = "<";
+        slideBoxDiv.appendChild(arrowLeft);
+
+        const productsDiv = document.createElement("div");
+        productsDiv.className = "cross-sell-slide";
+        productsDiv.id = "cross-sell-slide";
+        slideBoxDiv.appendChild(productsDiv);
+
+        const arrowRight = document.createElement("button");
+        arrowRight.className = "ctrl-btn pro-next";
+        arrowRight.innerText = ">";
+        slideBoxDiv.appendChild(arrowRight);
+
+    const productName = document.querySelector(".elementor-widget-container h1").innerText;
+
+
 
     // fetch data from API
     fetch(
-        HOST_DICT[CODE_STATUS] + "/api/cross_selling?name=" + productName+ "&company="+COMPANY+"&top-k=5"
+      HOST_DICT[CODE_STATUS] + "/api/cross_selling?name=" + productName+ "&company="+COMPANY+"&top-k=20"
     ).then( function(res) {
         return res.json();
     }).then( function(data) {
-        var success = false
-
+        let success = false
         if (data["empty"] === false){
-            console.log('data not is empty')
             success = true
         }
 
         data["data"].forEach( function(prod) {
-            var productDiv = document.createElement("div");
+            const productDiv = document.createElement("div");
             productDiv.id = prod['sku']
-            productDiv.className = "cross-sells-product";
-                var productImageLink = document.createElement("a")
+            productDiv.className = "cross-sell-product";
+                const productImageLink = document.createElement("a")
                 productImageLink.href = prod['permalink']
                  
-                var productImage = document.createElement("img");
+                const productImage = document.createElement("img");
                 productImage.src = prod['href']
                 productImage.className = "product-image";
                 productImageLink.appendChild(productImage)
                 productDiv.appendChild(productImageLink);
 
-                var productNameDiv = document.createElement("div");
+                const productNameDiv = document.createElement("div");
                 productNameDiv.className = "product-name-box";
 
-                    var productTitleLink = document.createElement("a")
+                    const productTitleLink = document.createElement("a")
                     productTitleLink.href = prod['permalink']
                     
-                    var productTitle = document.createElement("h2");
+                    const productTitle = document.createElement("h2");
                     productTitle.innerText = prod['name']
                     productTitle.className = "product-name";
                     productTitleLink.appendChild(productTitle)
@@ -84,10 +99,10 @@ function addCactusRecommendation () {
                     
                     productDiv.appendChild(productNameDiv)
                 
-                    var productPriceDiv = document.createElement("div");
+                    const productPriceDiv = document.createElement("div");
                 productPriceDiv.className = "product-price-box";
                     
-                    var productPrice = document.createElement("span");
+                    const productPrice = document.createElement("span");
                     productPrice.innerText = formatter.format(prod['price']);
                     productPrice.className = "product-price";
                     productPriceDiv.appendChild(productPrice);
@@ -99,14 +114,79 @@ function addCactusRecommendation () {
         return success;
 
     }).then(function (success) {
-        console.log(success)
         if (success){
-            var cactusContainer = document.createElement("div");
+            const cactusContainer = document.createElement("div");
             cactusContainer.id = "cactusContainer"
             cactusContainer.class = "cactusRecommendation"
 
             cactusContainer.appendChild(recommenderSection)
             targetDiv.insertBefore(cactusContainer, targetDiv.lastChild);
         }
+        productScroll();
     });
 }
+
+
+//-----------------------slider------------------------>
+
+function productScroll() {
+    let slider = document.getElementById("cross-sell-slide-box");
+    let next = document.getElementsByClassName("pro-next");
+    let prev = document.getElementsByClassName("pro-prev");
+    let slide = document.getElementById("cross-sell-slide");
+    let item = document.getElementById("cross-sell-slide");
+    for (let i = 0; i < next.length; i++) {
+      //refer elements by class name
+  
+      let position = 0; //slider postion
+      let width = 210; // product box + margin width
+      let visibleProductsWanted = 3;
+      prev[i].addEventListener("click", function() {
+        //click previos button
+        if (position > 0) {
+          //avoid slide left beyond the first item
+          position -= 1;
+          slide.scroll({ left: slide.scrollLeft -= visibleProductsWanted * width });
+          //translateX(position); //translate items
+        }
+      });
+  
+      next[i].addEventListener("click", function() {
+        if (position >= 0 && position < hiddenItems()) {
+          //avoid slide right beyond the last item
+          position += 1;
+          slide.scroll({ left: slide.scrollLeft += visibleProductsWanted * width });
+          //translateX(position); //translate items
+        }
+      });
+    }
+  
+    function hiddenItems() {
+      //get hidden items
+      let items = getCount(item, false);
+      let visibleItems = slider.offsetWidth / 210;
+      return items - Math.ceil(visibleItems);
+    }
+  }
+  
+  function translateX(position) {
+    //translate items
+    let slide = document.getElementById("cross-sell-slide");
+    let width = 210; //product box + margin width
+    slide.scroll({ left: slide.scrollLeft += 630 });
+    // slide.style.left = position * -210 + "px";
+  }
+  
+  function getCount(parent, getChildrensChildren) {
+    //count no of items
+    let relevantChildren = 0;
+    let children = parent.childNodes.length;
+    for (let i = 0; i < children; i++) {
+      if (parent.childNodes[i].nodeType != 3) {
+        if (getChildrensChildren)
+          relevantChildren += getCount(parent.childNodes[i], true);
+        relevantChildren++;
+      }
+    }
+    return relevantChildren;
+  }
