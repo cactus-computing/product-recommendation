@@ -1,9 +1,9 @@
-window.onload = addCactusRecommendation;
+window.onload = processProduct;
 
 const cactusScript = document.getElementById('CactusScript');
 const COMPANY = cactusScript.src.match(/(\?|\&)([^=]+)\=([^&]+)/)[3]
 
-const CODE_STATUS = 'prod' // options: local, dev, prod
+const CODE_STATUS = 'local' // options: local, dev, prod
 
 const HOST_DICT = {
     local: "http://localhost:8000",
@@ -24,121 +24,142 @@ const CLIENT_METADATA = {
     },
 }
 
-function addCactusRecommendation () {
-    /* Create Div and add content */
-    const recommenderSection = document.createElement("div");
-    const link = document.createElement("link");
-    const head = document.head;
+function processProduct () {
+  
+  const productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
+  const recommenderSection = document.createElement("div");
+  importStyles();
+  
+  crossSellDiv = createCactusCarousel("cross-sell", recommenderSection);
+
+  getPredictions(crossSellDiv, type="cross_selling", productName, k=30).then( function (success){
+    if (success){ 
+      createCactusContainer(recommenderSection)
+    }
+  });
+}
+
+
+function importStyles () {
+  /* Create Div and add content */
+  
+  const link = document.createElement("link");
+  const head = document.head;
+  
+  link.type = "text/css";
+  link.rel = "stylesheet";
+  link.href = HOST_DICT[CODE_STATUS] + "/static/css/" + COMPANY + ".css";
+
+  head.appendChild(link);
+}
+
+function createCactusCarousel(type, recommenderSection){
+  recommenderSection.className = `${type} slider`;
+    recommenderSection.id = `${type} slider`;
     
-    link.type = "text/css";
-    link.rel = "stylesheet";
-    link.href = HOST_DICT[CODE_STATUS] + "/static/css/" + COMPANY + ".css";
-
-    head.appendChild(link);
-
-    recommenderSection.className = "cross-sell-slider";
-    recommenderSection.id = "cross-sell-slider"
-    const targetDiv = document.querySelector(CLIENT_METADATA[COMPANY]['target-div']);
     products = [];
 
     const titleDiv = document.createElement("div");
-    titleDiv.className = "cross-sell-title";
+    titleDiv.className =  `${type} title`;
     const sectionTitle = document.createElement("h2");
     sectionTitle.innerText = "Productos Complementarios";
     titleDiv.appendChild(sectionTitle)
     recommenderSection.appendChild(titleDiv)
 
-
     //------ slider stuff --------//
     const slideBoxDiv = document.createElement("div");
-    slideBoxDiv.className = "cross-sell-slide-box";
-    slideBoxDiv.id = "cross-sell-slide-box";
+    slideBoxDiv.className =  `${type} slide-box`;
+    slideBoxDiv.id = `${type} slide-box`;
     recommenderSection.appendChild(slideBoxDiv);
 
     const arrowLeft = document.createElement("button");
-    arrowLeft.className = "ctrl-btn pro-prev";
+    arrowLeft.className = `${type} ctrl-btn pro-prev`;
     arrowLeft.innerText = "<";
     slideBoxDiv.appendChild(arrowLeft);
 
     const productsDiv = document.createElement("div");
-    productsDiv.className = "cross-sell-slide";
-    productsDiv.id = "cross-sell-slide";
+    productsDiv.className = `${type} slide`;
+    productsDiv.id = `${type} slide`;
     slideBoxDiv.appendChild(productsDiv);
 
     const arrowRight = document.createElement("button");
-    arrowRight.className = "ctrl-btn pro-next";
+    arrowRight.className = `${type} ctrl-btn pro-next`;
     arrowRight.innerText = ">";
     slideBoxDiv.appendChild(arrowRight);
     //------ end slider stuff --------//
+    return productsDiv
+}
 
-    const productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
-    console.log(productName)
-    
-    // fetch data from API
-    fetch(
-      HOST_DICT[CODE_STATUS] + "/api/cross_selling?name=" + productName+ "&company="+COMPANY+"&top-k=20"
-    ).then( function(res) {
-        return res.json();
-    }).then( function(data) {
-        let success = false
+const getPredictions = async function (productsDiv, type, productName, k) {
+  const response = await fetch(
+    `${HOST_DICT[CODE_STATUS]}/api/${type}?name=${productName}&company=${COMPANY}&top-k=${k}`
+  )
+  const data = response.json();
+  let success = false
+  if (data["empty"] === false){
+    console.log('data is not empty, carrying on')
+    success = true
+    createProductHtml(data["data"], productsDiv), productsDiv;
+  }
+  return success;
+}
 
-        if (data["empty"] === false){
-            console.log('data is not empty, carrying on')
-            success = true
-        }
+function createCactusContainer(recommenderSection){
+  
+  const targetDiv = document.querySelector(CLIENT_METADATA[COMPANY]['target-div']);
+  const cactusContainer = document.createElement("div");
+  cactusContainer.id = "cactusContainer"
+  cactusContainer.class = "cactusRecommendation"
 
-        data["data"].forEach( function(prod) {
-            const productDiv = document.createElement("div");
-            productDiv.id = prod['sku']
-            productDiv.className = "cross-sell-product";
-                const productImageLink = document.createElement("a")
-                productImageLink.href = prod['permalink']
-                 
-                const productImage = document.createElement("img");
-                productImage.src = prod['href']
-                productImage.className = "product-image";
-                productImageLink.appendChild(productImage)
-                productDiv.appendChild(productImageLink);
+  cactusContainer.appendChild(recommenderSection)
+  targetDiv.insertBefore(cactusContainer, targetDiv[CLIENT_METADATA[COMPANY]['insert-before']]); 
+  productScroll();
+}
 
-                const productNameDiv = document.createElement("div");
-                productNameDiv.className = "product-name-box";
+function createProductHtml (data, productsDiv) {
+  data.forEach( function(prod) {
+    const productDiv = document.createElement("div");
+    productDiv.id = prod['sku']
+    productDiv.className = "cross-sell-product";
+        const productImageLink = document.createElement("a")
+        productImageLink.href = prod['permalink']
+         
+        const productImage = document.createElement("img");
+        productImage.src = prod['href']
+        productImage.className = "product-image";
+        productImageLink.appendChild(productImage)
+        productDiv.appendChild(productImageLink);
 
-                    const productTitleLink = document.createElement("a")
-                    productTitleLink.href = prod['permalink']
-                    
-                    const productTitle = document.createElement("h2");
-                    productTitle.innerText = prod['name']
-                    productTitle.className = "product-name";
-                    productTitleLink.appendChild(productTitle)
-                    productNameDiv.appendChild(productTitleLink);
-                    
-                    productDiv.appendChild(productNameDiv)
-                
-                    const productPriceDiv = document.createElement("div");
-                productPriceDiv.className = "product-price-box";
-                    
-                    const productPrice = document.createElement("span");
-                    productPrice.innerText = prod['price'];
-                    productPrice.className = "product-price";
-                    productPriceDiv.appendChild(productPrice);
+        const productNameDiv = document.createElement("div");
+        productNameDiv.className = "product-name-box";
 
-                    productDiv.appendChild(productPriceDiv)
+            const productTitleLink = document.createElement("a")
+            productTitleLink.href = prod['permalink']
+            
+            const productTitle = document.createElement("h2");
+            productTitle.innerText = prod['name']
+            productTitle.className = "product-name";
+            productTitleLink.appendChild(productTitle)
+            productNameDiv.appendChild(productTitleLink);
+            
+            productDiv.appendChild(productNameDiv)
+        
+            const productPriceDiv = document.createElement("div");
+            productPriceDiv.className = "product-price-box";
+            
+            const productPrice = document.createElement("span");
+            productPrice.innerText = prod['price'];
+            productPrice.className = "product-price";
+            productPriceDiv.appendChild(productPrice);
 
-            productsDiv.appendChild(productDiv)
-        });
-        return success;
+            productDiv.appendChild(productPriceDiv)
 
-    }).then(function (success) {
-        if (success){
-            const cactusContainer = document.createElement("div");
-            cactusContainer.id = "cactusContainer"
-            cactusContainer.class = "cactusRecommendation"
+    productsDiv.appendChild(productDiv)
+  });
+}
 
-            cactusContainer.appendChild(recommenderSection)
-            targetDiv.insertBefore(cactusContainer, targetDiv[CLIENT_METADATA[COMPANY]['insert-before']]); 
-        }
-        productScroll();
-    });
+function createHtmlElement () {
+
 }
 
 //-----------------------slider------------------------//
