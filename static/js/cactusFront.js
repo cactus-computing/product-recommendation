@@ -15,7 +15,7 @@ const CLIENT_METADATA = {
     'quema': {
         'target-div': "#main .elementor-inner",
         'product-name-selector': ".elementor-widget-container h1",
-        'insert-before': "nextSibling"
+        'insert-before': "lastChild"
     },
     'makerschile': {
         'target-div': "#content .ast-container .woo-variation-gallery-product",
@@ -28,13 +28,23 @@ function processProduct () {
   
   const productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
   const recommenderSection = document.createElement("div");
+
   importStyles();
   
-  crossSellDiv = createCactusCarousel("cross-sell", recommenderSection);
+  crossSellDiv = createCactusCarousel("Productos Complementarios", "cross-sell", recommenderSection);
+  upSellDiv = createCactusCarousel("Productos Similares", "up-sell", recommenderSection);
 
-  getPredictions(crossSellDiv, type="cross_selling", productName, k=30).then( function (success){
-    if (success){ 
-      createCactusContainer(recommenderSection)
+  getPredictions(crossSellDiv, type="cross_selling", productName, k=30).then( function (success){ 
+    if(success){
+      createCactusContainer(recommenderSection);
+      productScroll(type='cross-sell');
+    }
+  });
+
+  getPredictions(upSellDiv, type="up_selling", productName, k=30).then( function (success){ 
+    if(success){
+      createCactusContainer(recommenderSection);
+      productScroll(type='up-sell');
     }
   });
 }
@@ -53,23 +63,22 @@ function importStyles () {
   head.appendChild(link);
 }
 
-function createCactusCarousel(type, recommenderSection){
+function createCactusCarousel(title, type, recommenderSection){
   recommenderSection.className = `${type} slider`;
-    recommenderSection.id = `${type} slider`;
+    recommenderSection.id = `${type}-slider`;
     
     products = [];
 
     const titleDiv = document.createElement("div");
     titleDiv.className =  `${type} title`;
     const sectionTitle = document.createElement("h2");
-    sectionTitle.innerText = "Productos Complementarios";
+    sectionTitle.innerText = title;
     titleDiv.appendChild(sectionTitle)
     recommenderSection.appendChild(titleDiv)
 
-    //------ slider stuff --------//
     const slideBoxDiv = document.createElement("div");
     slideBoxDiv.className =  `${type} slide-box`;
-    slideBoxDiv.id = `${type} slide-box`;
+    slideBoxDiv.id = `${type}-slide-box`;
     recommenderSection.appendChild(slideBoxDiv);
 
     const arrowLeft = document.createElement("button");
@@ -79,14 +88,13 @@ function createCactusCarousel(type, recommenderSection){
 
     const productsDiv = document.createElement("div");
     productsDiv.className = `${type} slide`;
-    productsDiv.id = `${type} slide`;
+    productsDiv.id = `${type}-slide`;
     slideBoxDiv.appendChild(productsDiv);
 
     const arrowRight = document.createElement("button");
     arrowRight.className = `${type} ctrl-btn pro-next`;
     arrowRight.innerText = ">";
     slideBoxDiv.appendChild(arrowRight);
-    //------ end slider stuff --------//
     return productsDiv
 }
 
@@ -94,12 +102,11 @@ const getPredictions = async function (productsDiv, type, productName, k) {
   const response = await fetch(
     `${HOST_DICT[CODE_STATUS]}/api/${type}?name=${productName}&company=${COMPANY}&top-k=${k}`
   )
-  const data = response.json();
+  const data = await response.json();
   let success = false
   if (data["empty"] === false){
-    console.log('data is not empty, carrying on')
     success = true
-    createProductHtml(data["data"], productsDiv), productsDiv;
+    createProductHtml(data["data"], productsDiv);
   }
   return success;
 }
@@ -113,14 +120,14 @@ function createCactusContainer(recommenderSection){
 
   cactusContainer.appendChild(recommenderSection)
   targetDiv.insertBefore(cactusContainer, targetDiv[CLIENT_METADATA[COMPANY]['insert-before']]); 
-  productScroll();
+  
 }
 
 function createProductHtml (data, productsDiv) {
   data.forEach( function(prod) {
     const productDiv = document.createElement("div");
     productDiv.id = prod['sku']
-    productDiv.className = "cross-sell-product";
+    productDiv.className = "product";
         const productImageLink = document.createElement("a")
         productImageLink.href = prod['permalink']
          
@@ -133,26 +140,26 @@ function createProductHtml (data, productsDiv) {
         const productNameDiv = document.createElement("div");
         productNameDiv.className = "product-name-box";
 
-            const productTitleLink = document.createElement("a")
-            productTitleLink.href = prod['permalink']
-            
-            const productTitle = document.createElement("h2");
-            productTitle.innerText = prod['name']
-            productTitle.className = "product-name";
-            productTitleLink.appendChild(productTitle)
-            productNameDiv.appendChild(productTitleLink);
-            
-            productDiv.appendChild(productNameDiv)
+        const productTitleLink = document.createElement("a")
+        productTitleLink.href = prod['permalink']
         
-            const productPriceDiv = document.createElement("div");
-            productPriceDiv.className = "product-price-box";
-            
-            const productPrice = document.createElement("span");
-            productPrice.innerText = prod['price'];
-            productPrice.className = "product-price";
-            productPriceDiv.appendChild(productPrice);
+        const productTitle = document.createElement("h2");
+        productTitle.innerText = prod['name']
+        productTitle.className = "product-name";
+        productTitleLink.appendChild(productTitle)
+        productNameDiv.appendChild(productTitleLink);
+        
+        productDiv.appendChild(productNameDiv)
+    
+        const productPriceDiv = document.createElement("div");
+        productPriceDiv.className = "product-price-box";
+        
+        const productPrice = document.createElement("span");
+        productPrice.innerText = prod['price'];
+        productPrice.className = "product-price";
+        productPriceDiv.appendChild(productPrice);
 
-            productDiv.appendChild(productPriceDiv)
+        productDiv.appendChild(productPriceDiv)
 
     productsDiv.appendChild(productDiv)
   });
@@ -164,13 +171,13 @@ function createHtmlElement () {
 
 //-----------------------slider------------------------//
 
-function productScroll() {
+function productScroll(type) {
 
-    let slider = document.getElementById("cross-sell-slide-box");
-    let next = document.getElementsByClassName("pro-next");
-    let prev = document.getElementsByClassName("pro-prev");
-    let slide = document.getElementById("cross-sell-slide");
-    let item = document.getElementById("cross-sell-slide");
+    let slider = document.getElementById(`${type}-slide-box`);
+    let next = document.getElementsByClassName(`${type} pro-next`);
+    let prev = document.getElementsByClassName(`${type} pro-prev`);
+    let slide = document.getElementById(`${type}-slide`);
+    let item = document.getElementById(`${type}-slide`);
 
     for (let i = 0; i < next.length; i++) {
       //refer elements by class name
@@ -217,5 +224,4 @@ function productScroll() {
     }
     return relevantChildren;
   }
-
 //----------------------- end slider------------------------//

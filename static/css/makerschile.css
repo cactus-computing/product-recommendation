@@ -8,7 +8,7 @@ header .site-header {
     display: block;
 }
 
-#cactusContainer .cross-sell-slider {
+#cactusContainer .slider {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -17,7 +17,7 @@ header .site-header {
     text-align: center;
 }
 
-#cactusContainer .cross-sell-title h2{
+#cactusContainer .title h2{
     font-weight: 600;
     color: #333333;
     font-size: 25px;
@@ -26,7 +26,7 @@ header .site-header {
     border-bottom: 3px solid #0274be;
 }
 
-#cactusContainer .cross-sell-slide-box {
+#cactusContainer .slide-box {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -36,7 +36,7 @@ header .site-header {
     max-width: 1140px;
 }
 
-#cactusContainer .cross-sell-slide-box .cross-sell-slide{
+#cactusContainer .slide-box .slide{
     display: flex;
     position: relative;
     left: 0;
@@ -47,15 +47,15 @@ header .site-header {
     scroll-behavior: smooth;
 }
 
-#cactusContainer .cross-sell-slide::-webkit-scrollbar {
+#cactusContainer .slide::-webkit-scrollbar {
     display: none;
   }
 
-#cactusContainer .cross-sell-slide-box .cross-sell-product:last-child {
+#cactusContainer .slide-box .product:last-child {
     margin-right: 0;
   }  
 
-  #cactusContainer .cross-sell-product {
+  #cactusContainer .product {
     width:200px; 
     min-width:200px;
     height: 320px;
@@ -71,7 +71,7 @@ header .site-header {
     align-items: center;
   }
 
-#cactusContainer .cross-sell-product img {
+#cactusContainer .product img {
     height: 200px;
 	width: 200px;
 	object-fit: cover;
@@ -82,7 +82,7 @@ header .site-header {
     border: 1px solid;*/
 }
 
-#cactusContainer .cross-sell-product .product-name{
+#cactusContainer .product .product-name{
     font-size: 15px;
     font-weight: 600;
     color: #929292;
@@ -93,7 +93,7 @@ header .site-header {
     margin-bottom: 0 !important;
   }
 
-#cactusContainer .cross-sell-product .product-price {
+#cactusContainer .product .product-price {
     font-weight: 600;
     color: #333333;
     font-size: 20px;
