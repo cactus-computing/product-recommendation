@@ -87,7 +87,9 @@ def up_selling(request):
         predicted_products = ProductAttributes.objects.exclude(price__isnull=True).filter(id__in=product_ids)[:top_k]
 
         serializer = ProductAttributesSerializer(predicted_products, many=True)
-
+        for obj in  serializer.data:
+            print(obj["price"])
+            obj["price"] = point_to_int(obj["price"])
         return Response({
             "message": "Sending top 10 Up Selling predictions",
             "query_name": name,
