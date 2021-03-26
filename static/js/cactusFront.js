@@ -15,7 +15,7 @@ const CLIENT_METADATA = {
     'quema': {
         'target-div': "#main .elementor-inner",
         'product-name-selector': ".elementor-widget-container h1",
-        'insert-before': "lastChild"
+        'insert-before': "nextSibling"
     },
     'makerschile': {
         'target-div': "#content .ast-container .woo-variation-gallery-product",
