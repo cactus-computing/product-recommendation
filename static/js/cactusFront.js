@@ -19,11 +19,13 @@ const formatter = new Intl.NumberFormat('es-CL', {
 const CLIENT_METADATA = {
     'quema': {
         'target-div': "#main .elementor-inner",
-        'product-name-selector': ".elementor-widget-container h1"
+        'product-name-selector': ".elementor-widget-container h1",
+        'insert-before': "nextSibling"
     },
     'makerschile': {
-        'target-div': "#content .ast-container #secondary",
-        'product-name-selector': ".entry-title"
+        'target-div': "#content .ast-container .woo-variation-gallery-product",
+        'product-name-selector': ".entry-title",
+        'insert-before': "lastChild"
     },
 }
 
@@ -79,7 +81,7 @@ function addCactusRecommendation () {
     
     // fetch data from API
     fetch(
-        HOST_DICT[CODE_STATUS] + "/api/cross_selling?name=" + productName+ "&company="+COMPANY+"&top-k=20"
+      HOST_DICT[CODE_STATUS] + "/api/cross_selling?name=" + productName+ "&company="+COMPANY+"&top-k=20"
     ).then( function(res) {
         return res.json();
     }).then( function(data) {
@@ -138,7 +140,7 @@ function addCactusRecommendation () {
             cactusContainer.class = "cactusRecommendation"
 
             cactusContainer.appendChild(recommenderSection)
-            targetDiv.insertBefore(cactusContainer, targetDiv.nextSibling);
+            targetDiv.insertBefore(cactusContainer, targetDiv[CLIENT_METADATA[COMPANY]['insert-before']]); 
         }
         productScroll();
     });
