@@ -30,9 +30,11 @@ function addCactusRecommendation () {
     const link = document.createElement("link");
     const head = document.head;
     
+    timestamp = Date.now()
+    
     link.type = "text/css";
     link.rel = "stylesheet";
-    link.href = HOST_DICT[CODE_STATUS] + "/static/css/" + COMPANY + ".css";
+    link.href = HOST_DICT[CODE_STATUS] + "/static/css/" + COMPANY + ".css" + "?t=" + timestamp;
 
     head.appendChild(link);
 
