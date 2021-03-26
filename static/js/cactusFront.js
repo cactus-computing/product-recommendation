@@ -24,6 +24,7 @@ const CLIENT_METADATA = {
     },
 }
 
+
 function processProduct () {
   
   const productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
@@ -59,6 +60,7 @@ function importStyles () {
   link.type = "text/css";
   link.rel = "stylesheet";
   link.href = HOST_DICT[CODE_STATUS] + "/static/css/" + COMPANY + ".css";
+
 
   head.appendChild(link);
 }
