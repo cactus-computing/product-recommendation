@@ -6,6 +6,12 @@ from rest_framework.response import Response
 from .models import CrossSellPredictions, UpSellPredictions, ProductAttributes
 from .serializers import CrossSellPredictionsSerializer, UpSellPredictionsSerializer, ProductAttributesSerializer
 
+
+def point_to_int(price):
+    price = int(price)
+    price = f"${price:,}".replace(',','.')
+    return price
+
 @api_view(['GET', 'POST'])
 def testing_api(request):
     '''
@@ -36,6 +42,9 @@ def cross_selling(request):
         predicted_products = ProductAttributes.objects.exclude(price__isnull=True).filter(id__in=product_ids)[:top_k]
 
         serializer = ProductAttributesSerializer(predicted_products, many=True)
+        for obj in  serializer.data:
+            print(obj["price"])
+            obj["price"] = point_to_int(obj["price"])
 
         return Response({
             "message": f"Sending top 10 cross_sell predictions",
