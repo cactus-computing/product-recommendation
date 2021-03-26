@@ -11,11 +11,6 @@ const HOST_DICT = {
     prod: "https://cactusco.cl"
 }
 
-const formatter = new Intl.NumberFormat('es-CL', {
-    style: 'currency',
-    currency: 'CLP',
-  })
-
 const CLIENT_METADATA = {
     'quema': {
         'target-div': "#main .elementor-inner",
@@ -123,7 +118,7 @@ function addCactusRecommendation () {
                 productPriceDiv.className = "product-price-box";
                     
                     const productPrice = document.createElement("span");
-                    productPrice.innerText = formatter.format(prod['price']);
+                    productPrice.innerText = prod['price'];
                     productPrice.className = "product-price";
                     productPriceDiv.appendChild(productPrice);
 
