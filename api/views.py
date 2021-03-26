@@ -32,8 +32,14 @@ def cross_selling(request):
         name = request.query_params["name"].strip().lower()
         company = request.query_params["company"]
         top_k = int(request.query_params["top-k"])
-
-        original_product = ProductAttributes.objects.get(name__iexact=name, company=company)
+        
+        original_product = ProductAttributes.objects.filter(name__iexact=name, company=company).first()
+        if original_product is None:
+            return Response({
+                "message": "Your product was not found :(",
+                "error": True,
+                "empty": True,
+            })
 
         predictions = CrossSellPredictions.objects.filter(product_code__name__iexact=name, product_code__company=company)
         predictions = predictions.exclude(product_code__price__isnull=True)
@@ -51,6 +57,7 @@ def cross_selling(request):
             "query_name": name,
             "original_name": original_product.name,
             "original_code": original_product.product_code,
+            "empty": len(serializer.data) == 0,
             "data": serializer.data
         })
 
@@ -65,7 +72,13 @@ def up_selling(request):
         company = request.query_params["company"]
         top_k = int(request.query_params["top-k"])
 
-        original_product = ProductAttributes.objects.get(name__iexact=name, company=company)
+        original_product = ProductAttributes.objects.filter(name__iexact=name, company=company).first()
+        if original_product is None:
+            return Response({
+                "message": "Your product was not found :(",
+                "error": True,
+                "empty": True,
+            })
 
         predictions = UpSellPredictions.objects.filter(product_code__name__iexact=name, product_code__company=company)
         predictions = predictions.exclude(product_code__price__isnull=True)
@@ -76,9 +89,10 @@ def up_selling(request):
         serializer = ProductAttributesSerializer(predicted_products, many=True)
 
         return Response({
-            "message": f"Sending top 10 Up Selling predictions",
+            "message": "Sending top 10 Up Selling predictions",
             "query_name": name,
             "original_name": original_product.name,
             "original_code": original_product.product_code,
+            "empty": len(serializer.data) == 0,
             "data": serializer.data
         })
