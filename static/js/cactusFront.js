@@ -155,7 +155,7 @@ function createProductHtml (data, productsDiv) {
             createCookie(cookieName,productNameClicked,5);
             let productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
             gtag('event', productName, {
-              'event_category': "Click Related Product",
+              'event_category': "Related Product Click",
               'event_label': productNameClicked,
               'value': 1
             });
@@ -182,7 +182,7 @@ function createProductHtml (data, productsDiv) {
             createCookie(cookieName,productNameClicked,5);
             let productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
             gtag('event', productName, {
-              'event_category': "Click Related Product",
+              'event_category': "Related Product Click",
               'event_label': productNameClicked,
               'value': 1
             });
