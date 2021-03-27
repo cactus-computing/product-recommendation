@@ -3,7 +3,7 @@ window.onload = processProduct;
 const cactusScript = document.getElementById('CactusScript');
 const COMPANY = cactusScript.src.match(/(\?|\&)([^=]+)\=([^&]+)/)[3]
 
-const CODE_STATUS = 'local' // options: local, dev, prod
+const CODE_STATUS = 'dev' // options: local, dev, prod
 
 const HOST_DICT = {
     local: "http://localhost:8000",
@@ -147,19 +147,18 @@ function createProductHtml (data, productsDiv) {
         const productImage = document.createElement("img");
         productImage.src = prod['href']
         productImage.className = "product-image";
-        
-          productImage.addEventListener('click', function() {
-            let productNameClicked = prod['name'].toLowerCase();
-            let timestamp = Date.now();
-            let cookieName = "ClickRelatedProduct"+"_"+timestamp;
-            createCookie(cookieName,productNameClicked,5);
-            let productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
-            gtag('event', productName, {
-              'event_category': "Related Product Click",
-              'event_label': productNameClicked,
-              'value': 1
-            });
-          })
+        productImage.addEventListener('click', function() {
+          let productNameClicked = prod['name'].toLowerCase();
+          let timestamp = Date.now();
+          let cookieName = "ClickRelatedProduct"+"_"+timestamp;
+          createCookie(cookieName,productNameClicked,5);
+          let productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
+          gtag('event', productName, {
+            'event_category': "Related Product Click",
+            'event_label': productNameClicked,
+            'value': 1
+          });
+        })
 
         productImageLink.appendChild(productImage)
         productDiv.appendChild(productImageLink);
@@ -173,20 +172,18 @@ function createProductHtml (data, productsDiv) {
         const productTitle = document.createElement("h2");
         productTitle.innerText = prod['name']
         productTitle.className = "product-name";
-
-          
-          productTitle.addEventListener('click', function() {
-            let productNameClicked = prod['name'].toLowerCase();
-            let timestamp = Date.now();
-            let cookieName = "ClickRelatedProduct"+"_"+timestamp;
-            createCookie(cookieName,productNameClicked,5);
-            let productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
-            gtag('event', productName, {
-              'event_category': "Related Product Click",
-              'event_label': productNameClicked,
-              'value': 1
-            });
-          })
+        productTitle.addEventListener('click', function() {
+          let productNameClicked = prod['name'].toLowerCase();
+          let timestamp = Date.now();
+          let cookieName = "ClickRelatedProduct"+"_"+timestamp;
+          createCookie(cookieName,productNameClicked,5);
+          let productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
+          gtag('event', productName, {
+            'event_category': "Related Product Click",
+            'event_label': productNameClicked,
+            'value': 1
+          });
+        })
 
         productTitleLink.appendChild(productTitle)
         productNameDiv.appendChild(productTitleLink);
