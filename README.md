@@ -11,7 +11,7 @@
 - [Django scripts](##django-scripts)
 - [API Documentation](##api-documentation)
 - [Google Tag Manager (GTM)](##google-tag-manager-(gtm))
-
+- [Django Linting](##django-linting)
 ## Dev Environment Setup
 
 Clone the repository
@@ -342,4 +342,17 @@ Obs: Para cada eCommerce hay que cambiar como se leen los productos comprados
     4. Se lee esa cookie desde una variable en GTM
     5. Se envía un evento a GTM con el valor de la variable (monto total comprado de productos relacionados)
     6. Se elimina la cookie del monto total
+
+- [Index](##index)
+
+## Django Linting
+
+To use pylint-django to inspect your code, run the following command
+
+```
+docker-compose run web /usr/local/bin/python -m pylint --load-plugins pylint_django <file_name_or_path_name>
+```
+
+This will point out posible conventions that are not being followed in your code. Also it will point out any errors.
+
 - [Index](##index)
