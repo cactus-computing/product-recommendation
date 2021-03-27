@@ -163,3 +163,5 @@ eNno
 static/django_extensions
 static/rest_framework
 ngrok
+
+node_modules
