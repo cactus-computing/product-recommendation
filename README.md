@@ -343,3 +343,23 @@ Obs: Para cada eCommerce hay que cambiar como se leen los productos comprados
     5. Se envía un evento a GTM con el valor de la variable (monto total comprado de productos relacionados)
     6. Se elimina la cookie del monto total
 - [Index](##index)
+
+## Ngrok
+
+[Ngrok docs](https://ngrok.com/docs)
+
+This is the setup of ngrok to route traffic through a custom domain name.
+
+To tunnel the traffic from `http://demo.cactusco.cl/` to your local machine, you need to install ngrok
+
+```
+brew install --cask ngrok
+```
+
+Then, use the `--hostname` when serving your files
+
+```
+ngrok http -hostname=demo.cactusco.cl <server-port>
+```
+
+If you want to add another domain to the allowed hosts, you must first set up your new domain [here](https://dashboard.ngrok.com/endpoints/domains). Then, you must add the domain to your HOST parameter in the .env file inside `/cactusco`.
