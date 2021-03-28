@@ -3,7 +3,7 @@ window.onload = processProduct;
 const cactusScript = document.getElementById('CactusScript');
 const COMPANY = cactusScript.src.match(/(\?|\&)([^=]+)\=([^&]+)/)[3]
 
-const CODE_STATUS = 'dev' // options: local, dev, prod
+const CODE_STATUS = 'prod'; // options: local, dev, prod
 
 const HOST_DICT = {
     local: "http://localhost:8000",
@@ -15,21 +15,23 @@ const CLIENT_METADATA = {
     'quema': {
         'target-div': "#main .elementor-inner",
         'product-name-selector': ".elementor-widget-container h1",
-        'insert-before': "nextSibling"
+        'insert-before': "nextSibling",
+        'ga-measurement-id': "UA-119655898-1"
     },
     'makerschile': {
         'target-div': "#content .ast-container .woo-variation-gallery-product",
         'product-name-selector': ".entry-title",
-        'insert-before': "lastChild"
+        'insert-before': "lastChild",
+        'ga-measurement-id': "UA-159111495-1"
     },
 }
 
-
-function processProduct () {
+function processProduct() {
   
   const productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
   const recommenderSection = document.createElement("div");
 
+  setGoogleAnalytics();
   importStyles();
   
   crossSellDiv = createCactusCarousel("Productos Complementarios", "cross-sell", recommenderSection);
@@ -50,17 +52,26 @@ function processProduct () {
   });
 }
 
+function setGoogleAnalytics () {
+  const script = document.createElement("script");
+  const head = document.head;
+  script.async = "async";
+  script.src = "https://www.googletagmanager.com/gtag/js?id="+CLIENT_METADATA[COMPANY]['ga-measurement-id'];
+  head.appendChild(script);
 
-function importStyles () {
-  /* Create Div and add content */
-  
+  const scriptJs = document.createElement("script");
+  scriptJs.innerText = 
+    "window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config','"+CLIENT_METADATA[COMPANY]['ga-measurement-id']+"');";
+  head.appendChild(scriptJs);
+}
+
+function importStyles () {  
   const link = document.createElement("link");
   const head = document.head;
   
   link.type = "text/css";
   link.rel = "stylesheet";
   link.href = HOST_DICT[CODE_STATUS] + "/static/css/" + COMPANY + ".css";
-
 
   head.appendChild(link);
 }
@@ -136,6 +147,19 @@ function createProductHtml (data, productsDiv) {
         const productImage = document.createElement("img");
         productImage.src = prod['href']
         productImage.className = "product-image";
+        productImage.addEventListener('click', function() {
+          let productNameClicked = prod['name'].toLowerCase();
+          let timestamp = Date.now();
+          let cookieName = "ClickRelatedProduct"+"_"+timestamp;
+          createCookie(cookieName,productNameClicked,5);
+          let productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
+          gtag('event', productName, {
+            'event_category': "Related Product Click",
+            'event_label': productNameClicked,
+            'value': 1
+          });
+        })
+
         productImageLink.appendChild(productImage)
         productDiv.appendChild(productImageLink);
 
@@ -148,6 +172,19 @@ function createProductHtml (data, productsDiv) {
         const productTitle = document.createElement("h2");
         productTitle.innerText = prod['name']
         productTitle.className = "product-name";
+        productTitle.addEventListener('click', function() {
+          let productNameClicked = prod['name'].toLowerCase();
+          let timestamp = Date.now();
+          let cookieName = "ClickRelatedProduct"+"_"+timestamp;
+          createCookie(cookieName,productNameClicked,5);
+          let productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
+          gtag('event', productName, {
+            'event_category': "Related Product Click",
+            'event_label': productNameClicked,
+            'value': 1
+          });
+        })
+
         productTitleLink.appendChild(productTitle)
         productNameDiv.appendChild(productTitleLink);
         
@@ -165,10 +202,6 @@ function createProductHtml (data, productsDiv) {
 
     productsDiv.appendChild(productDiv)
   });
-}
-
-function createHtmlElement () {
-
 }
 
 //-----------------------slider------------------------//
@@ -226,4 +259,17 @@ function productScroll(type) {
     }
     return relevantChildren;
   }
+
 //----------------------- end slider------------------------//
+//----------------------- start analytics------------------------//
+
+function createCookie(name,value,days) {
+	// crea cookie con nombre, valor y dias en que expirará
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime()+(days*24*60*60*1000));
+		var expires = "; expires="+date.toGMTString();
+	}
+	else var expires = "";
+	document.cookie = name+"="+value+expires+"; path=/";
+}
