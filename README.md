@@ -343,6 +343,7 @@ Obs: Para cada eCommerce hay que cambiar como se leen los productos comprados
     5. Se envía un evento a GTM con el valor de la variable (monto total comprado de productos relacionados)
     6. Se elimina la cookie del monto total
 
+
 - [Index](##index)
 
 ## Django Linting
@@ -355,4 +356,50 @@ docker-compose run web /usr/local/bin/python -m pylint --load-plugins pylint_dja
 
 This will point out posible conventions that are not being followed in your code. Also it will point out any errors.
 
+
 - [Index](##index)
+
+
+## Ngrok
+
+[Ngrok docs](https://ngrok.com/docs)
+
+This is the setup of ngrok to route traffic through a custom domain name.
+
+To tunnel the traffic from `http://demo.cactusco.cl/` to your local machine, you need to install ngrok
+
+```
+brew install --cask ngrok
+```
+
+Then, you must authenticate using
+
+```
+ngrok authtoken <auth-token>
+```
+
+You can find the authtoken in the `.env` file of the project (check out the [Dev Environment Setup](##dev-environment-setup) section to get the file). From the `.env` file copy your authtoken for the ngrok service.
+
+Then, use the `--hostname` when serving your files
+
+```
+ngrok http -hostname=demo.cactusco.cl <server-port>
+```
+
+If you want to add another domain to the allowed hosts, you must first set up your new domain [here](https://dashboard.ngrok.com/endpoints/domains). Then, you must add the domain to your HOST parameter in the .env file inside `/cactusco`.
+
+## Javascript
+ 
+### ESLint
+You have to install npm.
+
+```
+brew install npm
+```
+
+Once that's done, install node dependencies by running
+
+```
+npm install
+```
+You may need to enable ESLint in VSCode by going into a JS file, in the firstline there will be a warning highlight. Click on it and a small lightbulb will apear. Click on the lightbulb to enable the linter.
