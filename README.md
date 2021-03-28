@@ -350,7 +350,7 @@ Obs: Para cada eCommerce hay que cambiar como se leen los productos comprados
 You have to install npm.
 
 ```
-brew install --cask npm
+brew install npm
 ```
 
 Once that's done, install node dependencies by running
