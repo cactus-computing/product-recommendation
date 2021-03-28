@@ -27,7 +27,6 @@ credentials = service_account.Credentials.from_service_account_file(
     KEY_PATH, scopes=["https://www.googleapis.com/auth/cloud-platform"],
 )
 
-
 def run(*args):
     client_name = args[0]
     client = storage.Client(credentials=credentials, project=credentials.project_id)
@@ -54,7 +53,7 @@ def run(*args):
             sku = row[2]
             if row[2] == '':
                 sku = row[0]
-            p, _ = ProductAttributes.objects.update_or_create(
+            ProductAttributes.objects.update_or_create(
                 product_code=row[0],
                 name=row[1],
                 sku=sku,
@@ -67,7 +66,6 @@ def run(*args):
                     'price': row[3] if row[3] else None
                 }
             )
-
     # Iterar sobre los UpSells y subirlos, relacionando el product_code con el ID
     in_upsell = []
     for e, up in tqdm(enumerate(up_sell)):
@@ -93,7 +91,7 @@ def run(*args):
                 product_code=up[1],
                 company=client_name
                 )
-            us = UpSellPredictions.objects.update_or_create(
+            UpSellPredictions.objects.update_or_create(
                 product_code=original_product, 
                 recommended_code=related_product,                 
                 company=up[5],
@@ -125,8 +123,7 @@ def run(*args):
                 product_code=cross[1], 
                 company=client_name
                 )
-            
-            cs = CrossSellPredictions.objects.update_or_create(
+            CrossSellPredictions.objects.update_or_create(
                 product_code=original_product, 
                 recommended_code=related_product,  
                 company=cross[5],
