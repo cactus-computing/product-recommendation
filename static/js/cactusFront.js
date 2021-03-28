@@ -3,6 +3,7 @@ window.onload = processProduct;
 const cactusScript = document.getElementById('CactusScript');
 const COMPANY = cactusScript.src.match(/(\?|\&)([^=]+)\=([^&]+)/)[3]
 
+
 const CODE_STATUS = 'prod' // options: local, dev, prod
 
 const HOST_DICT = {
