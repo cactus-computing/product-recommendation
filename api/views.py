@@ -49,7 +49,6 @@ def cross_selling(request):
 
         serializer = ProductAttributesSerializer(predicted_products, many=True)
         for obj in  serializer.data:
-            print(obj["price"])
             obj["price"] = point_to_int(obj["price"])
 
         return Response({
@@ -88,7 +87,6 @@ def up_selling(request):
 
         serializer = ProductAttributesSerializer(predicted_products, many=True)
         for obj in  serializer.data:
-            print(obj["price"])
             obj["price"] = point_to_int(obj["price"])
         return Response({
             "message": "Sending top 10 Up Selling predictions",
