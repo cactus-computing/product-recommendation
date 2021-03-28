@@ -356,6 +356,14 @@ To tunnel the traffic from `http://demo.cactusco.cl/` to your local machine, you
 brew install --cask ngrok
 ```
 
+Then, you must authenticate using
+
+```
+ngrok authtoken <auth-token>
+```
+
+You can find the authtoken in the `.env` file of the project (check out the [Dev Environment Setup](##dev-environment-setup) section to get the file). From the `.env` file copy your authtoken for the ngrok service.
+
 Then, use the `--hostname` when serving your files
 
 ```
