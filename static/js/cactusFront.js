@@ -22,11 +22,11 @@ const CLIENT_METADATA = {
         'target-div': "#content .ast-container .woo-variation-gallery-product",
         'product-name-selector': ".entry-title",
         'insert-before': "lastChild",
-        'ga-measurement-id': "UA-XXXXXXX-1"
+        'ga-measurement-id': "UA-159111495-1"
     },
 }
 
-function processProduct () {
+function processProduct() {
   
   const productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
   const recommenderSection = document.createElement("div");

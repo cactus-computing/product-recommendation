@@ -2,12 +2,12 @@ function setGoogleAnalytics() {
     const script = document.createElement('script');
     const head = document.head;
     script.async = "async";
-    script.src = "https://www.googletagmanager.com/gtag/js?id=UA-119655898-1";
+    script.src = "https://www.googletagmanager.com/gtag/js?id=UA-159111495-1";
     head.appendChild(script);
 
     let scriptJs = document.createElement("script");
     scriptJs.innerText = 
-        "window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config','UA-119655898-1');";
+        "window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config','UA-159111495-1');";
     head.appendChild(scriptJs);
 }
 
