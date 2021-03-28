@@ -343,3 +343,19 @@ Obs: Para cada eCommerce hay que cambiar como se leen los productos comprados
     5. Se envía un evento a GTM con el valor de la variable (monto total comprado de productos relacionados)
     6. Se elimina la cookie del monto total
 - [Index](##index)
+
+## Javascript
+ 
+### ESLint
+You have to install npm.
+
+```
+brew install npm
+```
+
+Once that's done, install node dependencies by running
+
+```
+npm install
+```
+You may need to enable ESLint in VSCode by going into a JS file, in the firstline there will be a warning highlight. Click on it and a small lightbulb will apear. Click on the lightbulb to enable the linter.
