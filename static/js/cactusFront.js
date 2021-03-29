@@ -1,50 +1,55 @@
 window.onload = processProduct;
 
 const cactusScript = document.getElementById('CactusScript');
-const COMPANY = cactusScript.src.match(/(\?|\&)([^=]+)\=([^&]+)/)[3]
+const COMPANY = cactusScript.src.match(/(\?|\&)([^=]+)\=([^&]+)/)[3];
 
-const CODE_STATUS = 'prod'; // options: local, dev, prod
+const CODE_STATUS = 'local'; // options: local, dev, prod
 
 const HOST_DICT = {
-    local: "http://localhost:8000",
-    dev: "https://dev.cactusco.cl",
-    prod: "https://cactusco.cl"
-}
+    local: 'http://localhost:8000',
+    dev: 'https://dev.cactusco.cl',
+    prod: 'https://cactusco.cl',
+};
 
 const CLIENT_METADATA = {
-    'quema': {
-        'target-div': "#main .elementor-inner",
-        'product-name-selector': ".elementor-widget-container h1",
-        'insert-before': "nextSibling",
-        'ga-measurement-id': "UA-119655898-1"
+    quema: {
+        'target-div': '#main .elementor-inner',
+        'product-name-selector': '.elementor-widget-container h1',
+        'insert-before': 'nextSibling',
+        'ga-measurement-id': 'UA-119655898-1',
     },
-    'makerschile': {
-        'target-div': "#content .ast-container .woo-variation-gallery-product",
-        'product-name-selector': ".entry-title",
-        'insert-before': "lastChild",
-        'ga-measurement-id': "UA-159111495-1"
+    makerschile: {
+        'target-div': '#content .ast-container .woo-variation-gallery-product',
+        'product-name-selector': '.entry-title',
+        'insert-before': 'lastChild',
+        'ga-measurement-id': 'UA-159111495-1',
     },
-}
+    pippa: {
+        'target-div': '#shopify-section-product-template',
+        'product-name-selector': '.product_name',
+        'insert-before': 'childNodes[0]',
+        'ga-measurement-id': 'UA-105999666-1',
+    },
+};
 
 function processProduct() {
-  
-  const productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
-  const recommenderSection = document.createElement("div");
+    const productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
+    const recommenderSection = document.createElement('div');
 
   setGoogleAnalytics();
   importStyles();
   
-  crossSellDiv = createCactusCarousel("Productos Complementarios", "cross-sell", recommenderSection);
-  upSellDiv = createCactusCarousel("Productos Similares", "up-sell", recommenderSection);
+  crossSellDiv = createCactusCarousel('Productos Relacionados', 'cross-sell', recommenderSection);
+  upSellDiv = createCactusCarousel('Productos Similares', 'up-sell', recommenderSection);
 
-  getPredictions(crossSellDiv, type="cross_selling", productName, k=30).then( function (success){ 
+  getPredictions(crossSellDiv, type='cross_selling', productName, k=30).then( function (success){ 
     if(success){
       createCactusContainer(recommenderSection);
       productScroll(type='cross-sell');
     }
   });
 
-  getPredictions(upSellDiv, type="up_selling", productName, k=30).then( function (success){ 
+  getPredictions(upSellDiv, type='up_selling', productName, k=30).then( function (success){ 
     if(success){
       createCactusContainer(recommenderSection);
       productScroll(type='up-sell');
@@ -53,25 +58,25 @@ function processProduct() {
 }
 
 function setGoogleAnalytics () {
-  const script = document.createElement("script");
+  const script = document.createElement('script');
   const head = document.head;
-  script.async = "async";
-  script.src = "https://www.googletagmanager.com/gtag/js?id="+CLIENT_METADATA[COMPANY]['ga-measurement-id'];
+  script.async = 'async';
+  script.src = 'https://www.googletagmanager.com/gtag/js?id='+CLIENT_METADATA[COMPANY]['ga-measurement-id'];
   head.appendChild(script);
 
-  const scriptJs = document.createElement("script");
+  const scriptJs = document.createElement('script');
   scriptJs.innerText = 
     "window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config','"+CLIENT_METADATA[COMPANY]['ga-measurement-id']+"');";
   head.appendChild(scriptJs);
 }
 
 function importStyles () {  
-  const link = document.createElement("link");
+  const link = document.createElement('link');
   const head = document.head;
   
-  link.type = "text/css";
-  link.rel = "stylesheet";
-  link.href = HOST_DICT[CODE_STATUS] + "/static/css/" + COMPANY + ".css";
+  link.type = 'text/css';
+  link.rel = 'stylesheet';
+  link.href = HOST_DICT[CODE_STATUS] + '/static/css/pippa.css';
 
   head.appendChild(link);
 }
@@ -82,31 +87,31 @@ function createCactusCarousel(title, type, recommenderSection){
     
     products = [];
 
-    const titleDiv = document.createElement("div");
+    const titleDiv = document.createElement('div');
     titleDiv.className =  `${type} title`;
-    const sectionTitle = document.createElement("h2");
+    const sectionTitle = document.createElement('h2');
     sectionTitle.innerText = title;
     titleDiv.appendChild(sectionTitle)
     recommenderSection.appendChild(titleDiv)
 
-    const slideBoxDiv = document.createElement("div");
+    const slideBoxDiv = document.createElement('div');
     slideBoxDiv.className =  `${type} slide-box`;
     slideBoxDiv.id = `${type}-slide-box`;
     recommenderSection.appendChild(slideBoxDiv);
 
-    const arrowLeft = document.createElement("button");
+    const arrowLeft = document.createElement('button');
     arrowLeft.className = `${type} ctrl-btn pro-prev`;
-    arrowLeft.innerText = "<";
+    arrowLeft.innerText = '<';
     slideBoxDiv.appendChild(arrowLeft);
 
-    const productsDiv = document.createElement("div");
+    const productsDiv = document.createElement('div');
     productsDiv.className = `${type} slide`;
     productsDiv.id = `${type}-slide`;
     slideBoxDiv.appendChild(productsDiv);
 
-    const arrowRight = document.createElement("button");
+    const arrowRight = document.createElement('button');
     arrowRight.className = `${type} ctrl-btn pro-next`;
-    arrowRight.innerText = ">";
+    arrowRight.innerText = '>';
     slideBoxDiv.appendChild(arrowRight);
     return productsDiv
 }
@@ -117,9 +122,9 @@ const getPredictions = async function (productsDiv, type, productName, k) {
   )
   const data = await response.json();
   let success = false
-  if (data["empty"] === false){
+  if (data['empty'] === false){
     success = true
-    createProductHtml(data["data"], productsDiv);
+    createProductHtml(data['data'], productsDiv);
   }
   return success;
 }
@@ -127,9 +132,9 @@ const getPredictions = async function (productsDiv, type, productName, k) {
 function createCactusContainer(recommenderSection){
   
   const targetDiv = document.querySelector(CLIENT_METADATA[COMPANY]['target-div']);
-  const cactusContainer = document.createElement("div");
-  cactusContainer.id = "cactusContainer"
-  cactusContainer.class = "cactusRecommendation"
+  const cactusContainer = document.createElement('div');
+  cactusContainer.id = 'cactusContainer'
+  cactusContainer.class = 'cactusRecommendation'
 
   cactusContainer.appendChild(recommenderSection)
   targetDiv.insertBefore(cactusContainer, targetDiv[CLIENT_METADATA[COMPANY]['insert-before']]); 
@@ -138,23 +143,23 @@ function createCactusContainer(recommenderSection){
 
 function createProductHtml (data, productsDiv) {
   data.forEach( function(prod) {
-    const productDiv = document.createElement("div");
+    const productDiv = document.createElement('div');
     productDiv.id = prod['sku']
-    productDiv.className = "product";
-        const productImageLink = document.createElement("a")
+    productDiv.className = 'product';
+        const productImageLink = document.createElement('a')
         productImageLink.href = prod['permalink']
          
-        const productImage = document.createElement("img");
+        const productImage = document.createElement('img');
         productImage.src = prod['href']
-        productImage.className = "product-image";
+        productImage.className = 'product-image';
         productImage.addEventListener('click', function() {
           let productNameClicked = prod['name'].toLowerCase();
           let timestamp = Date.now();
-          let cookieName = "ClickRelatedProduct"+"_"+timestamp;
+          let cookieName = 'ClickRelatedProduct'+'_'+timestamp;
           createCookie(cookieName,productNameClicked,5);
           let productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
           gtag('event', productName, {
-            'event_category': "Related Product Click",
+            'event_category': 'Related Product Click',
             'event_label': productNameClicked,
             'value': 1
           });
@@ -163,23 +168,23 @@ function createProductHtml (data, productsDiv) {
         productImageLink.appendChild(productImage)
         productDiv.appendChild(productImageLink);
 
-        const productNameDiv = document.createElement("div");
-        productNameDiv.className = "product-name-box";
+        const productNameDiv = document.createElement('div');
+        productNameDiv.className = 'product-name-box';
 
-        const productTitleLink = document.createElement("a")
+        const productTitleLink = document.createElement('a')
         productTitleLink.href = prod['permalink']
         
-        const productTitle = document.createElement("h2");
+        const productTitle = document.createElement('h2');
         productTitle.innerText = prod['name']
-        productTitle.className = "product-name";
+        productTitle.className = 'product-name';
         productTitle.addEventListener('click', function() {
           let productNameClicked = prod['name'].toLowerCase();
           let timestamp = Date.now();
-          let cookieName = "ClickRelatedProduct"+"_"+timestamp;
+          let cookieName = 'ClickRelatedProduct'+'_'+timestamp;
           createCookie(cookieName,productNameClicked,5);
           let productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
           gtag('event', productName, {
-            'event_category': "Related Product Click",
+            'event_category': 'Related Product Click',
             'event_label': productNameClicked,
             'value': 1
           });
@@ -190,12 +195,12 @@ function createProductHtml (data, productsDiv) {
         
         productDiv.appendChild(productNameDiv)
     
-        const productPriceDiv = document.createElement("div");
-        productPriceDiv.className = "product-price-box";
+        const productPriceDiv = document.createElement('div');
+        productPriceDiv.className = 'product-price-box';
         
-        const productPrice = document.createElement("span");
+        const productPrice = document.createElement('span');
         productPrice.innerText = prod['price'];
-        productPrice.className = "product-price";
+        productPrice.className = 'product-price';
         productPriceDiv.appendChild(productPrice);
 
         productDiv.appendChild(productPriceDiv)
@@ -220,7 +225,7 @@ function productScroll(type) {
       let position = 0; //slider postion
       let width = 210; // product box + margin width
       let visibleProductsWanted = 3;
-      prev[i].addEventListener("click", function() {
+      prev[i].addEventListener('click', function() {
         //click previos button
         if (position > 0) {
           //avoid slide left beyond the first item
@@ -229,7 +234,7 @@ function productScroll(type) {
         }
       });
   
-      next[i].addEventListener("click", function() {
+      next[i].addEventListener('click', function() {
         if (position >= 0 && position < hiddenItems()) {
           //avoid slide right beyond the last item
           position += 1;
@@ -268,8 +273,8 @@ function createCookie(name,value,days) {
 	if (days) {
 		var date = new Date();
 		date.setTime(date.getTime()+(days*24*60*60*1000));
-		var expires = "; expires="+date.toGMTString();
+		var expires = '; expires='+date.toGMTString();
 	}
-	else var expires = "";
-	document.cookie = name+"="+value+expires+"; path=/";
+	else var expires = '';
+	document.cookie = name+'='+value+expires+'; path=/';
 }

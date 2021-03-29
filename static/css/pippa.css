@@ -1,0 +1,152 @@
+/*By Rorro, Mic Drop.*/
+
+header .site-header {
+    width: auto;
+}
+
+#cactusContainer{
+    display: block;
+    margin-bottom: 20px;
+}
+
+#cactusContainer .slider {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-family: "Poppins", Sans-serif;
+    text-align: center;
+}
+
+#cactusContainer .title h2{
+    font-weight: lighter;
+    color: #d2328a;
+    font-size: 20px;
+    
+    letter-spacing: 0.5px;
+    margin-bottom: 20px !important;
+    border-bottom: 1px solid #e9d9d6be;
+}
+
+#cactusContainer .slide-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 610px;
+    position: relative;
+}
+
+#cactusContainer .slide-box .slide{
+    display: flex;
+    position: relative;
+    left: 0;
+    padding: 5px;
+    margin: auto;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+}
+
+#cactusContainer .slide::-webkit-scrollbar {
+    display: none;
+  }
+
+#cactusContainer .slide-box .product:last-child {
+    margin-right: 0;
+  }  
+
+  #cactusContainer .product {
+    width:340px; 
+    min-width:340px; 
+    height: 610px;
+	margin-right: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+#cactusContainer .product img {
+    height: 530px;
+	width: 340px;
+	object-fit: cover;
+	box-sizing: border-box;
+}
+
+#cactusContainer .product .product-name{
+    font-size: 1.2vw;
+    font-weight: lighter;
+	letter-spacing: 1px;
+    font-style: normal;
+    top: 0;
+    text-transform: uppercase;
+    color: #d2328a;
+    text-align: center;
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+    width: 100%;
+    text-size-adjust: 0%;
+  }
+
+#cactusContainer .product .product-price {
+    font-weight: normal;
+    color: #5d5d5d;
+    font-size: 1.2vw;
+    letter-spacing: 1px;
+    text-align: center;
+    text-size-adjust: 0%;
+}
+
+#cactusContainer .product-price-box{
+    bottom: 0;
+    margin-bottom: 7px;
+}
+
+#cactusContainer .ctrl-btn {
+    padding: 10px 10px;
+    min-width: 50px;
+    background: #fff;
+    box-shadow: 2px 2px 30px rgba(0,0,0,0.2);
+    border: 1px solid;
+    border-radius: 10px;
+    border-color: #ebebeb;
+    font-weight: 600;
+    font-size: 30px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    margin: 5px;
+    color: #5d5d5d;
+}
+  
+@media only screen and (max-width: 600px) {
+    #cactusContainer .ctrl-btn {
+        display: none;
+        }
+    } 
+.cross-sell.title {
+    display:none;
+}    
+#cross-sell-slide-box {
+    display:none;
+}    
+
+.cross-sell.ctrl-btn {
+    display:none;
+}  
+
+.related-products__title{
+    display: none;
+}
+.related-products{
+    display: none;
+}
+/*
+@media only screen and (min-device-width: 320px) and (max-device-width: 1024px) {
+    #cactusContainer .product{
+        -webkit-text-size-adjust: 0%;
+    }
+}
+*/
