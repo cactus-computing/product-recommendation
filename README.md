@@ -403,3 +403,31 @@ Once that's done, install node dependencies by running
 npm install
 ```
 You may need to enable ESLint in VSCode by going into a JS file, in the firstline there will be a warning highlight. Click on it and a small lightbulb will apear. Click on the lightbulb to enable the linter.
+
+
+## Configure Cloud Run and CLoud build
+
+
+build and deploy
+gcloud builds submit --config cloudmigrate.yaml
+    --substitutions _INSTANCE_NAME=cactus-computing-service,_REGION=us-central1
+
+gcloud run deploy cactus-computing \
+    --platform managed \
+    --region us-central1 \
+    --image gcr.io/long-walker-301219/polls-service \
+    --add-cloudsql-instances long-walker-301219:us-central1:cactus-computing-service \
+    --allow-unauthenticated
+
+
+gcloud builds submit --config cloudmigrate.yaml \
+    --substitutions _INSTANCE_NAME=cactus-computing-service \
+    --substitutions _REGION=us-central1 \
+    --substitutions _SERVICE_NAME=cactus-computing \
+    --substitutions _INSTANCE_NAME=cactus-computing-service
+
+substitutions:
+  _INSTANCE_NAME: cactus-computing-service
+  _REGION: us-central1
+  _SERVICE_NAME: cactus-computing
+  _SECRET_SETTINGS_NAME: cactus_computing_secrets	

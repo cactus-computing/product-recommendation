@@ -165,3 +165,4 @@ static/rest_framework
 ngrok
 
 node_modules
+superuser_password
