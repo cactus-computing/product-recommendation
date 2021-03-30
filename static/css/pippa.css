@@ -1,0 +1,128 @@
+/*By Rorro, Mic Drop.*/
+
+header .site-header {
+    width: auto;
+}
+
+#cactusContainer{
+    display: block;
+    margin-bottom: 20px;
+}
+
+#cactusContainer .slider {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-family: "Poppins", Sans-serif;
+    text-align: center;
+}
+
+#cactusContainer .title h2{
+    font-weight: lighter;
+    color: #d2328a;
+    font-size: 20px;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px !important;
+}
+
+#cactusContainer .slide-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 400px;
+    position: relative;
+    max-width: 1140px;
+}
+
+#cactusContainer .slide-box .slide{
+    display: flex;
+    position: relative;
+    left: 0;
+    padding: 5px;
+    margin: auto;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+}
+
+#cactusContainer .slide::-webkit-scrollbar {
+    display: none;
+  }
+
+#cactusContainer .slide-box .product:last-child {
+    margin-right: 0;
+  }  
+
+  #cactusContainer .product {
+    width:220px; 
+    min-width:220px;
+    height: 400px;
+	margin-right: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+#cactusContainer .product img {
+    height: 330px;
+	width: 220px;
+	object-fit: cover;
+	box-sizing: border-box;
+}
+
+#cactusContainer .product .product-name{
+    font-size: 15px;
+    font-weight: lighter;
+    text-transform: uppercase;
+    color: #d2328a;
+	letter-spacing: 1px;
+    margin-left: 5px;
+    margin-right: 5px;
+    text-align: center;
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+  }
+
+#cactusContainer .product .product-price {
+    font-weight: normal;
+    color: #5d5d5d;
+    font-size: 20px;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+#cactusContainer .product-price-box{
+    bottom: 0;
+    margin-bottom: 7px;
+}
+
+#cactusContainer .ctrl-btn {
+    padding: 10px 10px;
+    min-width: 50px;
+    background: #fff;
+    box-shadow: 2px 2px 30px rgba(0,0,0,0.2);
+    border: 1px solid;
+    border-radius: 10px;
+    border-color: #ebebeb;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    margin: 5px;
+    color: #5d5d5d;
+}
+  
+@media only screen and (max-width: 600px) {
+    #cactusContainer .ctrl-btn {
+        display: none;
+    }
+} 
+/*
+.cross-sell {
+    display: none !important;
+}
+*/
