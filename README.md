@@ -405,29 +405,105 @@ npm install
 You may need to enable ESLint in VSCode by going into a JS file, in the firstline there will be a warning highlight. Click on it and a small lightbulb will apear. Click on the lightbulb to enable the linter.
 
 
+
 ## Configure Cloud Run and CLoud build
+https://cloud.google.com/python/django/run#gcloud_4
 
 
-build and deploy
+Set static files to be read from GCS
+
+```
+gsutil mb -l us-central1 gs://long-walker-301219-media
+```
+
+Create a Secret in the Secret Management service by importing the `.env` file
+
+```
+gcloud secrets create 	cactus_computing_secrets --replication-policy automatic
+
+gcloud secrets versions add	cactus_computing_secrets --data-file .env
+
+gcloud secrets describe cactus_computing_secrets
+```
+
+Give cloud run service permision to access the secret 
+
+```
+gcloud secrets add-iam-policy-binding cactus_computing_secrets \
+    --member serviceAccount:657672005195-compute@developer.gserviceaccount.com \
+    --role roles/secretmanager.secretAccessor
+```
+
+Give the same permission to the cloud build service
+
+You will need a django superuser. The following code generates a random password and stores it to the Managed Secrets Service
+
+```
+gcloud secrets create superuser_password --replication-policy automatic
+cat /dev/urandom | tr -dc 'a-zA-Z0-9' | head -c30 > superuser_password
+cloud secrets versions add superuser_password --data-file superuser_password
+gcloud secrets add-iam-policy-binding superuser_password \
+    --member serviceAccount:657672005195@cloudbuild.gserviceaccount.com \
+    --role roles/secretmanager.secretAccessor
+```
+
+Give cloud build access to the django admin password
+
+```
+gcloud secrets add-iam-policy-binding cactus_computing_secrets \
+    --member serviceAccount:657672005195@cloudbuild.gserviceaccount.com \
+    --role roles/secretmanager.secretAccessor
+```
+
+Give cloud build access to the database
+```
+gcloud projects add-iam-policy-binding long-walker-301219 \
+    --member serviceAccount:657672005195@cloudbuild.gserviceaccount.com \
+    --role roles/cloudsql.client
+```
+
+### Build and deploy
+```
 gcloud builds submit --config cloudmigrate.yaml
-    --substitutions _INSTANCE_NAME=cactus-computing-service,_REGION=us-central1
+```
+
+```
+gcloud run deploy cactus-computing \
+    --platform managed \
+    --region us-central1 \
+    --image gcr.io/long-walker-301219/cactus-computing \
+    --add-cloudsql-instances long-walker-301219:us-central1:cactus-computing-service \
+    --allow-unauthenticated
+```
+
+gcloud iam service-accounts create cactus-service-account
+SERVICE_ACCOUNT=cactus-service-account@long-walker-301219.iam.gserviceaccount.com
+
+# Cloud Run Invoker
+gcloud projects add-iam-policy-binding long-walker-301219 \
+    --member serviceAccount:${SERVICE_ACCOUNT} \
+    --role roles/run.Invoker
+
+
+# Cloud SQL Client
+gcloud projects add-iam-policy-binding long-walker-301219 \
+    --member serviceAccount:${SERVICE_ACCOUNT} \
+    --role roles/cloudsql.client
+
+# Storage Admin, on the media bucket
+gsutil iam ch \
+    serviceAccount:${SERVICE_ACCOUNT}:roles/storage.objectAdmin \
+    gs://cactus-computing-media
+
+# Secret Accessor, on the Django settings secret.
+gcloud secrets add-iam-policy-binding cactus_computing_secrets \
+    --member serviceAccount:${SERVICE_ACCOUNT} \
+    --role roles/secretmanager.secretAccessor
+
 
 gcloud run deploy cactus-computing \
     --platform managed \
     --region us-central1 \
-    --image gcr.io/long-walker-301219/polls-service \
+    --image gcr.io/long-walker-301219/cactus-computing \
     --add-cloudsql-instances long-walker-301219:us-central1:cactus-computing-service \
     --allow-unauthenticated
-
-
-gcloud builds submit --config cloudmigrate.yaml \
-    --substitutions _INSTANCE_NAME=cactus-computing-service \
-    --substitutions _REGION=us-central1 \
-    --substitutions _SERVICE_NAME=cactus-computing \
-    --substitutions _INSTANCE_NAME=cactus-computing-service
-
-substitutions:
-  _INSTANCE_NAME: cactus-computing-service
-  _REGION: us-central1
-  _SERVICE_NAME: cactus-computing
-  _SECRET_SETTINGS_NAME: cactus_computing_secrets	

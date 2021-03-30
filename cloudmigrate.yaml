@@ -1,10 +1,10 @@
 steps:
   - id: "build image"
-    name: "gcr.io/cloud-builders/docker"
-    args: ["build", "-t", "gcr.io/${PROJECT_ID}/${_SERVICE_NAME}", "."]
+    name: "gcr.io/cloud-builders/docker-compose"
+    args: ["build", "-f", "Dockerfile.production", "-t", "gcr.io/${PROJECT_ID}/${_SERVICE_NAME}", "."]
 
   - id: "push image"
-    name: "gcr.io/cloud-builders/docker"
+    name: "gcr.io/cloud-builders/docker-compose"
     args: ["push", "gcr.io/${PROJECT_ID}/${_SERVICE_NAME}"]
 
   - id: "apply migrations"
@@ -43,10 +43,10 @@ steps:
       ]
 
 substitutions:
-  _INSTANCE_NAME: cactus-computing-service
+  _INSTANCE_NAME: cactus-computin
   _REGION: us-central1
   _SERVICE_NAME: cactus-computing
-  _SECRET_SETTINGS_NAME: cactus_computing_secrets
+  _SECRET_SETTINGS_NAME: django_settings
 
 images:
   - "gcr.io/${PROJECT_ID}/${_SERVICE_NAME}"

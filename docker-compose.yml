@@ -13,7 +13,21 @@ services:
     build: .
     volumes:
       - .:/code
-    ports:
-      - "8000:8000"
+    expose:
+      - 8000
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/code/cactusco/service_account_key.json
     depends_on:
       - db
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/code/static
+    ports:
+      - 1337:80
+    depends_on:
+      - web
+
+volumes:
+  static_volume:
+  certs:
