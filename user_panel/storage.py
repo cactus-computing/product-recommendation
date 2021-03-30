@@ -8,13 +8,10 @@ import os
 from collections import defaultdict
 from io import StringIO
 # Instantiates a client
-KEY_PATH = "cactusco/service_account_key.json"
+
 BUCKET_NAME = "cactus_recommender"
 
 
-credentials = service_account.Credentials.from_service_account_file(
-    KEY_PATH, scopes=["https://www.googleapis.com/auth/cloud-platform"],
-)
 
 logger = logging.Logger(__name__)
 
@@ -123,7 +120,7 @@ def upload_blob_to_default_bucket(df, destination_blob_name):
     # source_file_name = "local/path/to/file"
     # destination_blob_name = "storage-object-name"
 
-    client = storage.Client(credentials=credentials, project=credentials.project_id,)
+    client = storage.Client()
     bucket = client.bucket(BUCKET_NAME)
     blob = bucket.blob(destination_blob_name)
 
@@ -152,7 +149,7 @@ def dataframe_to_gcs(df, name_to_update):
     splitted_name = name_to_update.split('/')
     new_name = splitted_name[0] + '/' + 'renamed' + '/' + splitted_name[1]
 
-    client = storage.Client(credentials=credentials, project=credentials.project_id)
+    client = storage.Client()
     client.bucket(BUCKET_NAME).blob(f"{new_name}").upload_from_string(df.to_csv(), 'text/csv')
 
 def get_available_fields(file_path):
