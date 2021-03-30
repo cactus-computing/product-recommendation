@@ -32,31 +32,6 @@ const CLIENT_METADATA = {
     },
 };
 
-function processProduct() {
-    const productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
-    const recommenderSection = document.createElement('div');
-
-    setGoogleAnalytics();
-    importStyles();
-
-    crossSellDiv = createCactusCarousel('Productos Relacionados', 'cross-sell', recommenderSection);
-    upSellDiv = createCactusCarousel('Productos Similares', 'up-sell', recommenderSection);
-
-    getPredictions(crossSellDiv, type='cross_selling', productName, k = 30).then((success) => {
-        if (success) {
-            createCactusContainer(recommenderSection);
-            productScroll(type='cross-sell');
-        }
-    });
-
-    getPredictions(upSellDiv, type = 'up_selling', productName, k = 30).then((success) => {
-        if (success) {
-            createCactusContainer(recommenderSection);
-            productScroll(type='up-sell');
-        }
-    });
-}
-
 function setGoogleAnalytics() {
     const script = document.createElement('script');
     const head = document.head;
@@ -75,9 +50,45 @@ function importStyles() {
 
     link.type = 'text/css';
     link.rel = 'stylesheet';
-    link.href = `${HOST_DICT[CODE_STATUS]}/static/css/pippa.css`;
+    link.href = `${HOST_DICT[CODE_STATUS]}/static/css/${COMPANY}.css`;
 
     head.appendChild(link);
+}
+
+function createCactusContainer() {
+    const targetDiv = document.querySelector(CLIENT_METADATA[COMPANY]['target-div']);
+    const cactusContainer = document.createElement('div');
+    cactusContainer.id = 'cactusContainer';
+    cactusContainer.class = 'cactusRecommendation';
+    targetDiv.insertBefore(cactusContainer, targetDiv[CLIENT_METADATA[COMPANY]['insert-before']]);
+}
+
+function processProduct() {
+    const productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
+    const upSellSection = document.createElement('div');
+    const crossSellSection = document.createElement('div');
+
+    setGoogleAnalytics();
+    importStyles();
+
+    crossSellDiv = createCactusCarousel('Productos Relacionados', 'cross-sell', crossSellSection);
+    upSellDiv = createCactusCarousel('Productos Similares', 'up-sell', upSellSection);
+
+    createCactusContainer();
+
+    getPredictions(crossSellDiv, type='cross_selling', productName, k = 30).then((success) => {
+        if (success) {
+            cactusContainer.appendChild(crossSellSection);
+            productScroll(type='cross-sell');
+        }
+    });
+
+    getPredictions(upSellDiv, type = 'up_selling', productName, k = 30).then((success) => {
+        if (success) {
+            cactusContainer.appendChild(upSellSection);
+            productScroll(type='up-sell');
+        }
+    });
 }
 
 function createCactusCarousel(title, type, recommenderSection) {
@@ -128,16 +139,6 @@ const getPredictions = async function (productsDiv, type, productName, k) {
     return success;
 };
 
-function createCactusContainer(recommenderSection) {
-    const targetDiv = document.querySelector(CLIENT_METADATA[COMPANY]['target-div']);
-    const cactusContainer = document.createElement('div');
-    cactusContainer.id = 'cactusContainer';
-    cactusContainer.class = 'cactusRecommendation';
-
-    cactusContainer.appendChild(recommenderSection);
-    targetDiv.insertBefore(cactusContainer, targetDiv[CLIENT_METADATA[COMPANY]['insert-before']]);
-}
-
 function createProductHtml(data, productsDiv) {
     data.forEach((prod) => {
         const productDiv = document.createElement('div');
@@ -178,7 +179,7 @@ function createProductHtml(data, productsDiv) {
             const productNameClicked = prod['name'].toLowerCase();
             const timestamp = Date.now();
             const cookieName = 'ClickRelatedProduct'+'_'+timestamp;
-            createCookie(cookieName,productNameClicked,5);
+            createCookie(cookieName, productNameClicked, 5);
             const productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
             gtag('event', productName, {
                 event_category: 'Related Product Click',

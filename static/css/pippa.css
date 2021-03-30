@@ -119,8 +119,10 @@ header .site-header {
 @media only screen and (max-width: 600px) {
     #cactusContainer .ctrl-btn {
         display: none;
-        }
-    } 
+    }
+} 
+/*
 .cross-sell {
     display: none !important;
 }
+*/
