@@ -3,7 +3,7 @@ window.onload = processProduct;
 const cactusScript = document.getElementById('CactusScript');
 const COMPANY = cactusScript.src.match(/(\?|\&)([^=]+)\=([^&]+)/)[3];
 
-const CODE_STATUS = 'dev'; // options: local, dev, prod
+const CODE_STATUS = 'local'; // options: local, dev, prod
 
 const HOST_DICT = {
     local: 'http://localhost:8000',
@@ -61,6 +61,7 @@ function createCactusContainer() {
     cactusContainer.id = 'cactusContainer';
     cactusContainer.class = 'cactusRecommendation';
     targetDiv.insertBefore(cactusContainer, targetDiv[CLIENT_METADATA[COMPANY]['insert-before']]);
+    return cactusContainer;
 }
 
 function processProduct() {
@@ -71,10 +72,10 @@ function processProduct() {
     setGoogleAnalytics();
     importStyles();
 
-    crossSellDiv = createCactusCarousel('Productos Relacionados', 'cross-sell', crossSellSection);
-    upSellDiv = createCactusCarousel('Productos Similares', 'up-sell', upSellSection);
+    const crossSellDiv = createCactusCarousel('Productos Relacionados', 'cross-sell', crossSellSection);
+    const upSellDiv = createCactusCarousel('Productos Similares', 'up-sell', upSellSection);
 
-    createCactusContainer();
+    const cactusContainer = createCactusContainer();
 
     getPredictions(crossSellDiv, type='cross_selling', productName, k = 30).then((success) => {
         if (success) {
