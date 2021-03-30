@@ -209,6 +209,33 @@ Then reload nginx
 sudo systemctl reload nginx
 ```
 - [Index](##index)
+
+## Deploy changes
+Dev
+```
+cd /usr/local/CactusCo
+sudo git pull origin dev
+sudo su cactus
+source .venv/bin/activate
+yes | python manage.py collectstatic 
+exit
+sudo systemctl daemon-reload
+sudo systemctl restart gunicorn
+sudo systemctl restart nginx
+```
+Prod
+```
+cd /usr/local/cactusco
+sudo git pull origin main
+sudo su cactus
+source .venv/bin/activate
+python manage.py collectstatic | yes
+exit
+sudo systemctl daemon-reload
+sudo systemctl restart gunicorn
+sudo systemctl restart nginx
+```
+
 ## Useful commands
 
 
@@ -296,10 +323,27 @@ docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_p
 ### Get products
 ```
 docker-compose run web /usr/local/bin/python manage.py runscript wc_get_products --script-args quema
+docker-compose run web /usr/local/bin/python manage.py runscript wc_get_products --script-args makerschile
 ```
 ### Upload to DB
 ```
 docker-compose run web /usr/local/bin/python manage.py runscript product_upload --script-args makerschile 
+```
+prod:
+```
+cd /usr/local/cactusco
+sudo su cactus
+source .venv/bin/activate
+```
+Get products
+```
+python manage.py runscript wc_get_products --script-args quema
+python manage.py runscript wc_get_products --script-args makerschile
+```
+Upload to DB
+```
+python manage.py runscript product_upload --script-args makerschile 
+python manage.py runscript product_upload --script-args quema
 ```
 - [Index](##index)
 ## API Documentation
