@@ -22,10 +22,8 @@ header .site-header {
     font-weight: lighter;
     color: #d2328a;
     font-size: 20px;
-    
     letter-spacing: 0.5px;
     margin-bottom: 20px !important;
-    border-bottom: 1px solid #e9d9d6be;
 }
 
 #cactusContainer .slide-box {
@@ -33,8 +31,9 @@ header .site-header {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 610px;
+    height: 400px;
     position: relative;
+    max-width: 1140px;
 }
 
 #cactusContainer .slide-box .slide{
@@ -57,9 +56,9 @@ header .site-header {
   }  
 
   #cactusContainer .product {
-    width:340px; 
-    min-width:340px; 
-    height: 610px;
+    width:220px; 
+    min-width:220px;
+    height: 400px;
 	margin-right: 10px;
     position: relative;
     display: flex;
@@ -69,34 +68,31 @@ header .site-header {
   }
 
 #cactusContainer .product img {
-    height: 530px;
-	width: 340px;
+    height: 330px;
+	width: 220px;
 	object-fit: cover;
 	box-sizing: border-box;
 }
 
 #cactusContainer .product .product-name{
-    font-size: 1.2vw;
+    font-size: 15px;
     font-weight: lighter;
-	letter-spacing: 1px;
-    font-style: normal;
-    top: 0;
     text-transform: uppercase;
     color: #d2328a;
+	letter-spacing: 1px;
+    margin-left: 5px;
+    margin-right: 5px;
     text-align: center;
     margin-bottom: 0 !important;
     margin-top: 0 !important;
-    width: 100%;
-    text-size-adjust: 0%;
   }
 
 #cactusContainer .product .product-price {
     font-weight: normal;
     color: #5d5d5d;
-    font-size: 1.2vw;
+    font-size: 20px;
     letter-spacing: 1px;
     text-align: center;
-    text-size-adjust: 0%;
 }
 
 #cactusContainer .product-price-box{
@@ -113,7 +109,6 @@ header .site-header {
     border-radius: 10px;
     border-color: #ebebeb;
     font-weight: 600;
-    font-size: 30px;
     text-align: center;
     cursor: pointer;
     outline: none;
@@ -126,27 +121,6 @@ header .site-header {
         display: none;
         }
     } 
-.cross-sell.title {
-    display:none;
-}    
-#cross-sell-slide-box {
-    display:none;
-}    
-
-.cross-sell.ctrl-btn {
-    display:none;
-}  
-
-.related-products__title{
-    display: none;
+.cross-sell {
+    display: none !important;
 }
-.related-products{
-    display: none;
-}
-/*
-@media only screen and (min-device-width: 320px) and (max-device-width: 1024px) {
-    #cactusContainer .product{
-        -webkit-text-size-adjust: 0%;
-    }
-}
-*/

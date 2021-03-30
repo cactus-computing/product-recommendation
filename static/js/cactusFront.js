@@ -25,9 +25,9 @@ const CLIENT_METADATA = {
         'ga-measurement-id': 'UA-159111495-1',
     },
     pippa: {
-        'target-div': '#shopify-section-product-template',
+        'target-div': '.section.product_section',
         'product-name-selector': '.product_name',
-        'insert-before': 'childNodes[0]',
+        'insert-before': 'childNodes[2]',
         'ga-measurement-id': 'UA-105999666-1',
     },
 };
