@@ -1,19 +1,16 @@
 
 # MVP_inventory
+## Index:
 
-## Runnig Dev Envirnoment
-
-To build your local environment in docker run
-```
-docker-compose up --build
-```
-
-Download/Get credentials. You need a `.env` file which contains secret configuration parameters. Talk to the administrator if you do not have gcloud premissions.
-
-```
-gsutil cp gs://cactus-stockapp/credentials/.env-dev ./cactusco/.env
-gsutil cp gs://cactus-stockapp/credentials/service_account_key.json ./cactusco/service_account_key.json
-```
+- [Runnig Dev Envirnoment](##runnig-dev-envirnoment)
+- [Dev Environment Setup](##dev-environment-setup)
+- [Prod Environment Setup](##prod-environment-setup)
+- [Useful commands](##useful-commands)
+- [How to drop all public tables on DB. ](##how-to-drop-all-public-tables-on-db. )
+- [Integrations](##integrations)
+- [Django scripts](##django-scripts)
+- [API Documentation](##api-documentation)
+- [Google Tag Manager (GTM)](##google-tag-manager-(gtm))
 
 ## Dev Environment Setup
 
@@ -36,6 +33,21 @@ To add models to database:
 ```
 docker-compose run web /usr/local/bin/python manage.py migrate
 ```
+- [Index](##index)
+## Runnig Dev Envirnoment
+
+To build your local environment in docker run
+```
+docker-compose up --build
+```
+
+Download/Get credentials. You need a `.env` file which contains secret configuration parameters. Talk to the administrator if you do not have gcloud premissions.
+
+```
+gsutil cp gs://cactus-stockapp/credentials/.env-dev ./cactusco/.env
+gsutil cp gs://cactus-stockapp/credentials/service_account_key.json ./cactusco/service_account_key.json
+```
+- [Index](##index)
 ## Prod Environment Setup
 
 Ubuntu 18.04
@@ -196,6 +208,33 @@ Then reload nginx
 ```
 sudo systemctl reload nginx
 ```
+- [Index](##index)
+
+## Deploy changes
+Dev
+```
+cd /usr/local/CactusCo
+sudo git pull origin dev
+sudo su cactus
+source .venv/bin/activate
+yes | python manage.py collectstatic 
+exit
+sudo systemctl daemon-reload
+sudo systemctl restart gunicorn
+sudo systemctl restart nginx
+```
+Prod
+```
+cd /usr/local/cactusco
+sudo git pull origin main
+sudo su cactus
+source .venv/bin/activate
+python manage.py collectstatic | yes
+exit
+sudo systemctl daemon-reload
+sudo systemctl restart gunicorn
+sudo systemctl restart nginx
+```
 
 ## Useful commands
 
@@ -224,8 +263,9 @@ Creating an admin user
 ```
 docker-compose run web /usr/local/bin/python manage.py createsuperuser
 ```
+- [Index](##index)
+## How to drop all public tables on DB. 
 
-### How to drop all public tables on DB. 
 This is necesary when making structural changes to the database, which should be avoided. If you must do such structural changes, please discuss the changes with the team beforehand.
 First, ssh postgres container
 ```
@@ -241,19 +281,19 @@ DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
 ```
 ¡You are done! You can now migrate your changes to the db.
-
-# Integrations
+- [Index](##index)
+## Integrations
 
 Integrations are the set of scripts we use to connect to online stores such as Shopify or Magento. We will use them as scripts for the moment but eventually we'll automate them.
 
-## Requirements
+### Requirements
 
 Aside from the package requirements, you need to download the API credentials for the integrations. You need to have installed the GC SDK.
 
 ```
 gsutil cp gs://cactus-landing/credentials/.shopify-env ./integrations/shopify/
 gsutil cp gs://cactus-landing/credentials/.magento-env ./integrations/magento/
-gsutil cp gs://cactus-landing/credentials/wc-keys.json ./integrations/woocommerce/
+gsutil cp gs://cactus-landing/credentials/wc-keys.json ./scripts/wc/
 ```
 
 It is recommendend to create a virtualenv and install package requirements in it
@@ -263,20 +303,7 @@ source activate .venv
 pip install -r requirements.txt
 ```
 
-## WooCommerce script run
-
-Getting orders and products:
-```
-docker-compose run web /usr/local/bin/python ./integrations/woocommerce/wc.py <company name> get_data
-```
-
-Uploading related products to WooCommerce
-```
-docker-compose run web /usr/local/bin/python ./integrations/woocommerce/wc.py <company name> post_data
-```
-
-
-## Uploading user product to ecommerce.cactusco.cl
+### Uploading user product to ecommerce.cactusco.cl
 
 Delete all products
 ```
@@ -291,7 +318,54 @@ Upload related products to ecommerce.cactusco.cl
 ```
 docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_product_test.py <company name> related_prod
 ```
+- [Index](##index)
+## Django scripts
+### Get products
+```
+docker-compose run web /usr/local/bin/python manage.py runscript wc_get_products --script-args quema
+docker-compose run web /usr/local/bin/python manage.py runscript wc_get_products --script-args makerschile
+```
+### Upload to DB
+```
+docker-compose run web /usr/local/bin/python manage.py runscript product_upload --script-args makerschile 
+```
+prod:
+```
+cd /usr/local/cactusco
+sudo su cactus
+source .venv/bin/activate
+```
+Get products
+```
+python manage.py runscript wc_get_products --script-args quema
+python manage.py runscript wc_get_products --script-args makerschile
+```
+Upload to DB
+```
+python manage.py runscript product_upload --script-args makerschile 
+python manage.py runscript product_upload --script-args quema
+```
+- [Index](##index)
+## API Documentation
 
+The API exposes the cross selling products for a given `product_id` and `company` name. 
+
+To test this, you must upload test data to the database.
+To test cross_selling
+```
+http://localhost:8000/api/cross_selling?name=kit impresora 3d tarjeta controladora ramps 1.4 arduino mega&company=makerschile&top-k=4
+http://localhost:8000/api/cross_selling?name=PMG - Karma&company=quema&top-k=4
+```
+
+
+To test up_selling
+
+
+```
+http://localhost:8000/api/up_selling?name=kit impresora 3d tarjeta controladora ramps 1.4 arduino mega&company=makerschile&top-k=4
+http://localhost:8000/api/up_selling?name=PMG - Karma&company=quema&top-k=4
+```
+- [Index](##index)
 ## Google Tag Manager (GTM)
 cookie_related_product_clicked.js crea una cookie cada vez que un usuario hace click en una sección de productos relacionados de Prat, esa cookie dura 5 días.
 Obs: para cada eCommerce hay que cambiar la clase CSS de sección de productos relacionados hasta que tengamos nuestro script de front de carrousel de productos relacionados
@@ -312,29 +386,4 @@ Obs: Para cada eCommerce hay que cambiar como se leen los productos comprados
     4. Se lee esa cookie desde una variable en GTM
     5. Se envía un evento a GTM con el valor de la variable (monto total comprado de productos relacionados)
     6. Se elimina la cookie del monto total
-
-### API Documentation
-
-The API exposes the cross selling products for a given `product_id` and `company` name. 
-
-To test this, you must upload test data to the database.
-To test cross_selling
-```
-http://localhost:8000/api/cross_selling?name=kit impresora 3d tarjeta controladora ramps 1.4 arduino mega&company=makerschile&top-k=4
-http://localhost:8000/api/cross_selling?name=PMG - Karma&company=quema&top-k=4
-```
-
-
-To test up_selling
-
-
-```
-http://localhost:8000/api/up_selling?name=kit impresora 3d tarjeta controladora ramps 1.4 arduino mega&company=makerschile&top-k=4
-http://localhost:8000/api/up_selling?name=PMG - Karma&company=quema&top-k=4
-```
-
-
-## Upload to DB
-```
-docker-compose run web /usr/local/bin/python manage.py runscript product_upload --script-args makerschile 
-```
+- [Index](##index)
