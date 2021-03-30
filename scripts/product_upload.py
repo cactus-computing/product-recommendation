@@ -60,19 +60,7 @@ def run(*args):
             sku = row[2]
             if row[2] == '':
                 sku = row[0]
-            p, _ = ProductAttributes.objects.update_or_create(
-                product_code=row[0],
-                name=row[1],
-                sku=sku,
-                permalink=row[4],
-                company=row[7],
-                href=row[8],
-                defaults={
-                    'stock_quantity': row[5],
-                    'status': row[6],
-                    'price': row[3] if row[3] else None
-                }
-            )
+            p, created = ProductAttributes.objects.get_or_create(product_code=row[0], name=row[1], sku=sku, price=row[3] if row[3]!='' else None, permalink=row[4], stock_quantity=row[5], status=row[6], company=row[7], href=row[8])
 
     # Iterar sobre los UpSells y subirlos, relacionando el product_code con el ID
     for e, up in tqdm(enumerate(up_sell)):
@@ -82,14 +70,8 @@ def run(*args):
         else:
             original_product = ProductAttributes.objects.get(product_code=up[0], company=client_name)
             related_product = ProductAttributes.objects.get(product_code=up[1], company=client_name)
-            us = UpSellPredictions.objects.update_or_create(
-                product_code=original_product, 
-                recommended_code=related_product,                 
-                company=up[5],
-                defaults={
-                    'distance': up[2],
-                }
-                )
+            us = UpSellPredictions(product_code=original_product, recommended_code=related_product, distance=up[2], company=up[5])
+            us.save()
 
     for e, cross in tqdm(enumerate(cross_sell)):
         if e == 0:
@@ -99,13 +81,8 @@ def run(*args):
             original_product = ProductAttributes.objects.get(product_code=cross[0], company=client_name)
             related_product = ProductAttributes.objects.get(product_code=cross[1], company=client_name)
             
-            cs = CrossSellPredictions.objects.update_or_create(
-                product_code=original_product, 
-                recommended_code=related_product,  
-                company=cross[5],
-                defaults={
-                    'distance': cross[2],
-                }
-            )   
+            cs = CrossSellPredictions(product_code=original_product, recommended_code=related_product, distance=cross[0], company=cross[5])
+            cs.save()
+            
     
     
