@@ -41,3 +41,16 @@ def upload_blob_to_default_bucket(json_file, destination_blob_name):
 
     logger.info(gcs_path)
     return gcs_path, blob.public_url
+
+def download_blob(source_blob_name, destination_file_name):
+    """Downloads a blob from the bucket."""
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(BUCKET_NAME)
+    blob = bucket.blob(source_blob_name)
+    blob.download_to_filename(destination_file_name)
+
+    print(
+        "Blob {} downloaded to {}.".format(
+            source_blob_name, destination_file_name
+        )
+    )

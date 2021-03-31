@@ -5,38 +5,18 @@ import requests
 from bs4 import BeautifulSoup
 from zeep import xsd
 from datetime import datetime
-from .wc.storage import  upload_blob_to_default_bucket
+from .wc.storage import  upload_blob_to_default_bucket, download_blob
 import os
 import logging
 import time
 from tqdm import tqdm
 import glob
-"""
-logging.config.dictConfig({
-    'version': 1,
-    'formatters': {
-        'verbose': {
-            'format': '%(name)s: %(message)s'
-        }
-    },
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose',
-        },
-    },
-    'loggers': {
-        'zeep.transports': {
-            'level': 'DEBUG',
-            'propagate': True,
-            'handlers': ['console'],
-        },
-    }
-})
-"""
+import pandas as pd
+
 with open('./scripts/magento/magento-keys.json') as f:
   keys = json.load(f) 
+
+prat_product_gs = "gs://cactus_recommender/prat/productos_prat.csv"
 
 def run(*args):
     COMPANY = args[0]
@@ -56,32 +36,15 @@ def run(*args):
     wsdl_url = "https://www.ferreteriaprat.cl/api/v2_soap/?wsdl"
     soap_client = Client(wsdl=wsdl_url) 
     session = soap_client.service.login(CONSUMER_KEY, CONSUMER_SECRET)
-    filters = [{
-        'complex_filter': {
-            'complexObjectArray': [{
-                'key': 'type',
-                'value':{
-                'key': 'in', 
-                'value': 'simple'
-                }
-            }]
-        },
-        'filter':{
-            'filter':[{
-                'key': 'status',
-                'value': 'Enabled'
-            }]
-        }
-    }]
     logger.info("Downloading all products")
-    result = soap_client.service.catalogProductList(session, filters)
-    logger.info("Done")
-    prods = []
-    for prod in tqdm(result):
-        prods.append(prod['product_id'])
+    lista_productos = pd.read_csv(prat_product_gs, names = ["skus"], header=None)["skus"].to_list()
     productos = []
-    for e, prod in enumerate(tqdm(prods)):
-        result = soap_client.service.catalogProductInfo(session, prod)
+    for e, prod in enumerate(tqdm(lista_productos)):
+        try:
+            result = soap_client.service.catalogProductInfo(session, prod)
+        except Fault as e:
+            print(e)
+            continue
         url = result['url_path']
         req = requests.get(f"https://www.ferreteriaprat.cl/{url}")
         soup = BeautifulSoup(req.text, 'html.parser')
@@ -94,31 +57,26 @@ def run(*args):
             stock = soup.find("p", {"class":"availability in-stock"})
             if stock is not None:
                 stock = stock.text
-            if stock == "Producto Disponible":
-                stock = 1
-            else:
-                stock = 0
+                if stock == "Producto Disponible":
+                    stock = 1
+                else:
+                    stock = 0
             result_ = {
                 "product_id": result["product_id"],
                 "sku": result["sku"],
                 "set": result["set"],
                 "type": result["type"],
                 "name": result["name"],
-                "description": result["description"],
-                "short_description": result["short_description"],
                 "url": f"https://www.ferreteriaprat.cl/{result['url_path']}",
                 "img_url": image_url,
                 "status": result["status"],
                 "stock_quantity": stock,
                 "price": int(result["price"].split(".")[0]),
-                "special_price": result["special_price"]
             }
             productos.append(result_)
             logger.info(result_)
     blob_name = f"{COMPANY}/products.json"
     upload_blob_to_default_bucket(productos,blob_name)
-    with open(f'./scripts/magento/data/products.json', 'w+') as f:
-        json.dump(productos, f)
     logger.info(f"{len(productos)} uploaded to GCS")
 
 

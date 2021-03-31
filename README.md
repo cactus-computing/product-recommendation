@@ -294,6 +294,7 @@ Aside from the package requirements, you need to download the API credentials fo
 gsutil cp gs://cactus-landing/credentials/.shopify-env ./integrations/shopify/
 gsutil cp gs://cactus-landing/credentials/.magento-env ./integrations/magento/
 gsutil cp gs://cactus-landing/credentials/wc-keys.json ./scripts/wc/
+gsutil cp gs://cactus-landing/credentials/magento-keys.json ./scripts/magento/
 ```
 
 It is recommendend to create a virtualenv and install package requirements in it
@@ -335,15 +336,23 @@ cd /usr/local/cactusco
 sudo su cactus
 source .venv/bin/activate
 ```
+dev:
+```
+cd /usr/local/CactusCo
+sudo su cactus
+source .venv/bin/activate
+```
 Get products
 ```
 python manage.py runscript wc_get_products --script-args quema
 python manage.py runscript wc_get_products --script-args makerschile
+python manage.py runscript prat_get_products --script-args prat
 ```
 Upload to DB
 ```
 python manage.py runscript product_upload --script-args makerschile 
 python manage.py runscript product_upload --script-args quema
+python manage.py runscript product_upload --script-args prat
 ```
 - [Index](##index)
 ## API Documentation
