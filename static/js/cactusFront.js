@@ -1,0 +1,314 @@
+window.onload = processProduct;
+
+const cactusScript = document.getElementById('CactusScript');
+const COMPANY = cactusScript.src.match(/(\?|\&)([^=]+)\=([^&]+)/)[3];
+
+const CODE_STATUS = 'dev'; // options: local, dev, prod
+
+const HOST_DICT = {
+    local: 'http://localhost:8000',
+    dev: 'https://dev.cactusco.cl',
+    prod: 'https://cactusco.cl',
+};
+
+const CLIENT_METADATA = {
+    quema: {
+        'target-div': '#main .elementor-inner',
+        'product-name-selector': '.elementor-widget-container h1',
+        'insert-before': 'nextSibling',
+        'ga-measurement-id': 'UA-119655898-1',
+        'product-page-identifier': 'url',
+        'product-page-regex': '/producto/',
+    },
+    makerschile: {
+        'target-div': '#content .ast-container .woo-variation-gallery-product',
+        'product-name-selector': '.entry-title',
+        'insert-before': 'lastChild',
+        'ga-measurement-id': 'UA-159111495-1',
+        'product-page-identifier': 'url',
+        'product-page-regex': '/producto/',
+    },
+    pippa: {
+        'target-div': '.section.product_section',
+        'product-name-selector': '.product_name',
+        'insert-before': 'childNodes[2]',
+        'ga-measurement-id': 'UA-105999666-1',
+        'product-page-identifier': 'url',
+        'product-page-regex': '/products/',
+    },
+    prat: {
+        'target-div': '.product-view .product-essential',
+        'product-name-selector': '.product-name',
+        'insert-before': 'lastChild',
+        'ga-measurement-id': 'UA-123207746-1',
+        'product-page-identifier': 'css',
+        'product-page-regex': '.product-view',
+    },
+};
+
+function isProductPage() {
+    const identifier = CLIENT_METADATA[COMPANY]['product-page-identifier'];
+    if (identifier === 'css') {
+        const productPageDiv = document.querySelector(CLIENT_METADATA[COMPANY]['product-page-regex']);
+        if (productPageDiv !== null) {
+            return true;
+        }
+        return false;
+    }
+    if (identifier === 'url') {
+        const currentUrl = window.location.href;
+        const urlRegex = CLIENT_METADATA[COMPANY]['product-page-regex'];
+        if (currentUrl.indexOf(urlRegex) !== -1) {
+            return true;
+        }
+        return false;
+    }
+}
+
+function setGoogleAnalytics() {
+    const script = document.createElement('script');
+    const head = document.head;
+    script.async = 'async';
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${CLIENT_METADATA[COMPANY]['ga-measurement-id']}`;
+    head.appendChild(script);
+
+    const scriptJs = document.createElement('script');
+    scriptJs.innerText = `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config','${CLIENT_METADATA[COMPANY]['ga-measurement-id']}');`;
+    head.appendChild(scriptJs);
+}
+
+function importStyles() {
+    const link = document.createElement('link');
+    const head = document.head;
+
+    link.type = 'text/css';
+    link.rel = 'stylesheet';
+    link.href = `${HOST_DICT[CODE_STATUS]}/static/css/${COMPANY}.css`;
+
+    head.appendChild(link);
+}
+
+function createCactusContainer() {
+    const targetDiv = document.querySelector(CLIENT_METADATA[COMPANY]['target-div']);
+    const cactusContainer = document.createElement('div');
+    cactusContainer.id = 'cactusContainer';
+    cactusContainer.class = 'cactusRecommendation';
+    targetDiv.insertBefore(cactusContainer, targetDiv[CLIENT_METADATA[COMPANY]['insert-before']]);
+    return cactusContainer;
+}
+
+function processProduct() {
+    const productPage = isProductPage();
+    if (productPage) {
+        const productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText.trim();
+        const upSellSection = document.createElement('div');
+        const crossSellSection = document.createElement('div');
+
+        setGoogleAnalytics();
+        importStyles();
+
+        const crossSellDiv = createCactusCarousel('Productos Relacionados', 'cross-sell', crossSellSection);
+        const upSellDiv = createCactusCarousel('Productos Similares', 'up-sell', upSellSection);
+
+        const cactusContainer = createCactusContainer();
+
+        getPredictions(crossSellDiv, type='cross_selling', productName, k = 30).then((success) => {
+            if (success) {
+                cactusContainer.appendChild(crossSellSection);
+                productScroll(type='cross-sell');
+            }
+        });
+
+        getPredictions(upSellDiv, type = 'up_selling', productName, k = 30).then((success) => {
+            if (success) {
+                cactusContainer.appendChild(upSellSection);
+                productScroll(type='up-sell');
+            }
+        });
+    }
+}
+
+function createCactusCarousel(title, type, recommenderSection) {
+    recommenderSection.className = `${type} slider`;
+    recommenderSection.id = `${type}-slider`;
+
+    products = [];
+
+    const titleDiv = document.createElement('div');
+    titleDiv.className = `${type} title`;
+    const sectionTitle = document.createElement('h2');
+    sectionTitle.innerText = title;
+    titleDiv.appendChild(sectionTitle);
+    recommenderSection.appendChild(titleDiv);
+
+    const slideBoxDiv = document.createElement('div');
+    slideBoxDiv.className = `${type} slide-box`;
+    slideBoxDiv.id = `${type}-slide-box`;
+    recommenderSection.appendChild(slideBoxDiv);
+
+    const arrowLeft = document.createElement('button');
+    arrowLeft.className = `${type} ctrl-btn pro-prev`;
+    arrowLeft.innerText = '<';
+    slideBoxDiv.appendChild(arrowLeft);
+
+    const productsDiv = document.createElement('div');
+    productsDiv.className = `${type} slide`;
+    productsDiv.id = `${type}-slide`;
+    slideBoxDiv.appendChild(productsDiv);
+
+    const arrowRight = document.createElement('button');
+    arrowRight.className = `${type} ctrl-btn pro-next`;
+    arrowRight.innerText = '>';
+    slideBoxDiv.appendChild(arrowRight);
+    return productsDiv;
+}
+
+const getPredictions = async function (productsDiv, type, productName, k) {
+    const response = await fetch(
+        `${HOST_DICT[CODE_STATUS]}/api/${type}?name=${productName}&company=${COMPANY}&top-k=${k}`,
+    );
+    const data = await response.json();
+    let success = false;
+    if (data['empty'] === false) {
+        success = true;
+        createProductHtml(data['data'], productsDiv);
+    }
+    return success;
+};
+
+function createProductHtml(data, productsDiv) {
+    data.forEach((prod) => {
+        const productDiv = document.createElement('div');
+        productDiv.id = prod['sku'];
+        productDiv.className = 'product';
+        const productImageLink = document.createElement('a');
+        productImageLink.href = prod['permalink'];
+
+        const productImage = document.createElement('img');
+        productImage.src = prod['href'];
+        productImage.className = 'product-image';
+        productImage.addEventListener('click', () => {
+            const productNameClicked = prod['name'].toLowerCase();
+            const timestamp = Date.now();
+            const cookieName = 'ClickRelatedProduct'+'_'+timestamp;
+            createCookie(cookieName, productNameClicked, 5);
+            const productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText.trim();
+            gtag('event', productName, {
+                event_category: 'Related Product Click',
+                event_label: productNameClicked,
+                value: 1,
+            });
+        });
+
+        productImageLink.appendChild(productImage);
+        productDiv.appendChild(productImageLink);
+
+        const productNameDiv = document.createElement('div');
+        productNameDiv.className = 'product-name-box';
+
+        const productTitleLink = document.createElement('a');
+        productTitleLink.href = prod['permalink'];
+
+        const productTitle = document.createElement('h2');
+        productTitle.innerText = prod['name'];
+        productTitle.className = 'product-name';
+        productTitle.addEventListener('click', () => {
+            const productNameClicked = prod['name'].toLowerCase();
+            const timestamp = Date.now();
+            const cookieName = 'ClickRelatedProduct'+'_'+timestamp;
+            createCookie(cookieName, productNameClicked, 5);
+            const productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText.trim();
+            gtag('event', productName, {
+                event_category: 'Related Product Click',
+                event_label: productNameClicked,
+                value: 1,
+            });
+        });
+
+        productTitleLink.appendChild(productTitle);
+        productNameDiv.appendChild(productTitleLink);
+
+        productDiv.appendChild(productNameDiv);
+
+        const productPriceDiv = document.createElement('div');
+        productPriceDiv.className = 'product-price-box';
+
+        const productPrice = document.createElement('span');
+        productPrice.innerText = prod['price'];
+        productPrice.className = 'product-price';
+        productPriceDiv.appendChild(productPrice);
+
+        productDiv.appendChild(productPriceDiv);
+
+        productsDiv.appendChild(productDiv);
+    });
+}
+
+//-----------------------slider------------------------//
+
+function productScroll(type) {
+    const slider = document.getElementById(`${type}-slide-box`);
+    const next = document.getElementsByClassName(`${type} pro-next`);
+    const prev = document.getElementsByClassName(`${type} pro-prev`);
+    const slide = document.getElementById(`${type}-slide`);
+    const item = document.getElementById(`${type}-slide`);
+
+    for (let i = 0; i < next.length; i += 1) {
+        // refer elements by class name
+
+        let position = 0; // slider postion
+        const width = 210; // product box + margin width
+        const visibleProductsWanted = 3;
+        prev[i].addEventListener('click', () => {
+        // click previos button
+            if (position > 0) {
+                // avoid slide left beyond the first item
+                position -= 1;
+                slide.scroll({ left: slide.scrollLeft -= visibleProductsWanted * width });
+            }
+        });
+
+        next[i].addEventListener('click', () => {
+            if (position >= 0 && position < hiddenItems()) {
+                // avoid slide right beyond the last item
+                position += 1;
+                slide.scroll({ left: slide.scrollLeft += visibleProductsWanted * width });
+            }
+        });
+    }
+
+    function hiddenItems() {
+        // get hidden items
+        const items = getCount(item, false);
+        const visibleItems = slider.offsetWidth / 210;
+        return items - Math.ceil(visibleItems);
+    }
+}
+
+function getCount(parent, getChildrensChildren) {
+    // count no of items
+    let relevantChildren = 0;
+    const children = parent.childNodes.length;
+    for (let i = 0; i < children; i += 1) {
+        if (parent.childNodes[i].nodeType !== 3) {
+            if (getChildrensChildren)
+                relevantChildren += getCount(parent.childNodes[i], true);
+            relevantChildren++;
+        }
+    }
+    return relevantChildren;
+}
+
+// ----------------------- end slider------------------------//
+// ----------------------- start analytics------------------------//
+
+function createCookie(name, value, days) {
+    // crea cookie con nombre, valor y dias en que expirará
+    if (days) {
+        let date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        var expires = '; expires='+date.toGMTString();
+    }
+    else var expires = '';
+    document.cookie = name+'='+value+expires+'; path=/';
+}
