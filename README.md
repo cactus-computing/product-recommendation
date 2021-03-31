@@ -5,6 +5,7 @@
 - [Runnig Dev Envirnoment](##runnig-dev-envirnoment)
 - [Dev Environment Setup](##dev-environment-setup)
 - [Prod Environment Setup](##prod-environment-setup)
+- [Deploy](##deploy)
 - [Useful commands](##useful-commands)
 - [How to drop all public tables on DB. ](##how-to-drop-all-public-tables-on-db. )
 - [Integrations](##integrations)
@@ -209,9 +210,35 @@ Then reload nginx
 sudo systemctl reload nginx
 ```
 - [Index](##index)
+
+## Deploy:
+### Dev:
+```
+cd /usr/local/CactusCo
+sudo git pull origin <branch name> dev
+sudo su cactus
+source .venv/bin/active
+python manage.py collectstatic
+exit
+sudo systemctl daemon-reload
+sudo systemctl restart gunicorn
+sudo systemctl restart nginx
+```
+### Prod:
+```
+cd /usr/local/cactusco
+sudo git pull origin <branch name> main
+sudo su cactus
+source .venv/bin/active
+python manage.py collectstatic
+exit
+sudo systemctl daemon-reload
+sudo systemctl restart gunicorn
+sudo systemctl restart nginx
+```
+
+- [Index](##index)
 ## Useful commands
-
-
 ```
 docker-compose run web /usr/local/bin/python manage.py makemigrations stockapp
 ```
@@ -264,9 +291,9 @@ Integrations are the set of scripts we use to connect to online stores such as S
 Aside from the package requirements, you need to download the API credentials for the integrations. You need to have installed the GC SDK.
 
 ```
-gsutil cp gs://cactus-landing/credentials/.shopify-env ./integrations/shopify/
-gsutil cp gs://cactus-landing/credentials/.magento-env ./integrations/magento/
-gsutil cp gs://cactus-landing/credentials/wc-keys.json ./scripts/wc/
+gsutil cp gs://cactus-landing/credentials/.shopify-env ./integrations/shopify/.shopify-env
+gsutil cp gs://cactus-landing/credentials/magento-keys.json ./scripts/magento/magento-keys.json
+gsutil cp gs://cactus-landing/credentials/wc-keys.json ./scripts/wc/wc-keys.json
 ```
 
 It is recommendend to create a virtualenv and install package requirements in it
@@ -296,10 +323,29 @@ docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_p
 ### Get products
 ```
 docker-compose run web /usr/local/bin/python manage.py runscript wc_get_products --script-args quema
+docker-compose run web /usr/local/bin/python manage.py runscript wc_get_products --script-args makerschile
+docker-compose run web /usr/local/bin/python manage.py runscript prat_get_products --script-args prat
 ```
+
+#### Production:
+```
+
+python manage.py runscript wc_get_products --script-args quema
+python manage.py runscript wc_get_products --script-args quema
+python manage.py runscript prat_get_products --script-args prat
+```
+
 ### Upload to DB
 ```
+docker-compose run web /usr/local/bin/python manage.py runscript product_upload --script-args quema 
 docker-compose run web /usr/local/bin/python manage.py runscript product_upload --script-args makerschile 
+docker-compose run web /usr/local/bin/python manage.py runscript product_upload --script-args prat 
+```
+#### Production:
+```
+python manage.py runscript product_upload --script-args quema
+python manage.py runscript product_upload --script-args makerschile
+python manage.py runscript product_upload --script-args prat
 ```
 - [Index](##index)
 ## API Documentation
