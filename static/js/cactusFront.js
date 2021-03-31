@@ -17,20 +17,53 @@ const CLIENT_METADATA = {
         'product-name-selector': '.elementor-widget-container h1',
         'insert-before': 'nextSibling',
         'ga-measurement-id': 'UA-119655898-1',
+        'product-page-identifier': 'url',
+        'product-page-regex': '/producto/',
     },
     makerschile: {
         'target-div': '#content .ast-container .woo-variation-gallery-product',
         'product-name-selector': '.entry-title',
         'insert-before': 'lastChild',
         'ga-measurement-id': 'UA-159111495-1',
+        'product-page-identifier': 'url',
+        'product-page-regex': '/producto/',
     },
     pippa: {
         'target-div': '.section.product_section',
         'product-name-selector': '.product_name',
         'insert-before': 'childNodes[2]',
         'ga-measurement-id': 'UA-105999666-1',
+        'product-page-identifier': 'url',
+        'product-page-regex': '/products/',
+    },
+    prat: {
+        'target-div': '.product-view .product-essential',
+        'product-name-selector': '.product-name',
+        'insert-before': 'lastChild',
+        'ga-measurement-id': 'UA-123207746-1',
+        'product-page-identifier': 'css',
+        'product-page-regex': '.product-view',
     },
 };
+
+function isProductPage() {
+    const identifier = CLIENT_METADATA[COMPANY]['product-page-identifier'];
+    if (identifier === 'css') {
+        const productPageDiv = document.querySelector(CLIENT_METADATA[COMPANY]['product-page-regex']);
+        if (productPageDiv !== null) {
+            return true;
+        }
+        return false;
+    }
+    if (identifier === 'url') {
+        const currentUrl = window.location.href;
+        const urlRegex = CLIENT_METADATA[COMPANY]['product-page-regex'];
+        if (currentUrl.indexOf(urlRegex) !== -1) {
+            return true;
+        }
+        return false;
+    }
+}
 
 function setGoogleAnalytics() {
     const script = document.createElement('script');
@@ -65,31 +98,34 @@ function createCactusContainer() {
 }
 
 function processProduct() {
-    const productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
-    const upSellSection = document.createElement('div');
-    const crossSellSection = document.createElement('div');
+    const productPage = isProductPage();
+    if (productPage) {
+        const productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText.trim();
+        const upSellSection = document.createElement('div');
+        const crossSellSection = document.createElement('div');
 
-    setGoogleAnalytics();
-    importStyles();
+        setGoogleAnalytics();
+        importStyles();
 
-    const crossSellDiv = createCactusCarousel('Productos Relacionados', 'cross-sell', crossSellSection);
-    const upSellDiv = createCactusCarousel('Productos Similares', 'up-sell', upSellSection);
+        const crossSellDiv = createCactusCarousel('Productos Relacionados', 'cross-sell', crossSellSection);
+        const upSellDiv = createCactusCarousel('Productos Similares', 'up-sell', upSellSection);
 
-    const cactusContainer = createCactusContainer();
+        const cactusContainer = createCactusContainer();
 
-    getPredictions(crossSellDiv, type='cross_selling', productName, k = 30).then((success) => {
-        if (success) {
-            cactusContainer.appendChild(crossSellSection);
-            productScroll(type='cross-sell');
-        }
-    });
+        getPredictions(crossSellDiv, type='cross_selling', productName, k = 30).then((success) => {
+            if (success) {
+                cactusContainer.appendChild(crossSellSection);
+                productScroll(type='cross-sell');
+            }
+        });
 
-    getPredictions(upSellDiv, type = 'up_selling', productName, k = 30).then((success) => {
-        if (success) {
-            cactusContainer.appendChild(upSellSection);
-            productScroll(type='up-sell');
-        }
-    });
+        getPredictions(upSellDiv, type = 'up_selling', productName, k = 30).then((success) => {
+            if (success) {
+                cactusContainer.appendChild(upSellSection);
+                productScroll(type='up-sell');
+            }
+        });
+    }
 }
 
 function createCactusCarousel(title, type, recommenderSection) {
@@ -156,7 +192,7 @@ function createProductHtml(data, productsDiv) {
             const timestamp = Date.now();
             const cookieName = 'ClickRelatedProduct'+'_'+timestamp;
             createCookie(cookieName, productNameClicked, 5);
-            const productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
+            const productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText.trim();
             gtag('event', productName, {
                 event_category: 'Related Product Click',
                 event_label: productNameClicked,
@@ -181,7 +217,7 @@ function createProductHtml(data, productsDiv) {
             const timestamp = Date.now();
             const cookieName = 'ClickRelatedProduct'+'_'+timestamp;
             createCookie(cookieName, productNameClicked, 5);
-            const productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText;
+            const productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText.trim();
             gtag('event', productName, {
                 event_category: 'Related Product Click',
                 event_label: productNameClicked,
