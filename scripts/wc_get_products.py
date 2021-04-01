@@ -7,6 +7,8 @@ import logging
 import time
 from tqdm import tqdm
 import glob
+from products.models import ProductAttributes
+from store.models import Store
 
 with open('./scripts/wc/wc-keys.json') as f:
   keys = json.load(f) 
@@ -34,7 +36,8 @@ def run(*args):
     logger = logging.getLogger(__name__)
     endpoint="products"
     logger.info("Getting products")
-    json_file = []
+    company = Store.objects.get(company=COMPANY)
+    products = []
     for e in tqdm(range(100)):
         params = {
                 'per_page': 50,
@@ -47,14 +50,21 @@ def run(*args):
             break
         else:
             for item in resp:
-                json_file.append(item)
-        time.sleep(1)
-    blob_name = f"{COMPANY}/{endpoint}.json"
-    upload_blob_to_default_bucket(json_file,blob_name)
-    if COMPANY == "cactus":
-        with open(f'./scripts/wc/{endpoint}.json', 'w+') as f:
-            json.dump(json_file, f)
-
-
-
-    
+                sku = item['sku']
+                if sku == '':
+                    sku = item['id']
+                if item['status'] == "publish":
+                    ProductAttributes.objects.update_or_create(
+                        product_code=item['id'],
+                        sku=sku,
+                        company=company,
+                        defaults={
+                            'name': item['name'],
+                            'permalink': item['permalink'],
+                            'img_url': item['images'][0]['src'] if item['images'] != [] else "https://www.quema.cl/wp-content/uploads/woocommerce-placeholder.png",
+                            'stock_quantity': False if item['stock_status'] == "outofstock" else True,
+                            'status': item['status'],
+                            'price': item['price'] if item['price'] else None
+                        }
+                    )
+        time.sleep(2)

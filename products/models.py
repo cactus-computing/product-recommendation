@@ -18,7 +18,7 @@ class ProductAttributes(ProductsModel):
     img_url = models.CharField(max_length=2000, default=None)
     permalink = models.CharField(max_length=2000)
     status = models.CharField(max_length=500)
-    stock_quantity = models.FloatField(null=True, blank=True, default=None)
+    stock_quantity = models.BooleanField(null=True, blank=True, default=None)
     company = models.ForeignKey(Store, on_delete=models.CASCADE)
     def __str__(self):
         return self.name
@@ -34,7 +34,7 @@ class OrderAttributes(ProductsModel):
     name = models.CharField(max_length=2000)
     company = models.ForeignKey(Store, on_delete=models.CASCADE)
     def __str__(self):
-        return self.company
+        return self.bill
 
 class CrossSellPredictions(ProductsModel):
     '''
@@ -48,7 +48,7 @@ class CrossSellPredictions(ProductsModel):
     distance = models.FloatField()
     company = models.ForeignKey(Store, on_delete=models.CASCADE)
     def __str__(self):
-        return self.company
+        return self.product_code
 
 class UpSellPredictions(ProductsModel):
     '''
@@ -59,4 +59,4 @@ class UpSellPredictions(ProductsModel):
     distance = models.FloatField()
     company = models.ForeignKey(Store, on_delete=models.CASCADE)
     def __str__(self):
-        return self.company
+        return self.product_code
