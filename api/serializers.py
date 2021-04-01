@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CrossSellPredictions, UpSellPredictions, ProductAttributes
+from products.models import CrossSellPredictions, UpSellPredictions, ProductAttributes
 
 
 class CrossSellPredictionsSerializer(serializers.ModelSerializer):

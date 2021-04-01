@@ -217,7 +217,7 @@ sudo systemctl reload nginx
 cd /usr/local/CactusCo
 sudo git pull origin <branch name> dev
 sudo su cactus
-source .venv/bin/active
+source .venv/bin/activate
 python manage.py collectstatic
 exit
 sudo systemctl daemon-reload
@@ -229,7 +229,7 @@ sudo systemctl restart nginx
 cd /usr/local/cactusco
 sudo git pull origin <branch name> main
 sudo su cactus
-source .venv/bin/active
+source .venv/bin/activate
 python manage.py collectstatic
 exit
 sudo systemctl daemon-reload
