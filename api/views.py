@@ -27,25 +27,20 @@ def cross_selling(request):
     Given a sku and company get cross_sell skus
     '''
     if request.method == "GET":
-
         name = request.query_params["name"].strip().lower()
         company = request.query_params["company"]
         top_k = int(request.query_params["top-k"])
-        
-        original_product = ProductAttributes.objects.filter(name__iexact=name, company=company).first()
+        original_product = ProductAttributes.objects.filter(name__iexact=name, company__company=company).first()
         if original_product is None:
             return Response({
                 "message": "Your product was not found :(",
                 "error": True,
                 "empty": True,
             })
-
-        predictions = CrossSellPredictions.objects.filter(product_code__name__iexact=name, product_code__company=company)
+        predictions = CrossSellPredictions.objects.filter(product_code__name__iexact=name, company__company=company)
         predictions = predictions.exclude(product_code__price__isnull=True)
-        
         product_ids = list(product.recommended_code_id for product in predictions)
         predicted_products = ProductAttributes.objects.exclude(price__isnull=True).filter(id__in=product_ids)[:top_k]
-
         serializer = ProductAttributesSerializer(predicted_products, many=True)
         for obj in  serializer.data:
             print(obj["price"])
@@ -70,8 +65,7 @@ def up_selling(request):
         name = request.query_params["name"].strip().lower()
         company = request.query_params["company"]
         top_k = int(request.query_params["top-k"])
-
-        original_product = ProductAttributes.objects.filter(name__iexact=name, company=company).first()
+        original_product = ProductAttributes.objects.filter(name__iexact=name, company__company=company).first()
         if original_product is None:
             return Response({
                 "message": "Your product was not found :(",
@@ -79,12 +73,10 @@ def up_selling(request):
                 "empty": True,
             })
 
-        predictions = UpSellPredictions.objects.filter(product_code__name__iexact=name, product_code__company=company)
+        predictions = UpSellPredictions.objects.filter(product_code__name__iexact=name, company__company=company)
         predictions = predictions.exclude(product_code__price__isnull=True)
-        
         product_ids = list(product.recommended_code_id for product in predictions)
         predicted_products = ProductAttributes.objects.exclude(price__isnull=True).filter(id__in=product_ids)[:top_k]
-
         serializer = ProductAttributesSerializer(predicted_products, many=True)
         for obj in  serializer.data:
             print(obj["price"])

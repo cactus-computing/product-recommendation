@@ -9,6 +9,8 @@ from .wc.storage import  upload_blob_to_default_bucket
 import logging
 from tqdm import tqdm
 import pandas as pd
+from store.models import Store
+from products.models import ProductAttributes
 
 with open('./scripts/magento/magento-keys.json') as f:
   keys = json.load(f) 
@@ -36,6 +38,7 @@ def run(*args):
     logger.info("Downloading all products")
     lista_productos = pd.read_csv(prat_product_gs, names = ["skus"], header=None)["skus"].to_list()
     productos = []
+    company = Store.objects.get(company=COMPANY)
     for e, prod in enumerate(tqdm(lista_productos)):
         try:
             result = soap_client.service.catalogProductInfo(session, prod)
@@ -58,24 +61,17 @@ def run(*args):
                     stock = 1
                 else:
                     stock = 0
-            result_ = {
-                "product_id": result["product_id"],
-                "sku": result["sku"],
-                "set": result["set"],
-                "type": result["type"],
-                "name": result["name"],
-                "url": f"https://www.ferreteriaprat.cl/{result['url_path']}",
-                "img_url": image_url,
-                "status": result["status"],
-                "stock_quantity": stock,
-                "price": int(result["price"].split(".")[0]),
-            }
-            productos.append(result_)
-            logger.info(result_)
-    blob_name = f"{COMPANY}/products.json"
-    upload_blob_to_default_bucket(productos,blob_name)
-    logger.info(f"{len(productos)} uploaded to GCS")
-
-
-
-    
+            ProductAttributes.objects.update_or_create(
+                product_code=result["product_id"],
+                sku=result["sku"],
+                company=company,
+                defaults={
+                    'name':result["name"],
+                    'permalink': f"https://www.ferreteriaprat.cl/{result['url_path']}",
+                    'img_url': image_url,
+                    'stock_quantity': stock,
+                    'status': result["status"],
+                    'price': int(result["price"].split(".")[0])
+                }
+            )
+ 
