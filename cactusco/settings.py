@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'landing',
     'user_panel',
     'api',
+    'products',
+    'store',
     ## installed apps ##
     'crispy_forms',
     'django_rename_app',
