@@ -1,9 +1,11 @@
 window.onload = processProduct;
 
-const cactusScript = document.getElementById('CactusScript');
-const COMPANY = cactusScript.src.match(/(\?|\&)([^=]+)\=([^&]+)/)[3];
+const cactusScriptUrl = document.getElementById('CactusScript').src;
+const queryString = cactusScriptUrl.substring(cactusScriptUrl.indexOf('?'));
+const urlParams = new URLSearchParams(queryString);
 
-const CODE_STATUS = 'dev'; // options: local, dev, prod
+const company = urlParams.get('client');
+const codeStatus = urlParams.get('environment'); // options: local, dev, prod
 
 const HOST_DICT = {
     local: 'http://localhost:8000',
@@ -47,9 +49,9 @@ const CLIENT_METADATA = {
 };
 
 function isProductPage() {
-    const identifier = CLIENT_METADATA[COMPANY]['product-page-identifier'];
+    const identifier = CLIENT_METADATA[company]['product-page-identifier'];
     if (identifier === 'css') {
-        const productPageDiv = document.querySelector(CLIENT_METADATA[COMPANY]['product-page-regex']);
+        const productPageDiv = document.querySelector(CLIENT_METADATA[company]['product-page-regex']);
         if (productPageDiv !== null) {
             return true;
         }
@@ -57,7 +59,7 @@ function isProductPage() {
     }
     if (identifier === 'url') {
         const currentUrl = window.location.href;
-        const urlRegex = CLIENT_METADATA[COMPANY]['product-page-regex'];
+        const urlRegex = CLIENT_METADATA[company]['product-page-regex'];
         if (currentUrl.indexOf(urlRegex) !== -1) {
             return true;
         }
@@ -69,11 +71,11 @@ function setGoogleAnalytics() {
     const script = document.createElement('script');
     const head = document.head;
     script.async = 'async';
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${CLIENT_METADATA[COMPANY]['ga-measurement-id']}`;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${CLIENT_METADATA[company]['ga-measurement-id']}`;
     head.appendChild(script);
 
     const scriptJs = document.createElement('script');
-    scriptJs.innerText = `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config','${CLIENT_METADATA[COMPANY]['ga-measurement-id']}');`;
+    scriptJs.innerText = `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config','${CLIENT_METADATA[company]['ga-measurement-id']}');`;
     head.appendChild(scriptJs);
 }
 
@@ -83,24 +85,24 @@ function importStyles() {
 
     link.type = 'text/css';
     link.rel = 'stylesheet';
-    link.href = `${HOST_DICT[CODE_STATUS]}/static/css/${COMPANY}.css`;
+    link.href = `${HOST_DICT[codeStatus]}/static/css/${company}.css`;
 
     head.appendChild(link);
 }
 
 function createCactusContainer() {
-    const targetDiv = document.querySelector(CLIENT_METADATA[COMPANY]['target-div']);
+    const targetDiv = document.querySelector(CLIENT_METADATA[company]['target-div']);
     const cactusContainer = document.createElement('div');
     cactusContainer.id = 'cactusContainer';
     cactusContainer.class = 'cactusRecommendation';
-    targetDiv.insertBefore(cactusContainer, targetDiv[CLIENT_METADATA[COMPANY]['insert-before']]);
+    targetDiv.insertBefore(cactusContainer, targetDiv[CLIENT_METADATA[company]['insert-before']]);
     return cactusContainer;
 }
 
 function processProduct() {
     const productPage = isProductPage();
     if (productPage) {
-        const productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText.trim();
+        const productName = document.querySelector(CLIENT_METADATA[company]['product-name-selector']).innerText.trim();
         const upSellSection = document.createElement('div');
         const crossSellSection = document.createElement('div');
 
@@ -165,7 +167,8 @@ function createCactusCarousel(title, type, recommenderSection) {
 
 const getPredictions = async function (productsDiv, type, productName, k) {
     const response = await fetch(
-        `${HOST_DICT[CODE_STATUS]}/api/${type}?name=${productName}&company=${COMPANY}&top-k=${k}`,
+        `${HOST_DICT[codeStatus]}/api/${type}?name=${productName}&company=${company
+        }&top-k=${k}`,
     );
     const data = await response.json();
     let success = false;
@@ -192,7 +195,7 @@ function createProductHtml(data, productsDiv) {
             const timestamp = Date.now();
             const cookieName = 'ClickRelatedProduct'+'_'+timestamp;
             createCookie(cookieName, productNameClicked, 5);
-            const productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText.trim();
+            const productName = document.querySelector(CLIENT_METADATA[company]['product-name-selector']).innerText.trim();
             gtag('event', productName, {
                 event_category: 'Related Product Click',
                 event_label: productNameClicked,
@@ -217,7 +220,7 @@ function createProductHtml(data, productsDiv) {
             const timestamp = Date.now();
             const cookieName = 'ClickRelatedProduct'+'_'+timestamp;
             createCookie(cookieName, productNameClicked, 5);
-            const productName = document.querySelector(CLIENT_METADATA[COMPANY]['product-name-selector']).innerText.trim();
+            const productName = document.querySelector(CLIENT_METADATA[company]['product-name-selector']).innerText.trim();
             gtag('event', productName, {
                 event_category: 'Related Product Click',
                 event_label: productNameClicked,
