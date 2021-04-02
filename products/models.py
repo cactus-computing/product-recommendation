@@ -30,9 +30,9 @@ class OrderAttributes(ProductsModel):
     '''
     user = models.CharField(max_length=2000)
     product = models.ForeignKey(ProductAttributes, on_delete=models.CASCADE)
-    prod_qty = models.IntegerField()
+    product_qty = models.IntegerField()
     bill = models.CharField(max_length=2000)
-    prod_name = models.CharField(max_length=2000)
+    product_name = models.CharField(max_length=2000)
     company = models.ForeignKey(Store, on_delete=models.CASCADE)
 
 
