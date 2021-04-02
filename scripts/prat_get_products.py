@@ -37,7 +37,6 @@ def run(*args):
     session = soap_client.service.login(CONSUMER_KEY, CONSUMER_SECRET)
     logger.info("Downloading all products")
     lista_productos = pd.read_csv(prat_product_gs, names = ["skus"], header=None)["skus"].to_list()
-    productos = []
     company = Store.objects.get(company=COMPANY)
     for e, prod in enumerate(tqdm(lista_productos)):
         try:
@@ -45,6 +44,7 @@ def run(*args):
         except Fault as e:
             print(e)
             continue
+        print(result)
         url = result['url_path']
         req = requests.get(f"https://www.ferreteriaprat.cl/{url}")
         soup = BeautifulSoup(req.text, 'html.parser')
@@ -71,7 +71,8 @@ def run(*args):
                     'img_url': image_url,
                     'stock_quantity': stock,
                     'status': result["status"],
-                    'price': int(result["price"].split(".")[0])
+                    'price': int(result["price"].split(".")[0]),
+                    'record_created_at': result['created_at']
                 }
             )
- 
+    

@@ -64,7 +64,8 @@ def run(*args):
                             'img_url': item['images'][0]['src'] if item['images'] != [] else "https://www.quema.cl/wp-content/uploads/woocommerce-placeholder.png",
                             'stock_quantity': False if item['stock_status'] == "outofstock" else True,
                             'status': item['status'],
-                            'price': item['price'] if item['price'] else None
+                            'price': item['price'] if item['price'] else None,
+                            'record_created_at': item['date_created']
                         }
                     )
         time.sleep(2)
