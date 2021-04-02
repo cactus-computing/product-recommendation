@@ -1,12 +1,12 @@
 import json
 from woocommerce import API
 from datetime import datetime
-from .wc.storage import  upload_blob_to_default_bucket
 import os
 import logging
 import time
 from tqdm import tqdm
 import glob
+from django.db.utils import IntegrityError
 from products.models import ProductAttributes
 from store.models import Store
 
@@ -37,7 +37,6 @@ def run(*args):
     endpoint="products"
     logger.info("Getting products")
     company = Store.objects.get(company=COMPANY)
-    products = []
     for e in tqdm(range(100)):
         params = {
                 'per_page': 50,
@@ -54,18 +53,22 @@ def run(*args):
                 if sku == '':
                     sku = item['id']
                 if item['status'] == "publish":
-                    ProductAttributes.objects.update_or_create(
-                        product_code=item['id'],
-                        sku=sku,
-                        company=company,
-                        defaults={
-                            'name': item['name'],
-                            'permalink': item['permalink'],
-                            'img_url': item['images'][0]['src'] if item['images'] != [] else "https://www.quema.cl/wp-content/uploads/woocommerce-placeholder.png",
-                            'stock_quantity': False if item['stock_status'] == "outofstock" else True,
-                            'status': item['status'],
-                            'price': item['price'] if item['price'] else None,
-                            'record_created_at': item['date_created']
-                        }
-                    )
+                    try:
+                        ProductAttributes.objects.update_or_create(
+                            product_code=item['id'],
+                            sku=sku,
+                            company=company,
+                            defaults={
+                                'name': item['name'],
+                                'permalink': item['permalink'],
+                                'img_url': item['images'][0]['src'] if item['images'] != [] else "https://www.quema.cl/wp-content/uploads/woocommerce-placeholder.png",
+                                'stock_quantity': False if item['stock_status'] == "outofstock" else True,
+                                'status': item['status'],
+                                'price': item['price'] if item['price'] else None,
+                                'record_created_at': item['date_created']
+                            }
+                        )
+                    except IntegrityError as f:
+                        logger.error(f)
+                        continue
         time.sleep(2)

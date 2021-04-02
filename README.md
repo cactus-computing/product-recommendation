@@ -31,9 +31,11 @@ Create containers
 docker-compose up
 ```
 To add models to database:
+
 ```
 docker-compose run web /usr/local/bin/python manage.py migrate
 ```
+
 - [Index](##index)
 ## Runnig Dev Envirnoment
 
@@ -54,6 +56,7 @@ gsutil cp gs://cactus-stockapp/credentials/service_account_key.json ./cactusco/s
 Ubuntu 18.04
 
 Clone the repository
+
 ```
 sudo git clone https://github.com/vescobarb/MVP_inventory.git cactusco
 ```
@@ -325,6 +328,13 @@ docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_p
 docker-compose run web /usr/local/bin/python manage.py runscript wc_get_products --script-args quema
 docker-compose run web /usr/local/bin/python manage.py runscript wc_get_products --script-args makerschile
 docker-compose run web /usr/local/bin/python manage.py runscript prat_get_products --script-args prat
+docker-compose run web /usr/local/bin/python manage.py runscript pippa_scraper
+```
+
+```
+docker-compose run web /usr/local/bin/python manage.py runscript wc_get_orders --script-args quema
+docker-compose run web /usr/local/bin/python manage.py runscript wc_get_orders --script-args makerschile
+docker-compose run web /usr/local/bin/python manage.py runscript prat_get_orders --script-args prat
 ```
 
 #### Production:
@@ -336,12 +346,6 @@ python manage.py runscript pippa_scraper
 python manage.py runscript prat_get_products --script-args prat
 ```
 
-### Upload to DB
-```
-docker-compose run web /usr/local/bin/python manage.py runscript product_upload --script-args quema 
-docker-compose run web /usr/local/bin/python manage.py runscript product_upload --script-args makerschile 
-docker-compose run web /usr/local/bin/python manage.py runscript product_upload --script-args prat 
-```
 #### Production:
 ```
 python manage.py runscript product_upload --script-args quema
