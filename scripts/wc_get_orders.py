@@ -61,9 +61,9 @@ def run(*args):
                     OrderAttributes.objects.update_or_create(
                         user=item['customer_id'],
                         product=product_code,
-                        prod_qty=prod['quantity'],
+                        product_qty=prod['quantity'],
                         bill=item['id'],
-                        prod_name=prod['name'],
+                        product_name=prod['name'],
                         company=company,
                         record_created_at=item['date_created']
                         )
