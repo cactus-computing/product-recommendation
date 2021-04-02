@@ -21,6 +21,13 @@ class ProductAttributes(ProductsModel):
     status = models.CharField(max_length=500)
     stock_quantity = models.BooleanField(null=True, blank=True, default=None)
     company = models.ForeignKey(Store, on_delete=models.CASCADE)
+
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name
+        }
+
     def __str__(self):
         return self.name
 

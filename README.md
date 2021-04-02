@@ -31,9 +31,11 @@ Create containers
 docker-compose up
 ```
 To add models to database:
+
 ```
 docker-compose run web /usr/local/bin/python manage.py migrate
 ```
+
 - [Index](##index)
 ## Runnig Dev Envirnoment
 
@@ -54,6 +56,7 @@ gsutil cp gs://cactus-stockapp/credentials/service_account_key.json ./cactusco/s
 Ubuntu 18.04
 
 Clone the repository
+
 ```
 sudo git clone https://github.com/vescobarb/MVP_inventory.git cactusco
 ```

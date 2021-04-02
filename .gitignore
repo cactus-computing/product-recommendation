@@ -165,3 +165,5 @@ static/rest_framework
 ngrok
 
 node_modules
+.env-dev
+.env-prod
