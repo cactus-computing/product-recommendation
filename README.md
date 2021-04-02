@@ -249,7 +249,7 @@ docker-compose run web /usr/local/bin/python manage.py migrate
 
 Resets migrations
 ```
-docker-compose run web /usr/local/bin/python manage.py migrate products zero
+docker-compose run web /usr/local/bin/python manage.py migrate api zero
 ```
 
 To connect to the app shell
@@ -331,7 +331,8 @@ docker-compose run web /usr/local/bin/python manage.py runscript prat_get_produc
 ```
 
 python manage.py runscript wc_get_products --script-args quema
-python manage.py runscript wc_get_products --script-args quema
+python manage.py runscript wc_get_products --script-args makerschile
+python manage.py runscript pippa_scraper
 python manage.py runscript prat_get_products --script-args prat
 ```
 
