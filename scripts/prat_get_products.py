@@ -3,12 +3,11 @@ from zeep import Client
 from zeep.exceptions import Fault
 import requests
 from bs4 import BeautifulSoup
-from zeep import xsd
 from datetime import datetime
-from .wc.storage import  upload_blob_to_default_bucket
 import logging
 from tqdm import tqdm
 import pandas as pd
+from django.db.utils import IntegrityError
 from store.models import Store
 from products.models import ProductAttributes
 
@@ -41,10 +40,9 @@ def run(*args):
     for e, prod in enumerate(tqdm(lista_productos)):
         try:
             result = soap_client.service.catalogProductInfo(session, prod)
-        except Fault as e:
-            print(e)
+        except Fault as f:
+            logger.error(f)
             continue
-        print(result)
         url = result['url_path']
         req = requests.get(f"https://www.ferreteriaprat.cl/{url}")
         soup = BeautifulSoup(req.text, 'html.parser')
@@ -61,18 +59,22 @@ def run(*args):
                     stock = 1
                 else:
                     stock = 0
-            ProductAttributes.objects.update_or_create(
-                product_code=result["product_id"],
-                sku=result["sku"],
-                company=company,
-                defaults={
-                    'name':result["name"],
-                    'permalink': f"https://www.ferreteriaprat.cl/{result['url_path']}",
-                    'img_url': image_url,
-                    'stock_quantity': stock,
-                    'status': result["status"],
-                    'price': int(result["price"].split(".")[0]),
-                    'record_created_at': result['created_at']
-                }
-            )
-    
+            try:
+                ProductAttributes.objects.update_or_create(
+                    product_code=result["product_id"],
+                    sku=result["sku"],
+                    company=company,
+                    defaults={
+                        'name':result["name"],
+                        'permalink': f"https://www.ferreteriaprat.cl/{result['url_path']}",
+                        'img_url': image_url,
+                        'stock_quantity': stock,
+                        'status': result["status"],
+                        'price': int(result["price"].split(".")[0]),
+                        'record_created_at': result['created_at']
+                    }
+                )
+            except IntegrityError as f:
+                logger.error(f)
+                continue
+        

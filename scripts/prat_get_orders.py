@@ -5,6 +5,8 @@ import os
 import logging
 import time
 from tqdm import tqdm
+from django.db.utils import IntegrityError
+from django.core.exceptions import ObjectDoesNotExist
 from products.models import OrderAttributes, ProductAttributes
 from store.models import Store
 
@@ -18,8 +20,6 @@ df = pd.concat([pd.read_csv(files_1),pd.read_csv(files_2),pd.read_csv(files_3)])
 df.dropna(inplace=True)
 def run(*args):
     COMPANY_NAME = args[0]
-    CONSUMER_KEY = keys[COMPANY_NAME]["CONSUMER_KEY"]
-    CONSUMER_SECRET = keys[COMPANY_NAME]["CONSUMER_SECRET"]
     company = Store.objects.get(company=COMPANY_NAME)
     DATE = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
     logging.basicConfig(
@@ -36,15 +36,19 @@ def run(*args):
         if row['Estado'] in ['Pagado', 'Preparación', 'Recibido', 'Retiro', 'Despachado']:
             try:
                 product_code = ProductAttributes.objects.get(sku=row['SKU'], company=company)
-            except:# DoesNotExist as e:
-                print(e)
+            except ProductAttributes.DoesNotExist as f:
+                logger.error(f)
                 continue
-             OrderAttributes.objects.update_or_create(
-                user=row['Rut'].replace('.','').replace('-',''),
-                product=product_code,
-                product_qty=row['Cantidad'],
-                bill=row['ID Pedido'],
-                product_name=row['Producto'],
-                company=company,
-                record_created_at=datetime.datetime.strptime(row['Created_at'], '%Y-%m-%d %H:%M:%S.%f')
-                ))
+            try:
+                OrderAttributes.objects.update_or_create(
+                    user=row['Rut'].replace('.','').replace('-',''),
+                    product=product_code,
+                    product_qty=row['Cantidad'],
+                    bill=row['ID Pedido'],
+                    product_name=row['Producto'],
+                    company=company,
+                    record_created_at=datetime.datetime.strptime(row['Created_at'], '%Y-%m-%d %H:%M:%S.%f')
+                    )
+            except IntegrityError as f:
+                logger.error(f)
+                continue

@@ -328,6 +328,13 @@ docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_p
 docker-compose run web /usr/local/bin/python manage.py runscript wc_get_products --script-args quema
 docker-compose run web /usr/local/bin/python manage.py runscript wc_get_products --script-args makerschile
 docker-compose run web /usr/local/bin/python manage.py runscript prat_get_products --script-args prat
+docker-compose run web /usr/local/bin/python manage.py runscript pippa_scraper
+```
+
+```
+docker-compose run web /usr/local/bin/python manage.py runscript wc_get_orders --script-args quema
+docker-compose run web /usr/local/bin/python manage.py runscript wc_get_orders --script-args makerschile
+docker-compose run web /usr/local/bin/python manage.py runscript prat_get_orders --script-args prat
 ```
 
 #### Production:
@@ -339,12 +346,6 @@ python manage.py runscript pippa_scraper
 python manage.py runscript prat_get_products --script-args prat
 ```
 
-### Upload to DB
-```
-docker-compose run web /usr/local/bin/python manage.py runscript product_upload --script-args quema 
-docker-compose run web /usr/local/bin/python manage.py runscript product_upload --script-args makerschile 
-docker-compose run web /usr/local/bin/python manage.py runscript product_upload --script-args prat 
-```
 #### Production:
 ```
 python manage.py runscript product_upload --script-args quema

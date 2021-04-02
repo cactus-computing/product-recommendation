@@ -1,12 +1,13 @@
 import json
 from woocommerce import API
 from datetime import datetime
-from .wc.storage import  upload_blob_to_default_bucket
 import os
 import logging
 import time
 from tqdm import tqdm
 import glob
+from django.db.utils import IntegrityError
+from django.core.exceptions import ObjectDoesNotExist
 from products.models import OrderAttributes, ProductAttributes
 from store.models import Store
 
@@ -56,15 +57,20 @@ def run(*args):
                 for prod in item['line_items']:
                     try:
                         product_code = ProductAttributes.objects.get(product_code=prod['product_id'], company=company)
-                    except:
+                    except ProductAttributes.DoesNotExist as f:
+                        logger.error(f)
                         continue
-                    OrderAttributes.objects.update_or_create(
-                        user=item['customer_id'],
-                        product=product_code,
-                        product_qty=prod['quantity'],
-                        bill=item['id'],
-                        product_name=prod['name'],
-                        company=company,
-                        record_created_at=item['date_created']
-                        )
+                    try:
+                        OrderAttributes.objects.update_or_create(
+                            user=item['customer_id'],
+                            product=product_code,
+                            product_qty=prod['quantity'],
+                            bill=item['id'],
+                            product_name=prod['name'],
+                            company=company,
+                            record_created_at=item['date_created']
+                            )
+                    except IntegrityError as f:
+                        logger.error(f)
+                        continue
         time.sleep(2)
