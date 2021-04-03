@@ -106,7 +106,7 @@ function createProductHtml(data, productsDiv) {
         productImageLink.href = prod.permalink;
 
         const productImage = document.createElement('img');
-        productImage.src = prod.href;
+        productImage.src = prod.img_url;
         productImage.className = 'product-image';
         productImage.addEventListener('click', () => {
             const productNameClicked = prod.name.toLowerCase();
