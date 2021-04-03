@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+import random
 from products.models import CrossSellPredictions, UpSellPredictions, ProductAttributes
 from .serializers import CrossSellPredictionsSerializer, UpSellPredictionsSerializer, ProductAttributesSerializer
 
@@ -88,4 +89,23 @@ def up_selling(request):
             "original_code": original_product.product_code,
             "empty": len(serializer.data) == 0,
             "data": serializer.data
+        })
+
+@api_view(['GET', 'POST'])
+def random_product_for_client(request):
+    '''
+    Given a sku and company get up_sell skus
+    '''
+
+    if request.method == "GET":
+        company_name = request.query_params["company"]
+        products_count = ProductAttributes.objects.filter(company__company=company_name).count()
+        
+        rand_int = random.randint(0, products_count-1)
+        products_objects = ProductAttributes.objects.filter(company__company=company_name)[rand_int]
+        serializer = ProductAttributesSerializer(products_objects)
+        return Response({
+            "message": "Selecting random product",
+            "products_count": products_count,
+            "selected_product": serializer.data
         })
