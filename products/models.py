@@ -4,7 +4,6 @@ from store.models import Store
 class ProductsModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    record_created_at = models.DateTimeField()
     class Meta:
         abstract = True
 
@@ -21,6 +20,7 @@ class ProductAttributes(ProductsModel):
     status = models.CharField(max_length=500)
     stock_quantity = models.BooleanField(null=True, blank=True, default=None)
     company = models.ForeignKey(Store, on_delete=models.CASCADE)
+    product_created_at = models.DateTimeField()
 
     def as_dict(self):
         return {
@@ -42,6 +42,14 @@ class OrderAttributes(ProductsModel):
     product_name = models.CharField(max_length=2000)
     company = models.ForeignKey(Store, on_delete=models.CASCADE)
 
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "product_name": self.product_name,
+            "bill": self.product_name,
+            "user": self.product_name,
+            "product_qty": self.product_name
+        }
 
 class CrossSellPredictions(ProductsModel):
     '''

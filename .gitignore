@@ -167,3 +167,5 @@ ngrok
 node_modules
 .env-dev
 .env-prod
+tf_logs
+trained_models
