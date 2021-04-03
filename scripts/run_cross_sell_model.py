@@ -3,12 +3,12 @@ import pandas as pd
 from .model_common import get_top_k_for_each, send_to_db, get_orders, train_collaborative_filters
 import logging
 import time
-from products.models import CrossSellPredictions
+from products.models import CrossSellPredictions, ProductAttributes
+from store.models import Store
 
 BUCKET = 'cactus_recommender'
 
-ITEM = 'id'
-NAME = 'product_name'
+ITEM = 'product_name'
 BILL = 'bill'
 USER = 'user'
 QTY = 'product_qty'
@@ -57,19 +57,18 @@ def run(*arg):
         logger.info(f"Running model for {company}")
         logger.info("Creating user mapping dictionaries")
         df = get_orders(company)
-
+        
         users = df[USER].unique().tolist()
         user2user_encoded = {k: e for e, k in enumerate(users)}
 
         logger.info("Creating item mapping dictionaries")
         items = df[ITEM].unique().tolist()
-        item2item_encoded = {k: e for e, k in enumerate(items)}
-        item_encoded2item =  {item2item_encoded[k]: k for k in item2item_encoded}
-        item2item_name = df[[ITEM, NAME]].drop_duplicates(subset=[ITEM]).set_index(ITEM).to_dict()[NAME]
+        item_name2item_encoded = {k: e for e, k in enumerate(items)}
+        item_encoded2item_name =  {item_name2item_encoded[k]: k for k in item_name2item_encoded}
 
         logger.info("Mapping users and items to new id's")
         df[USER] = df[USER].map(user2user_encoded)
-        df[ITEM] = df[ITEM].map(item2item_encoded)
+        df[ITEM] = df[ITEM].map(item_name2item_encoded)
         
         ratings = df[[USER, ITEM, QTY]]
         ratings = ratings.groupby([USER, ITEM], as_index=False).agg({QTY: 'sum'})
@@ -83,11 +82,11 @@ def run(*arg):
             n=len(users), 
             m=len(items), 
             client=company, 
-            item_encoded2item=item_encoded2item,
+            item_encoded2item=item_encoded2item_name,
             k=K
         )
         
-        cs['recommended_name'] = cs.index.map(item_encoded2item).map(item2item_name)
-        cs['product_name'] = cs['product_id'].map(item_encoded2item).map(item2item_name)
-
+        cs['recommended_name'] = cs.index.map(item_encoded2item_name)
+        cs['product_name'] = cs['product_id'].map(item_encoded2item_name)
+        
         send_to_db(cs, company_name=company, django_model=CrossSellPredictions)

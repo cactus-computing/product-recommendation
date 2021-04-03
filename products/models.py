@@ -44,11 +44,10 @@ class OrderAttributes(ProductsModel):
 
     def as_dict(self):
         return {
-            "id": self.id,
             "product_name": self.product_name,
-            "bill": self.product_name,
-            "user": self.product_name,
-            "product_qty": self.product_name
+            "bill": self.bill,
+            "user": self.user,
+            "product_qty": self.product_qty
         }
 
 class CrossSellPredictions(ProductsModel):

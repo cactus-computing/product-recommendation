@@ -11,8 +11,7 @@ DOT = 'dot'
 COSINE = 'cos'
 EUCLIDEAN = 'euc'
 
-ITEM = 'id'
-NAME = 'product_name'
+ITEM = 'product_name'
 BILL = 'bill'
 USER = 'user'
 QTY = 'product_qty'
@@ -86,6 +85,9 @@ def send_to_db(df, company_name, django_model):
             recommendation = ProductAttributes.objects.get(name=row.recommended_name, company=company)
         except ProductAttributes.DoesNotExist:
             continue
+        except ProductAttributes.MultipleObjectsReturned:
+            continue
+
 
         if prod.id not in deleted_ids:
             deleted_ids.append(prod.id)
