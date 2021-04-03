@@ -65,7 +65,7 @@ def run(*args):
                                 'stock_quantity': False if item['stock_status'] == "outofstock" else True,
                                 'status': item['status'],
                                 'price': item['price'] if item['price'] else None,
-                                'record_created_at': item['date_created']
+                                'product_created_at': item['date_created']
                             }
                         )
                     except IntegrityError as f:
