@@ -16,7 +16,7 @@ def pippa_has_stock(html):
 def pippa_image_link(html):
     return html.find('div', {"class": "product_gallery"}).find('img').get('data-src').strip()
 
-def run(*args)
+def run(*args):
     r = req.get("https://www.pippa.cl/sitemap_products_1.xml?from=2065737842753&to=6543288336449")
     soup = BeautifulSoup(r.text)
     company = Store.objects.get(company='pippa')
