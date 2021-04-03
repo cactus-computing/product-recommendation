@@ -7,7 +7,7 @@ from .serializers import CrossSellPredictionsSerializer, UpSellPredictionsSerial
 
 
 def point_to_int(price):
-    price = int(price)
+    price = int(price.split('.')[0])
     price = f"${price:,}".replace(',','.')
     return price
 

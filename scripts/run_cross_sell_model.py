@@ -58,6 +58,10 @@ def run(*arg):
         logger.info("Creating user mapping dictionaries")
         df = get_orders(company)
         
+        if len(df) == 0:
+            logger.info('No data to analyse. Quitting this customer')
+            continue
+
         users = df[USER].unique().tolist()
         user2user_encoded = {k: e for e, k in enumerate(users)}
 
