@@ -47,6 +47,7 @@ def run(*args):
                     bill=row['ID Pedido'],
                     product_name=row['Producto'],
                     company=company
+
                     )
             except IntegrityError as f:
                 logger.error(f)

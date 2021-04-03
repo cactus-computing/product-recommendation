@@ -27,7 +27,7 @@ def run(*args):
         if e == 0:
             continue
         try:
-            ProductAttributes.objects.update_or_create(
+            logger.info(ProductAttributes.objects.update_or_create(
                 name=product.find('image:title').text,
                 permalink=product.find('loc').text,
                 company=company,
@@ -40,7 +40,7 @@ def run(*args):
                     'price': pippa_product_price(product_html),
                     'product_created_at': product.find('lastmod').text
                 }
-            )
+            ))
         except IntegrityError as f:
             print(f)
             continue
