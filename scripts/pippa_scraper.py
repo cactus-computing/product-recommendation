@@ -42,5 +42,5 @@ def run(*args):
                 }
             ))
         except IntegrityError as f:
-            logger.error(f)
+            print(f)
             continue

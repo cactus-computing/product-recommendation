@@ -47,7 +47,7 @@ def run(*args):
                     bill=row['ID Pedido'],
                     product_name=row['Producto'],
                     company=company,
-                    record_created_at=datetime.datetime.strptime(row['Created_at'], '%Y-%m-%d %H:%M:%S.%f')
+                    record_created_at=datetime.strptime(row['Created_at'], '%Y-%m-%d %H:%M:%S.%f')
                     )
             except IntegrityError as f:
                 logger.error(f)
