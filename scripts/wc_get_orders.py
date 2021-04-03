@@ -67,8 +67,7 @@ def run(*args):
                             product_qty=prod['quantity'],
                             bill=item['id'],
                             product_name=prod['name'],
-                            company=company,
-                            record_created_at=item['date_created']
+                            company=company
                             )
                     except IntegrityError as f:
                         logger.error(f)

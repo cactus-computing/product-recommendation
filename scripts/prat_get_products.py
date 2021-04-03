@@ -71,7 +71,7 @@ def run(*args):
                         'stock_quantity': stock,
                         'status': result["status"],
                         'price': int(result["price"].split(".")[0]),
-                        'record_created_at': result['created_at']
+                        'product_created_at': result['created_at']
                     }
                 )
             except IntegrityError as f:
