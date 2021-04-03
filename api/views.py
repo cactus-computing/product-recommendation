@@ -42,7 +42,7 @@ def cross_selling(request):
         predictions = predictions.exclude(product_code__price__isnull=True, product_code__stock_quantity=False)
         predictions = predictions.order_by('-distance')
         product_ids = list(product.recommended_code_id for product in predictions)
-        predicted_products = ProductAttributes.objects.exclude(price__isnull=True, product_code__stock_quantity=False).filter(id__in=product_ids)[:top_k]
+        predicted_products = ProductAttributes.objects.exclude(price__isnull=True).filter(id__in=product_ids, stock_quantity=True)[:top_k]
         serializer = ProductAttributesSerializer(predicted_products, many=True)
         for obj in  serializer.data:
             obj["price"] = point_to_int(obj["price"])
@@ -78,7 +78,7 @@ def up_selling(request):
         predictions = predictions.exclude(product_code__price__isnull=True, product_code__stock_quantity=False)
         predictions = predictions.order_by('-distance')
         product_ids = list(product.recommended_code_id for product in predictions)
-        predicted_products = ProductAttributes.objects.exclude(price__isnull=True, product_code__stock_quantity=False).filter(id__in=product_ids)[:top_k]
+        predicted_products = ProductAttributes.objects.exclude(price__isnull=True).filter(id__in=product_ids, stock_quantity=True)[:top_k]
         serializer = ProductAttributesSerializer(predicted_products, many=True)
         for obj in  serializer.data:
             obj["price"] = point_to_int(obj["price"])
