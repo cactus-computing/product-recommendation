@@ -5,7 +5,6 @@ from django.conf import settings
 import os
 from datetime import datetime
 import logging
-from .storage import upload_blob_to_default_bucket, dataframe_to_gcs
 import pandas as pd
 
 
