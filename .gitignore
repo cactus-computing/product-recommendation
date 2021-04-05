@@ -168,3 +168,4 @@ node_modules
 .env-prod
 tf_logs
 trained_models
+staticfiles
