@@ -10,6 +10,16 @@ from django.db.utils import IntegrityError
 from products.models import ProductAttributes
 from store.models import Store
 
+date = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        handlers=[
+            logging.FileHandler(f'./scripts/wc/logs/log_{date}.log'),
+            logging.StreamHandler()
+        ]
+    )
+logger = logging.getLogger(__name__)
 
 def run(*args):
     company_name = args[0]
@@ -17,7 +27,7 @@ def run(*args):
     consumer_key = company.consumer_key
     consumer_secret = company.consumer_secret
     api_url = company.api_url
-    DATE = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+    
     wcapi = API(
         url=api_url,
         consumer_key=consumer_key,
@@ -25,15 +35,6 @@ def run(*args):
         version="wc/v3",
         query_string_auth=True
     )
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(message)s",
-        handlers=[
-            logging.FileHandler(f'./scripts/wc/logs/{COMPANY}_{DATE}.log'),
-            logging.StreamHandler()
-        ]
-    )
-    logger = logging.getLogger(__name__)
     endpoint="products"
     logger.info("Getting products")
     

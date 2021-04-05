@@ -11,6 +11,17 @@ from django.core.exceptions import ObjectDoesNotExist
 from products.models import OrderAttributes, ProductAttributes
 from store.models import Store
 
+date = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        handlers=[
+            logging.FileHandler(f'./scripts/wc/logs/log_{date}.log'),
+            logging.StreamHandler()
+        ]
+    )
+logger = logging.getLogger(__name__)
+
 def run(*args):
     company_name = args[0]
     company = Store.objects.get(company=company_name)
@@ -19,7 +30,6 @@ def run(*args):
     #last_date = OrderAttributes.objects.filter(company=company).latest("record_created_at")
     #last_date = last_date.record_created_at
     api_url = company.api_url
-    DATE = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
     wcapi = API(
         url=api_url,
         consumer_key=consumer_key,
@@ -27,15 +37,6 @@ def run(*args):
         version="wc/v3",
         query_string_auth=True
     )
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(message)s",
-        handlers=[
-            logging.FileHandler(f'./scripts/wc/logs/{COMPANY}_{DATE}.log'),
-            logging.StreamHandler()
-        ]
-    )
-    logger = logging.getLogger(__name__)
     endpoint="orders"
     logger.info("Getting products")
     for e in tqdm(range(100)):

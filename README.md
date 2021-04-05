@@ -337,21 +337,47 @@ docker-compose run web /usr/local/bin/python manage.py runscript wc_get_orders -
 docker-compose run web /usr/local/bin/python manage.py runscript prat_get_orders --script-args prat
 ```
 
-#### Production:
+```
+docker-compose run web /usr/local/bin/python manage.py runscript run_cross_sell_model --script-args quema
+docker-compose run web /usr/local/bin/python manage.py runscript run_cross_sell_model --script-args makerschile
+docker-compose run web /usr/local/bin/python manage.py runscript run_cross_sell_model --script-args prat
 ```
 
+```
+docker-compose run web /usr/local/bin/python manage.py runscript run_up_sell_model --script-args quema
+docker-compose run web /usr/local/bin/python manage.py runscript run_up_sell_model --script-args makerschile
+docker-compose run web /usr/local/bin/python manage.py runscript run_up_sell_model --script-args prat
+docker-compose run web /usr/local/bin/python manage.py runscript run_up_sell_model --script-args pippa
+```
+#### Production:
+```
 python manage.py runscript wc_get_products --script-args quema
 python manage.py runscript wc_get_products --script-args makerschile
-python manage.py runscript pippa_scraper
 python manage.py runscript prat_get_products --script-args prat
+python manage.py runscript pippa_scraper
 ```
 
-#### Production:
 ```
-python manage.py runscript product_upload --script-args quema
-python manage.py runscript product_upload --script-args makerschile
-python manage.py runscript product_upload --script-args prat
+python manage.py runscript wc_get_orders --script-args quema
+python manage.py runscript wc_get_orders --script-args makerschile
+python manage.py runscript prat_get_orders --script-args prat
 ```
+
+Cross sell:
+```
+python manage.py runscript run_cross_sell_model --script-args quema
+python manage.py runscript run_cross_sell_model --script-args makerschile
+python manage.py runscript run_cross_sell_model --script-args prat
+```
+up sell:
+```
+python manage.py runscript run_up_sell_model --script-args quema
+python manage.py runscript run_up_sell_model --script-args makerschile
+python manage.py runscript run_up_sell_model --script-args prat
+python manage.py runscript run_up_sell_model --script-args pippa
+```
+
+
 - [Index](##index)
 ## API Documentation
 
