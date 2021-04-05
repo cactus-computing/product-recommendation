@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import os
 import environ
+import django_heroku
 
 env = environ.Env(
     # set casting, default value
@@ -168,3 +169,5 @@ EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 # might need to change
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = ['http://localhost:8000']
+
+django_heroku.settings(locals())
