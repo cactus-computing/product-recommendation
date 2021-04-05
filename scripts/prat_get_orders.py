@@ -10,14 +10,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from products.models import OrderAttributes, ProductAttributes
 from store.models import Store
 
-with open('./scripts/magento/magento-keys.json') as f:
-  keys = json.load(f) 
+df = pd.read_csv("scripts/prat_orders.csv")
 
-files_1 = "gs://cactus_recommender/prat/orders/Ene-abr-2020.csv"
-files_2 = "gs://cactus_recommender/prat/orders/May-Ago-2020.csv"
-files_3 = "gs://cactus_recommender/prat/orders/Sep2020-Mar2021.csv"
-df = pd.concat([pd.read_csv(files_1),pd.read_csv(files_2),pd.read_csv(files_3)])[['Rut','Estado','Comprado en','Cantidad','ID Pedido','Producto','SKU']]
-df.dropna(inplace=True)
 def run(*args):
     COMPANY_NAME = args[0]
     company = Store.objects.get(company=COMPANY_NAME)
