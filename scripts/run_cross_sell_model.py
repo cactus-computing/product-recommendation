@@ -8,7 +8,7 @@ from store.models import Store
 
 BUCKET = 'cactus_recommender'
 
-ITEM = 'product_name'
+ITEM = 'product_id'
 BILL = 'bill'
 USER = 'user'
 QTY = 'product_qty'
@@ -89,8 +89,5 @@ def run(*arg):
             item_encoded2item=item_encoded2item_name,
             k=K
         )
-        
-        cs['recommended_name'] = cs.index.map(item_encoded2item_name)
-        cs['product_name'] = cs['product_id'].map(item_encoded2item_name)
         
         send_to_db(cs, company_name=company, django_model=CrossSellPredictions)
