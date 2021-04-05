@@ -6,16 +6,18 @@ from store.models import Store
 from tqdm import tqdm
 from scripts.cactus.ml import CollaborativeFiltering
 from products.models import ProductAttributes, OrderAttributes
+import logging 
 
 DOT = 'dot'
 COSINE = 'cos'
 EUCLIDEAN = 'euc'
 
-ITEM = 'product_name'
+ITEM = 'product_id'
 BILL = 'bill'
 USER = 'user'
 QTY = 'product_qty'
 
+logger = logging.getLogger(__name__)
 
 def split_dataframe(df, holdout_fraction=0.2, val_fraction = 0.5):
     '''
@@ -81,11 +83,13 @@ def send_to_db(df, company_name, django_model):
     company = Store.objects.get(company=company_name)
     for _, row in tqdm(df.iterrows(), total=len(df)):
         try:
-            prod = ProductAttributes.objects.get(name=row.product_name, company=company)
-            recommendation = ProductAttributes.objects.get(name=row.recommended_name, company=company)
-        except ProductAttributes.DoesNotExist:
+            prod = ProductAttributes.objects.get(id=row.product_id, company=company)
+            recommendation = ProductAttributes.objects.get(id=row.recommended_id, company=company)
+        except ProductAttributes.DoesNotExist as dne:
+            logger.error(dne)
             continue
-        except ProductAttributes.MultipleObjectsReturned:
+        except ProductAttributes.MultipleObjectsReturned as mor:
+            logger.error(mor)
             continue
 
 
