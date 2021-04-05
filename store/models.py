@@ -1,4 +1,5 @@
 from django.db import models
+from django_cryptography.fields import encrypt
 
 class Store(models.Model):
     company = models.CharField(max_length=500)
@@ -10,5 +11,8 @@ class Store(models.Model):
     insert_before = models.CharField(max_length=500)
     product_page_identifier = models.CharField(max_length=500)
     product_page_regex = models.CharField(max_length=500)
+    consumer_key = encrypt(models.CharField(max_length=500, null=True))
+    consumer_secret = encrypt(models.CharField(max_length=500, null=True))
+    api_url = models.CharField(max_length=1000, null=True)
     def __str__(self):
         return self.company

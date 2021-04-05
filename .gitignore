@@ -150,7 +150,6 @@ products.json
 API_metadata.json
 clientes.json
 *.json
-*.csv
 ./integrations/woocommerce/quema/*.json
 ./integrations/woocommerce/makerschile/*.json
 ./integrations/woocommerce/cactus/*.json
