@@ -10,21 +10,22 @@ from django.core.exceptions import ObjectDoesNotExist
 from products.models import OrderAttributes, ProductAttributes
 from store.models import Store
 
+date = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.FileHandler(f'./scripts/wc/logs/log_{date}.log'),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger(__name__)
+
 df = pd.read_csv("scripts/prat_orders.csv")
 
 def run(*args):
-    COMPANY_NAME = args[0]
-    company = Store.objects.get(company=COMPANY_NAME)
-    DATE = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(message)s",
-        handlers=[
-            logging.FileHandler(f'./scripts/wc/logs/{COMPANY_NAME}_{DATE}.log'),
-            logging.StreamHandler()
-        ]
-    )
-    logger = logging.getLogger(__name__)
+    company_name = args[0]
+    company = Store.objects.get(company=company_name)
     logger.info("Getting orders")
     for e, row in tqdm(df.iterrows()):
         if row['Estado'] in ['Pagado', 'Preparación', 'Recibido', 'Retiro', 'Despachado']:
