@@ -11,21 +11,19 @@ from django.core.exceptions import ObjectDoesNotExist
 from products.models import OrderAttributes, ProductAttributes
 from store.models import Store
 
-with open('./scripts/wc/wc-keys.json') as f:
-  keys = json.load(f) 
 def run(*args):
-    COMPANY = args[0]
-    CONSUMER_KEY = keys[COMPANY]["CONSUMER_KEY"]
-    CONSUMER_SECRET = keys[COMPANY]["CONSUMER_SECRET"]
-    company = Store.objects.get(company=COMPANY)
+    company_name = args[0]
+    company = Store.objects.get(company=company_name)
+    consumer_key = company.consumer_key
+    consumer_secret = company.consumer_secret
     #last_date = OrderAttributes.objects.filter(company=company).latest("record_created_at")
     #last_date = last_date.record_created_at
-    API_URL = keys[COMPANY]["API_URL"]
+    api_url = company.api_url
     DATE = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
     wcapi = API(
-        url=API_URL,
-        consumer_key=CONSUMER_KEY,
-        consumer_secret=CONSUMER_SECRET,
+        url=api_url,
+        consumer_key=consumer_key,
+        consumer_secret=consumer_secret,
         version="wc/v3",
         query_string_auth=True
     )

@@ -10,18 +10,18 @@ from django.db.utils import IntegrityError
 from products.models import ProductAttributes
 from store.models import Store
 
-with open('./scripts/wc/wc-keys.json') as f:
-  keys = json.load(f) 
+
 def run(*args):
-    COMPANY = args[0]
-    CONSUMER_KEY = keys[COMPANY]["CONSUMER_KEY"]
-    CONSUMER_SECRET = keys[COMPANY]["CONSUMER_SECRET"]
-    API_URL = keys[COMPANY]["API_URL"]
+    company_name = args[0]
+    company = Store.objects.get(company=company_name)
+    consumer_key = company.consumer_key
+    consumer_secret = company.consumer_secret
+    api_url = company.api_url
     DATE = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
     wcapi = API(
-        url=API_URL,
-        consumer_key=CONSUMER_KEY,
-        consumer_secret=CONSUMER_SECRET,
+        url=api_url,
+        consumer_key=consumer_key,
+        consumer_secret=consumer_secret,
         version="wc/v3",
         query_string_auth=True
     )
@@ -36,7 +36,7 @@ def run(*args):
     logger = logging.getLogger(__name__)
     endpoint="products"
     logger.info("Getting products")
-    company = Store.objects.get(company=COMPANY)
+    
     for e in tqdm(range(100)):
         params = {
                 'per_page': 50,
