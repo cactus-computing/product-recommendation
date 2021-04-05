@@ -44,7 +44,7 @@ class OrderAttributes(ProductsModel):
 
     def as_dict(self):
         return {
-            "product_name": self.product_name,
+            "product_id": self.product,
             "bill": self.bill,
             "user": self.user,
             "product_qty": self.product_qty

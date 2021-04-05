@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import os
 import environ
+import django_heroku
+import dj_database_url
+
 
 env = environ.Env(
     # set casting, default value
@@ -101,17 +104,8 @@ AUTH_USER_MODEL = 'user_panel.User'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': env('DB_ENGINE'),
-        'NAME': env('DB_NAME'),
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASSWORD'),
-        'HOST': env('DB_HOST'),
-        'PORT': env('DB_PORT'),
-    }
-}
+DATABASES = {}
+DATABASES['default'] = dj_database_url.config(default='DATABASE_URL')
 
 
 # Password validation
@@ -168,3 +162,5 @@ EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 # might need to change
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = ['http://localhost:8000']
+
+django_heroku.settings(locals())

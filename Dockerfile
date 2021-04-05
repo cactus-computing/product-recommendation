@@ -9,3 +9,7 @@ COPY requirements.txt /code/
 RUN pip install -r requirements.txt
 
 COPY . /code/
+
+CMD ["gunicorn", "-b", "0.0.0.0:${PORT}", "cactusco.wsgi"]
+
+EXPOSE 8000
