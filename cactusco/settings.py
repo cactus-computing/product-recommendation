@@ -14,6 +14,8 @@ from pathlib import Path
 import os
 import environ
 import django_heroku
+import dj_database_url
+
 
 env = environ.Env(
     # set casting, default value
@@ -102,17 +104,8 @@ AUTH_USER_MODEL = 'user_panel.User'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': env('DB_ENGINE'),
-        'NAME': env('DB_NAME'),
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASSWORD'),
-        'HOST': env('DB_HOST'),
-        'PORT': env('DB_PORT'),
-    }
-}
+DATABASES = {}
+DATABASES['default'] = dj_database_url.config(default='DATABASE_URL')
 
 
 # Password validation
