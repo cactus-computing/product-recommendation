@@ -11,7 +11,8 @@ def pippa_product_price(html):
     return int(price)
 
 def pippa_has_stock(html):
-    stock = False if html.find('span', {'class': 'sold_out'}).text.strip().replace('$', '').replace('.', '') is not None else True
+    stock_sold_out_element = html.find('span', {'class': 'sold_out'}).text.strip()
+    stock = False if stock_sold_out_element == "Vendido" else True
     return stock
 
 def pippa_image_link(html):
