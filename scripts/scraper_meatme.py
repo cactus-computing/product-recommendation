@@ -93,7 +93,7 @@ def get_products_from_category(client, category):
         except ValueError as err:
             print(err)
             continue
-
+        prod_attributes['permalink'] = SITE_METADATA[client]['base_url'] + prod_attributes['permalink']
         try:
             ProductAttributes.objects.update_or_create(
                 name=prod_attributes['name'],
