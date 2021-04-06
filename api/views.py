@@ -4,6 +4,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import random
 from products.models import CrossSellPredictions, UpSellPredictions, ProductAttributes
+from store.models import Store
+from .serializers import StoreSerializer
 from .serializers import CrossSellPredictionsSerializer, UpSellPredictionsSerializer, ProductAttributesSerializer
 
 
@@ -138,4 +140,25 @@ def update_price_and_stock(request):
             "message": "Updated price and stock",
             "price": price,
             "stock": stock
+        })
+
+@api_view(['GET'])
+def get_store_details(request):
+    '''
+    Updates the price and stock availability of a give product
+    '''
+
+    if request.method == "GET":
+        company = request.query_params.get("company")
+        print(company)
+        try: 
+            store = Store.objects.filter(company=company).first()
+        except Store.DoesNotExist:
+            return Response({
+                "error": f"Product {company} was not found"
+            })
+        store_serializer = StoreSerializer(store)
+        return Response({
+            "message": "Store successfully retrieved",
+            "store_data": store_serializer.data
         })
