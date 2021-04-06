@@ -1,72 +1,54 @@
 <template>
     <div id="cactusContainer">
-        <div class="cross-sell slider" id="cross-sell-slider">
-            <div class="cross-sell title">
-                <h2>Productos Relacionados</h2>
-            </div>
-            <div class="cross-sell slide-box" id="cross-sell-slide-box">
-                <button class="cross-sell ctrl-btn pro-prev">  </button>
-                <div class="cross-sell slide" id="cross-sell-slide">
-                <button class="cross-sell ctrl-btn pro-next"> > </button>
         <div class="up-sell slider" id="up-sell-slider">
             <div class="cross-sell title">
-                <h2>Productos Relacionados</h2>
+                <h2>Productos Recomendados</h2>
             </div>
             <div class="up-sell slide-box" id="up-sell-slide-box">
-                <button class="up-sell ctrl-btn pro-prev">  </button>
+                <button class="up-sell ctrl-btn pro-prev"> > </button>
                 <div class="up-sell slide" id="up-sell-slide">
+                    <div v-for="related_product in related_products" :key="related_product.id" class="product">
+                        <a :href="related_product.permalink">
+                            <img :src="related_product.img_url" class="product-image">
+                        </a>
+                        <div class="product-name-box">
+                            <a :href="related_product.permalink">
+                                <h2 class="product-name">{{ related_product.name }}</h2>
+                            </a>
+                        </div>
+                        <div class="product-price-box">
+                            <span class="product-price">{{ related_product.price }}</span>
+                        </div>
+                    </div>
+                </div>
                 <button class="up-sell ctrl-btn pro-next"> > </button>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-    const client = 'quema';
-    const type = 'random_product';
-    export default {
-        data() {
-            return {
-                random_product: null,
-            }
-        },
-        mounted() {
-            fetch(`https://dev.cactusco.cl/api/${type}?company=${client}`)
-                .then(response => response.json())
-                .then(data => this.random_product = data.selected_product);
-        },
-    }
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+// const productName = productName;
+const client = urlParams.get("client");
+const type = "up_sell";
+const k = 30;
+
+export default {
+  data() {
+    return {
+      related_products: null,
+    };
+  },
+  props: ['productName'],
+  mounted() {
+    fetch(`https://dev.cactusco.cl/api/${type}?name=${productName}&company=${client}&top-k=${k}`)
+      .then((response) => response.json())
+      .then((data) => (this.related_products = data.data));
+  },
+};
 </script>
 
-<style>
-    #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
-    }
+<style src='.././assets/styles/demo.css'> </style>
 
-    .random-product {
-        display: flex;
-        align-items: center;
-        position:relative;
-    }
-
-    .random-product img {
-        height: 300px;
-        width: 300px;
-        object-fit: cover;
-        box-sizing: border-box;
-        border-radius: 10px;
-        border-color: #ebebeb;
-        border: 1px solid;
-    }
-
-    .product-details-box {
-        margin-left: 30px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        align-items: flex-start;
-    }
-</style>

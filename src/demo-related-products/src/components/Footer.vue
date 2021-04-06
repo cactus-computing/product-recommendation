@@ -1,5 +1,5 @@
 <template>
-    <div class="pt-16">
+    <div class="pt-8">
         <div class="w-full border-gray-100 border-t-2 lg:w-11/12 md:w-11/12 lg:mx-auto md:mx-auto">
             <div class="container mx-auto py-3">
                 <div class="xl:flex lg:flex md:flex pt-3">

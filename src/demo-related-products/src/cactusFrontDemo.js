@@ -19,13 +19,13 @@ function importStyles() {
 
     link.type = 'text/css';
     link.rel = 'stylesheet';
-    link.href = `${HOST_DICT[codeStatus]}/static/css/${company}.css`;
+    link.href = `/Users/rodrigooyarzun/Documents/Proyectos/Cactus/CactusCo/src/demo-related-products/src/assets/styles/demo.css`;
 
     head.appendChild(link);
 }
 
 function createCactusContainer() {
-    const targetDiv = document.querySelector('#demo');
+    const targetDiv = document.querySelector('#demo .random-product');
     const cactusContainer = document.createElement('div');
     cactusContainer.id = 'cactusContainer';
     cactusContainer.class = 'cactusRecommendation';
@@ -118,7 +118,7 @@ function createProductHtml(data, productsDiv) {
         productImageLink.href = prod.permalink;
 
         const productImage = document.createElement('img');
-        productImage.src = prod.href;
+        productImage.src = prod.img_url;
         productImage.className = 'product-image';
 
         productImageLink.appendChild(productImage);

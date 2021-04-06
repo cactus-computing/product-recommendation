@@ -1,15 +1,16 @@
 <template>
-    <div v-if="random_product" class="random-product lg:container lg:mx-auto flex box-content justify-center p-8">
-        <div class="product-image p-4">
-                <img :src="random_product.img_url" class="shadow-md object-scale-down h-64 w-64 rounded-md">
+    <div v-if="random_product" class="random-product lg:container lg:mx-auto flex box-content justify-center p-8 flex-wrap">
+        <div class="product-image">
+                <img :src="random_product.img_url" class="shadow-lg object-scale-down h-64 w-64 rounded-md border-gray-900">
             </div>
-        <div class="product-details-box flex flex-col items-start text-left justify-around  p-4 ">   
-            <h1 class="text-3xl font-medium"> {{ random_product.name }} </h1> 
-            <div class="product-details flex flex-col justify-center items-start">        
-                <h4 class="text-xl"> Precio: {{ random_product.price }} </h4>
-                <h4> SKU: {{ random_product.sku }} </h4>
+        <div class="product-details-box flex flex-col items-start text-left justify-around  p-3">   
+            <h1 :productName="random_product.name" class="text-3xl font-medium"> {{ random_product.name }} </h1> 
+            <div class="product-details flex flex-col justify-center items-start pb-3">        
+                <h4 class="text-xl pt-1"> Precio: {{ random_product.formatted_price }} </h4>
+                <h4 v-if="random_product.stock_quantity" class="text-green-500 pt-1"> Hay existencias </h4>
+                <h4 v-else class="text-red-500 pt-1"> Sin stock </h4>
             </div>
-            <button class="bg-blue-500 hover:bg-blue-600 shadow-md rounded p-2 text-white">
+            <button @click="getRandomProduct" class="bg-blue-500 hover:bg-blue-600 shadow-md rounded text-white p-2">
                     Ver otro Producto
             </button>
         </div>
@@ -33,6 +34,11 @@
                 .then(response => response.json())
                 .then(data => this.random_product = data.selected_product);
         },
+        methods: {
+            getRandomProduct: function() {
+                window.location.reload(true);
+            }
+        }
     }
 </script>
 

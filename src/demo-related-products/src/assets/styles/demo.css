@@ -6,6 +6,7 @@ header .site-header {
 
 #cactusContainer{
     display: block;
+    background-color: rgba(243, 244, 246, var(--tw-bg-opacity));
 }
 
 #cactusContainer .slider {
@@ -32,7 +33,7 @@ header .site-header {
     width: 100%;
     height: 370px;
     position: relative;
-    max-width: 1140px;
+    max-width: 1400px;
 }
 
 #cactusContainer .slide-box .slide{
@@ -55,8 +56,8 @@ header .site-header {
   }  
 
   #cactusContainer .product {
-    width:200px; 
-    min-width:200px;
+    width:160px; 
+    min-width:160px;
     height: 320px;
     border: 1px solid;
     border-color: #ebebeb;
@@ -76,11 +77,10 @@ header .site-header {
 }
 
 #cactusContainer .product img {
-    height: 200px;
-	width: 200px;
+    height: 160px;
+	width: 160px;
 	object-fit: cover;
 	box-sizing: border-box;
-    padding: 2px 2px 0 2px;
     
     border-radius: 10px;
     /*border-color: #ebebeb;
@@ -144,3 +144,4 @@ header .site-header {
         display: none;
         }
     } 
+
