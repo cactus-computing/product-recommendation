@@ -105,6 +105,8 @@ def random_product_for_client(request):
         rand_int = random.randint(0, products_count-1)
         products_objects = ProductAttributes.objects.filter(company__company=company_name)[rand_int]
         serializer = ProductAttributesSerializer(products_objects)
+        for obj in  serializer.data:
+            obj["price"] = point_to_int(obj["price"])
         return Response({
             "message": "Selecting random product",
             "products_count": products_count,
