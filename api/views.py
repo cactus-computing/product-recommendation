@@ -105,13 +105,12 @@ def random_product_for_client(request):
         rand_int = random.randint(0, products_count-1)
         products_objects = ProductAttributes.objects.filter(company__company=company_name)[rand_int]
         serializer = ProductAttributesSerializer(products_objects)
-        
-        serializer.data["price"] = point_to_int(serializer.data["price"])
-
+        product = serializer.data.copy()
+        product['formatted_price'] = point_to_int(product['price'])
         return Response({
             "message": "Selecting random product",
             "products_count": products_count,
-            "selected_product": serializer.data
+            "selected_product": product
         })
 
 @api_view(['POST'])
