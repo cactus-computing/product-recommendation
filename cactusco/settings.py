@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import os
 import environ
+import django_heroku
+import dj_database_url
+
 
 env = environ.Env(
     # set casting, default value
@@ -20,9 +23,8 @@ env = environ.Env(
 )
 environ.Env.read_env()
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MEDIA_URL = '/documents/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'documents')
 
@@ -53,6 +55,8 @@ INSTALLED_APPS = [
     'landing',
     'user_panel',
     'api',
+    'products',
+    'store',
     ## installed apps ##
     'crispy_forms',
     'django_rename_app',
@@ -99,17 +103,8 @@ AUTH_USER_MODEL = 'user_panel.User'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': env('DB_ENGINE'),
-        'NAME': env('DB_NAME'),
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASSWORD'),
-        'HOST': env('DB_HOST'),
-        'PORT': env('DB_PORT'),
-    }
-}
+DATABASES = {}
+DATABASES['default'] = dj_database_url.config(default='DATABASE_URL')
 
 
 # Password validation
@@ -150,7 +145,14 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 PROJECT_PATH = os.path.abspath(os.path.dirname(__name__))
-STATIC_ROOT = os.path.join(PROJECT_PATH, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -166,3 +168,5 @@ EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 # might need to change
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = ['http://localhost:8000']
+
+django_heroku.settings(locals())

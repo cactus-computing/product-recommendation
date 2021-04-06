@@ -3,44 +3,42 @@ from zeep import Client
 from zeep.exceptions import Fault
 import requests
 from bs4 import BeautifulSoup
-from zeep import xsd
 from datetime import datetime
-from .wc.storage import  upload_blob_to_default_bucket
 import logging
 from tqdm import tqdm
 import pandas as pd
+from django.db.utils import IntegrityError
+from store.models import Store
+from products.models import ProductAttributes
 
-with open('./scripts/magento/magento-keys.json') as f:
-  keys = json.load(f) 
-
-prat_product_gs = "gs://cactus_recommender/prat/productos_prat.csv"
+date = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.FileHandler(f'./scripts/magento/logs/log_{date}.log'),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger(__name__)
+prat_product_gs = "scripts/productos_prat.csv"
 
 def run(*args):
-    COMPANY = args[0]
-    DATE = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(message)s",
-        handlers=[
-            logging.FileHandler(f'./scripts/magento/logs/products_{COMPANY}_{DATE}.log'),
-            logging.StreamHandler()
-        ]
-    )
-    logger = logging.getLogger(__name__)
-    CONSUMER_KEY = keys[COMPANY]["CONSUMER_KEY"]
-    CONSUMER_SECRET = keys[COMPANY]["CONSUMER_SECRET"]
+    company_name = args[0]
+    company = Store.objects.get(company=company_name)
+    consumer_key = company.consumer_key
+    consumer_secret = company.consumer_secret
     logger.info("Getting products")
-    wsdl_url = "https://www.ferreteriaprat.cl/api/v2_soap/?wsdl"
+    wsdl_url = company.api_url
     soap_client = Client(wsdl=wsdl_url) 
-    session = soap_client.service.login(CONSUMER_KEY, CONSUMER_SECRET)
+    session = soap_client.service.login(consumer_key, consumer_secret)
     logger.info("Downloading all products")
     lista_productos = pd.read_csv(prat_product_gs, names = ["skus"], header=None)["skus"].to_list()
-    productos = []
     for e, prod in enumerate(tqdm(lista_productos)):
         try:
             result = soap_client.service.catalogProductInfo(session, prod)
-        except Fault as e:
-            print(e)
+        except Fault as f:
+            logger.error(f)
             continue
         url = result['url_path']
         req = requests.get(f"https://www.ferreteriaprat.cl/{url}")
@@ -58,24 +56,22 @@ def run(*args):
                     stock = 1
                 else:
                     stock = 0
-            result_ = {
-                "product_id": result["product_id"],
-                "sku": result["sku"],
-                "set": result["set"],
-                "type": result["type"],
-                "name": result["name"],
-                "url": f"https://www.ferreteriaprat.cl/{result['url_path']}",
-                "img_url": image_url,
-                "status": result["status"],
-                "stock_quantity": stock,
-                "price": int(result["price"].split(".")[0]),
-            }
-            productos.append(result_)
-            logger.info(result_)
-    blob_name = f"{COMPANY}/products.json"
-    upload_blob_to_default_bucket(productos,blob_name)
-    logger.info(f"{len(productos)} uploaded to GCS")
-
-
-
-    
+            try:
+                ProductAttributes.objects.update_or_create(
+                    product_code=result["product_id"],
+                    sku=result["sku"],
+                    company=company,
+                    defaults={
+                        'name':result["name"],
+                        'permalink': f"https://www.ferreteriaprat.cl/{result['url_path']}",
+                        'img_url': image_url,
+                        'stock_quantity': stock,
+                        'status': result["status"],
+                        'price': int(result["price"].split(".")[0]),
+                        'product_created_at': result['created_at']
+                    }
+                )
+            except IntegrityError as f:
+                logger.error(f)
+                continue
+        

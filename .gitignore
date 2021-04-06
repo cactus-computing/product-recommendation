@@ -150,7 +150,6 @@ products.json
 API_metadata.json
 clientes.json
 *.json
-*.csv
 ./integrations/woocommerce/quema/*.json
 ./integrations/woocommerce/makerschile/*.json
 ./integrations/woocommerce/cactus/*.json
@@ -165,3 +164,8 @@ static/rest_framework
 ngrok
 
 node_modules
+.env-dev
+.env-prod
+tf_logs
+trained_models
+staticfiles

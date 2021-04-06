@@ -31,9 +31,11 @@ Create containers
 docker-compose up
 ```
 To add models to database:
+
 ```
 docker-compose run web /usr/local/bin/python manage.py migrate
 ```
+
 - [Index](##index)
 ## Runnig Dev Envirnoment
 
@@ -54,6 +56,7 @@ gsutil cp gs://cactus-stockapp/credentials/service_account_key.json ./cactusco/s
 Ubuntu 18.04
 
 Clone the repository
+
 ```
 sudo git clone https://github.com/vescobarb/MVP_inventory.git cactusco
 ```
@@ -217,7 +220,7 @@ sudo systemctl reload nginx
 cd /usr/local/CactusCo
 sudo git pull origin <branch name> dev
 sudo su cactus
-source .venv/bin/active
+source .venv/bin/activate
 python manage.py collectstatic
 exit
 sudo systemctl daemon-reload
@@ -229,7 +232,7 @@ sudo systemctl restart nginx
 cd /usr/local/cactusco
 sudo git pull origin <branch name> main
 sudo su cactus
-source .venv/bin/active
+source .venv/bin/activate
 python manage.py collectstatic
 exit
 sudo systemctl daemon-reload
@@ -249,7 +252,7 @@ docker-compose run web /usr/local/bin/python manage.py migrate
 
 Resets migrations
 ```
-docker-compose run web /usr/local/bin/python manage.py migrate landing zero
+docker-compose run web /usr/local/bin/python manage.py migrate api zero
 ```
 
 To connect to the app shell
@@ -325,28 +328,56 @@ docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_p
 docker-compose run web /usr/local/bin/python manage.py runscript wc_get_products --script-args quema
 docker-compose run web /usr/local/bin/python manage.py runscript wc_get_products --script-args makerschile
 docker-compose run web /usr/local/bin/python manage.py runscript prat_get_products --script-args prat
+docker-compose run web /usr/local/bin/python manage.py runscript pippa_scraper
 ```
 
+```
+docker-compose run web /usr/local/bin/python manage.py runscript wc_get_orders --script-args quema
+docker-compose run web /usr/local/bin/python manage.py runscript wc_get_orders --script-args makerschile
+docker-compose run web /usr/local/bin/python manage.py runscript prat_get_orders --script-args prat
+```
+
+```
+docker-compose run web /usr/local/bin/python manage.py runscript run_cross_sell_model --script-args quema
+docker-compose run web /usr/local/bin/python manage.py runscript run_cross_sell_model --script-args makerschile
+docker-compose run web /usr/local/bin/python manage.py runscript run_cross_sell_model --script-args prat
+```
+
+```
+docker-compose run web /usr/local/bin/python manage.py runscript run_up_sell_model --script-args quema
+docker-compose run web /usr/local/bin/python manage.py runscript run_up_sell_model --script-args makerschile
+docker-compose run web /usr/local/bin/python manage.py runscript run_up_sell_model --script-args prat
+docker-compose run web /usr/local/bin/python manage.py runscript run_up_sell_model --script-args pippa
+```
 #### Production:
 ```
-
 python manage.py runscript wc_get_products --script-args quema
-python manage.py runscript wc_get_products --script-args quema
+python manage.py runscript wc_get_products --script-args makerschile
 python manage.py runscript prat_get_products --script-args prat
+python manage.py runscript pippa_scraper
 ```
 
-### Upload to DB
 ```
-docker-compose run web /usr/local/bin/python manage.py runscript product_upload --script-args quema 
-docker-compose run web /usr/local/bin/python manage.py runscript product_upload --script-args makerschile 
-docker-compose run web /usr/local/bin/python manage.py runscript product_upload --script-args prat 
+python manage.py runscript wc_get_orders --script-args quema
+python manage.py runscript wc_get_orders --script-args makerschile
+python manage.py runscript prat_get_orders --script-args prat
 ```
-#### Production:
+
+Cross sell:
 ```
-python manage.py runscript product_upload --script-args quema
-python manage.py runscript product_upload --script-args makerschile
-python manage.py runscript product_upload --script-args prat
+python manage.py runscript run_cross_sell_model --script-args quema
+python manage.py runscript run_cross_sell_model --script-args makerschile
+python manage.py runscript run_cross_sell_model --script-args prat
 ```
+up sell:
+```
+python manage.py runscript run_up_sell_model --script-args quema
+python manage.py runscript run_up_sell_model --script-args makerschile
+python manage.py runscript run_up_sell_model --script-args prat
+python manage.py runscript run_up_sell_model --script-args pippa
+```
+
+
 - [Index](##index)
 ## API Documentation
 
