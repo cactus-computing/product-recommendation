@@ -11,8 +11,15 @@ NAME = 'name'
 
 K = 30
 
+logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        handlers=[
+            logging.StreamHandler()
+        ]
+    )
+
 logger = logging.getLogger(__name__)
-logger.setLevel('INFO')
 
 def upselling_pipeline(products_df, item_encoded2item, k):
     
@@ -47,6 +54,10 @@ def run(*arg):
         item2item_name = products_df[[ITEM, NAME]].drop_duplicates(subset=[ITEM]).set_index(ITEM).to_dict()[NAME]
 
         us, _ = upselling_pipeline(products_df, item_encoded2item, k=K)
+
+        us["product_id"] = us.product_id.map(item_encoded2item)
+        us["recommended_id"] = us.recommended_id.map(item_encoded2item)
+
         us["product_name"] = us.product_id.map(item2item_name)
         us["recommended_name"] = us.recommended_id.map(item2item_name)
 

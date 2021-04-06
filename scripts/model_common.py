@@ -17,6 +17,14 @@ BILL = 'bill'
 USER = 'user'
 QTY = 'product_qty'
 
+logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        handlers=[
+            logging.StreamHandler()
+        ]
+    )
+
 logger = logging.getLogger(__name__)
 
 def split_dataframe(df, holdout_fraction=0.2, val_fraction = 0.5):
@@ -50,7 +58,7 @@ def get_top_k(embeddings, query_id, k, method=DOT):
     #define query and items embeddings
     query = embeddings[query_id]
     items = embeddings
-    #print(f"Querying {k} products most similar to: {item2item_name[item_encoded2item[query_id]]}")
+    logger.info(f"Querying {k} products most similar to encoded id: {query_id}")
 
     #Compute distance
     if method == DOT:
@@ -60,12 +68,12 @@ def get_top_k(embeddings, query_id, k, method=DOT):
         items = items / np.linalg.norm(items[:, np.newaxis], axis=1, keepdims=True)
         query = query / np.linalg.norm(query)
         items = items[items != np.inf]
-        print(items.shape)
+        logger.info(items.shape)
         all_distances = pd.DataFrame({'distance': items.dot(query)})
     elif method == EUCLIDEAN:
         query = np.array([query]*len(items))
-        print(query.shape)
-        print(items.shape)
+        logger.info(query.shape)
+        logger.info(items.shape)
         all_distances = pd.DataFrame({'distance': np.linalg.norm(query - items, axis=1)})
     else:
         raise ValueError(f'Method {method} is not defined. Please use DOT, COS or EUCLIDEAN')
@@ -124,6 +132,7 @@ def get_orders(client):
     products_data = OrderAttributes.objects.filter(company__company=client).all()
     products_json = [product.as_dict() for product in products_data]
     products_df = pd.DataFrame().from_records(products_json)
+    logger.info(products_json)
     return products_df
 
 def train_collaborative_filters(ratings, n, m, client, build=False):
@@ -138,12 +147,12 @@ def train_collaborative_filters(ratings, n, m, client, build=False):
     N = n
     M = m
     
-    print(f"Users: {N}, Items: {M}")
+    logger.info(f"Users: {N}, Items: {M}")
     run_logdir = get_run_logdir()
     tensorboard_cb = tf.keras.callbacks.TensorBoard(run_logdir)
     model = CollaborativeFiltering(64, N, M)
     
-    print(f"Compiling model")
+    logger.info(f"Compiling model")
     model.compile(
         loss=tf.keras.losses.BinaryCrossentropy(),
         optimizer=tf.optimizers.Adam(lr=0.001),
@@ -152,7 +161,7 @@ def train_collaborative_filters(ratings, n, m, client, build=False):
     
     train_df, val_df, _ = split_dataframe(ratings)
 
-    print(f"Training model")
+    logger.info(f"Training model")
     history = model.fit(
         x=train_df[[USER, ITEM]].values,
         y=train_df[[QTY]].values,
