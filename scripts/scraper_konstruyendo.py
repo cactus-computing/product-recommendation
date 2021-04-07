@@ -32,7 +32,7 @@ def get_products(store_name, categories):
         product_links = []
         company = Store.objects.get(company=store_name)
         for product in products:
-            product_url = base_url + product.find('a').get('href')
+            product_url = base_url[:-1] + product.find('a').get('href')
             product_res = req.get(product_url)
             product_html = BeautifulSoup(product_res.text, 'html.parser')
             try:
