@@ -8,6 +8,7 @@ import logging
 from django.core.mail import EmailMessage, send_mass_mail
 from django.urls import reverse
 from django.template import Context, loader
+from django.views.generic import TemplateView
 
 logger = logging.Logger(__name__)
 recommended_products = [
@@ -149,3 +150,6 @@ def error404(request, exception):
         'message': 'All: %s' % request,
         })
     return HttpResponse(content=template.render(context), content_type='text/html; charset=utf-8', status=404) 
+
+class Demos(TemplateView):
+    template_name = 'demos.html'

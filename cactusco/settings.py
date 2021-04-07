@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'products',
     'store',
     ## installed apps ##
+    'webpack_loader',
     'crispy_forms',
     'django_rename_app',
     'rest_framework',
@@ -170,3 +171,16 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = ['http://localhost:8000']
 
 django_heroku.settings(locals())
+
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'CACHE': not DEBUG,
+        'BUNDLE_DIR_NAME': 'bundles/', # must end with slash
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+        'POLL_INTERVAL': 0.1,
+        'TIMEOUT': None,
+        'IGNORE': [r'.+\.hot-update.js', r'.+\.map'],
+        'LOADER_CLASS': 'webpack_loader.loader.WebpackLoader',
+    }
+}

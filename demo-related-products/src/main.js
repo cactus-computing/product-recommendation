@@ -1,5 +1,10 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import './assets/styles/index.css'
+import Vue from 'vue';
+import App from './App.vue';
+import './assets/styles/index.css';
 
-createApp(App).mount('#app')
+const app = new Vue({
+    el: '#app',
+    components: {
+        App,
+    },
+});
