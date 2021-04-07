@@ -7,8 +7,8 @@
                 <div class="client-logo justify-self-center bg-black bg-opacity-75">
                     <img class="h-8 w-auto sm:h-10 justify-self-center" src="https://d1mm7fnxb6z2bq.cloudfront.net/static/img/logos/footer_logo.png" alt="">
                 </div>
-                <RandomProduct/>
-                <RelatedProducts/>
+                <RandomProduct :random-product="random_product" @random-product = "setRandomProduct" />
+                <RelatedProducts v-if="random_product" :random-product="random_product.name" />
             </div>
         </div>
         <FooterWithSitemap/>
@@ -27,6 +27,16 @@
             Header,
             FooterWithSitemap,
             RelatedProducts
+        },
+        data() {
+            return {
+                random_product: null,
+            }
+        },
+        methods: {
+            setRandomProduct(selected_product) {
+                this.random_product = selected_product
+            }        
         }
     }
 </script>
