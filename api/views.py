@@ -4,6 +4,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import random
 from products.models import CrossSellPredictions, UpSellPredictions, ProductAttributes
+from store.models import Store
+from .serializers import StoreSerializer
 from .serializers import CrossSellPredictionsSerializer, UpSellPredictionsSerializer, ProductAttributesSerializer
 
 
@@ -105,10 +107,12 @@ def random_product_for_client(request):
         rand_int = random.randint(0, products_count-1)
         products_objects = ProductAttributes.objects.filter(company__company=company_name)[rand_int]
         serializer = ProductAttributesSerializer(products_objects)
+        product = serializer.data.copy()
+        product['formatted_price'] = point_to_int(product['price'])
         return Response({
             "message": "Selecting random product",
             "products_count": products_count,
-            "selected_product": serializer.data
+            "selected_product": product
         })
 
 @api_view(['POST'])
@@ -136,4 +140,25 @@ def update_price_and_stock(request):
             "message": "Updated price and stock",
             "price": price,
             "stock": stock
+        })
+
+@api_view(['GET'])
+def get_store_details(request):
+    '''
+    Updates the price and stock availability of a give product
+    '''
+
+    if request.method == "GET":
+        company = request.query_params.get("company")
+        print(company)
+        try: 
+            store = Store.objects.filter(company=company).first()
+        except Store.DoesNotExist:
+            return Response({
+                "error": f"Product {company} was not found"
+            })
+        store_serializer = StoreSerializer(store)
+        return Response({
+            "message": "Store successfully retrieved",
+            "store_data": store_serializer.data
         })
