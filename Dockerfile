@@ -10,16 +10,6 @@ RUN pip install -r requirements.txt
 
 COPY . /code/
 
-RUN apt-get update 
-
-RUN yes | apt-get install node
-
-RUN yes | apt-get install npm
-
-RUN npm install
-
-RUN npm run build
-
 CMD ["gunicorn", "-b", "0.0.0.0:${PORT}", "cactusco.wsgi"]
 
 EXPOSE 8000

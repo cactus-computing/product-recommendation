@@ -5,7 +5,6 @@ from django.conf import settings
 import os
 from datetime import datetime
 import logging
-import pandas as pd
 
 
 class UserManager(BaseUserManager):
