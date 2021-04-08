@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from rest_framework.response import Response
 import random
+import json
 from products.models import CrossSellPredictions, UpSellPredictions, ProductAttributes
 from store.models import Store
 from .serializers import StoreSerializer
@@ -162,3 +164,27 @@ def get_store_details(request):
             "message": "Store successfully retrieved",
             "store_data": store_serializer.data
         })
+
+class ProductInfo(APIView):
+    '''
+    Details the product attributes
+    '''
+    def get(self, request, format=None):
+        product_names = json.loads(request.query_params.get("products"))
+        
+        company = request.query_params.get("company")
+        product_objects = set()
+        errors = []
+        for product_name in product_names:
+            try:
+                product = ProductAttributes.objects.filter(name__iexact=product_name, company__company=company).first()
+                product_objects.add(product)
+            except ProductAttributes.DoesNotExist:
+                errors.append(f"The following products from {company} where not found: {', '.join(product_name)}")
+
+        product_serializer = ProductAttributesSerializer(product_objects, many=True)
+      
+        res = {}
+        res['data'] = product_serializer.data
+        res['errors'] = errors
+        return Response(res)
