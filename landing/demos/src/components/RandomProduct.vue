@@ -1,5 +1,5 @@
 <template>
-    <div v-if="randomProduct" class="random-product lg:container lg:mx-auto flex box-content justify-center p-8 flex-wrap">
+    <div v-if="randomProduct" class="random-product lg:container lg:mx-auto flex box-content justify-center p-3 flex-wrap">
         <div class="product-image">
                 <img :src="randomProduct.img_url" class="shadow-lg object-scale-down h-64 w-64 rounded-md border-gray-900">
             </div>

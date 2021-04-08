@@ -13,21 +13,10 @@
                         <ul>
                             <li class="text-gray-800 font-medium text-xl mb-6">Comenzar</li>
                             <li class="text-base text-gray-600 hover:text-gray-700 mb-5">
-                                <a href="javascript:void(0)">Sobre nosotros</a>
+                                <a href="https://dev.cactusco.cl/#contact">Sobre nosotros</a>
                             </li>
                             <li class="text-base text-gray-600 hover:text-gray-700 mb-5">
-                                <a href="javascript:void(0)">Como implementar</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="w-11/12 xl:w-1/6 lg:w-2/5 mx-auto lg:mx-0 xl:mx-0 pt-3 xl:flex xl:justify-end pl-3 sm:pl-0">
-                        <ul>
-                            <li class="text-gray-800 font-medium text-xl mb-6">Recursos</li>
-                            <li class="text-base text-gray-600 hover:text-gray-700 mb-5">
-                                <a href="javascript:void(0)">Accessibilidad</a>
-                            </li>
-                            <li class="text-base text-gray-600 hover:text-gray-700 mb-5">
-                                <a href="javascript:void(0)">Usabilidad</a>
+                                <a href="https://dev.cactusco.cl/#contact">Como implementar</a>
                             </li>
                         </ul>
                     </div>
