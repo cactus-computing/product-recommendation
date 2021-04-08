@@ -23,8 +23,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 prat_product_gs = "scripts/productos_prat.csv"
 
-def run(*args):
-    company_name = args[0]
+def run():
+    company_name = 'prat'
     company = Store.objects.get(company=company_name)
     consumer_key = company.consumer_key
     consumer_secret = company.consumer_secret

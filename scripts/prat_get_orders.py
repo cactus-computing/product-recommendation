@@ -23,8 +23,8 @@ logger = logging.getLogger(__name__)
 
 df = pd.read_csv("scripts/prat_orders.csv")
 
-def run(*args):
-    company_name = args[0]
+def run():
+    company_name = 'prat'
     company = Store.objects.get(company=company_name)
     logger.info("Getting orders")
     for e, row in tqdm(df.iterrows()):
