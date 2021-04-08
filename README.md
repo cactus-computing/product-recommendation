@@ -327,14 +327,14 @@ docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_p
 ```
 docker-compose run web /usr/local/bin/python manage.py runscript wc_get_products --script-args quema
 docker-compose run web /usr/local/bin/python manage.py runscript wc_get_products --script-args makerschile
-docker-compose run web /usr/local/bin/python manage.py runscript prat_get_products --script-args prat
+docker-compose run web /usr/local/bin/python manage.py runscript prat_get_products
 docker-compose run web /usr/local/bin/python manage.py runscript pippa_scraper
 ```
 
 ```
 docker-compose run web /usr/local/bin/python manage.py runscript wc_get_orders --script-args quema
 docker-compose run web /usr/local/bin/python manage.py runscript wc_get_orders --script-args makerschile
-docker-compose run web /usr/local/bin/python manage.py runscript prat_get_orders --script-args prat
+docker-compose run web /usr/local/bin/python manage.py runscript prat_get_orders
 ```
 
 ```
@@ -353,14 +353,14 @@ docker-compose run web /usr/local/bin/python manage.py runscript run_up_sell_mod
 ```
 python manage.py runscript wc_get_products --script-args quema
 python manage.py runscript wc_get_products --script-args makerschile
-python manage.py runscript prat_get_products --script-args prat
+python manage.py runscript prat_get_products
 python manage.py runscript pippa_scraper
 ```
 
 ```
 python manage.py runscript wc_get_orders --script-args quema
 python manage.py runscript wc_get_orders --script-args makerschile
-python manage.py runscript prat_get_orders --script-args prat
+python manage.py runscript prat_get_orders
 ```
 
 Cross sell:
@@ -376,6 +376,8 @@ python manage.py runscript run_up_sell_model --script-args makerschile
 python manage.py runscript run_up_sell_model --script-args prat
 python manage.py runscript run_up_sell_model --script-args pippa
 ```
+## Crontab:
+
 
 
 - [Index](##index)

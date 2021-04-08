@@ -3,7 +3,6 @@ from django.utils import timezone
 import os
 from datetime import datetime
 import logging
-import pandas as pd
 
 logger = logging.Logger(__name__)
 

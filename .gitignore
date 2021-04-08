@@ -169,3 +169,4 @@ node_modules
 tf_logs
 trained_models
 staticfiles
+cactusco/superuser_password
