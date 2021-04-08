@@ -5,7 +5,7 @@
                 <h2>Productos Recomendados</h2>
             </div>
             <div class="up-sell slide-box" id="up-sell-slide-box">
-                <button @click="slideLeft" class="up-sell ctrl-btn pro-prev"> > </button>
+                <button @click="slideLeft" class="up-sell ctrl-btn pro-prev"> < </button>
                 <div class="up-sell slide" id="up-sell-slide">
                     <div v-for="related_product in related_products" :key="related_product.id" class="product">
                         <a :href="related_product.permalink">
@@ -65,5 +65,9 @@ export default {
 
 </script>
 
-<style src='.././assets/styles/demo.css'> </style>
+<style src='.././assets/styles/demo.css'>
+#app {
+    font-family: Montserrat;
+}
+</style>
 
