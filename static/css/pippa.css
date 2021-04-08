@@ -126,3 +126,31 @@ header .site-header {
     display: none !important;
 }
 */
+/* ----- start button ----- */
+
+.scroll-to-rp-button {
+    padding: 5px;
+    background: #fff;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    border: 1px solid;
+    border-radius: 5px;
+    border-color: #ebebeb;
+    width: 220px;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+    --tw-bg-opacity: 1;
+    background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
+    font-weight: 600;
+    color: white;
+    font-family: montserrat;
+}
+
+.scroll-to-rp-button:hover{
+    --tw-bg-opacity: 1;
+    background-color: rgba(185, 28, 28, var(--tw-bg-opacity));
+    text-decoration: none;
+    color: white;
+}
+
+/* ----- end button ----- */
