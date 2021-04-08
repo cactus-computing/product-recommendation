@@ -8,7 +8,7 @@ const codeStatus = urlParams.get('environment'); // options: local, dev, prod
 const HOST_DICT = {
     local: 'http://localhost:8000',
     dev: 'https://dev.cactusco.cl',
-    prod: 'https://cactusco.cl',
+    prod: 'https://production-cactus.herokuapp.com',
 };
 
 const CLIENT_METADATA = {
