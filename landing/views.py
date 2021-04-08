@@ -152,4 +152,4 @@ def error404(request, exception):
     return HttpResponse(content=template.render(context), content_type='text/html; charset=utf-8', status=404) 
 
 class Demos(TemplateView):
-    template_name = 'demos.html'
+    template_name = "demos.html"

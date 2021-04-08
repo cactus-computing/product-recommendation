@@ -12,7 +12,7 @@ module.exports = {
         main: './src/main',
     },
     output: {
-        path: path.resolve('./demo-related-products/assets/bundles/'),
+        path: path.resolve('./staticfiles/demo'),
     },
     plugins: [
         new BundleTracker({ filename: './webpack-stats.json' }),

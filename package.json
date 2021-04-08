@@ -5,7 +5,8 @@
   "main": "src index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack serve --config ./demo-related-products/webpack.dev.js"
+    "start": "webpack serve --config ./landing/demos/webpack.dev.js",
+    "build": "webpack --config ./landing/demos/webpack.prod.js"
   },
   "repository": {
     "type": "git",
@@ -34,9 +35,11 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
+    "clean-webpack-plugin": "^1.0.1",
     "css-hot-loader": "^1.4.4",
     "mini-css-extract-plugin": "^1.4.1",
     "node-sass": "^4.14.1",
+    "optimize-css-assets-webpack-plugin": "^5.0.4",
     "postcss-loader": "^3.0.0",
     "sass-loader": "^7.3.1",
     "style-loader": "^2.0.0",
