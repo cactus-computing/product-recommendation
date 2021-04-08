@@ -46,7 +46,7 @@ export default {
   },
   props: ['randomProduct'],
   mounted() {
-    fetch(`https://production-cactus.herokuapp.com/api/${endpoint}?name=${this.randomProduct}&company=${client}&top-k=${k}`)
+    fetch(`https://dev.cactusco.cl/api/${endpoint}?name=${this.randomProduct}&company=${client}&top-k=${k}`)
         .then((response) => response.json())
         .then((data) => (
             this.related_products = data.data));
