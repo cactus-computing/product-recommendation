@@ -53,21 +53,28 @@ def run():
             if stock is not None:
                 stock = stock.text
                 if stock == "Producto Disponible":
-                    stock = 1
+                    stock = True
                 else:
-                    stock = 0
+                    stock = False
+            discounted_price =  soup.find("p", {"class":"special-price"})
+            if discounted_price is not None:
+                discounted_price = discounted_price.find("span", {"class":"price"})
+                discounted_price = discounted_price.text.strip().split(" ")[0].replace('$','').replace('.','')
+            else:
+                discounted_price = None
             try:
                 ProductAttributes.objects.update_or_create(
-                    product_code=result["product_id"],
-                    sku=result["sku"],
                     company=company,
+                    name=result["name"],
                     defaults={
-                        'name':result["name"],
+                        'product_code':result["product_id"],
+                        'sku':result["sku"],
                         'permalink': f"https://www.ferreteriaprat.cl/{result['url_path']}",
                         'img_url': image_url,
                         'stock_quantity': stock,
                         'status': result["status"],
                         'price': int(result["price"].split(".")[0]),
+                        'discounted_price':discounted_price,
                         'product_created_at': result['created_at']
                     }
                 )

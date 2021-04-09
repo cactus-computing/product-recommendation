@@ -19,6 +19,8 @@ const CLIENT_METADATA = {
         'ga-measurement-id': 'UA-119655898-1',
         'product-page-identifier': 'url',
         'product-page-regex': '/producto/',
+        'button-target-div': '.elementor-element-48636aa .elementor-widget-wrap .elementor-widget-woocommerce-product-price',
+        'button-insert-before': 'firstElementChild',
     },
     makerschile: {
         'target-div': '#content .ast-container .woo-variation-gallery-product',
@@ -27,6 +29,8 @@ const CLIENT_METADATA = {
         'ga-measurement-id': 'UA-159111495-1',
         'product-page-identifier': 'url',
         'product-page-regex': '/producto/',
+        'button-target-div': '.summary.entry-summary',
+        'button-insert-before': 'childNodes[4]',
     },
     pippa: {
         'target-div': '.section.product_section',
@@ -35,6 +39,8 @@ const CLIENT_METADATA = {
         'ga-measurement-id': 'UA-105999666-1',
         'product-page-identifier': 'url',
         'product-page-regex': '/products/',
+        'button-target-div': '.seven.columns.omega',
+        'button-insert-before': 'childNodes[17]',
     },
     prat: {
         'target-div': '.product-view .product-essential',
@@ -43,27 +49,10 @@ const CLIENT_METADATA = {
         'ga-measurement-id': 'UA-123207746-1',
         'product-page-identifier': 'css',
         'product-page-regex': '.product-view',
+        'button-target-div': '..add-to-box-wrap.clearfix',
+        'button-insert-before': 'childNodes[2]',
     },
 };
-
-function isProductPage() {
-    const identifier = CLIENT_METADATA[company]['product-page-identifier'];
-    if (identifier === 'css') {
-        const productPageDiv = document.querySelector(CLIENT_METADATA[company]['product-page-regex']);
-        if (productPageDiv !== null) {
-            return true;
-        }
-        return false;
-    }
-    if (identifier === 'url') {
-        const currentUrl = window.location.href;
-        const urlRegex = CLIENT_METADATA[company]['product-page-regex'];
-        if (currentUrl.indexOf(urlRegex) !== -1) {
-            return true;
-        }
-        return false;
-    }
-}
 
 function setGoogleAnalytics() {
     const script = document.createElement('script');
@@ -271,35 +260,55 @@ function getCount(parent, getChildrensChildren) {
 // ----------------------- end slider ------------------------//
 
 function processProduct() {
-    const productPage = isProductPage();
-    if (productPage) {
-        const productName = document.querySelector(CLIENT_METADATA[company]['product-name-selector']).innerText.trim();
-        const upSellSection = document.createElement('div');
-        const crossSellSection = document.createElement('div');
+    const productName = document.querySelector(CLIENT_METADATA[company]['product-name-selector']).innerText.trim();
+    const upSellSection = document.createElement('div');
+    const crossSellSection = document.createElement('div');
 
-        importStyles();
+    importStyles();
 
-        const crossSellDiv = createCactusCarousel('Productos Relacionados', 'cross-sell', crossSellSection);
-        const upSellDiv = createCactusCarousel('Productos Similares', 'up-sell', upSellSection);
+    const crossSellDiv = createCactusCarousel('Productos Relacionados', 'cross-sell', crossSellSection);
+    const upSellDiv = createCactusCarousel('Productos Similares', 'up-sell', upSellSection);
 
-        const cactusContainer = createCactusContainer();
+    const cactusContainer = createCactusContainer();
 
-        getPredictions(crossSellDiv, type = 'cross_selling', productName, k = 30).then((success) => {
-            if (success) {
-                cactusContainer.appendChild(crossSellSection);
-                productScroll(type = 'cross-sell');
-            }
-        });
+    getPredictions(crossSellDiv, type = 'cross_selling', productName, k = 30).then((success) => {
+        if (success) {
+            cactusContainer.appendChild(crossSellSection);
+            productScroll(type = 'cross-sell');
+        }
+    });
 
-        getPredictions(upSellDiv, type = 'up_selling', productName, k = 30).then((success) => {
-            if (success) {
-                cactusContainer.appendChild(upSellSection);
-                productScroll(type = 'up-sell');
-            }
-        });
-    }
+    getPredictions(upSellDiv, type = 'up_selling', productName, k = 30).then((success) => {
+        if (success) {
+            cactusContainer.appendChild(upSellSection);
+            productScroll(type = 'up-sell');
+        }
+    });
+    createScrollToRpButton();
 }
 
+// ----------------------- start button ------------------------//
+
+function createScrollToRpButton() {
+    const buttonTargetDiv = document.querySelector(CLIENT_METADATA[company]['button-target-div']);
+    const scrollToRpButton = document.createElement('a');
+    scrollToRpButton.className = 'scroll-to-rp-button';
+    scrollToRpButton.innerText = 'Ver Productos Relacionados';
+    // scrollToRpButton.onClick = scrollToRp();
+    scrollToRpButton.addEventListener('click', () => {
+        document.getElementById('cactusContainer').scrollIntoView({
+            behavior: 'smooth',
+        });
+        const productName = document.querySelector(CLIENT_METADATA[company]['product-name-selector']).innerText.trim();
+        gtag('event', productName, {
+            event_category: 'Scroll to RP Button Click',
+            value: 1,
+        });
+    });
+    buttonTargetDiv.insertBefore(scrollToRpButton, buttonTargetDiv[CLIENT_METADATA[company]['button-insert-before']]);
+}
+
+// ----------------------- end button ------------------------//
 // ----------------------- start A/B Testing ------------------------//
 
 const AB_TESTING_THRESHOLD = 20;
@@ -407,4 +416,23 @@ function processAbTest() {
     }
 }
 
-window.onload = processAbTest();
+function isProductPage() {
+    const identifier = CLIENT_METADATA[company]['product-page-identifier'];
+    if (identifier === 'css') {
+        const productPageDiv = document.querySelector(CLIENT_METADATA[company]['product-page-regex']);
+        if (productPageDiv !== null) {
+            processAbTest();
+        }
+        return false;
+    }
+    if (identifier === 'url') {
+        const currentUrl = window.location.href;
+        const urlRegex = CLIENT_METADATA[company]['product-page-regex'];
+        if (currentUrl.indexOf(urlRegex) !== -1) {
+            processAbTest();
+        }
+        return false;
+    }
+}
+
+window.onload = isProductPage();
