@@ -22,7 +22,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 def run():
-    company_names = ['makerschile', 'quema']
+    company_names = ['quema', 'makerschile']
     for company_name in company_names:
         company = Store.objects.get(company=company_name)
         consumer_key = company.consumer_key
@@ -66,7 +66,8 @@ def run():
                                     'img_url': item['images'][0]['src'] if item['images'] != [] else "https://www.quema.cl/wp-content/uploads/woocommerce-placeholder.png",
                                     'stock_quantity': False if item['stock_status'] == "outofstock" else True,
                                     'status': item['status'],
-                                    'price': item['price'] if item['price'] else None,
+                                    'discounted_price': item['sale_price'] if item['sale_price'] else None,
+                                    'price': item['regular_price'] if item['regular_price'] else None,
                                     'product_created_at': item['date_created']
                                 }
                             )

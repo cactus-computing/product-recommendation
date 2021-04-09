@@ -158,7 +158,7 @@ clientes.json
 # Other files
 eNno
 .vscode
-
+*.pem
 static/django_extensions
 static/rest_framework
 ngrok
