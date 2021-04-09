@@ -57,11 +57,11 @@ def run():
                     if item['status'] == "publish":
                         try:
                             ProductAttributes.objects.update_or_create(
-                                product_code=item['id'],
-                                sku=sku,
                                 company=company,
+                                name=item['name'],
                                 defaults={
-                                    'name': item['name'],
+                                    'product_code':item['id'],
+                                    'sku':sku,
                                     'permalink': item['permalink'],
                                     'img_url': item['images'][0]['src'] if item['images'] != [] else "https://www.quema.cl/wp-content/uploads/woocommerce-placeholder.png",
                                     'stock_quantity': False if item['stock_status'] == "outofstock" else True,
