@@ -41,7 +41,7 @@ def cross_selling(request):
                 "empty": True,
             })
         predictions = CrossSellPredictions.objects.filter(product_code__name__iexact=name, company__company=company)
-        predictions = predictions.exclude(product_code__price__isnull=True, product_code__stock_quantity=False)
+        predictions = predictions.exclude(recommended_code__price__isnull=True, recommended_code__stock_quantity=False)
         predictions = predictions.order_by('-distance')
         product_ids = list(product.recommended_code_id for product in predictions)
         predicted_products = ProductAttributes.objects.exclude(price__isnull=True).filter(id__in=product_ids, stock_quantity=True)[:top_k]
@@ -77,7 +77,7 @@ def up_selling(request):
             })
 
         predictions = UpSellPredictions.objects.filter(product_code__name__iexact=name, company__company=company)
-        predictions = predictions.exclude(product_code__price__isnull=True, product_code__stock_quantity=False)
+        predictions = predictions.exclude(recommended_code__price__isnull=True, recommended_code__stock_quantity=False)
         predictions = predictions.order_by('-distance')
         product_ids = list(product.recommended_code_id for product in predictions)
         predicted_products = ProductAttributes.objects.exclude(price__isnull=True).filter(id__in=product_ids, stock_quantity=True)[:top_k]

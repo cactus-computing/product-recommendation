@@ -1,4 +1,3 @@
-import pandas as pd
 from tqdm import tqdm
 import requests as req
 from bs4 import BeautifulSoup
@@ -37,9 +36,9 @@ def run(*args):
         try:
             ProductAttributes.objects.update_or_create(
                 name=product.find('image:title').text,
-                permalink=product.find('loc').text,
                 company=company,
                 defaults={
+                    'permalink':product.find('loc').text,
                     'product_code': e-1,
                     'sku': e-1,
                     'img_url': pippa_image_link(product_html),

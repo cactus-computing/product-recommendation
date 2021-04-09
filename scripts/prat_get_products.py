@@ -64,11 +64,11 @@ def run():
                 discounted_price = None
             try:
                 ProductAttributes.objects.update_or_create(
-                    product_code=result["product_id"],
-                    sku=result["sku"],
                     company=company,
+                    name=result["name"],
                     defaults={
-                        'name':result["name"],
+                        'product_code':result["product_id"],
+                        'sku':result["sku"],
                         'permalink': f"https://www.ferreteriaprat.cl/{result['url_path']}",
                         'img_url': image_url,
                         'stock_quantity': stock,
