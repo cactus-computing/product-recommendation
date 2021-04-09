@@ -19,8 +19,8 @@ const CLIENT_METADATA = {
         'ga-measurement-id': 'UA-119655898-1',
         'product-page-identifier': 'url',
         'product-page-regex': '/producto/',
-        'button-target-div': '.elementor-element-48636aa .elementor-widget-wrap .elementor-widget-woocommerce-product-price',
-        'button-insert-before': 'firstElementChild',
+        'button-target-div': '.elementor-element-48636aa .elementor-widget-wrap .elementor-widget-heading',
+        'button-insert-before': 'nextElementSibling',
     },
     makerschile: {
         'target-div': '#content .ast-container .woo-variation-gallery-product',
@@ -29,8 +29,8 @@ const CLIENT_METADATA = {
         'ga-measurement-id': 'UA-159111495-1',
         'product-page-identifier': 'url',
         'product-page-regex': '/producto/',
-        'button-target-div': '.summary.entry-summary',
-        'button-insert-before': 'childNodes[4]',
+        'button-target-div': '.summary.entry-summary .product_meta',
+        'button-insert-before': 'nextElementSibling',
     },
     pippa: {
         'target-div': '.section.product_section',
@@ -39,8 +39,8 @@ const CLIENT_METADATA = {
         'ga-measurement-id': 'UA-105999666-1',
         'product-page-identifier': 'url',
         'product-page-regex': '/products/',
-        'button-target-div': '.seven.columns.omega',
-        'button-insert-before': 'childNodes[17]',
+        'button-target-div': '.seven.columns.omega .description.bottom',
+        'button-insert-before': 'nextElementSibling',
     },
     prat: {
         'target-div': '.product-view .product-essential',
@@ -49,8 +49,8 @@ const CLIENT_METADATA = {
         'ga-measurement-id': 'UA-123207746-1',
         'product-page-identifier': 'css',
         'product-page-regex': '.product-view',
-        'button-target-div': '..add-to-box-wrap.clearfix',
-        'button-insert-before': 'childNodes[2]',
+        'button-target-div': '.add-to-box-wrap.clearfix .elocker',
+        'button-insert-before': 'nextElementSibling',
     },
 };
 
@@ -294,7 +294,6 @@ function createScrollToRpButton() {
     const scrollToRpButton = document.createElement('a');
     scrollToRpButton.className = 'scroll-to-rp-button';
     scrollToRpButton.innerText = 'Ver Productos Relacionados';
-    // scrollToRpButton.onClick = scrollToRp();
     scrollToRpButton.addEventListener('click', () => {
         document.getElementById('cactusContainer').scrollIntoView({
             behavior: 'smooth',
@@ -305,7 +304,7 @@ function createScrollToRpButton() {
             value: 1,
         });
     });
-    buttonTargetDiv.insertBefore(scrollToRpButton, buttonTargetDiv[CLIENT_METADATA[company]['button-insert-before']]);
+    buttonTargetDiv.parentElement.insertBefore(scrollToRpButton, buttonTargetDiv[CLIENT_METADATA[company]['button-insert-before']]);
 }
 
 // ----------------------- end button ------------------------//
