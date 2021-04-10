@@ -13,9 +13,9 @@ const HOST_DICT = {
 
 const CLIENT_METADATA = {
     quema: {
-        'target-div': '#main .elementor-inner',
+        'target-div': '#main .elementor-inner .elementor-section-wrap',
         'product-name-selector': '.elementor-widget-container h1',
-        'insert-before': 'nextSibling',
+        'insert-before': 'nextElementSibling',
         'ga-measurement-id': 'UA-119655898-1',
         'product-page-identifier': 'url',
         'product-page-regex': '/producto/',
@@ -23,9 +23,9 @@ const CLIENT_METADATA = {
         'button-insert-before': 'nextElementSibling',
     },
     makerschile: {
-        'target-div': '#content .ast-container .woo-variation-gallery-product',
+        'target-div': '.woocommerce-tabs.wc-tabs-wrapper',
         'product-name-selector': '.entry-title',
-        'insert-before': 'lastChild',
+        'insert-before': 'nextElementSibling',
         'ga-measurement-id': 'UA-159111495-1',
         'product-page-identifier': 'url',
         'product-page-regex': '/producto/',
@@ -33,9 +33,9 @@ const CLIENT_METADATA = {
         'button-insert-before': 'nextElementSibling',
     },
     pippa: {
-        'target-div': '.section.product_section',
+        'target-div': '.seven.columns.omega',
         'product-name-selector': '.product_name',
-        'insert-before': 'childNodes[2]',
+        'insert-before': 'nextElementSibling.nextElementSibling',
         'ga-measurement-id': 'UA-105999666-1',
         'product-page-identifier': 'url',
         'product-page-regex': '/products/',
@@ -43,13 +43,23 @@ const CLIENT_METADATA = {
         'button-insert-before': 'nextElementSibling',
     },
     prat: {
-        'target-div': '.product-view .product-essential',
+        'target-div': '.product-essential form',
         'product-name-selector': '.product-name',
-        'insert-before': 'lastChild',
+        'insert-before': 'nextElementSibling',
         'ga-measurement-id': 'UA-123207746-1',
         'product-page-identifier': 'css',
         'product-page-regex': '.product-view',
         'button-target-div': '.add-to-box-wrap.clearfix .elocker',
+        'button-insert-before': 'nextElementSibling',
+    },
+    protteina: {
+        'target-div': '.container.main.content',
+        'product-name-selector': '.product_name',
+        'insert-before': 'nextElementSibling',
+        'ga-measurement-id': 'UA-148747724-1',
+        'product-page-identifier': 'url',
+        'product-page-regex': '/products/',
+        'button-target-div': '.product_name',
         'button-insert-before': 'nextElementSibling',
     },
 };
@@ -82,7 +92,7 @@ function createCactusContainer() {
     const cactusContainer = document.createElement('div');
     cactusContainer.id = 'cactusContainer';
     cactusContainer.class = 'cactusRecommendation';
-    targetDiv.insertBefore(cactusContainer, targetDiv[CLIENT_METADATA[company]['insert-before']]);
+    targetDiv.parentElement.insertBefore(cactusContainer, targetDiv[CLIENT_METADATA[company]['insert-before']]);
     return cactusContainer;
 }
 
@@ -156,7 +166,7 @@ function createProductHtml(data, productsDiv) {
 
 const getPredictions = async function (productsDiv, type, productName, k) {
     const response = await fetch(
-        `${HOST_DICT[codeStatus]}/api/${type}?name=${productName}&company=${company
+        `https://www.cactusco.cl/api/${type}?name=${productName}&company=${company
         }&top-k=${k}`,
     );
     const data = await response.json();
