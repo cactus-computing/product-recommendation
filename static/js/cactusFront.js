@@ -170,16 +170,11 @@ const getPredictions = async function (productsDiv, type, productName, k) {
 
 const getProductsInfo = async function (productsDiv, endpoint, productNames) {
     const response = await fetch(
-        `${HOST_DICT[codeStatus]}/api/${endpoint}?products=${productNames}&company=${company
+        `https://production-cactus.herokuapp.com/api/${endpoint}?products=${productNames}&company=${company
         }`,
     );
     const data = await response.json();
-    let success = false;
-    if (data.empty === false) {
-        success = true;
-        createProductHtml(data.data, productsDiv);
-    }
-    return success;
+    createProductHtml(data.data, productsDiv);
 };
 
 function createCactusCarousel(title, type, recommenderSection) {
@@ -284,7 +279,7 @@ function processProduct() {
 
     const crossSellDiv = createCactusCarousel('Productos Relacionados', 'cross-sell', crossSellSection);
     const upSellDiv = createCactusCarousel('Productos Similares', 'up-sell', upSellSection);
-    const recentlyViewedDiv = createCactusCarousel('Productos Similares', 'recently-viewed', recentlyViewedSection);
+    const recentlyViewedDiv = createCactusCarousel('Vistos Recientemente', 'recently-viewed', recentlyViewedSection);
 
     const cactusContainer = createCactusContainer();
 
@@ -301,21 +296,17 @@ function processProduct() {
             productScroll(type = 'up-sell');
         }
     });
-
+    // los if's son para no mostrar el carousel cuando se esta viendo el primer producto 
     if (productsViewed.length >= 1) {
         if (productsViewed.length === 1 && productsViewed[0] !== productName) {
-            getProductsInfo(recentlyViewedDiv, endpoint = 'get_product_info', productsViewed).then((success) => {
-                if (success) {
-                    cactusContainer.appendChild(upSellSection);
-                    productScroll(type = 'recently-viewed');
-                }
+            getProductsInfo(recentlyViewedDiv, endpoint = 'get_product_info', productsViewed).then(() => {
+                cactusContainer.appendChild(recentlyViewedSection);
+                productScroll(type = 'recently-viewed');
             });
         }
-        getProductsInfo(recentlyViewedDiv, endpoint = 'get_product_info', productsViewed).then((success) => {
-            if (success) {
-                cactusContainer.appendChild(upSellSection);
-                productScroll(type = 'recently-viewed');
-            }
+        getProductsInfo(recentlyViewedDiv, endpoint = 'get_product_info', productsViewed).then(() => {
+            cactusContainer.appendChild(recentlyViewedSection);
+            productScroll(type = 'recently-viewed');
         });
     }
 
@@ -361,7 +352,8 @@ function readCookieStartingWith(name) {
             productNames.push(c.substring(c.indexOf('=') + 1, c.length));
         }
     }
-    return productNames;
+    const productNamesJson = JSON.stringify(productNames);
+    return productNamesJson;
 }
 
 // ----------------------- start A/B Testing ------------------------//
