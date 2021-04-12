@@ -325,28 +325,31 @@ docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_p
 ## Django scripts
 ### Get products
 ```
-docker-compose run web /usr/local/bin/python manage.py runscript wc_get_products
-docker-compose run web /usr/local/bin/python manage.py runscript prat_get_products
-docker-compose run web /usr/local/bin/python manage.py runscript pippa_scraper
+docker-compose run --rm web /usr/local/bin/python manage.py runscript wc_get_products
+docker-compose run --rm web /usr/local/bin/python manage.py runscript prat_get_products
+docker-compose run --rm web /usr/local/bin/python manage.py runscript pippa_scraper
 ```
 
 ```
-docker-compose run web /usr/local/bin/python manage.py runscript wc_get_orders
-docker-compose run web /usr/local/bin/python manage.py runscript prat_get_orders
+docker-compose run --rm web /usr/local/bin/python manage.py runscript wc_get_orders
+docker-compose run --rm web /usr/local/bin/python manage.py runscript prat_get_orders
 ```
 
 ```
-docker-compose run web /usr/local/bin/python manage.py runscript run_cross_sell_model --script-args quema
-docker-compose run web /usr/local/bin/python manage.py runscript run_cross_sell_model --script-args makerschile
-docker-compose run web /usr/local/bin/python manage.py runscript run_cross_sell_model --script-args prat
+docker-compose run --rm web /usr/local/bin/python manage.py runscript run_cross_sell_model --script-args quema
+docker-compose run --rm web /usr/local/bin/python manage.py runscript run_cross_sell_model --script-args makerschile
+docker-compose run --rm web /usr/local/bin/python manage.py runscript run_cross_sell_model --script-args prat
 ```
 
 ```
-docker-compose run web /usr/local/bin/python manage.py runscript run_up_sell_model --script-args quema
-docker-compose run web /usr/local/bin/python manage.py runscript run_up_sell_model --script-args makerschile
-docker-compose run web /usr/local/bin/python manage.py runscript run_up_sell_model --script-args prat
-docker-compose run web /usr/local/bin/python manage.py runscript run_up_sell_model --script-args pippa
+docker-compose run --rm web /usr/local/bin/python manage.py runscript run_up_sell_model --script-args quema
+docker-compose run --rm web /usr/local/bin/python manage.py runscript run_up_sell_model --script-args makerschile
+docker-compose run --rm web /usr/local/bin/python manage.py runscript run_up_sell_model --script-args prat
+docker-compose run --rm web /usr/local/bin/python manage.py runscript run_up_sell_model --script-args pippa
 ```
+
+docker run --rm 5259554963c3 /usr/local/bin/python manage.py runscript run_up_sell_model --script-args prat
+
 #### Production:
 ```
 python manage.py runscript wc_get_products 

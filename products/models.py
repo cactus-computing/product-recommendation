@@ -11,7 +11,7 @@ class ProductAttributes(ProductsModel):
     '''
     Products table. This table contains all of the stores's products and their atributes.
     '''
-    product_code = models.IntegerField(unique=False)
+    product_code = models.BigIntegerField(unique=False)
     sku = models.CharField(max_length=2000, default=None)
     name = models.CharField(max_length=2000)
     price = models.DecimalField(decimal_places=2, max_digits=50, null=True, blank=True)
