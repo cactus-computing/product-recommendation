@@ -22,9 +22,10 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 df = pd.read_csv("scripts/prat_orders.csv")
+df = pd.read_csv("scripts/orders_construplaza.csv")
 
 def run():
-    company_name = 'prat'
+    company_name = 'construplaza'
     company = Store.objects.get(company=company_name)
     logger.info("Getting orders")
     for e, row in tqdm(df.iterrows()):
