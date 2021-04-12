@@ -13,9 +13,9 @@ const HOST_DICT = {
 
 const CLIENT_METADATA = {
     quema: {
-        'target-div': '#main .elementor-inner',
+        'target-div': '#main .elementor-inner .elementor-section-wrap',
         'product-name-selector': '.elementor-widget-container h1',
-        'insert-before': 'nextSibling',
+        'insert-before': 'nextElementSibling',
         'ga-measurement-id': 'UA-119655898-1',
         'product-page-identifier': 'url',
         'product-page-regex': '/producto/',
@@ -23,9 +23,9 @@ const CLIENT_METADATA = {
         'button-insert-before': 'nextElementSibling',
     },
     makerschile: {
-        'target-div': '#content .ast-container .woo-variation-gallery-product',
+        'target-div': '.woocommerce-tabs.wc-tabs-wrapper',
         'product-name-selector': '.entry-title',
-        'insert-before': 'lastChild',
+        'insert-before': 'nextElementSibling',
         'ga-measurement-id': 'UA-159111495-1',
         'product-page-identifier': 'url',
         'product-page-regex': '/producto/',
@@ -33,9 +33,9 @@ const CLIENT_METADATA = {
         'button-insert-before': 'nextElementSibling',
     },
     pippa: {
-        'target-div': '.section.product_section',
+        'target-div': '.seven.columns.omega',
         'product-name-selector': '.product_name',
-        'insert-before': 'childNodes[2]',
+        'insert-before': 'nextElementSibling.nextElementSibling',
         'ga-measurement-id': 'UA-105999666-1',
         'product-page-identifier': 'url',
         'product-page-regex': '/products/',
@@ -43,13 +43,33 @@ const CLIENT_METADATA = {
         'button-insert-before': 'nextElementSibling',
     },
     prat: {
-        'target-div': '.product-view .product-essential',
+        'target-div': '.product-essential form',
         'product-name-selector': '.product-name',
-        'insert-before': 'lastChild',
+        'insert-before': 'nextElementSibling',
         'ga-measurement-id': 'UA-123207746-1',
         'product-page-identifier': 'css',
         'product-page-regex': '.product-view',
         'button-target-div': '.add-to-box-wrap.clearfix .elocker',
+        'button-insert-before': 'nextElementSibling',
+    },
+    protteina: {
+        'target-div': '.container.main.content',
+        'product-name-selector': '.product_name',
+        'insert-before': 'nextElementSibling',
+        'ga-measurement-id': 'UA-148747724-1',
+        'product-page-identifier': 'url',
+        'product-page-regex': '/products/',
+        'button-target-div': '.product_name',
+        'button-insert-before': 'nextElementSibling',
+    },
+    construplaza: {
+        'target-div': '.product-essential form',
+        'product-name-selector': '.product-name',
+        'insert-before': 'nextElementSibling',
+        'ga-measurement-id': 'UA-128776327-1',
+        'product-page-identifier': 'css',
+        'product-page-regex': '.product-view',
+        'button-target-div': '.add-to-box-wrap.clearfix .product-name',
         'button-insert-before': 'nextElementSibling',
     },
 };
@@ -82,12 +102,17 @@ function createCactusContainer() {
     const cactusContainer = document.createElement('div');
     cactusContainer.id = 'cactusContainer';
     cactusContainer.class = 'cactusRecommendation';
-    targetDiv.insertBefore(cactusContainer, targetDiv[CLIENT_METADATA[company]['insert-before']]);
+    targetDiv.parentElement.insertBefore(cactusContainer, targetDiv[CLIENT_METADATA[company]['insert-before']]);
     return cactusContainer;
 }
 
 function createProductHtml(data, productsDiv) {
-    data.forEach((prod) => {
+    data.forEach((recommendation) => {
+        let prod = recommendation;
+        if (recommendation.hasOwnProperty('recommended_code')) {
+            prod = recommendation.recommended_code;
+        }
+
         const productDiv = document.createElement('div');
         productDiv.id = prod.sku;
         productDiv.className = 'product';
@@ -166,6 +191,15 @@ const getPredictions = async function (productsDiv, type, productName, k) {
         createProductHtml(data.data, productsDiv);
     }
     return success;
+};
+
+const getProductsInfo = async function (productsDiv, endpoint, productNames) {
+    const response = await fetch(
+        `https://production-cactus.herokuapp.com/api/${endpoint}?products=${productNames}&company=${company
+        }`,
+    );
+    const data = await response.json();
+    createProductHtml(data.data, productsDiv);
 };
 
 function createCactusCarousel(title, type, recommenderSection) {
@@ -263,11 +297,14 @@ function processProduct() {
     const productName = document.querySelector(CLIENT_METADATA[company]['product-name-selector']).innerText.trim();
     const upSellSection = document.createElement('div');
     const crossSellSection = document.createElement('div');
+    const recentlyViewedSection = document.createElement('div');
+    const productsViewed = readCookieStartingWith('ProductViewed');
 
     importStyles();
 
     const crossSellDiv = createCactusCarousel('Productos Relacionados', 'cross-sell', crossSellSection);
     const upSellDiv = createCactusCarousel('Productos Similares', 'up-sell', upSellSection);
+    const recentlyViewedDiv = createCactusCarousel('Vistos Recientemente', 'recently-viewed', recentlyViewedSection);
 
     const cactusContainer = createCactusContainer();
 
@@ -284,6 +321,20 @@ function processProduct() {
             productScroll(type = 'up-sell');
         }
     });
+    // los if's son para no mostrar el carousel cuando se esta viendo el primer producto 
+    if (productsViewed.length >= 1) {
+        if (productsViewed.length === 1 && productsViewed[0] !== productName) {
+            getProductsInfo(recentlyViewedDiv, endpoint = 'get_product_info', productsViewed).then(() => {
+                cactusContainer.appendChild(recentlyViewedSection);
+                productScroll(type = 'recently-viewed');
+            });
+        }
+        getProductsInfo(recentlyViewedDiv, endpoint = 'get_product_info', productsViewed).then(() => {
+            cactusContainer.appendChild(recentlyViewedSection);
+            productScroll(type = 'recently-viewed');
+        });
+    }
+
     createScrollToRpButton();
 }
 
@@ -307,7 +358,29 @@ function createScrollToRpButton() {
     buttonTargetDiv.parentElement.insertBefore(scrollToRpButton, buttonTargetDiv[CLIENT_METADATA[company]['button-insert-before']]);
 }
 
-// ----------------------- end button ------------------------//
+// ----------------------- start recently viewed carousel ------------------------//
+
+function createCookieProductViewed() {
+    const timestamp = Date.now();
+    const productName = document.querySelector(CLIENT_METADATA[company]['product-name-selector']).innerText.trim();
+    createCookie(`ProductViewed${timestamp}`, productName, 10);
+}
+
+function readCookieStartingWith(name) {
+    const productNames = [];
+    const nameEQ = name;
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i += 1) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.substring(0, 19).indexOf(nameEQ) === 0) {
+            productNames.push(c.substring(c.indexOf('=') + 1, c.length));
+        }
+    }
+    const productNamesJson = JSON.stringify(productNames);
+    return productNamesJson;
+}
+
 // ----------------------- start A/B Testing ------------------------//
 
 const AB_TESTING_THRESHOLD = 20;
@@ -420,6 +493,7 @@ function isProductPage() {
     if (identifier === 'css') {
         const productPageDiv = document.querySelector(CLIENT_METADATA[company]['product-page-regex']);
         if (productPageDiv !== null) {
+            createCookieProductViewed();
             processAbTest();
         }
         return false;
@@ -428,6 +502,7 @@ function isProductPage() {
         const currentUrl = window.location.href;
         const urlRegex = CLIENT_METADATA[company]['product-page-regex'];
         if (currentUrl.indexOf(urlRegex) !== -1) {
+            createCookieProductViewed();
             processAbTest();
         }
         return false;
