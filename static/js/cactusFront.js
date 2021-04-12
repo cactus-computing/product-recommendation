@@ -62,6 +62,16 @@ const CLIENT_METADATA = {
         'button-target-div': '.product_name',
         'button-insert-before': 'nextElementSibling',
     },
+    construplaza: {
+        'target-div': '.product-essential form',
+        'product-name-selector': '.product-name',
+        'insert-before': 'nextElementSibling',
+        'ga-measurement-id': 'UA-128776327-1',
+        'product-page-identifier': 'css',
+        'product-page-regex': '.product-view',
+        'button-target-div': '.add-to-box-wrap.clearfix .product-name',
+        'button-insert-before': 'nextElementSibling',
+    },
 };
 
 function setGoogleAnalytics() {
@@ -166,7 +176,7 @@ function createProductHtml(data, productsDiv) {
 
 const getPredictions = async function (productsDiv, type, productName, k) {
     const response = await fetch(
-        `https://www.cactusco.cl/api/${type}?name=${productName}&company=${company
+        `${HOST_DICT[codeStatus]}/api/${type}?name=${productName}&company=${company
         }&top-k=${k}`,
     );
     const data = await response.json();

@@ -1,0 +1,193 @@
+/*By Rorro, Mic Drop.*/
+
+header .site-header {
+    width: auto;
+}
+
+#cactusContainer{
+    display: block;
+}
+
+#cactusContainer .slider {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+}
+
+#cactusContainer .title h2{
+    font-weight: 300;
+    color: #4A4A4A;
+    font-size: 24px;
+    letter-spacing: 0.5px;
+    margin-bottom: 0 !important;
+    font-family: 'Lato';
+}
+
+#cactusContainer .slide-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 370px;
+    position: relative;
+    max-width: 1400px;
+}
+
+#cactusContainer .slide-box .slide{
+    display: flex;
+    position: relative;
+    left: 0;
+    padding: 5px;
+    margin: auto;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+}
+
+#cactusContainer .slide::-webkit-scrollbar {
+    display: none;
+  }
+
+#cactusContainer .slide-box .product:last-child {
+    margin-right: 0;
+  }  
+
+  #cactusContainer .product {
+    width:160px; 
+    min-width:160px;
+    height: 320px;
+    border: 1px solid;
+    border-color: #ebebeb;
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+	border-radius: 10px;
+	margin-right: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+#cactusContainer .product:hover {
+    border-color: red;
+    border-width: 2px;
+}
+
+#cactusContainer .product img {
+    height: 160px;
+	width: 160px;
+	object-fit: cover;
+	box-sizing: border-box;
+    padding: 2px 2px 0 2px;
+    
+    border-radius: 10px;
+    /*border-color: #ebebeb;
+    border: 1px solid;*/
+}
+
+#cactusContainer .product .product-name{
+    font-size: 15px;
+    font-weight: 600;
+    color: #929292;
+	letter-spacing: 0.5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    text-align: center;
+    margin-bottom: 0 !important;
+    margin-top: 5px !important;
+  }
+
+#cactusContainer .product .product-name:hover {
+    text-decoration: underline;
+}
+
+#cactusContainer .product .product-price {
+    font-weight: 600;
+    color: #333333;
+    font-size: 20px;
+    letter-spacing: 0.5px;
+    color: red;
+    text-align: center;
+}
+
+#cactusContainer .product-price-box{
+    bottom: 0;
+    margin-bottom: 7px;
+}
+
+#cactusContainer .ctrl-btn {
+    padding: 10px 10px;
+    min-width: 33px;
+    min-height: 33px;
+    font-size: 15px;
+    background: #fff;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    border: 1px solid;
+    border-radius: 9999px;
+    border-color: #ebebeb;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    margin: 5px;
+}
+
+#cactusContainer .ctrl-btn:hover {
+    color: red;
+    border-color: red;
+}
+  
+@media only screen and (max-width: 600px) {
+    #cactusContainer .ctrl-btn {
+        display: none;
+        }
+    } 
+
+.product-view {
+    position: relative;
+    margin-bottom: 20px;
+    padding-top: 5px;
+    max-width: 1400px; /* este */
+    margin: 0 auto;
+}
+
+.product-view .short-description {
+    border: none;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 400;
+    color: #9D9D9D;
+    display: none; /* este */
+}
+
+/* ----- start button ----- */
+
+.scroll-to-rp-button {
+    padding: 5px;
+    background: #fff;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    border: 1px solid;
+    border-radius: 5px;
+    border-color: #ebebeb;
+    width: 220px;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+    --tw-bg-opacity: 1;
+    background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
+    font-weight: 600;
+    color: white;
+    font-family: montserrat;
+    margin: 5px 15px 0 15px;
+}
+
+.scroll-to-rp-button:hover{
+    --tw-bg-opacity: 1;
+    background-color: rgba(185, 28, 28, var(--tw-bg-opacity));
+    text-decoration: none;
+    color: white;
+}
+
+/* ----- end button ----- */
