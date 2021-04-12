@@ -107,7 +107,9 @@ function createCactusContainer() {
 }
 
 function createProductHtml(data, productsDiv) {
-    data.forEach((prod) => {
+    data.forEach((recommendation) => {
+        const prod = recommendation.recommended_code;
+
         const productDiv = document.createElement('div');
         productDiv.id = prod.sku;
         productDiv.className = 'product';

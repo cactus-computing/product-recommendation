@@ -7,12 +7,14 @@ from store.models import Store
 class CrossSellPredictionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = CrossSellPredictions
-        fields = "__all__"
+        depth = 1
+        fields = ("id", "distance", "recommended_code")
 
 class UpSellPredictionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = UpSellPredictions
-        fields = "__all__"
+        depth = 1
+        fields = ("id", "distance", "recommended_code")
 
 class ProductAttributesSerializer(serializers.ModelSerializer):
     class Meta:

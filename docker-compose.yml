@@ -11,7 +11,7 @@ services:
       - "5432:5432"
   web:
     build: .
-    command: gunicorn -b 0.0.0.0:8000 cactusco.wsgi
+    command: gunicorn -b 0.0.0.0:8000 cactusco.wsgi --reload
     volumes:
       - .:/code
     ports:
