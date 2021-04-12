@@ -79,7 +79,7 @@ def get_top_k(embeddings, query_id, k, method=DOT):
         raise ValueError(f'Method {method} is not defined. Please use DOT, COS or EUCLIDEAN')
 
     #Transform Dataset
-    all_distances = all_distances.sort_values('distance', ascending=True)
+    all_distances = all_distances.sort_values('distance', ascending=False)
     all_distances = all_distances[all_distances.index != query_id]
     
     all_distances['recommended_id'] = all_distances.index
