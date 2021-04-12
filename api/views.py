@@ -185,7 +185,11 @@ class ProductInfo(APIView):
                 errors.append(f"The following products from {company} where not found: {', '.join(product_name)}")
 
         product_serializer = ProductAttributesSerializer(product_objects, many=True)
-      
+
+        for obj in  product_serializer.data:
+            obj["price"] = point_to_int(obj["price"])
+            obj["discounted_price"] = point_to_int(obj["discounted_price"])
+
         res = {}
         res['data'] = product_serializer.data
         res['errors'] = errors
