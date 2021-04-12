@@ -141,20 +141,8 @@ service_account_key.json
 .env
 /yaml/
 .shopify-env
-.magento-env
-.woocommerce-env
-wc-keys.json
 res.json
-orders.json
-products.json
-API_metadata.json
-clientes.json
-*.json
-./integrations/woocommerce/quema/*.json
-./integrations/woocommerce/makerschile/*.json
-./integrations/woocommerce/cactus/*.json
-./integrations/woocommerces/test_cactus/*.json
-./integrations/shopify/*.json
+
 # Other files
 eNno
 .vscode
