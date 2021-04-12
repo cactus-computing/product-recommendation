@@ -12,9 +12,13 @@ from .serializers import CrossSellPredictionsSerializer, UpSellPredictionsSerial
 
 
 def point_to_int(price):
-    price = int(price.split('.')[0])
-    price = f"${price:,}".replace(',','.')
-    return price
+    if price is not None:
+        price = int(price.split('.')[0])
+        price = f"${price:,}".replace(',','.')
+        return price
+    else:
+        return None
+    
 
 @api_view(['GET', 'POST'])
 def testing_api(request):
@@ -44,12 +48,11 @@ def cross_selling(request):
             })
         predictions = CrossSellPredictions.objects.filter(product_code__name__iexact=name, company__company=company)
         predictions = predictions.exclude(recommended_code__price__isnull=True, recommended_code__stock_quantity=False)
-        predictions = predictions.order_by('-distance')
-        product_ids = list(product.recommended_code_id for product in predictions)
-        predicted_products = ProductAttributes.objects.exclude(price__isnull=True).filter(id__in=product_ids, stock_quantity=True)[:top_k]
-        serializer = ProductAttributesSerializer(predicted_products, many=True)
+        predictions = predictions.order_by('-distance')[:top_k]
+        serializer = CrossSellPredictionsSerializer(predictions, many=True)
         for obj in  serializer.data:
-            obj["price"] = point_to_int(obj["price"])
+            obj["recommended_code"]["price"] = point_to_int(obj["recommended_code"]["price"])
+            obj["recommended_code"]["discounted_price"] = point_to_int(obj["recommended_code"]["discounted_price"])
 
         return Response({
             "message": f"Sending top 10 cross_sell predictions",
@@ -80,12 +83,11 @@ def up_selling(request):
 
         predictions = UpSellPredictions.objects.filter(product_code__name__iexact=name, company__company=company)
         predictions = predictions.exclude(recommended_code__price__isnull=True, recommended_code__stock_quantity=False)
-        predictions = predictions.order_by('-distance')
-        product_ids = list(product.recommended_code_id for product in predictions)
-        predicted_products = ProductAttributes.objects.exclude(price__isnull=True).filter(id__in=product_ids, stock_quantity=True)[:top_k]
-        serializer = ProductAttributesSerializer(predicted_products, many=True)
+        predictions = predictions.order_by('-distance')[:top_k]
+        serializer = UpSellPredictionsSerializer(predictions, many=True)
         for obj in  serializer.data:
-            obj["price"] = point_to_int(obj["price"])
+            obj["recommended_code"]["price"] = point_to_int(obj["recommended_code"]["price"])
+            obj["recommended_code"]["discounted_price"] = point_to_int(obj["recommended_code"]["discounted_price"])
             
         return Response({
             "message": "Sending top 10 Up Selling predictions",
