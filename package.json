@@ -20,6 +20,7 @@
   "homepage": "https://github.com/vescobarb/CactusCo#readme",
   "devDependencies": {
     "@tailwindcss/postcss7-compat": "^2.1.0",
+    "@vue/cli-plugin-router": "^4.5.12",
     "autoprefixer": "^9.8.6",
     "css-loader": "^5.2.0",
     "eslint": "^7.23.0",
@@ -45,6 +46,7 @@
     "sass-loader": "^7.3.1",
     "style-loader": "^2.0.0",
     "vue": "^2.6.12",
+    "vue-router": "^3.5.1",
     "webpack": "^4.46.0",
     "webpack-bundle-tracker": "^0.4.3",
     "webpack-merge": "^5.7.3"
