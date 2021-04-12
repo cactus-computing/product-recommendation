@@ -168,6 +168,15 @@ const getPredictions = async function (productsDiv, type, productName, k) {
     return success;
 };
 
+const getProductsInfo = async function (productsDiv, endpoint, productNames) {
+    const response = await fetch(
+        `https://production-cactus.herokuapp.com/api/${endpoint}?products=${productNames}&company=${company
+        }`,
+    );
+    const data = await response.json();
+    createProductHtml(data.data, productsDiv);
+};
+
 function createCactusCarousel(title, type, recommenderSection) {
     recommenderSection.className = `${type} slider`;
     recommenderSection.id = `${type}-slider`;
@@ -263,11 +272,14 @@ function processProduct() {
     const productName = document.querySelector(CLIENT_METADATA[company]['product-name-selector']).innerText.trim();
     const upSellSection = document.createElement('div');
     const crossSellSection = document.createElement('div');
+    const recentlyViewedSection = document.createElement('div');
+    const productsViewed = readCookieStartingWith('ProductViewed');
 
     importStyles();
 
     const crossSellDiv = createCactusCarousel('Productos Relacionados', 'cross-sell', crossSellSection);
     const upSellDiv = createCactusCarousel('Productos Similares', 'up-sell', upSellSection);
+    const recentlyViewedDiv = createCactusCarousel('Vistos Recientemente', 'recently-viewed', recentlyViewedSection);
 
     const cactusContainer = createCactusContainer();
 
@@ -284,6 +296,20 @@ function processProduct() {
             productScroll(type = 'up-sell');
         }
     });
+    // los if's son para no mostrar el carousel cuando se esta viendo el primer producto 
+    if (productsViewed.length >= 1) {
+        if (productsViewed.length === 1 && productsViewed[0] !== productName) {
+            getProductsInfo(recentlyViewedDiv, endpoint = 'get_product_info', productsViewed).then(() => {
+                cactusContainer.appendChild(recentlyViewedSection);
+                productScroll(type = 'recently-viewed');
+            });
+        }
+        getProductsInfo(recentlyViewedDiv, endpoint = 'get_product_info', productsViewed).then(() => {
+            cactusContainer.appendChild(recentlyViewedSection);
+            productScroll(type = 'recently-viewed');
+        });
+    }
+
     createScrollToRpButton();
 }
 
@@ -307,7 +333,29 @@ function createScrollToRpButton() {
     buttonTargetDiv.parentElement.insertBefore(scrollToRpButton, buttonTargetDiv[CLIENT_METADATA[company]['button-insert-before']]);
 }
 
-// ----------------------- end button ------------------------//
+// ----------------------- start recently viewed carousel ------------------------//
+
+function createCookieProductViewed() {
+    const timestamp = Date.now();
+    const productName = document.querySelector(CLIENT_METADATA[company]['product-name-selector']).innerText.trim();
+    createCookie(`ProductViewed${timestamp}`, productName, 10);
+}
+
+function readCookieStartingWith(name) {
+    const productNames = [];
+    const nameEQ = name;
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i += 1) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.substring(0, 19).indexOf(nameEQ) === 0) {
+            productNames.push(c.substring(c.indexOf('=') + 1, c.length));
+        }
+    }
+    const productNamesJson = JSON.stringify(productNames);
+    return productNamesJson;
+}
+
 // ----------------------- start A/B Testing ------------------------//
 
 const AB_TESTING_THRESHOLD = 20;
@@ -420,6 +468,7 @@ function isProductPage() {
     if (identifier === 'css') {
         const productPageDiv = document.querySelector(CLIENT_METADATA[company]['product-page-regex']);
         if (productPageDiv !== null) {
+            createCookieProductViewed();
             processAbTest();
         }
         return false;
@@ -428,6 +477,7 @@ function isProductPage() {
         const currentUrl = window.location.href;
         const urlRegex = CLIENT_METADATA[company]['product-page-regex'];
         if (currentUrl.indexOf(urlRegex) !== -1) {
+            createCookieProductViewed();
             processAbTest();
         }
         return false;
