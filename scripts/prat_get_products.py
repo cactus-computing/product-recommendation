@@ -66,10 +66,10 @@ def run():
                 ProductAttributes.objects.update_or_create(
                     company=company,
                     name=result["name"],
+                    permalink=f"https://www.ferreteriaprat.cl/{result['url_path']}",
                     defaults={
                         'product_code':result["product_id"],
                         'sku':result["sku"],
-                        'permalink': f"https://www.ferreteriaprat.cl/{result['url_path']}",
                         'img_url': image_url,
                         'stock_quantity': stock,
                         'status': result["status"],
