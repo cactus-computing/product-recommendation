@@ -298,15 +298,22 @@ function processProduct() {
     const upSellSection = document.createElement('div');
     const crossSellSection = document.createElement('div');
     const recentlyViewedSection = document.createElement('div');
-    const productsViewed = readCookieStartingWith('ProductViewed');
+    let productsViewed = readCookieStartingWith('ProductViewed');
 
     importStyles();
 
-    const crossSellDiv = createCactusCarousel('Productos Relacionados', 'cross-sell', crossSellSection);
-    const upSellDiv = createCactusCarousel('Productos Similares', 'up-sell', upSellSection);
+    const crossSellDiv = createCactusCarousel('Te podría interesar', 'cross-sell', crossSellSection);
+    const upSellDiv = createCactusCarousel('Otros clientes también vieron', 'up-sell', upSellSection);
     const recentlyViewedDiv = createCactusCarousel('Vistos Recientemente', 'recently-viewed', recentlyViewedSection);
 
     const cactusContainer = createCactusContainer();
+
+    getPredictions(upSellDiv, type = 'up_selling', productName, k = 30).then((success) => {
+        if (success) {
+            cactusContainer.appendChild(upSellSection);
+            productScroll(type = 'up-sell');
+        }
+    });
 
     getPredictions(crossSellDiv, type = 'cross_selling', productName, k = 30).then((success) => {
         if (success) {
@@ -315,26 +322,17 @@ function processProduct() {
         }
     });
 
-    getPredictions(upSellDiv, type = 'up_selling', productName, k = 30).then((success) => {
-        if (success) {
-            cactusContainer.appendChild(upSellSection);
-            productScroll(type = 'up-sell');
-        }
-    });
-    // los if's son para no mostrar el carousel cuando se esta viendo el primer producto 
-    if (productsViewed.length >= 1) {
-        if (productsViewed.length === 1 && productsViewed[0] !== productName) {
-            getProductsInfo(recentlyViewedDiv, endpoint = 'get_product_info', productsViewed).then(() => {
+    // los if's son para no mostrar el carousel cuando se esta viendo el primer producto
+    function processRecentlyViewedCarousel() {
+        productsViewed = productsViewed.filter((el) => el !== productName);
+        if (productsViewed.length >= 1) {
+            getProductsInfo(recentlyViewedDiv, endpoint = 'get_product_info', JSON.stringify(productsViewed)).then(() => {
                 cactusContainer.appendChild(recentlyViewedSection);
                 productScroll(type = 'recently-viewed');
             });
         }
-        getProductsInfo(recentlyViewedDiv, endpoint = 'get_product_info', productsViewed).then(() => {
-            cactusContainer.appendChild(recentlyViewedSection);
-            productScroll(type = 'recently-viewed');
-        });
     }
-
+    setTimeout(processRecentlyViewedCarousel, 5000);
     createScrollToRpButton();
 }
 
@@ -377,8 +375,7 @@ function readCookieStartingWith(name) {
             productNames.push(c.substring(c.indexOf('=') + 1, c.length));
         }
     }
-    const productNamesJson = JSON.stringify(productNames);
-    return productNamesJson;
+    return productNames;
 }
 
 // ----------------------- start A/B Testing ------------------------//
