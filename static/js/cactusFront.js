@@ -298,7 +298,7 @@ function processProduct() {
     const upSellSection = document.createElement('div');
     const crossSellSection = document.createElement('div');
     const recentlyViewedSection = document.createElement('div');
-    const productsViewed = readCookieStartingWith('ProductViewed');
+    let productsViewed = readCookieStartingWith('ProductViewed');
 
     importStyles();
 
@@ -324,14 +324,9 @@ function processProduct() {
 
     // los if's son para no mostrar el carousel cuando se esta viendo el primer producto
     function processRecentlyViewedCarousel() {
+        productsViewed = productsViewed.filter((el) => el !== productName);
         if (productsViewed.length >= 1) {
-            if (productsViewed.length === 1 && productsViewed[0] !== productName) {
-                getProductsInfo(recentlyViewedDiv, endpoint = 'get_product_info', productsViewed).then(() => {
-                    cactusContainer.appendChild(recentlyViewedSection);
-                    productScroll(type = 'recently-viewed');
-                });
-            }
-            getProductsInfo(recentlyViewedDiv, endpoint = 'get_product_info', productsViewed).then(() => {
+            getProductsInfo(recentlyViewedDiv, endpoint = 'get_product_info', JSON.stringify(productsViewed)).then(() => {
                 cactusContainer.appendChild(recentlyViewedSection);
                 productScroll(type = 'recently-viewed');
             });
@@ -380,8 +375,7 @@ function readCookieStartingWith(name) {
             productNames.push(c.substring(c.indexOf('=') + 1, c.length));
         }
     }
-    const productNamesJson = JSON.stringify(productNames);
-    return productNamesJson;
+    return productNames;
 }
 
 // ----------------------- start A/B Testing ------------------------//
