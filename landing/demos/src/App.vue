@@ -15,7 +15,7 @@
 <script>
     import RandomProduct from './components/RandomProduct.vue'
     import Header from './components/Header.vue'
-    import FooterWithSitemap from './components/Footer.vue'
+    import Footer from './components/Footer.vue'
     import RelatedProducts from './components/CactusRecommendations.vue'
     import Title from './components/Title.vue'
 
@@ -23,7 +23,7 @@
         components: {
             RandomProduct,
             Header,
-            FooterWithSitemap,
+            Footer,
             RelatedProducts,
             Title,
         },
