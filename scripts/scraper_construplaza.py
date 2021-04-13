@@ -52,7 +52,6 @@ def get_price(product_html):
         discounted_price = product_html.find('p', {'class':'special-price'}).find('span', {'class':'price'}).text.strip().replace("$", "").replace(".","")
     original_price = product_html.find("span", {'class':'price'}).text.strip().replace("$", "").replace(".","")
     discounted_price = None
-    print(original_price)
     return [original_price, discounted_price]
 
 def run():
@@ -69,8 +68,8 @@ def run():
                     print(ProductAttributes.objects.update_or_create(
                         name=get_name(product_html),
                         company=company,
-                        defaults={
-                            'permalink': product_url,
+                        permalink= product_url,
+                        defaults={    
                             'product_code': 100,
                             'sku': get_sku(product_html),
                             'img_url': get_img(product_html),

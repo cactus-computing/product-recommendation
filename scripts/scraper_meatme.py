@@ -98,8 +98,8 @@ def get_products_from_category(client, category):
             ProductAttributes.objects.update_or_create(
                 name=prod_attributes['name'],
                 company=company,
+                permalink= prod_attributes['permalink'],
                 defaults={
-                    'permalink': prod_attributes['permalink'],
                     'product_code': 100,
                     'sku': f"{category}{e}",
                     'img_url': prod_attributes['href'],
