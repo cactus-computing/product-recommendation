@@ -37,8 +37,8 @@ def run(*args):
             ProductAttributes.objects.update_or_create(
                 name=product.find('image:title').text,
                 company=company,
+                permalink=product.find('loc').text,
                 defaults={
-                    'permalink':product.find('loc').text,
                     'product_code': e-1,
                     'sku': e-1,
                     'img_url': pippa_image_link(product_html),

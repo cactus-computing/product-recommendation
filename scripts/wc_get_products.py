@@ -37,8 +37,7 @@ def run():
             query_string_auth=True
         )
         endpoint="products"
-        logger.info("Getting products")
-        
+        logger.info(f"Getting products from {company_name}")
         for e in tqdm(range(100)):
             params = {
                     'per_page': 50,
@@ -59,10 +58,10 @@ def run():
                             ProductAttributes.objects.update_or_create(
                                 company=company,
                                 name=item['name'],
+                                permalink= item['permalink'],
                                 defaults={
                                     'product_code':item['id'],
                                     'sku':sku,
-                                    'permalink': item['permalink'],
                                     'img_url': item['images'][0]['src'] if item['images'] != [] else "https://www.quema.cl/wp-content/uploads/woocommerce-placeholder.png",
                                     'stock_quantity': False if item['stock_status'] == "outofstock" else True,
                                     'status': item['status'],
