@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 from tqdm.notebook import tqdm
 import pandas as pd
 import json 
-from google.cloud import storage
 import os
 from tqdm import tqdm
 from store.models import Store
@@ -39,8 +38,8 @@ def get_products(store_name, categories):
                 ProductAttributes.objects.update_or_create(
                     name=get_title(product_html),
                     company=company,
+                    permalink=product_url,
                     defaults={
-                        'permalink': product_url,
                         'product_code': 100,
                         'sku': get_sku(product_html),
                         'img_url': get_img(product_html),

@@ -46,8 +46,8 @@ def get_products(url):
         ProductAttributes.objects.update_or_create(
                 name=product['title'],
                 company=store,
+                permalink="https://protteina.com/products/" + product['handle'],
                 defaults={
-                    'permalink': "https://protteina.com/products/" + product['handle'],
                     'product_code': product['id'],
                     'sku': product['variants'][0]['sku'],
                     'img_url': product['image']['src'],
