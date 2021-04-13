@@ -150,7 +150,7 @@ def train_collaborative_filters(ratings, n, m, client, build=False):
     logger.info(f"Users: {N}, Items: {M}")
     run_logdir = get_run_logdir()
     tensorboard_cb = tf.keras.callbacks.TensorBoard(run_logdir)
-    model = CollaborativeFiltering(64, N, M)
+    model = CollaborativeFiltering(12, N, M)
     
     logger.info(f"Compiling model")
     model.compile(

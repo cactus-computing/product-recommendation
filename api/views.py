@@ -11,7 +11,7 @@ from .serializers import StoreSerializer
 from .serializers import CrossSellPredictionsSerializer, UpSellPredictionsSerializer, ProductAttributesSerializer
 
 
-def point_to_int(price):
+def format_price(price):
     if price is not None:
         price = int(price.split('.')[0])
         price = f"${price:,}".replace(',','.')
@@ -51,8 +51,8 @@ def cross_selling(request):
         predictions = predictions.order_by('-distance')[:top_k]
         serializer = CrossSellPredictionsSerializer(predictions, many=True)
         for obj in  serializer.data:
-            obj["recommended_code"]["price"] = point_to_int(obj["recommended_code"]["price"])
-            obj["recommended_code"]["discounted_price"] = point_to_int(obj["recommended_code"]["discounted_price"])
+            obj["recommended_code"]["price"] = format_price(obj["recommended_code"]["price"])
+            obj["recommended_code"]["discounted_price"] = format_price(obj["recommended_code"]["discounted_price"])
 
         return Response({
             "message": f"Sending top 10 cross_sell predictions",
@@ -86,8 +86,8 @@ def up_selling(request):
         predictions = predictions.order_by('-distance')[:top_k]
         serializer = UpSellPredictionsSerializer(predictions, many=True)
         for obj in  serializer.data:
-            obj["recommended_code"]["price"] = point_to_int(obj["recommended_code"]["price"])
-            obj["recommended_code"]["discounted_price"] = point_to_int(obj["recommended_code"]["discounted_price"])
+            obj["recommended_code"]["price"] = format_price(obj["recommended_code"]["price"])
+            obj["recommended_code"]["discounted_price"] = format_price(obj["recommended_code"]["discounted_price"])
             
         return Response({
             "message": "Sending top 10 Up Selling predictions",
@@ -112,7 +112,7 @@ def random_product_for_client(request):
         products_objects = ProductAttributes.objects.filter(company__company=company_name)[rand_int]
         serializer = ProductAttributesSerializer(products_objects)
         product = serializer.data.copy()
-        product['formatted_price'] = point_to_int(product['price'])
+        product['formatted_price'] = format_price(product['price'])
         return Response({
             "message": "Selecting random product",
             "products_count": products_count,
@@ -187,8 +187,8 @@ class ProductInfo(APIView):
         product_serializer = ProductAttributesSerializer(product_objects, many=True)
 
         for obj in  product_serializer.data:
-            obj["price"] = point_to_int(obj["price"])
-            obj["discounted_price"] = point_to_int(obj["discounted_price"])
+            obj["price"] = format_price(obj["price"])
+            obj["discounted_price"] = format_price(obj["discounted_price"])
 
         res = {}
         res['data'] = product_serializer.data
