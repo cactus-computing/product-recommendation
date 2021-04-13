@@ -4,7 +4,7 @@
     display: block;
 }
 
-.slider {
+#cactusContainer .slider {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -12,7 +12,7 @@
     text-align: center;
 }
 
-.title h2{
+#cactusContainer .title h2{
     font-weight: 300;
     color: #4A4A4A;
     font-size: 24px;
@@ -21,7 +21,7 @@
     font-family: 'Lato';
 }
 
-.slide-box {
+#cactusContainer .slide-box {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -31,7 +31,7 @@
     max-width: 1400px;
 }
 
-.slide-box .slide{
+#cactusContainer .slide-box .slide{
     display: flex;
     position: relative;
     left: 0;
@@ -42,15 +42,15 @@
     scroll-behavior: smooth;
 }
 
-.slide::-webkit-scrollbar {
+#cactusContainer .slide::-webkit-scrollbar {
     display: none;
   }
 
-.slide-box .product:last-child {
+  #cactusContainer .slide-box .product:last-child {
     margin-right: 0;
   }  
 
- .product {
+  #cactusContainer .product {
     width:160px; 
     min-width:160px;
     height: 320px;
@@ -66,12 +66,12 @@
     align-items: center;
   }
 
-.product:hover {
+  #cactusContainer .product:hover {
     border-color: red;
     border-width: 2px;
 }
 
-.product img {
+#cactusContainer .product img {
     height: 160px;
 	width: 160px;
 	object-fit: cover;
@@ -83,7 +83,7 @@
     border: 1px solid;*/
 }
 
-.product .product-name{
+#cactusContainer .product .product-name{
     font-size: 15px;
     font-weight: 600;
     color: #929292;
@@ -93,13 +93,13 @@
     text-align: center;
     margin-bottom: 0 !important;
     margin-top: 5px !important;
-  }
+}
 
-.product .product-name:hover {
+#cactusContainer .product .product-name:hover {
     text-decoration: underline;
 }
 
-.product .product-price {
+#cactusContainer .product .product-price {
     font-weight: 600;
     color: #333333;
     font-size: 20px;
@@ -108,12 +108,12 @@
     text-align: center;
 }
 
-.product-price-box{
+#cactusContainer .product-price-box{
     bottom: 0;
     margin-bottom: 7px;
 }
 
-.ctrl-btn {
+#cactusContainer .ctrl-btn {
     padding: 10px 10px;
     min-width: 33px;
     min-height: 33px;
@@ -128,9 +128,10 @@
     cursor: pointer;
     outline: none;
     margin: 5px;
+    color: black;
 }
 
-.ctrl-btn:hover {
+#cactusContainer .ctrl-btn:hover {
     color: red;
     border-color: red;
 }
@@ -141,8 +142,7 @@
     }
 } 
 
-/* -----
- start button ----- */
+/* ----- start button ----- */
 
 .scroll-to-rp-button {
     padding: 5px;
@@ -170,4 +170,12 @@
     color: white;
 }
 
-/* ----- end button ----- */
+/* ----- a/b test ----- */
+
+.related-products__title {
+    display:none;
+}
+
+.related-products--grid {
+    display: none;
+}

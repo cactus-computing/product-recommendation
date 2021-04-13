@@ -308,6 +308,13 @@ function processProduct() {
 
     const cactusContainer = createCactusContainer();
 
+    getPredictions(upSellDiv, type = 'up_selling', productName, k = 30).then((success) => {
+        if (success) {
+            cactusContainer.appendChild(upSellSection);
+            productScroll(type = 'up-sell');
+        }
+    });
+
     getPredictions(crossSellDiv, type = 'cross_selling', productName, k = 30).then((success) => {
         if (success) {
             cactusContainer.appendChild(crossSellSection);
@@ -315,26 +322,22 @@ function processProduct() {
         }
     });
 
-    getPredictions(upSellDiv, type = 'up_selling', productName, k = 30).then((success) => {
-        if (success) {
-            cactusContainer.appendChild(upSellSection);
-            productScroll(type = 'up-sell');
-        }
-    });
-    // los if's son para no mostrar el carousel cuando se esta viendo el primer producto 
-    if (productsViewed.length >= 1) {
-        if (productsViewed.length === 1 && productsViewed[0] !== productName) {
+    // los if's son para no mostrar el carousel cuando se esta viendo el primer producto
+    function processRecentlyViewedCarousel() {
+        if (productsViewed.length >= 1) {
+            if (productsViewed.length === 1 && productsViewed[0] !== productName) {
+                getProductsInfo(recentlyViewedDiv, endpoint = 'get_product_info', productsViewed).then(() => {
+                    cactusContainer.appendChild(recentlyViewedSection);
+                    productScroll(type = 'recently-viewed');
+                });
+            }
             getProductsInfo(recentlyViewedDiv, endpoint = 'get_product_info', productsViewed).then(() => {
                 cactusContainer.appendChild(recentlyViewedSection);
                 productScroll(type = 'recently-viewed');
             });
         }
-        getProductsInfo(recentlyViewedDiv, endpoint = 'get_product_info', productsViewed).then(() => {
-            cactusContainer.appendChild(recentlyViewedSection);
-            productScroll(type = 'recently-viewed');
-        });
     }
-
+    setTimeout(processRecentlyViewedCarousel, 5000);
     createScrollToRpButton();
 }
 
