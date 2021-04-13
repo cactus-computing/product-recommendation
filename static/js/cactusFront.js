@@ -302,8 +302,8 @@ function processProduct() {
 
     importStyles();
 
-    const crossSellDiv = createCactusCarousel('Productos Relacionados', 'cross-sell', crossSellSection);
-    const upSellDiv = createCactusCarousel('Productos Similares', 'up-sell', upSellSection);
+    const crossSellDiv = createCactusCarousel('Te podría interesar', 'cross-sell', crossSellSection);
+    const upSellDiv = createCactusCarousel('Otros clientes también vieron', 'up-sell', upSellSection);
     const recentlyViewedDiv = createCactusCarousel('Vistos Recientemente', 'recently-viewed', recentlyViewedSection);
 
     const cactusContainer = createCactusContainer();
