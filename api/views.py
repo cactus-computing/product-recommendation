@@ -133,6 +133,7 @@ def update_price_and_stock(request):
 
         try: 
             producto = ProductAttributes.objects.filter(name__iexact=product_name, company__company=company)
+            producto.exclude(price__isnull=True, stock_quantity=False)
         except ProductAttributes.DoesNotExist:
             return Response({
                 "error": f"Product {product_name} was not found"
@@ -180,7 +181,8 @@ class ProductInfo(APIView):
         for product_name in product_names:
             try:
                 product = ProductAttributes.objects.filter(name__iexact=product_name, company__company=company).first()
-                product_objects.add(product)
+                if product is not None:
+                    product_objects.add(product)
             except ProductAttributes.DoesNotExist:
                 errors.append(f"The following products from {company} where not found: {', '.join(product_name)}")
 
