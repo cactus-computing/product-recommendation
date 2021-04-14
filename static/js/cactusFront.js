@@ -106,7 +106,7 @@ function createCactusContainer() {
     return cactusContainer;
 }
 
-function createProductHtml(data, productsDiv) {
+function createProductHtml(data, productsDiv, type) {
     data.forEach((recommendation) => {
         let prod = recommendation;
         if (recommendation.hasOwnProperty('recommended_code')) {
@@ -124,13 +124,10 @@ function createProductHtml(data, productsDiv) {
         productImage.className = 'product-image';
         productImage.addEventListener('click', () => {
             const productNameClicked = prod.name.toLowerCase();
-            const timestamp = Date.now();
-            const cookieName = `${'ClickRelatedProduct' + '_'}${timestamp}`;
-            createCookie(cookieName, productNameClicked, 5);
             const productName = document.querySelector(CLIENT_METADATA[company]['product-name-selector']).innerText.trim();
-            gtag('event', productName, {
+            gtag('event', type, {
                 event_category: 'Related Product Click',
-                event_label: productNameClicked,
+                event_label: `${productName} - ${productNameClicked}`,
                 value: 1,
             });
         });
@@ -149,13 +146,10 @@ function createProductHtml(data, productsDiv) {
         productTitle.className = 'product-name';
         productTitle.addEventListener('click', () => {
             const productNameClicked = prod.name.toLowerCase();
-            const timestamp = Date.now();
-            const cookieName = `${'ClickRelatedProduct' + '_'}${timestamp}`;
-            createCookie(cookieName, productNameClicked, 5);
             const productName = document.querySelector(CLIENT_METADATA[company]['product-name-selector']).innerText.trim();
-            gtag('event', productName, {
+            gtag('event', type, {
                 event_category: 'Related Product Click',
-                event_label: productNameClicked,
+                event_label: `${productName} - ${productNameClicked}`,
                 value: 1,
             });
         });
@@ -188,7 +182,7 @@ const getPredictions = async function (productsDiv, type, productName, k) {
     let success = false;
     if (data.empty === false) {
         success = true;
-        createProductHtml(data.data, productsDiv);
+        createProductHtml(data.data, productsDiv, type);
     }
     return success;
 };
@@ -199,7 +193,7 @@ const getProductsInfo = async function (productsDiv, endpoint, productNames) {
         }`,
     );
     const data = await response.json();
-    createProductHtml(data.data, productsDiv);
+    createProductHtml(data.data, productsDiv, 'recently_viewed');
 };
 
 function createCactusCarousel(title, type, recommenderSection) {
@@ -312,6 +306,7 @@ function processProduct() {
         if (success) {
             cactusContainer.appendChild(upSellSection);
             productScroll(type = 'up-sell');
+            document.addEventListener('scroll', sectionInView(upSellSection));
         }
     });
 
@@ -319,6 +314,7 @@ function processProduct() {
         if (success) {
             cactusContainer.appendChild(crossSellSection);
             productScroll(type = 'cross-sell');
+            document.addEventListener('scroll', sectionInView(crossSellSection));
         }
     });
 
@@ -329,6 +325,7 @@ function processProduct() {
             getProductsInfo(recentlyViewedDiv, endpoint = 'get_product_info', JSON.stringify(productsViewed)).then(() => {
                 cactusContainer.appendChild(recentlyViewedSection);
                 productScroll(type = 'recently-viewed');
+                document.addEventListener('scroll', sectionInView(recentlyViewedSection));
             });
         }
     }
@@ -397,6 +394,15 @@ const changes = {
     },
 };
 const variants = ['0'];
+
+function sectionInView(section) {
+    if (section.getBoundingClientRect().bottom <= window.innerHeight) {
+        const piso = section.getBoundingClientRect().bottom;
+        console.log(`${section.id} in view, ${piso}`);
+        // uncomment below if you only want it to notify once
+        // document.removeEventListener("scroll", inView);
+    }
+}
 
 function createCookie(name, value, days) {
     let expires = '';
