@@ -26,6 +26,12 @@ status2bool = {
    'draft': False
 }
 
+base_urls = {
+    "protteina": "https://protteina.com/products/",
+    "amantani": "https://amantanitienda.cl/products/",
+    "pippa": "https://pippa.cl/products/",
+}
+
 def get_next_url(headers):
     if 'Link' not in headers:
         return None
@@ -48,21 +54,28 @@ def get_products(url):
     data = json.loads(r.text)
     products = data['products']
     for product in tqdm(products):
-        ProductAttributes.objects.update_or_create(
-                name=product['title'],
-                company=store,
-                permalink="https://protteina.com/products/" + product['handle'],
-                defaults={
-                    'product_code': product['id'],
-                    'sku': product['variants'][0]['sku'],
-                    'img_url': product['image']['src'],
-                    'stock_quantity': True if product['variants'][0]['inventory_quantity'] > 0 else False,
-                    'status': status2bool[product['status']],
-                    'price': product['variants'][0]['price'],
-                    'discounted_price': product['variants'][0]['compare_at_price'],
-                    'product_created_at': product['created_at']
-                }
-            )
+        try:
+            ProductAttributes.objects.update_or_create(
+                    name=product['title'],
+                    company=store,
+                    permalink= base_urls[store.company] + product['handle'],
+                    defaults={
+                        'product_code': product['id'],
+                        'sku': product['variants'][0]['sku'],
+                        'img_url': product['image']['src'] if 'image' in product else None,
+                        'stock_quantity': True if product['variants'][0]['inventory_quantity'] > 0 else False,
+                        'status': status2bool[product['status']] if 'status' in product else False,
+                        'price': product['variants'][0]['price'],
+                        'discounted_price': product['variants'][0]['compare_at_price'],
+                        'product_created_at': product['created_at']
+                    }
+                )
+        except TypeError as e:
+            print(e)
+            print(product)
+        except ProductAttributes.MultipleObjectsReturned as f:
+            print(f)
+            print(product['title'])
 
     next_url = get_next_url(r.headers)
 
@@ -118,5 +131,5 @@ def run(*args):
 
     logger.info("getting orders")
     resource = "orders"
-    url =  f"{base_url}/{resource}.json"
+    url =  f"{base_url}/{resource}.json?status=any"
     get_orders(url)
