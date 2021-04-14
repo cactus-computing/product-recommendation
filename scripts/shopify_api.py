@@ -26,6 +26,12 @@ status2bool = {
    'draft': False
 }
 
+base_urls = {
+    "protteina": "https://protteina.com/products/",
+    "amantani": "https://amantanitienda.cl/products/",
+    "pippa": "https://pippa.cl/products/",
+}
+
 def get_next_url(headers):
     if 'Link' not in headers:
         return None
@@ -48,21 +54,33 @@ def get_products(url):
     data = json.loads(r.text)
     products = data['products']
     for product in tqdm(products):
-        ProductAttributes.objects.update_or_create(
-                name=product['title'],
-                company=store,
-                permalink="https://protteina.com/products/" + product['handle'],
-                defaults={
-                    'product_code': product['id'],
-                    'sku': product['variants'][0]['sku'],
-                    'img_url': product['image']['src'],
-                    'stock_quantity': True if product['variants'][0]['inventory_quantity'] > 0 else False,
-                    'status': status2bool[product['status']],
-                    'price': product['variants'][0]['price'],
-                    'discounted_price': product['variants'][0]['compare_at_price'],
-                    'product_created_at': product['created_at']
-                }
-            )
+        compare_at_price = product['variants'][0]['compare_at_price']
+        price_wanna_be = product['variants'][0]['price']
+        price = compare_at_price if compare_at_price else price_wanna_be
+        discount_price = price_wanna_be if compare_at_price else None
+
+        try:
+            ProductAttributes.objects.update_or_create(
+                    name=product['title'],
+                    company=store,
+                    permalink= base_urls[store.company] + product['handle'],
+                    defaults={
+                        'product_code': product['id'],
+                        'sku': product['variants'][0]['sku'],
+                        'img_url': product['image']['src'] if 'image' in product else None,
+                        'stock_quantity': True if product['variants'][0]['inventory_quantity'] > 0 else False,
+                        'status': status2bool[product['status']] if 'status' in product else False,
+                        'price': price,
+                        'discounted_price': discount_price,
+                        'product_created_at': product['created_at']
+                    }
+                )
+        except TypeError as e:
+            print(e)
+            print(product)
+        except ProductAttributes.MultipleObjectsReturned as f:
+            print(f)
+            print(product['title'])
 
     next_url = get_next_url(r.headers)
 
@@ -79,9 +97,10 @@ def get_orders(url):
     for order in tqdm(orders):
         for product in order['line_items']:
             try:
-                product_code = ProductAttributes.objects.get(name=product['title'], company=store)
+                product_code = ProductAttributes.objects.get(product_code=product['product_id'], company=store)
             except ProductAttributes.DoesNotExist as f:
                 print(f)
+                print(product)
                 continue
 
             OrderAttributes.objects.update_or_create(
