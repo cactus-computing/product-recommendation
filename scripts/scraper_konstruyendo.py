@@ -44,7 +44,7 @@ def get_products(store_name, categories):
                         'sku': get_sku(product_html),
                         'img_url': get_img(product_html),
                         'stock_quantity': get_stock(product_html),
-                        'status': 'Published',
+                        'status': True,
                         'discounted_price': get_discounted_price(product_html),
                         'price': get_price(product_html),
                         'product_created_at': timezone.now()

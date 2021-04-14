@@ -21,6 +21,11 @@ api_client = None
 api_secret = None
 api_url = None
 
+status2bool = {
+    'active': True,
+   'draft': False
+}
+
 def get_next_url(headers):
     if 'Link' not in headers:
         return None
@@ -52,7 +57,7 @@ def get_products(url):
                     'sku': product['variants'][0]['sku'],
                     'img_url': product['image']['src'],
                     'stock_quantity': True if product['variants'][0]['inventory_quantity'] > 0 else False,
-                    'status': product['status'] if 'status' in product else 'no status',
+                    'status': status2bool[product['status']],
                     'price': product['variants'][0]['price'],
                     'discounted_price': product['variants'][0]['compare_at_price'],
                     'product_created_at': product['created_at']
