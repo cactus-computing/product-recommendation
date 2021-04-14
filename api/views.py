@@ -47,7 +47,7 @@ def cross_selling(request):
                 "empty": True,
             })
         predictions = CrossSellPredictions.objects.filter(product_code__name__iexact=name, company__company=company)
-        predictions = predictions.exclude(recommended_code__price__isnull=True, recommended_code__stock_quantity=False)
+        predictions = predictions.exclude(recommended_code__price__isnull=True, recommended_code__stock_quantity=False, recommended_code__status=False)
         predictions = predictions.order_by('-distance')[:top_k]
         serializer = CrossSellPredictionsSerializer(predictions, many=True)
         for obj in  serializer.data:
@@ -82,7 +82,7 @@ def up_selling(request):
             })
 
         predictions = UpSellPredictions.objects.filter(product_code__name__iexact=name, company__company=company)
-        predictions = predictions.exclude(recommended_code__price__isnull=True, recommended_code__stock_quantity=False)
+        predictions = predictions.exclude(recommended_code__price__isnull=True, recommended_code__stock_quantity=False, recommended_code__status=False)
         predictions = predictions.order_by('-distance')[:top_k]
         serializer = UpSellPredictionsSerializer(predictions, many=True)
         for obj in  serializer.data:
@@ -133,7 +133,6 @@ def update_price_and_stock(request):
 
         try: 
             producto = ProductAttributes.objects.filter(name__iexact=product_name, company__company=company)
-            producto.exclude(price__isnull=True, stock_quantity=False)
         except ProductAttributes.DoesNotExist:
             return Response({
                 "error": f"Product {product_name} was not found"
