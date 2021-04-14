@@ -7,12 +7,13 @@ status2bool = {
     "Published": True,
     "True": True,
     "1": True,
+    "true": True,
+    "active": True,
+    "false": False,
+    "draft": False
 }
+
+
 for product in tqdm(ProductAttributes.objects.all()):
     product.status = status2bool[product.status]
     product.save()
-
-
-
-#for product in ProductAttributes.objects.first():
-    #product.update(status2bool[product.status])
