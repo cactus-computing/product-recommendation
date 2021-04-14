@@ -22,7 +22,7 @@ class ProductAttributes(ProductsModel):
     stock_quantity = models.BooleanField(null=True, blank=True, default=None)
     company = models.ForeignKey(Store, on_delete=models.CASCADE)
     product_created_at = models.DateTimeField()
-
+    
     def as_dict(self):
         return {
             "id": self.id,
