@@ -54,23 +54,33 @@ def run():
                     if sku == '':
                         sku = item['id']
                     if item['status'] == "publish":
-                        try:
-                            ProductAttributes.objects.update_or_create(
-                                company=company,
-                                name=item['name'],
-                                permalink= item['permalink'],
-                                defaults={
-                                    'product_code':item['id'],
-                                    'sku':sku,
-                                    'img_url': item['images'][0]['src'] if item['images'] != [] else "https://www.quema.cl/wp-content/uploads/woocommerce-placeholder.png",
-                                    'stock_quantity': False if item['stock_status'] == "outofstock" else True,
-                                    'status': item['status'],
-                                    'discounted_price': item['sale_price'] if item['sale_price'] else None,
-                                    'price': item['regular_price'] if item['regular_price'] else None,
-                                    'product_created_at': item['date_created']
-                                }
-                            )
-                        except IntegrityError as f:
-                            logger.error(f)
-                            continue
+                        status = True
+                    else:
+                        status = False
+                        print(item['status'])
+                    if item['regular_price']:
+                        price = item['regular_price']
+                    elif item['price']:
+                        price = item['price']
+                    else:
+                        price = None
+                    try:
+                        ProductAttributes.objects.update_or_create(
+                            company=company,
+                            name=item['name'],
+                            permalink=item['permalink'],
+                            defaults={
+                                'product_code':item['id'],
+                                'sku':sku,
+                                'img_url': item['images'][0]['src'] if item['images'] != [] else "https://www.quema.cl/wp-content/uploads/woocommerce-placeholder.png",
+                                'stock_quantity': False if item['stock_status'] == "outofstock" else True,
+                                'status': status,
+                                'discounted_price': item['sale_price'] if item['sale_price'] else None,
+                                'price': price,
+                                'product_created_at': item['date_created']
+                            }
+                        )
+                    except IntegrityError as f:
+                        logger.error(f)
+                        continue
             time.sleep(2)
