@@ -189,7 +189,9 @@ class ProductInfo(APIView):
         errors = []
         for product_name in product_names:
             try:
-                product = ProductAttributes.objects.filter(name__iexact=product_name, company__company=company).first()
+                product = ProductAttributes.objects.filter(
+                    name__iexact=product_name, 
+                    company__company=company).first()
                 if product is not None:
                     product_objects.add(product)
             except ProductAttributes.DoesNotExist:
