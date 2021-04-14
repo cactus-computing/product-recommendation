@@ -54,9 +54,9 @@ def run():
                     if sku == '':
                         sku = item['id']
                     if item['status'] == "publish":
-                        status = 'True'
+                        status = True
                     else:
-                        status = 'False'
+                        status = False
                         print(item['status'])
                     if item['regular_price']:
                         price = item['regular_price']
