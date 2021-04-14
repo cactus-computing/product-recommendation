@@ -118,5 +118,5 @@ def run(*args):
 
     logger.info("getting orders")
     resource = "orders"
-    url =  f"{base_url}/{resource}.json"
+    url =  f"{base_url}/{resource}.json?status=any"
     get_orders(url)
