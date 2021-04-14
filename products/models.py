@@ -18,7 +18,7 @@ class ProductAttributes(ProductsModel):
     discounted_price = models.DecimalField(decimal_places=2, max_digits=50, null=True, blank=True)
     img_url = models.CharField(max_length=2000, default=None)
     permalink = models.CharField(max_length=2000)
-    status = models.CharField(max_length=500)
+    status = models.BooleanField(null=True, blank=True, default=False)
     stock_quantity = models.BooleanField(null=True, blank=True, default=None)
     company = models.ForeignKey(Store, on_delete=models.CASCADE)
     product_created_at = models.DateTimeField()
