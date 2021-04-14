@@ -46,8 +46,13 @@ def cross_selling(request):
                 "error": True,
                 "empty": True,
             })
-        predictions = CrossSellPredictions.objects.filter(product_code__name__iexact=name, company__company=company)
-        predictions = predictions.exclude(recommended_code__price__isnull=True, recommended_code__stock_quantity=False, recommended_code__status=False)
+        predictions = CrossSellPredictions.objects.filter(
+            product_code__name__iexact=name, 
+            company__company=company, 
+            recommended_code__price__isnull=False,
+            recommended_code__stock_quantity=True, 
+            recommended_code__status=True)
+
         predictions = predictions.order_by('-distance')[:top_k]
         serializer = CrossSellPredictionsSerializer(predictions, many=True)
         for obj in  serializer.data:
@@ -81,8 +86,13 @@ def up_selling(request):
                 "empty": True,
             })
 
-        predictions = UpSellPredictions.objects.filter(product_code__name__iexact=name, company__company=company)
-        predictions = predictions.exclude(recommended_code__price__isnull=True, recommended_code__stock_quantity=False, recommended_code__status=False)
+        predictions = UpSellPredictions.objects.filter(
+            product_code__name__iexact=name, 
+            company__company=company, 
+            recommended_code__price__isnull=False,
+            recommended_code__stock_quantity=True, 
+            recommended_code__status=True)
+
         predictions = predictions.order_by('-distance')[:top_k]
         serializer = UpSellPredictionsSerializer(predictions, many=True)
         for obj in  serializer.data:
