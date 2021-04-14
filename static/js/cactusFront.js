@@ -306,7 +306,6 @@ function processProduct() {
         if (success) {
             cactusContainer.appendChild(upSellSection);
             productScroll(type = 'up-sell');
-            document.addEventListener('scroll', sectionInView(upSellSection));
         }
     });
 
@@ -314,7 +313,6 @@ function processProduct() {
         if (success) {
             cactusContainer.appendChild(crossSellSection);
             productScroll(type = 'cross-sell');
-            document.addEventListener('scroll', sectionInView(crossSellSection));
         }
     });
 
@@ -325,12 +323,14 @@ function processProduct() {
             getProductsInfo(recentlyViewedDiv, endpoint = 'get_product_info', JSON.stringify(productsViewed)).then(() => {
                 cactusContainer.appendChild(recentlyViewedSection);
                 productScroll(type = 'recently-viewed');
-                document.addEventListener('scroll', sectionInView(recentlyViewedSection));
             });
         }
     }
-    setTimeout(processRecentlyViewedCarousel, 5000);
+    setTimeout(processRecentlyViewedCarousel, 3000);
     createScrollToRpButton();
+    document.addEventListener('scroll', crossInView);
+    document.addEventListener('scroll', upInView);
+    document.addEventListener('scroll', recentlyInView);
 }
 
 // ----------------------- start button ------------------------//
@@ -395,12 +395,45 @@ const changes = {
 };
 const variants = ['0'];
 
-function sectionInView(section) {
-    if (section.getBoundingClientRect().bottom <= window.innerHeight) {
-        const piso = section.getBoundingClientRect().bottom;
-        console.log(`${section.id} in view, ${piso}`);
-        // uncomment below if you only want it to notify once
-        // document.removeEventListener("scroll", inView);
+function upInView() {
+    const sectionId = 'up-sell-slider';
+    const section = document.getElementById(sectionId);
+    if (section !== null) {
+        if (section.getBoundingClientRect().bottom <= window.innerHeight) {
+            gtag('event', sectionId, {
+                event_category: 'Cactus Section Viewed',
+                value: 1,
+            });
+            document.removeEventListener('scroll', upInView);
+        }
+    }
+}
+
+function crossInView() {
+    const sectionId = 'cross-sell-slider';
+    const section = document.getElementById(sectionId);
+    if (section !== null) {
+        if (section.getBoundingClientRect().bottom <= window.innerHeight) {
+            gtag('event', sectionId, {
+                event_category: 'Cactus Section Viewed',
+                value: 1,
+            });
+            document.removeEventListener('scroll', crossInView);
+        }
+    }
+}
+
+function recentlyInView() {
+    const sectionId = 'recently-viewed-slider';
+    const section = document.getElementById(sectionId);
+    if (section !== null) {
+        if (section.getBoundingClientRect().bottom <= window.innerHeight) {
+            gtag('event', sectionId, {
+                event_category: 'Cactus Section Viewed',
+                value: 1,
+            });
+            document.removeEventListener('scroll', recentlyInView);
+        }
     }
 }
 
