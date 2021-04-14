@@ -1,45 +1,42 @@
 <template>
-    <div id="main">
-        <Header/>
-        <div id="demo">    
-            <div class="random-product text-center pt-8 inset-x-0 bottom-0 flex flex-col items-center">
-                <Title/>
-                <RandomProduct :random-product="random_product" @random-product = "setRandomProduct" />
-                <RelatedProducts v-if="random_product" :random-product="random_product.name" />
-            </div>
-        </div>
-        <FooterWithSitemap/>
+    <div>
+        <Hero/>
+        <Features/>
+        <Pricing/>
+        <Cta/>
+        <Contact/>
+        <Footer/>
+        <router-view/> 
     </div>
 </template>
 
 <script>
-    import RandomProduct from './components/RandomProduct.vue'
-    import Header from './components/Header.vue'
+    import Hero from './components/Hero.vue'
     import Footer from './components/Footer.vue'
-    import RelatedProducts from './components/CactusRecommendations.vue'
-    import Title from './components/Title.vue'
+    import Features from './components/Features.vue'
+    import Cta from './components/Cta.vue'
+    import Pricing from './components/Pricing.vue'
+    import Contact from './components/Contact.vue'
 
     export default {
         components: {
-            RandomProduct,
-            Header,
+            Hero,
             Footer,
-            RelatedProducts,
-            Title,
+            Features,
+            Cta,
+            Pricing,
+            Contact,
         },
-        data() {
-            return {
-                random_product: null,
-            }
-        },
-        methods: {
-            setRandomProduct(selected_product) {
-                this.random_product = selected_product
-            }        
-        }
     }
 </script>
 
 <style>
-
-</style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style> 
