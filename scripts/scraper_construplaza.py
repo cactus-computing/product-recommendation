@@ -12,7 +12,6 @@ from products.models import ProductAttributes
 import pytz
 
 def get_product(sku):
-    print(sku)
     search_url = f"https://www.construplaza.cl/catalogsearch/result/?q={sku}"
     href = "body > div.wrapper > div.page.backgroundMTS > div > div:nth-child(3) > div.col-main > div > div.category-products > ul > li > div > div.product-info > div.containerNombreYMarca > h2 > a"
     response = req.get(search_url)
@@ -74,7 +73,7 @@ def run():
                             'sku': get_sku(product_html),
                             'img_url': get_img(product_html),
                             'stock_quantity': get_stock(product_html),
-                            'status': 'Published',
+                            'status': True,
                             'discounted_price': get_price(product_html)[1],
                             'price': get_price(product_html)[0],
                             'product_created_at': timezone.now()

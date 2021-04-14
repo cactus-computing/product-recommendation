@@ -43,7 +43,7 @@ def run(*args):
                     'sku': e-1,
                     'img_url': pippa_image_link(product_html),
                     'stock_quantity': pippa_has_stock(product_html),
-                    'status': 'Published',
+                    'status': True,
                     'price': pippa_product_price(product_html)[0],
                     'discounted_price':pippa_product_price(product_html)[1],
                     'product_created_at': product.find('lastmod').text
