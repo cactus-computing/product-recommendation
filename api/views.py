@@ -49,7 +49,7 @@ def cross_selling(request):
                 "error": True,
                 "empty": True,
             })
-        predictions = original_product.crosssellpredictions_set
+        predictions = original_product.crosssellpredictions_set.prefetch_related('recommended_code')
         predictions = predictions.filter(
             recommended_code__price__isnull=False,
             recommended_code__stock_quantity=True,
@@ -91,7 +91,7 @@ def up_selling(request):
                 "empty": True,
             })
 
-        predictions = original_product.upsellpredictions_set
+        predictions = original_product.upsellpredictions_set.prefetch_related('recommended_code')
         predictions = predictions.filter(
             recommended_code__price__isnull=False,
             recommended_code__stock_quantity=True,
