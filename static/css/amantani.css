@@ -1,12 +1,7 @@
 /*By Rorro, Mic Drop.*/
 
-header .site-header {
-    width: auto;
-}
-
 #cactusContainer{
     display: block;
-    margin-bottom: 20px;
 }
 
 #cactusContainer .slider {
@@ -14,16 +9,15 @@ header .site-header {
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    font-family: "Poppins", Sans-serif;
     text-align: center;
 }
 
 #cactusContainer .title h2{
-    font-weight: lighter;
-    color: #d2328a;
-    font-size: 20px;
+    font-weight: 300;
+    color: #d7b766;
+    font-size: 24px;
     letter-spacing: 0.5px;
-    margin-bottom: 20px !important;
+    margin-bottom: 0 !important;
 }
 
 #cactusContainer .slide-box {
@@ -31,9 +25,9 @@ header .site-header {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 400px;
+    height: 370px;
     position: relative;
-    max-width: 1140px;
+    max-width: 1400px;
 }
 
 #cactusContainer .slide-box .slide{
@@ -51,47 +45,62 @@ header .site-header {
     display: none;
   }
 
-#cactusContainer .slide-box .product:last-child {
+  #cactusContainer .slide-box .product:last-child {
     margin-right: 0;
   }  
 
   #cactusContainer .product {
-    width:220px; 
-    min-width:220px;
-    height: 400px;
+    width:200px; 
+    min-width:200px;
+    height: 320px;
+    border: 1px solid;
+    border-color: #ebebeb;
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 	margin-right: 10px;
     position: relative;
     display: flex;
+    border-radius: 5px;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
   }
 
+  #cactusContainer .product:hover {
+    border-color: #d7b766;
+}
+
 #cactusContainer .product img {
-    height: 330px;
-	width: 220px;
+    height: 200px;
+	width: 200px;
 	object-fit: cover;
 	box-sizing: border-box;
+    border-radius: 5px 5px 0px 0px;
+    /*border-color: #ebebeb;
+    border: 1px solid;*/
 }
 
 #cactusContainer .product .product-name{
     font-size: 15px;
-    font-weight: lighter;
-    text-transform: uppercase;
-    color: #d2328a;
-	letter-spacing: 1px;
-    margin-left: 5px;
-    margin-right: 5px;
+    font-weight: 600;
+    color: #929292;
+	letter-spacing: 0.5px;
+    margin-left: 10px;
+    margin-right: 10px;
     text-align: center;
     margin-bottom: 0 !important;
-    margin-top: 0 !important;
-  }
+    margin-top: 5px !important;
+}
+
+#cactusContainer .product .product-name:hover {
+    text-decoration: underline;
+}
 
 #cactusContainer .product .product-price {
-    font-weight: normal;
-    color: #5d5d5d;
+    font-weight: 600;
+    color: #333333;
     font-size: 20px;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
+    color: red;
     text-align: center;
 }
 
@@ -102,18 +111,27 @@ header .site-header {
 
 #cactusContainer .ctrl-btn {
     padding: 10px 10px;
-    min-width: 50px;
+    min-width: 40px;
+    max-width: 40px;
+    min-height: 40px;
+    max-height: 40px;
+    font-size: 15px;
     background: #fff;
-    box-shadow: 2px 2px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     border: 1px solid;
-    border-radius: 10px;
+    border-radius: 9999px;
     border-color: #ebebeb;
-    font-weight: 600;
+    font-weight: 800;
     text-align: center;
     cursor: pointer;
     outline: none;
     margin: 5px;
-    color: #5d5d5d;
+    color: #d7b766;
+}
+
+#cactusContainer .ctrl-btn:hover {
+    color: #d7b766;
+    border-color: #d7b766;
 }
   
 @media only screen and (max-width: 600px) {
@@ -121,11 +139,7 @@ header .site-header {
         display: none;
     }
 } 
-/*
-.cross-sell {
-    display: none !important;
-}
-*/
+
 /* ----- start button ----- */
 
 .scroll-to-rp-button {
@@ -140,25 +154,22 @@ header .site-header {
     text-align: center;
     cursor: pointer;
     --tw-bg-opacity: 1;
-    background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
+    background-color: white;
     font-weight: 600;
-    color: white;
-    font-family: montserrat;
+    color: #d7b766;
+    margin: 5px 0px 5px 0px;
 }
 
 .scroll-to-rp-button:hover{
     --tw-bg-opacity: 1;
-    background-color: rgba(185, 28, 28, var(--tw-bg-opacity));
+    background-color: #404040;
     text-decoration: none;
     color: white;
 }
 
-/* ----- hide current related section ----- */
+/* ----- a/b test ----- */
 
-.related-products__title {
+#related-products {
     display:none;
 }
 
-.related-products--grid {
-    display: none;
-}
