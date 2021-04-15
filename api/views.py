@@ -50,6 +50,11 @@ def cross_selling(request):
                 "empty": True,
             })
         predictions = original_product.crosssellpredictions_set
+        predictions = predictions.filter(
+            recommended_code__price__isnull=False,
+            recommended_code__stock_quantity=True,
+            recommended_code__status=True,
+        )
         predictions = predictions.select_related('recommended_code').order_by('-distance')[:top_k]
 
         serializer = CrossSellPredictionsSerializer(predictions, many=True)
@@ -87,6 +92,11 @@ def up_selling(request):
             })
 
         predictions = original_product.upsellpredictions_set
+        predictions = predictions.filter(
+            recommended_code__price__isnull=False,
+            recommended_code__stock_quantity=True,
+            recommended_code__status=True,
+        )
         predictions = predictions.select_related('recommended_code').order_by('-distance')[:top_k]
 
         serializer = UpSellPredictionsSerializer(predictions, many=True)
