@@ -39,21 +39,19 @@ def cross_selling(request):
         name = request.query_params["name"].strip().lower()
         company = request.query_params["company"]
         top_k = int(request.query_params["top-k"])
-        original_product = ProductAttributes.objects.filter(name__iexact=name, company__company=company).first()
+        original_product = ProductAttributes.objects.filter(
+            name__iexact=name, 
+            company__company=company).prefetch_related("crosssellpredictions_set").first()
+        # indice al nombre y por distance
         if original_product is None:
             return Response({
                 "message": "Your product was not found :(",
                 "error": True,
                 "empty": True,
             })
-        predictions = CrossSellPredictions.objects.filter(
-            product_code=original_product, 
-            company=original_product.company_id, 
-            recommended_code__price__isnull=False,
-            recommended_code__stock_quantity=True, 
-            recommended_code__status=True)
+        predictions = original_product.crosssellpredictions_set
+        predictions = predictions.select_related('recommended_code').order_by('-distance')[:top_k]
 
-        predictions = predictions.order_by('-distance')[:top_k]
         serializer = CrossSellPredictionsSerializer(predictions, many=True)
         for obj in  serializer.data:
             obj["recommended_code"]["price"] = format_price(obj["recommended_code"]["price"])
@@ -78,7 +76,9 @@ def up_selling(request):
         name = request.query_params["name"].strip().lower()
         company = request.query_params["company"]
         top_k = int(request.query_params["top-k"])
-        original_product = ProductAttributes.objects.filter(name__iexact=name, company__company=company).first()
+        original_product = ProductAttributes.objects.filter(
+            name__iexact=name, 
+            company__company=company).prefetch_related("upsellpredictions_set").first()
         if original_product is None:
             return Response({
                 "message": "Your product was not found :(",
@@ -86,14 +86,9 @@ def up_selling(request):
                 "empty": True,
             })
 
-        predictions = UpSellPredictions.objects.filter(
-            product_code=original_product, 
-            company=original_product.company_id, 
-            recommended_code__price__isnull=False,
-            recommended_code__stock_quantity=True, 
-            recommended_code__status=True)
+        predictions = original_product.crosssellpredictions_set
+        predictions = predictions.select_related('recommended_code').order_by('-distance')[:top_k]
 
-        predictions = predictions.order_by('-distance')[:top_k]
         serializer = UpSellPredictionsSerializer(predictions, many=True)
         for obj in  serializer.data:
             obj["recommended_code"]["price"] = format_price(obj["recommended_code"]["price"])
