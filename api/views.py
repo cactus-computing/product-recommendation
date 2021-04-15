@@ -86,7 +86,7 @@ def up_selling(request):
                 "empty": True,
             })
 
-        predictions = original_product.crosssellpredictions_set
+        predictions = original_product.upsellpredictions_set
         predictions = predictions.select_related('recommended_code').order_by('-distance')[:top_k]
 
         serializer = UpSellPredictionsSerializer(predictions, many=True)
