@@ -28,13 +28,13 @@
             </div>
           </div>
           <div class="hidden md:block md:ml-3 md:pr-4 md:space-x-8">
-            <a href="#" class="font-medium text-gray-500 hover:text-gray-900">Productos</a>
+            <a href="#features" class="font-medium text-gray-500 hover:text-gray-900">Productos</a>
 
-            <a href="#" class="font-medium text-gray-500 hover:text-gray-900">Como funciona</a>
+            <a href="#how-it-works" class="font-medium text-gray-500 hover:text-gray-900">Como funciona</a>
 
-            <a href="#" class="font-medium text-gray-500 hover:text-gray-900">Precios</a>
+            <a href="#pricing" class="font-medium text-gray-500 hover:text-gray-900">Precios</a>
 
-            <a href="#" class="font-medium text-blue-600 hover:text-blue-500">Iniciar Sesión</a>
+            <a href="#contact" class="font-medium text-blue-600 hover:text-blue-500">Contáctanos</a>
           </div>
         </nav>
       </div>
@@ -90,7 +90,7 @@
           </p>
           <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
             <div class="rounded-md shadow">
-              <a href="#" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10">
+              <a href="#contact" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10">
                 Quiero un Demo
               </a>
             </div>

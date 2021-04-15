@@ -1,6 +1,6 @@
 <template>
   <!-- component -->
-    <div class="min-h-screen flex justify-center items-center">
+    <div id="pricing" class="pt-12 pb-12 flex justify-center items-center">
         <div class="">
             <div class="text-center font-semibold">
                 <h1 class="text-5xl">
@@ -8,12 +8,12 @@
                     <span class="text-blue-600 tracking-wide">a tu Medida </span>
                 </h1>
                 <p class="pt-6 text-xl text-gray-400 font-normal w-full px-8 md:w-full">
-                    Si no estas contento contáctanos dentro de los primeros 14 días te devolvemos lo pagado, sin preguntas.
+                    Si no estas contento contáctanos dentro de los primeros 14 días te devolveremos lo pagado, sin preguntas.
                 </p>
             </div>
             <div class="pt-24 flex flex-row">
                 <!-- Basic Card -->
-                <div class="w-96 p-8 bg-white text-center rounded-3xl pr-16 shadow-xl">
+                <div class="w-96 p-8 bg-white text-center rounded-xl pr-16 shadow-xl">
                     <h1 class="text-black font-semibold text-2xl">Basic</h1>
                     <p class="pt-2 tracking-wide">
                         <span class="text-gray-400 align-top">$ </span>
@@ -27,7 +27,7 @@
                                 done
                             </span>
                             <span class="pl-2">
-                                Get started with <span class="text-black">messaging</span>
+                                <span class="text-black">200 SKU's</span>
                             </span>
                         </p>
                         <p class="font-semibold text-gray-400 text-left pt-5">
@@ -35,7 +35,7 @@
                                 done
                             </span>
                             <span class="pl-2">
-                                Flexible <span class="text-black">team meetings</span>
+                                <span class="text-black">5.000 sesiones</span>
                             </span>
                         </p>
                         <p class="font-semibold text-gray-400 text-left pt-5">
@@ -43,14 +43,14 @@
                                 done
                             </span>
                             <span class="pl-2">
-                                <span class="text-black">5 TB</span> cloud storage
+                                <span class="text-black">Up-Sellings</span>
                             </span>
                         </p>
 
                         <a href="#" class="">
                             <p class="w-full py-4 bg-blue-600 mt-8 rounded-xl text-white">
                                 <span class="font-medium">
-                                    Choose Plan
+                                    Quiero este Plan
                                 </span>
                                 <span class="pl-2 material-icons align-middle text-sm">
                                     east
@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <!-- StartUp Card -->
-                <div class="w-80 p-8 bg-gray-900 text-center rounded-3xl text-white border-4 shadow-xl border-white transform scale-125">
+                <div class="w-80 p-8 bg-gray-900 text-center rounded-xl text-white border-4 shadow-xl border-white transform scale-125">
                     <h1 class="text-white font-semibold text-2xl">Startup</h1>
                     <p class="pt-2 tracking-wide">
                         <span class="text-gray-400 align-top">$ </span>
@@ -97,7 +97,7 @@
                         <a href="#" class="">
                             <p class="w-full py-4 bg-blue-600 mt-8 rounded-xl text-white">
                                 <span class="font-medium">
-                                    Choose Plan
+                                    Quiero este Plan
                                 </span>
                                 <span class="pl-2 material-icons align-middle text-sm">
                                     east
@@ -110,7 +110,7 @@
                     </div>
                 </div>
                 <!-- Enterprise Card -->
-                <div class="w-96 p-8 bg-white text-center rounded-3xl pl-16 shadow-xl">
+                <div class="w-96 p-8 bg-white text-center rounded-xl pl-16 shadow-xl">
                     <h1 class="text-black font-semibold text-2xl">Empresa</h1>
                     <p class="pt-2 tracking-wide">
                         <span class="text-gray-400 align-top">Contáctanos </span>
@@ -145,7 +145,7 @@
                         <a href="#" class="">
                             <p class="w-full py-4 bg-blue-600 mt-8 rounded-xl text-white">
                                 <span class="font-medium">
-                                    Choose Plan
+                                    Quiero este Plan
                                 </span>
                                 <span class="pl-2 material-icons align-middle text-sm">
                                     east

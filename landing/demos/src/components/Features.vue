@@ -1,6 +1,6 @@
 <template>
   <!-- This example requires Tailwind CSS v2.0+ -->
-<div class="py-12 bg-gray-50">
+<div id="features" class="py-12 bg-gray-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="lg:text-center">
       <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase">Recomendaciones</h2>
