@@ -47,8 +47,8 @@ def cross_selling(request):
                 "empty": True,
             })
         predictions = CrossSellPredictions.objects.filter(
-            product_code__name__iexact=name, 
-            company__company=company, 
+            product_code=original_product, 
+            company=original_product.company_id, 
             recommended_code__price__isnull=False,
             recommended_code__stock_quantity=True, 
             recommended_code__status=True)
@@ -87,8 +87,8 @@ def up_selling(request):
             })
 
         predictions = UpSellPredictions.objects.filter(
-            product_code__name__iexact=name, 
-            company__company=company, 
+            product_code=original_product, 
+            company=original_product.company_id, 
             recommended_code__price__isnull=False,
             recommended_code__stock_quantity=True, 
             recommended_code__status=True)
