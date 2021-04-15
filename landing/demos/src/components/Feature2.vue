@@ -1,0 +1,48 @@
+<template>
+    <div class="flex flex-wrap items-center py-12">
+
+        <div class="w-full md:w-5/12 px-4 mr-auto ml-auto text-left">
+            <div class="relative flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
+              <!-- Heroicon name: outline/globe-alt -->
+              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+            <h3 class="text-3xl my-2 font-semibold leading-normal">
+                    Nunca es suficiente
+            </h3>
+            <p class="text-lg font-light leading-relaxed mt-4 mb-4 text-gray-700">
+            Una persona tiene que ver algo por lo menos <span class="font-medium">7 veces</span> antes de decidirse a comprarlo.
+            </p>
+            <p class="text-lg font-light leading-relaxed mt-0 mb-4 text-gray-700">
+            Nuestro carrusel de <span class="font-medium"> Vistos Recientemente</span> trackea el recorrido de tus clientes
+            en tu e-Commerce y muestra los productos a lo largo del ciclo de compra para <span class="font-medium"> aumentar la probabilidad de conversión.</span>
+            </p>
+            <div class="mt-4 flex lg:mt-6 lg:flex-shrink-0">
+            <a href="#" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                Empezar a Recomendar
+            </a>
+            </div>
+        </div>
+        <div class="w-full md:w-5/12 mr-auto lg:ml-0 ml-auto mx-3">
+            <div class="relative flex flex-col mt-12 min-w-0 break-words bg-white w-full mb-3 ">
+                <a href="https://protteina.com/products/beyond-meat-the-beyond-sausage-hot-italian"    
+                    <img
+                    alt="..."
+                    src="https://www.cactusco.cl/static/img/recently_viewed.png"
+                    class="relative w-full align-middle p-2 sm:p-6 md:p-0 lg:p-0 relative rounded-lg"
+                    />
+                </a>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+  name: "Feature2",
+};
+</script>
+
+<style>
+</style>
