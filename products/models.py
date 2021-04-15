@@ -23,6 +23,11 @@ class ProductAttributes(ProductsModel):
     company = models.ForeignKey(Store, on_delete=models.CASCADE)
     product_created_at = models.DateTimeField()
     
+    class Meta:
+        indexes = [
+            models.Index(fields=['name'])
+        ]
+
     def as_dict(self):
         return {
             "id": self.id,
@@ -62,6 +67,12 @@ class CrossSellPredictions(ProductsModel):
         on_delete=models.CASCADE)
     distance = models.FloatField()
     company = models.ForeignKey(Store, on_delete=models.CASCADE)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['-distance'], name='cross_distance_idx')
+        ]
+
     def __str__(self):
         return self.product_code
 
@@ -73,5 +84,11 @@ class UpSellPredictions(ProductsModel):
     recommended_code = models.ForeignKey(ProductAttributes, related_name="up_sell", on_delete=models.CASCADE)
     distance = models.FloatField()
     company = models.ForeignKey(Store, on_delete=models.CASCADE)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['-distance'], name='up_distance_idx')
+        ]
+
     def __str__(self):
         return self.product_code
