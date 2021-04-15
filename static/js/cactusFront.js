@@ -312,14 +312,14 @@ function processProduct() {
 
     const cactusContainer = createCactusContainer();
 
-    getPredictions(upSellDiv, type = 'up_selling', productName, k = 30).then((success) => {
+    getPredictions(upSellDiv, type = 'up_selling', productName, k = 20).then((success) => {
         if (success) {
             cactusContainer.appendChild(upSellSection);
             productScroll(type = 'up-sell');
         }
     });
 
-    getPredictions(crossSellDiv, type = 'cross_selling', productName, k = 30).then((success) => {
+    getPredictions(crossSellDiv, type = 'cross_selling', productName, k = 20).then((success) => {
         if (success) {
             cactusContainer.appendChild(crossSellSection);
             productScroll(type = 'cross-sell');
