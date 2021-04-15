@@ -72,6 +72,16 @@ const CLIENT_METADATA = {
         'button-target-div': '.add-to-box-wrap.clearfix .product-name',
         'button-insert-before': 'nextElementSibling',
     },
+    amantani: {
+        'target-div': '#shopify-section-product-recommendations',
+        'product-name-selector': '.product-title',
+        'insert-before': 'nextElementSibling',
+        'ga-measurement-id': 'UA-160191026-1',
+        'product-page-identifier': 'url',
+        'product-page-regex': '/products/',
+        'button-target-div': '.price__pricing-group',
+        'button-insert-before': 'nextElementSibling',
+    },
 };
 
 function setGoogleAnalytics() {
