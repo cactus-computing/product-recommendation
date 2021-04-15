@@ -153,4 +153,12 @@ header .site-header {
     color: white;
 }
 
-/* ----- end button ----- */
+/* ----- hide current related section ----- */
+
+.related-products__title {
+    display:none;
+}
+
+.related-products--grid {
+    display: none;
+}
