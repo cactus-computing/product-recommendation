@@ -54,10 +54,6 @@ def get_products(url):
     data = json.loads(r.text)
     products = data['products']
     for product in tqdm(products):
-        compare_at_price = product['variants'][0]['compare_at_price']
-        price_wanna_be = product['variants'][0]['price']
-        price = compare_at_price if compare_at_price else price_wanna_be
-        discount_price = price_wanna_be if compare_at_price else None
 
         try:
             ProductAttributes.objects.update_or_create(
@@ -70,8 +66,8 @@ def get_products(url):
                         'img_url': product['image']['src'] if 'image' in product else None,
                         'stock_quantity': True if product['variants'][0]['inventory_quantity'] > 0 else False,
                         'status': status2bool[product['status']] if 'status' in product else False,
-                        'price': price,
-                        'discounted_price': discount_price,
+                        'price': product['variants'][0]['price'],
+                        'discounted_price': product['variants'][0]['compare_at_price'],
                         'product_created_at': product['created_at']
                     }
                 )
