@@ -14,7 +14,7 @@
             <div class="flex items-center justify-between w-full md:w-auto">
               <a href="#">
                 <span class="sr-only">Workflow</span>
-                <img class="h-6 w-auto sm:h-8" src="http://dev.cactusco.cl/static/img/imagotipo_cactus.png">
+                <img class="h-4 w-auto sm:h-6" src="http://dev.cactusco.cl/static/img/imagotipo_cactus.png">
               </a>
               <div class="-mr-2 flex items-center md:hidden">
                 <button type="button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500" aria-expanded="false">
@@ -27,7 +27,7 @@
               </div>
             </div>
           </div>
-          <div class="hidden md:block md:ml-3 md:pr-4 md:space-x-8">
+          <div class="hidden flex justify-between md:block md:ml-3 md:pr-4 md:space-x-8">
             <a href="#features" class="font-medium text-gray-500 hover:text-gray-900">Productos</a>
 
             <a href="#how-it-works" class="font-medium text-gray-500 hover:text-gray-900">Como funciona</a>
@@ -91,7 +91,7 @@
           <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
             <div class="rounded-md shadow">
               <a href="#contact" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10">
-                Quiero un Demo
+                Empezar a recomendar
               </a>
             </div>
           </div>

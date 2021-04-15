@@ -1,20 +1,20 @@
 <template>
   <!-- component -->
-    <div id="pricing" class="pt-12 pb-12 flex justify-center items-center">
-        <div class="">
+    <div id="pricing" class="py-12 flex justify-center items-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center font-semibold">
                 <h1 class="text-5xl">
                     <span>Planes </span>
                     <span class="text-blue-600 tracking-wide">a tu Medida </span>
                 </h1>
                 <p class="pt-6 text-xl text-gray-400 font-normal w-full px-8 md:w-full">
-                    Si no estas contento contáctanos dentro de los primeros 14 días te devolveremos lo pagado, sin preguntas.
+                    Si no estas contento contáctanos dentro de los primeros 14 días y te devolveremos lo pagado, sin preguntas.
                 </p>
             </div>
-            <div class="pt-24 flex flex-row">
+            <div class="pt-6 flex flex-row flex-wrap">
                 <!-- Basic Card -->
-                <div class="w-96 p-8 bg-white text-center rounded-xl pr-16 shadow-xl">
-                    <h1 class="text-black font-semibold text-2xl">Basic</h1>
+                <div class="w-80 p-8 m-4 bg-white text-center rounded-xl shadow-xl">
+                    <h1 class="text-black font-semibold text-2xl">Emprendedor</h1>
                     <p class="pt-2 tracking-wide">
                         <span class="text-gray-400 align-top">$ </span>
                         <span class="text-3xl font-semibold">9.990</span>
@@ -27,7 +27,7 @@
                                 done
                             </span>
                             <span class="pl-2">
-                                <span class="text-black">200 SKU's</span>
+                                Hasta <span class="text-black">200 SKU's</span>
                             </span>
                         </p>
                         <p class="font-semibold text-gray-400 text-left pt-5">
@@ -35,7 +35,7 @@
                                 done
                             </span>
                             <span class="pl-2">
-                                <span class="text-black">5.000 sesiones</span>
+                                <span class="text-black">5.000 sesiones</span> / mes
                             </span>
                         </p>
                         <p class="font-semibold text-gray-400 text-left pt-5">
@@ -43,7 +43,7 @@
                                 done
                             </span>
                             <span class="pl-2">
-                                <span class="text-black">Up-Sellings</span>
+                                <span class="text-black"> Up-Sellings</span>
                             </span>
                         </p>
 
@@ -60,11 +60,11 @@
                     </div>
                 </div>
                 <!-- StartUp Card -->
-                <div class="w-80 p-8 bg-gray-900 text-center rounded-xl text-white border-4 shadow-xl border-white transform scale-125">
+                <div class="w-80 p-8 m-4 bg-gray-900 text-center rounded-xl text-white shadow-2xl">
                     <h1 class="text-white font-semibold text-2xl">Startup</h1>
                     <p class="pt-2 tracking-wide">
                         <span class="text-gray-400 align-top">$ </span>
-                        <span class="text-3xl font-semibold">19.990</span>
+                        <span class="text-3xl font-semibold">29.990</span>
                         <span class="text-gray-400 font-medium">/ mes</span>
                     </p>
                     <hr class="mt-4 border-1 border-gray-600">
@@ -74,7 +74,7 @@
                                 done
                             </span>
                             <span class="pl-2">
-                                All features in <span class="text-white">Basic</span>
+                                Hasta <span class="text-white">5.000 SKU's</span>
                             </span>
                         </p>
                         <p class="font-semibold text-gray-400 text-left pt-5">
@@ -82,7 +82,7 @@
                                 done
                             </span>
                             <span class="pl-2">
-                                Flexible <span class="text-white">call scheduling</span>
+                                <span class="text-white">100.000 sesiones</span> / mes
                             </span>
                         </p>
                         <p class="font-semibold text-gray-400 text-left pt-5">
@@ -90,7 +90,7 @@
                                 done
                             </span>
                             <span class="pl-2">
-                                <span class="text-white">15 TB</span> cloud storage
+                                <span class="text-white">Up, Cross y Vistos recientemente</span>
                             </span>
                         </p>
 
@@ -105,15 +105,15 @@
                             </p>
                         </a>
                     </div>
-                    <div class="absolute top-4 right-4">
+                    <!-- <div class="absolute top-4 right-4">
                         <p class="bg-blue-700 font-semibold px-4 py-1 rounded-full uppercase text-xs">Popular</p>
-                    </div>
+                    </div> -->
                 </div>
                 <!-- Enterprise Card -->
-                <div class="w-96 p-8 bg-white text-center rounded-xl pl-16 shadow-xl">
-                    <h1 class="text-black font-semibold text-2xl">Empresa</h1>
+                <div class="w-80 p-8 m-4 bg-white text-center rounded-xl shadow-xl">
+                    <h1 class="text-black font-semibold text-2xl">Gran Empresa</h1>
                     <p class="pt-2 tracking-wide">
-                        <span class="text-gray-400 align-top">Contáctanos </span>
+                        <span class="text-2xl font-semibold">Contáctanos </span>
                     </p>
                     <hr class="mt-4 border-1">
                     <div class="pt-8">
@@ -122,7 +122,7 @@
                                 done
                             </span>
                             <span class="pl-2">
-                                All features in <span class="text-black">Startup</span>
+                                + <span class="text-black">5.000 SKU's</span>
                             </span>
                         </p>
                         <p class="font-semibold text-gray-400 text-left pt-5">
@@ -130,7 +130,7 @@
                                 done
                             </span>
                             <span class="pl-2">
-                                Growth <span class="text-black">oriented</span>
+                                + <span class="text-black">100.000 sesiones / mes</span>
                             </span>
                         </p>
                         <p class="font-semibold text-gray-400 text-left pt-5">
@@ -138,7 +138,7 @@
                                 done
                             </span>
                             <span class="pl-2">
-                                <span class="text-black">Unlimited</span> cloud storage
+                                <span class="text-black">Up, Cross y Vistos recientemente</span> 
                             </span>
                         </p>
 
@@ -156,6 +156,7 @@
                 </div>
             </div>
         </div>
+        <link rel="stylesheet" href="/path/to/material-icons/iconfont/material-icons.css">
     </div>
 </template>
 
@@ -166,4 +167,5 @@ export default {
 </script>
 
 <style>
+
 </style>

@@ -2,6 +2,7 @@
     <div>
         <Hero/>
         <Features/>
+        <Features2/>
         <Pricing/>
         <Contact/>
         <Footer/>
@@ -13,6 +14,7 @@
     import Hero from './components/Hero.vue'
     import Footer from './components/Footer.vue'
     import Features from './components/Features.vue'
+    import Features2 from './components/Features2.vue'
     import Cta from './components/Cta.vue'
     import Pricing from './components/Pricing.vue'
     import Contact from './components/Contact.vue'
@@ -22,6 +24,7 @@
             Hero,
             Footer,
             Features,
+            Features2,
             Cta,
             Pricing,
             Contact,
