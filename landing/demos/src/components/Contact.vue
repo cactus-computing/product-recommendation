@@ -38,28 +38,38 @@
                         </div>
                     </div>
 
-                    <form class="p-6 flex flex-col justify-center">
+                    <form id="contact-form" @submit="submitContactForm" novalidate="true" action="/contacto" method="post" class="p-6 flex flex-col justify-center">
+                        
                         <div class="flex flex-col">
                             <label for="name" class="hidden">Full Name</label>
-                            <input type="name" name="name" id="name" placeholder="Nombre" class="w-100 mt-2 py-3 px-3 rounded-md bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-medium focus:border-blue-500 focus:outline-none">
-                        </div>
-
-                        <div class="flex flex-col mt-2">
-                            <label for="company" class="hidden">Website</label>
-                            <input type="company" name="company" id="company" placeholder="Página web" class="w-100 mt-2 py-3 px-3 rounded-md bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-medium focus:border-blue-500 focus:outline-none">
+                            <input type="name" name="name" v-model="contactInfo.name" id="name" placeholder="Nombre" class="w-100 mt-2 py-3 px-3 rounded-md bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-medium focus:border-blue-500 focus:outline-none">
                         </div>
 
                         <div class="flex flex-col mt-2">
                             <label for="email" class="hidden">Email</label>
-                            <input type="email" name="email" id="email" placeholder="Email" class="w-100 mt-2 py-3 px-3 rounded-md bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-medium focus:border-blue-500 focus:outline-none">
+                            <input type="email" name="email" v-model="contactInfo.email" id="email" placeholder="Email" class="w-100 mt-2 py-3 px-3 rounded-md bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-medium focus:border-blue-500 focus:outline-none">
                         </div>
 
                         <div class="flex flex-col mt-2">
-                            <label for="tel" class="hidden">Number</label>
-                            <input type="tel" name="tel" id="tel" placeholder="Número de Teléfono" class="w-100 mt-2 py-3 px-3 rounded-md bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-medium focus:border-blue-500 focus:outline-none">
+                            <label for="phone" class="hidden">Number</label>
+                            <input type="phone" name="phone" v-model="contactInfo.phone" id="phone" placeholder="Número de Teléfono" class="w-100 mt-2 py-3 px-3 rounded-md bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-medium focus:border-blue-500 focus:outline-none">
                         </div>
 
-                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-md mt-3 hover:bg-blue-50 transition ease-in-out duration-300">
+                        <div class="flex flex-col mt-2">
+                            <label for="website" class="hidden">Website</label>
+                            <input type="website" name="website" v-model="contactInfo.website" id="website" placeholder="Página web" class="w-100 mt-2 py-3 px-3 rounded-md bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-medium focus:border-blue-500 focus:outline-none">
+                        </div>
+
+                        <p v-if="errors.length">
+                            <ul>
+                            <li v-for="error in errors">{{ error }}</li>
+                            </ul>
+                        </p>
+                        <p v-if="success" class="bg-green-500 py-3 my-3 px-3 text-white rounded-md transition ease-in-out duration-10">
+                            Formulario enviado, te contactaremos pronto!
+                        </p>
+
+                        <button v-if="!success" type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-md mt-3 hover:bg-blue-50 transition ease-in-out duration-300">
                             Quiero un Demo
                         </button>
                     </form>
@@ -71,7 +81,49 @@
 
 <script>
 export default {
-    name: 'Contact'
+    name: 'Contact',
+    data: function() {
+        return {
+            contactInfo: {
+                name: null,
+                website: null,
+                email: null,
+                phone: null
+            },
+            errors: [],
+            success: false,
+        }
+    },
+    methods: {
+        submitContactForm(e) {
+            this.errors = [];
+            e.preventDefault();
+            const url = 'http://localhost:8000/contact';
+            const requestOptions = {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'}, 
+                body: JSON.stringify(this.contactInfo) 
+            };
+            const response = fetch(url, requestOptions);
+            response.then((data) => data.json())
+                .then((data) => {
+                    if(data.errors) {
+                        for( let prop in data.errors ){
+                            this.errors.push(data.errors[prop][0]);
+                        }
+                        return
+                    } 
+                    this.success = true;
+                    this.resetData(this.contactInfo);
+                })
+        },
+        resetData: function(a) {
+            a.name = '';
+            a.email = '';
+            a.phone = '';
+            a.website = '';
+        },
+    }
 }
 </script>
 

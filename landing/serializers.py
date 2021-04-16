@@ -8,4 +8,4 @@ from rest_framework.response import Response
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
-        fields = ("name", "email", "phone", "company_url")
+        fields = ("name", "email", "phone", "website")

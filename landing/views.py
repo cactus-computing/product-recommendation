@@ -20,10 +20,10 @@ class HandleContactData(APIView):
             email = serializer.data['email']
             name = serializer.data['name']
             phone = serializer.data['phone']
-            company_url = serializer.data['company_url']
+            website = serializer.data['website']
 
             client_message = f"""Hola, {name}!\n\n¡Gracias por contactarte con nosotros! Nuestro equipo se contactará contigo antes de 24 horas."""
-            internal_message = f"""Datos del nuevo contacto:\n\nNombre:{name}\n\nEmail: {email}\n\nTelefono: {phone}\n\nURL:{company_url}"""
+            internal_message = f"""Datos del nuevo contacto:\n\nNombre:{name}\n\nEmail: {email}\n\nTelefono: {phone}\n\nURL:{website}"""
             
             client_mail = (
                 '[Cactus Co] Bienvenida', #subject 
@@ -43,5 +43,5 @@ class HandleContactData(APIView):
 
             submitted = True
 
-            return Response(serializer.data)    
-        return Response(serializer.errors)
+            return Response(serializer.data)  
+        return Response({'errors': serializer.errors})
