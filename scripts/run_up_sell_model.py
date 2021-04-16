@@ -9,7 +9,7 @@ from products.models import UpSellPredictions
 ITEM = 'id'
 NAME = 'name'
 
-K = 30
+K = 50
 
 logging.basicConfig(
         level=logging.INFO,
