@@ -60,7 +60,6 @@ INSTALLED_APPS = [
     ## installed apps ##
     'webpack_loader',
     'crispy_forms',
-    'django_rename_app',
     'rest_framework',
     'corsheaders',
     'django_extensions',
