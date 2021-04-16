@@ -3,6 +3,9 @@ from django_cryptography.fields import encrypt
 
 class Store(models.Model):
     company = models.CharField(max_length=500)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    published_at = models.DateTimeField(default=None, null=True)
     store_logo_url = models.CharField(max_length=2000, null=True)
     gtm_id = models.CharField(max_length=500, null=True)
     ga_measurement_id = models.CharField(max_length=500, null=True)
