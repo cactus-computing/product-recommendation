@@ -1,8 +1,8 @@
 <template>
-    <div class="flex flex-wrap items-center py-12">
+    <div class="flex flex-wrap justify-between items-center py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div class="w-full md:w-5/12 px-4 mr-auto ml-auto text-left">
-            <div class="relative flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
+        <div class="w-full md:w-5/12 lg:pr-10 lg:pl-4 text-left">
+            <div class="relative flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white">
               <!-- Heroicon name: outline/globe-alt -->
               <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -19,12 +19,12 @@
             en tu e-Commerce y muestra los productos a lo largo del ciclo de compra para <span class="font-medium"> aumentar la probabilidad de conversión.</span>
             </p>
             <div class="mt-4 flex lg:mt-6 lg:flex-shrink-0">
-            <a href="#" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
-                Empezar a Recomendar
+            <a href="#contact" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                Empieza a recomendar
             </a>
             </div>
         </div>
-        <div class="w-full md:w-5/12 mr-auto lg:ml-0 ml-auto mx-3">
+        <div class="w-full md:w-7/12 lg:ml-0 ml-auto">
             <div class="relative flex flex-col mt-12 min-w-0 break-words bg-white w-full mb-3 ">
                 <a href="https://protteina.com/products/beyond-meat-the-beyond-sausage-hot-italian"    
                     <img

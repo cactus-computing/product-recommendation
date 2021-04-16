@@ -33,7 +33,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                             </svg>
                             <div class="ml-4 text-md tracking-wide font-semibold w-60">
-                                hola@cactusco.cl
+                                contacto@cactusco.cl
                             </div>
                         </div>
                     </div>
@@ -45,8 +45,8 @@
                         </div>
 
                         <div class="flex flex-col mt-2">
-                            <label for="company" class="hidden">Company</label>
-                            <input type="company" name="company" id="company" placeholder="Empresa" class="w-100 mt-2 py-3 px-3 rounded-md bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-medium focus:border-blue-500 focus:outline-none">
+                            <label for="company" class="hidden">Website</label>
+                            <input type="company" name="company" id="company" placeholder="Página web" class="w-100 mt-2 py-3 px-3 rounded-md bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-medium focus:border-blue-500 focus:outline-none">
                         </div>
 
                         <div class="flex flex-col mt-2">
