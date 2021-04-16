@@ -16,7 +16,6 @@ import environ
 import django_heroku
 import dj_database_url
 
-
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False)
@@ -32,13 +31,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'documents')
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = os.getenv('DEBUG')
 
 
 def get_hosts():
-    return env('HOST').split(",")
+    return os.getenv('HOST').split(",")
 ALLOWED_HOSTS = get_hosts()
 
 
@@ -108,7 +107,7 @@ AUTH_USER_MODEL = 'user_panel.User'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 DATABASES = {}
 DATABASES['default'] = dj_database_url.config(default='DATABASE_URL')
-
+#DATABASES['default'] = dj_database_url.config(default=os.getenv('DEBUG'))
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -165,8 +164,8 @@ EMAIL_SUBJECT_PREFIX='[Cactus]'
 EMAIL_HOST = 'smtp.gmail.com'                                                                                                                                           
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 # might need to change
 CORS_ORIGIN_ALLOW_ALL = True
@@ -188,7 +187,5 @@ WEBPACK_LOADER = {
 }
 
 INTERNAL_IPS = [
-    # ...
     '127.0.0.1',
-    # ...
 ]
