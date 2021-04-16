@@ -54,7 +54,8 @@ def get_products(url):
     data = json.loads(r.text)
     products = data['products']
     for product in tqdm(products):
-
+        status = status2bool[product['status']] if 'status' in product else False
+        status = status if product['published_at'] is not None else False
         try:
             ProductAttributes.objects.update_or_create(
                     name=product['title'],
@@ -65,7 +66,7 @@ def get_products(url):
                         'sku': product['variants'][0]['sku'],
                         'img_url': product['image']['src'] if 'image' in product else None,
                         'stock_quantity': True if product['variants'][0]['inventory_quantity'] > 0 else False,
-                        'status': status2bool[product['status']] if 'status' in product else False,
+                        'status': status,
                         'price': product['variants'][0]['price'],
                         'discounted_price': product['variants'][0]['compare_at_price'],
                         'product_created_at': product['created_at']
