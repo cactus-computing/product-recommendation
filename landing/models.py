@@ -25,5 +25,5 @@ class Contact(models.Model):
     name = models.CharField(max_length=250)
     email = models.EmailField(max_length=250)
     phone = models.CharField(max_length=9)
-    message = models.CharField(max_length=1000)
+    company_url = models.CharField(max_length=2000)
     
