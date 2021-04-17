@@ -1,6 +1,6 @@
 <template>
   <!-- This example requires Tailwind CSS v2.0+ -->
-<div id="how-it-works" class="py-12 bg-white">
+<div id="how-it-works" class="py-12 bg-gray-50">
   <div class="flex flex-wrap justify-between items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="lg:text-center w-full md:w-5/12 lg:pr-10 lg:pl-4">
         <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase">Integración</h2>

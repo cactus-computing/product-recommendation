@@ -1,6 +1,6 @@
 <template>
   <!-- component -->
-  <div id="pricing" class="py-12 flex justify-center items-center bg-gray-50">
+  <div id="pricing" class="py-12 flex justify-center items-center bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center font-semibold">
         <h1 class="text-5xl">

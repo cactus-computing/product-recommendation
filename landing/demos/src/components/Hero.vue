@@ -98,8 +98,8 @@
       </main>
     </div>
   </div>
-  <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-    <img class="pt-14 pb-10 h-56 sm:p-0 w-full object-cover sm:h-72 md:h-96 sm:object-scale-down lg:w-full lg:h-full" src="https://dev.cactusco.cl/static/img/hero_example.png" alt="">
+  <div class="hidden lg:list-item lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+    <img class="pt-14 pb-10 h-56 sm:p-0 w-full object-cover sm:h-72 md:h-96 sm:object-scale-down lg:w-full lg:h-full" src="https://www.cactusco.cl/static/img/hero_example.png" alt="">
   </div>
 </div>
 

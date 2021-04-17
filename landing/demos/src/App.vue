@@ -1,7 +1,7 @@
 <template>
     <div>
         <Hero/>
-        <!-- <LogoCloud/> -->
+        <LogoCloud/>
         <FeaturesSummary/>
         <FeatureTitle/>
         <Feature1/>
@@ -55,6 +55,6 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 </style> 
