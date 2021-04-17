@@ -177,6 +177,26 @@ function createProductHtml(data, productsDiv, type) {
         productPrice.className = 'product-price';
         productPriceDiv.appendChild(productPrice);
 
+        if (prod.discounted_price !== null) {
+            const intPrice = parseInt(prod.price.replaceAll('.', '').replaceAll('$', ''));
+            const intDiscountedPrice = parseInt(prod.discounted_price.replaceAll('.', '').replaceAll('$', ''));
+            const discount = Math.round(100 * (1 - intDiscountedPrice / intPrice));
+
+            const productDiscountedPrice = document.createElement('span');
+            productDiscountedPrice.innerText = prod.discounted_price;
+            productDiscountedPrice.className = 'product-discounted-price';
+            productPriceDiv.appendChild(productDiscountedPrice);
+
+            const productDiscount = document.createElement('p');
+            productDiscount.innerText = `${discount} %`;
+            productDiscount.className = 'product-discount';
+            productPriceDiv.appendChild(productDiscount);
+
+            productPrice.style.fontSize = '13px';
+            productPrice.style.color = 'gray';
+            productPrice.style.textDecoration = 'line-through';
+        }
+
         productDiv.appendChild(productPriceDiv);
 
         productsDiv.appendChild(productDiv);
@@ -185,7 +205,7 @@ function createProductHtml(data, productsDiv, type) {
 
 const getPredictions = async function (productsDiv, type, productName, k) {
     const response = await fetch(
-        `${HOST_DICT[codeStatus]}/api/${type}?name=${productName}&company=${company
+        `https://www.cactusco.cl/api/${type}?name=${productName}&company=${company
         }&top-k=${k}`,
     );
     const data = await response.json();
