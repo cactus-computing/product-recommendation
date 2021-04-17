@@ -336,7 +336,8 @@ function processProduct() {
             });
         }
     }
-    setTimeout(processRecentlyViewedCarousel, 3000);
+
+    setTimeout(processRecentlyViewedCarousel, 700);
     createScrollToRpButton();
     document.addEventListener('scroll', crossInView);
     document.addEventListener('scroll', upInView);
