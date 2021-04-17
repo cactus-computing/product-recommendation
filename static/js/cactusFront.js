@@ -332,7 +332,7 @@ function processProduct() {
             });
         }
     }
-    setTimeout(processRecentlyViewedCarousel, 5000);
+    setTimeout(processRecentlyViewedCarousel, 700);
     createScrollToRpButton();
 }
 
