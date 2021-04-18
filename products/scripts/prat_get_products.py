@@ -16,7 +16,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
-        logging.FileHandler(f'./scripts/magento/logs/log_{date}.log'),
+        logging.FileHandler('./products/scripts/magento/logs/log_.log'),
         logging.StreamHandler()
     ]
 )

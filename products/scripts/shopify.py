@@ -115,10 +115,10 @@ def get_orders(url):
     
     return None
 
-def run(*args):
+def shopify_funct(company_name):
     global store, api_client, api_secret, api_url
 
-    store_name = args[0]
+    store_name = company_name
 
     store = Store.objects.get(company=store_name)
     api_client = store.consumer_key

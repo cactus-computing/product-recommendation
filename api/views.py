@@ -5,6 +5,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 import random
 import json
+from celery.result import AsyncResult
+from products.tasks import wc_products_get, shopify, prat_get_products, construplaza_get_products
 from products.models import CrossSellPredictions, UpSellPredictions, ProductAttributes
 from store.models import Store
 from .serializers import StoreSerializer
@@ -188,7 +190,6 @@ class ProductInfo(APIView):
     '''
     def get(self, request, format=None):
         product_names = json.loads(request.query_params.get("products"))
-        
         company = request.query_params.get("company")
         product_objects = set()
         errors = []
@@ -212,3 +213,20 @@ class ProductInfo(APIView):
         res['data'] = product_serializer.data
         res['errors'] = errors
         return Response(res)
+
+class RunCeleryTask(APIView):
+    def get(self, request, format=None):
+        task = wc_products_get.delay()
+        task1 = shopify.delay()
+        task2 = prat_get_products.delay()
+        task3 = construplaza_get_products.delay()
+        return Response([task.id, task1.id, task2.id, task3.id])
+
+class CheckTaskStatus(APIView):
+    def get(self, request, format=None):
+        tasks_ids = request.query_params.get('task_id')
+        status = AsyncResult(tasks_ids[0]).status
+        status1 = AsyncResult(tasks_ids[1]).status
+        status2 = AsyncResult(tasks_ids[2]).status
+        status3 = AsyncResult(tasks_ids[3]).status
+        return Response([status, status1, status2, status3])

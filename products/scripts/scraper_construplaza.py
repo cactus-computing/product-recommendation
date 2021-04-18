@@ -53,7 +53,7 @@ def get_price(product_html):
     discounted_price = None
     return [original_price, discounted_price]
 
-def run():
+def constru_get_products():
     df = pd.read_csv("scripts/products_construplaza.csv", sep=";")
     store_name = "construplaza"
     company = Store.objects.get(company=store_name)

@@ -15,13 +15,13 @@ logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s",
         handlers=[
-            logging.FileHandler(f'./scripts/wc/logs/log_{date}.log'),
+            logging.FileHandler('./products/scripts/logs/log_.log'),
             logging.StreamHandler()
         ]
     )
 logger = logging.getLogger(__name__)
 
-def run():
+def wc_products():
     company_names = ['quema', 'makerschile']
     for company_name in company_names:
         company = Store.objects.get(company=company_name)
