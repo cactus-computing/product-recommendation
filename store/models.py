@@ -21,3 +21,11 @@ class Store(models.Model):
     api_url = models.CharField(max_length=1000, null=True)
     def __str__(self):
         return self.company
+
+class Customers(models.Model):
+    store = models.ForeignKey(Store, on_delete=models.CASCADE)
+    name = models.CharField(max_length=2000, null=True)
+    last_name = models.CharField(max_length=2000, null=True)
+    email = models.CharField(max_length=2000, null=True)
+    accepts_marketing = models.BooleanField(default=False)
+    accepts_marketing_updated_at = models.DateTimeField(auto_now_add=True)

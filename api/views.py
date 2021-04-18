@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 import random
 import json
-from products.models import CrossSellPredictions, UpSellPredictions, ProductAttributes
+from products.models import CrossSellPredictions, UpSellPredictions, Products
 from store.models import Store
 from .serializers import StoreSerializer
 from .serializers import CrossSellPredictionsSerializer, UpSellPredictionsSerializer, ProductAttributesSerializer

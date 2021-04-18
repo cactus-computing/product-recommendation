@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from products.models import CrossSellPredictions, UpSellPredictions, ProductAttributes
+from products.models import CrossSellPredictions, UpSellPredictions, Products
 from store.models import Store
 
 
@@ -18,7 +18,7 @@ class UpSellPredictionsSerializer(serializers.ModelSerializer):
 
 class ProductAttributesSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ProductAttributes
+        model = Products
         fields = "__all__"
 
 class StoreSerializer(serializers.ModelSerializer):

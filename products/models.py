@@ -1,13 +1,13 @@
 from django.db import models
-from store.models import Store
+from store.models import Store, Customers
 
-class ProductsModel(models.Model):
+class CreatedAtModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     class Meta:
         abstract = True
 
-class ProductAttributes(ProductsModel):
+class Products(CreatedAtModel):
     '''
     Products table. This table contains all of the stores's products and their atributes.
     '''
@@ -37,16 +37,16 @@ class ProductAttributes(ProductsModel):
     def __str__(self):
         return self.name
 
-class OrderAttributes(ProductsModel):
+class Orders(CreatedAtModel):
     '''
     Order table. This table contains all of the store's orders and their atributes.
     '''
-    user = models.CharField(max_length=2000)
-    product = models.ForeignKey(ProductAttributes, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customers, on_delete=models.CASCADE)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
     product_qty = models.IntegerField()
     bill = models.CharField(max_length=2000)
     product_name = models.CharField(max_length=2000)
-    company = models.ForeignKey(Store, on_delete=models.CASCADE)
+    store = models.ForeignKey(Store, on_delete=models.CASCADE)
 
     def as_dict(self):
         return {
@@ -57,13 +57,13 @@ class OrderAttributes(ProductsModel):
             "product_qty": self.product_qty
         }
 
-class CrossSellPredictions(ProductsModel):
+class CrossSellPredictions(CreatedAtModel):
     '''
     Cross selling output. A relation of every product and the distance to every other product.
     '''
-    product_code = models.ForeignKey(ProductAttributes, on_delete=models.CASCADE)
+    product_code = models.ForeignKey(Products, on_delete=models.CASCADE)
     recommended_code = models.ForeignKey(
-        ProductAttributes, 
+        Products, 
         related_name="cross_sell", 
         on_delete=models.CASCADE)
     distance = models.FloatField()
@@ -77,12 +77,12 @@ class CrossSellPredictions(ProductsModel):
     def __str__(self):
         return self.product_code
 
-class UpSellPredictions(ProductsModel):
+class UpSellPredictions(CreatedAtModel):
     '''
     Up selling output. A relation of every product and the distance to every other product.
     '''
-    product_code = models.ForeignKey(ProductAttributes, on_delete=models.CASCADE)
-    recommended_code = models.ForeignKey(ProductAttributes, related_name="up_sell", on_delete=models.CASCADE)
+    product_code = models.ForeignKey(Products, on_delete=models.CASCADE)
+    recommended_code = models.ForeignKey(Products, related_name="up_sell", on_delete=models.CASCADE)
     distance = models.FloatField()
     company = models.ForeignKey(Store, on_delete=models.CASCADE)
 
