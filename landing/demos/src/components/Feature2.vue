@@ -1,7 +1,7 @@
 <template>
-    <div class="flex flex-wrap justify-between items-center py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-wrap justify-between items-center pb-12 md:py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div class="w-full md:w-5/12 lg:pr-10 lg:pl-4 text-left">
+        <div class="w-full md:w-5/12 lg:pr-10 lg:pl-4 text-justify md:text-left">
             <div class="relative flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white">
               <!-- Heroicon name: outline/globe-alt -->
               <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -9,7 +9,7 @@
               </svg>
             </div>
             <h3 class="text-3xl my-2 font-semibold leading-normal">
-                    Nunca es suficiente
+                Nunca es suficiente
             </h3>
             <p class="text-lg font-light leading-relaxed mt-4 mb-4 text-gray-700">
             Una persona tiene que ver algo por lo menos <span class="font-medium">7 veces</span> antes de decidirse a comprarlo.
