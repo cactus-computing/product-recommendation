@@ -159,3 +159,6 @@ trained_models
 staticfiles
 cactusco/superuser_password
 webpack-stats.json
+
+Pipfile
+Pipfile.lock
