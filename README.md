@@ -336,7 +336,7 @@ docker-compose run --rm web /usr/local/bin/python manage.py runscript prat_get_o
 ```
 
 ```
-docker-compose run --rm web /usr/local/bin/python manage.py runscript run_cross_sell_model --script-args quema
+docker-compose run --rm web /usr/local/bin/python manage.py runscript run_cross_sell_model --script-args amantani
 docker-compose run --rm web /usr/local/bin/python manage.py runscript run_cross_sell_model --script-args makerschile
 docker-compose run --rm web /usr/local/bin/python manage.py runscript run_cross_sell_model --script-args prat
 ```
@@ -348,7 +348,7 @@ docker-compose run --rm web /usr/local/bin/python manage.py runscript run_up_sel
 docker-compose run --rm web /usr/local/bin/python manage.py runscript run_up_sell_model --script-args pippa
 ```
 
-docker run --rm 5259554963c3 /usr/local/bin/python manage.py runscript run_up_sell_model --script-args prat
+docker run --rm cactusco /usr/local/bin/python manage.py runscript run_cross_sell_model --script-args prat
 
 #### Production:
 ```
@@ -375,6 +375,13 @@ python manage.py runscript run_up_sell_model --script-args makerschile
 python manage.py runscript run_up_sell_model --script-args prat
 python manage.py runscript run_up_sell_model --script-args pippa
 ```
+
+sudo docker run --rm cactusco /usr/local/bin/python manage.py runscript wc_get_products
+sudo docker run --rm cactusco /usr/local/bin/python manage.py runscript shopify --script-args pippa
+sudo docker run --rm cactusco /usr/local/bin/python manage.py runscript shopify --script-args protteina
+sudo docker run --rm cactusco /usr/local/bin/python manage.py runscript shopify --script-args amantani
+sudo docker run --rm cactusco /usr/local/bin/python manage.py runscript prat_get_products
+sudo docker run --rm cactusco /usr/local/bin/python manage.py runscript scraper_construplaza
 
 
 - [Index](##index)
@@ -479,3 +486,25 @@ Once that's done, install node dependencies by running
 npm install
 ```
 You may need to enable ESLint in VSCode by going into a JS file, in the firstline there will be a warning highlight. Click on it and a small lightbulb will apear. Click on the lightbulb to enable the linter.
+
+
+Celery:
+1. Check redis-server status:
+```
+sudo systemctl status redis-server
+```
+2. Start cactusco-app
+
+3. Start celery worker:
+```
+celery -A cactusco worker -l INFO --purge
+```
+
+To run the tasj you have to call this endpoint:
+```
+http://localhost:8000/products/get_products
+```
+The output would be a list of tasks ids that you need to keep to check on the tasks status in this endpoint:
+```
+http://localhost:8000/products/check_status?task_id=5fe7da16-19aa-4fe7-a463-4580dc811193
+```

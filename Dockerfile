@@ -4,6 +4,10 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /code
 
+RUN apt update
+
+RUN apt install redis-server -y
+
 COPY requirements.txt /code/
 
 COPY requirements-ia.txt /code/
@@ -11,6 +15,8 @@ COPY requirements-ia.txt /code/
 RUN pip install -r requirements.txt
 
 RUN pip install -r requirements-ia.txt
+
+RUN celery -A cactusco worker -l INFO
 
 COPY . /code/
 

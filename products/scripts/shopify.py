@@ -49,7 +49,16 @@ def get_next_url(headers):
         return new_url_with_auth
     return None
 
-def get_products(url):
+def get_products(store_name, url=None):
+    logger.info(f"getting products for {store_name}, shopify")
+    store = Store.objects.get(company=store_name)
+    api_client = store.consumer_key
+    api_secret = store.consumer_secret
+    api_url = store.api_url
+    if url is None:
+        resource = 'products'
+        base_url = f"https://{api_client}:{api_secret}@{api_url}/"
+        url =  f"{base_url}/{resource}.json"
     r = requests.get(url)
     data = json.loads(r.text)
     products = data['products']
@@ -58,20 +67,20 @@ def get_products(url):
         status = status if product['published_at'] is not None else False
         try:
             ProductAttributes.objects.update_or_create(
-                    name=product['title'],
-                    company=store,
-                    permalink= base_urls[store.company] + product['handle'],
-                    defaults={
-                        'product_code': product['id'],
-                        'sku': product['variants'][0]['sku'],
-                        'img_url': product['image']['src'] if 'image' in product else None,
-                        'stock_quantity': True if product['variants'][0]['inventory_quantity'] > 0 else False,
-                        'status': status,
-                        'price': product['variants'][0]['price'],
-                        'discounted_price': product['variants'][0]['compare_at_price'],
-                        'product_created_at': product['created_at']
-                    }
-                )
+                name=product['title'],
+                company=store,
+                permalink= base_urls[store.company] + product['handle'],
+                defaults={
+                    'product_code': product['id'],
+                    'sku': product['variants'][0]['sku'],
+                    'img_url': product['image']['src'] if 'image' in product else None,
+                    'stock_quantity': True if product['variants'][0]['inventory_quantity'] > 0 else False,
+                    'status': status,
+                    'price': product['variants'][0]['price'],
+                    'discounted_price': product['variants'][0]['compare_at_price'],
+                    'product_created_at': product['created_at']
+                }
+            )
         except TypeError as e:
             print(e)
             print(product)
@@ -83,11 +92,20 @@ def get_products(url):
 
     if next_url:
         logger.info('new page found, getting products')
-        get_products(next_url)
+        get_products(next_url, store_name)
     
     return None
 
-def get_orders(url):
+def get_orders(store_name, url=None):
+    logger.info(f"getting orders for {store_name}, shopify")
+    store = Store.objects.get(company=store_name)
+    api_client = store.consumer_key
+    api_secret = store.consumer_secret
+    api_url = store.api_url
+    if url is None:
+        resource = 'orders'
+        base_url = f"https://{api_client}:{api_secret}@{api_url}/"
+        url =  f"{base_url}/{resource}.json"
     r = requests.get(url)
     data = json.loads(r.text)
     orders = data['orders']
@@ -112,27 +130,6 @@ def get_orders(url):
     next_url = get_next_url(r.headers)
 
     if next_url:
-        get_orders(next_url)
+        get_orders(next_url, store_name)
     
     return None
-
-def run(*args):
-    global store, api_client, api_secret, api_url
-
-    store_name = args[0]
-
-    store = Store.objects.get(company=store_name)
-    api_client = store.consumer_key
-    api_secret = store.consumer_secret
-    api_url = store.api_url
-
-    logger.info("getting products")
-    resource = 'products'
-    base_url = f"https://{api_client}:{api_secret}@{api_url}/"
-    url =  f"{base_url}/{resource}.json"
-    get_products(url)
-
-    logger.info("getting orders")
-    resource = "orders"
-    url =  f"{base_url}/{resource}.json?status=any"
-    get_orders(url)
