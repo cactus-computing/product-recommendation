@@ -60,7 +60,7 @@
                             <input type="website" name="website" v-model="contactInfo.website" id="website" placeholder="Página web" class="w-100 mt-2 py-3 px-3 rounded-md bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-medium focus:border-blue-500 focus:outline-none">
                         </div>
 
-                        <p v-if="errors.length">
+                        <p v-if="errors.length" class="text-red-500">
                             <ul>
                             <li v-for="error in errors">{{ error }}</li>
                             </ul>

@@ -22,7 +22,7 @@
             </div>
             <p class="ml-16 text-lg leading-6 font-semibold text-gray-900">No importa tu plataforma de e-Commerce</p>
           <p class="mt-2 ml-16 text-base text-gray-500">
-                Nos integramos con todas (Shopify, Magento, Jumpseller, VTEX, Prestashop, etc.), si no usas una de esas escrapeamos tu página.
+                Nos integramos con todas (Shopify, Magento, Jumpseller, VTEX, Prestashop, etc.), si no usas una de esas, escrapeamos tu página.
           </p>
         </div>
 

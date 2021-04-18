@@ -23,7 +23,7 @@
             <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Ticket Promedio</p>
           </dt>
           <dd class="mt-2 ml-16 text-base text-gray-500">
-               Nuestras recomendaciones hacen que tus clientes compren más por cada pedido.
+               Usuarios que hacen click en nuestras recomendaciones <span class="font-medium text-gray-900">compran un 30% más </span>por cada pedido.
           </dd>
         </div>
 
@@ -33,10 +33,10 @@
               <!-- Heroicon name: outline/scale -->
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             </div>
-            <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Tiempo promedio por sesión</p>
+            <p class="ml-16 text-lg leading-6 font-medium text-gray-900">3x Tiempo promedio por sesión</p>
           </dt>
           <dd class="mt-2 ml-16 text-base text-gray-500">
-            Los usuarios navegan más tiempo en tu página y por más páginas.
+            Los usuarios que hacen click en nuestras recomendaciones navegan <span class="font-medium text-gray-900">hasta 3 veces </span> mas tiempo por tu página.
           </dd>
         </div>
 
@@ -49,7 +49,7 @@
             <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Rebote</p>
           </dt>
           <dd class="mt-2 ml-16 text-base text-gray-500">
-            Nuestros clientes han visto reducido en un 14% la tasa de rebote en páginas de producto.
+            Nuestros clientes han visto reducido en <span class="font-medium text-gray-900">un 14% la tasa de rebote </span>en páginas de producto.
           </dd>
         </div>
 
@@ -62,7 +62,7 @@
             <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Conversión</p>
           </dt>
           <dd class="mt-2 ml-16 text-base text-gray-500">
-            Clientes que hacen click en nuestras recomendaciónes convierten un 19% más.
+            Usuarios que hacen click en nuestras recomendaciónes <span class="font-medium text-gray-900">convierten un 19% más.</span>
           </dd>
         </div>
       </dl>

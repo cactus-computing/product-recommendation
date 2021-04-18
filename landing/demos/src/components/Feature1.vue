@@ -20,10 +20,10 @@
                 Siempre hay algo más que comprar
             </h3>
             <p class="text-lg font-light leading-relaxed mt-4 mb-4 text-gray-700">
-                El carrusel de up-sells ofrece <span class="font-medium">productos similares</span> al que el cliente estaba buscando así tiene mas variedad para escoger, <span class="font-medium">todo en el mismo lugar.</span>
+                El carrusel de up-sells ofrece <span class="font-medium">productos similares</span> al que el cliente esta buscando, así tiene mas variedad para escoger, <span class="font-medium">todo en el mismo lugar.</span>
             </p>
             <p class="text-lg font-light leading-relaxed mt-0 mb-4 text-gray-700">
-                El carrusel de cross-sells muestra <span class="font-medium">productos relacionados</span> al que el cliente buscó asi puede complementar su compra y llevar todo lo que necesita <span class="font-medium">(o no).</span>
+                El carrusel de cross-sells muestra <span class="font-medium">productos relacionados</span> al que el cliente buscó, asi puede complementar su compra y llevar todo lo que necesita <span class="font-medium">(o no).</span>
             </p>
             <div class="mt-4 flex lg:mt-6 lg:flex-shrink-0">
                 <a href="#contact" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">

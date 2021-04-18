@@ -12,7 +12,7 @@
           devolveremos lo pagado, sin preguntas.
         </p>
       </div>
-      <div class="pt-6 flex flex-row flex-wrap">
+      <div class="pt-6 flex flex-row flex-wrap justify-center">
         <!-- Basic Card -->
         <div class="w-80 p-8 m-4 bg-white text-center rounded-xl shadow-xl">
           <h1 class="text-black font-semibold text-2xl">Emprendedor</h1>
