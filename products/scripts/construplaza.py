@@ -8,7 +8,7 @@ from tqdm import tqdm
 from store.models import Store
 from django.db.utils import IntegrityError
 from django.utils import timezone
-from products.models import ProductAttributes
+from products.models import Products
 import pytz
 
 def get_url(sku):
@@ -67,7 +67,7 @@ def get_products(store_name):
             if get_sku(product_html) == row['SKU']:
                 price = get_price(product_html)
                 try:
-                    print(ProductAttributes.objects.update_or_create(
+                    print(Products.objects.update_or_create(
                         name=get_name(product_html),
                         company=company,
                         permalink= product_url,

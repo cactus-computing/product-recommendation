@@ -5,7 +5,7 @@ import tensorflow as tf
 from store.models import Store
 from tqdm import tqdm
 from scripts.cactus.ml import CollaborativeFiltering
-from products.models import ProductAttributes, OrderAttributes
+from products.models import Products, Order
 import logging 
 
 DOT = 'dot'
@@ -92,12 +92,12 @@ def send_to_db(df, company_name, django_model):
     company = Store.objects.get(company=company_name)
     for _, row in tqdm(df.iterrows(), total=len(df)):
         try:
-            prod = ProductAttributes.objects.get(id=row.product_id, company=company)
-            recommendation = ProductAttributes.objects.get(id=row.recommended_id, company=company)
-        except ProductAttributes.DoesNotExist as dne:
+            prod = Products.objects.get(id=row.product_id, company=company)
+            recommendation = Products.objects.get(id=row.recommended_id, company=company)
+        except Products.DoesNotExist as dne:
             logger.error(dne)
             continue
-        except ProductAttributes.MultipleObjectsReturned as mor:
+        except Products.MultipleObjectsReturned as mor:
             logger.error(mor)
             continue
 
@@ -116,7 +116,7 @@ def send_to_db(df, company_name, django_model):
         )
 
 def get_products_df(client):
-    products_data = ProductAttributes.objects.filter(company__company=client).all()
+    products_data = Products.objects.filter(company__company=client).all()
     products_json = [product.as_dict() for product in products_data]
     products_df = pd.DataFrame().from_records(products_json)
     return products_df
@@ -130,7 +130,7 @@ def get_run_logdir():
     return os.path.join(root_logdir, run_id)
 
 def get_orders(client):
-    products_data = OrderAttributes.objects.filter(company__company=client).all()
+    products_data = Order.objects.filter(company__company=client).all()
     products_json = [product.as_dict() for product in products_data]
     products_df = pd.DataFrame().from_records(products_json)
     logger.info(products_json)

@@ -5,7 +5,7 @@ import json
 from tqdm import tqdm
 import logging
 from store.models import Store
-from products.models import ProductAttributes, OrderAttributes
+from products.models import Products, Orders
 
 logging.basicConfig(
     level=logging.INFO,
@@ -64,6 +64,7 @@ def get_products(store_name, url=None):
         status = status if product['published_at'] is not None else False
         try:
             ProductAttributes.objects.update_or_create(
+        Products.objects.update_or_create(
                 name=product['title'],
                 company=store,
                 permalink= base_urls[store.company] + product['handle'],
@@ -115,7 +116,7 @@ def get_orders(store_name, url=None):
                 print(product)
                 continue
 
-            OrderAttributes.objects.update_or_create(
+            Orders.objects.update_or_create(
                     user=order['email'],
                     product=product_code,
                     product_qty=product['quantity'],

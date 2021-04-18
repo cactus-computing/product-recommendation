@@ -9,7 +9,7 @@ from tqdm import tqdm
 from store.models import Store
 from django.db.utils import IntegrityError
 from django.utils import timezone
-from products.models import ProductAttributes
+from products.models import Products
 import pytz
 
 SITE_METADATA = {
@@ -95,7 +95,7 @@ def get_products_from_category(client, category):
             continue
         prod_attributes['permalink'] = SITE_METADATA[client]['base_url'] + prod_attributes['permalink']
         try:
-            ProductAttributes.objects.update_or_create(
+            Products.objects.update_or_create(
                 name=prod_attributes['name'],
                 company=company,
                 permalink= prod_attributes['permalink'],

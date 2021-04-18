@@ -8,7 +8,7 @@ from tqdm import tqdm
 from store.models import Store
 from django.db.utils import IntegrityError
 from django.utils import timezone
-from products.models import ProductAttributes
+from products.models import Products
 import pytz
 
 category_url = "https://www.konstruyendo.com/categorias/cat51000000/materiales-de-construccion"
@@ -35,7 +35,7 @@ def get_products(store_name, categories):
             product_res = req.get(product_url)
             product_html = BeautifulSoup(product_res.text, 'html.parser')
             try:
-                ProductAttributes.objects.update_or_create(
+                Products.objects.update_or_create(
                     name=get_title(product_html),
                     company=company,
                     permalink=product_url,
