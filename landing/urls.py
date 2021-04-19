@@ -1,12 +1,8 @@
 from django.urls import path
 from . import views
-
+from django.views.generic import TemplateView
 
 urlpatterns = [
-    path('', views.landing, name='landing'),
-    path('thanks/contact', views.thanks_contact, name='thanks_contact'),
-    path('thanks/suscription', views.thanks_suscription, name='thanks_suscription'),
-    path('demos', views.Demos.as_view(), name='demos')
+    path('', TemplateView.as_view(template_name = 'index.html'), name='landing'),
+    path('contact', views.HandleContactData.as_view(), name='landing'),
 ]
-
-handler404 = views.error404
