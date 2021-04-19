@@ -177,6 +177,26 @@ function createProductHtml(data, productsDiv, type) {
         productPrice.className = 'product-price';
         productPriceDiv.appendChild(productPrice);
 
+        if (prod.discounted_price !== null) {
+            const intPrice = parseInt(prod.price.replaceAll('.', '').replaceAll('$', ''));
+            const intDiscountedPrice = parseInt(prod.discounted_price.replaceAll('.', '').replaceAll('$', ''));
+            const discount = Math.round(100 * (1 - intDiscountedPrice / intPrice));
+
+            const productDiscountedPrice = document.createElement('span');
+            productDiscountedPrice.innerText = prod.discounted_price;
+            productDiscountedPrice.className = 'product-discounted-price';
+            productPriceDiv.appendChild(productDiscountedPrice);
+
+            const productDiscount = document.createElement('p');
+            productDiscount.innerText = `${discount} %`;
+            productDiscount.className = 'product-discount';
+            productPriceDiv.appendChild(productDiscount);
+
+            productPrice.style.fontSize = '13px';
+            productPrice.style.color = 'gray';
+            productPrice.style.textDecoration = 'line-through';
+        }
+
         productDiv.appendChild(productPriceDiv);
 
         productsDiv.appendChild(productDiv);
@@ -336,7 +356,8 @@ function processProduct() {
             });
         }
     }
-    setTimeout(processRecentlyViewedCarousel, 3000);
+
+    setTimeout(processRecentlyViewedCarousel, 700);
     createScrollToRpButton();
     document.addEventListener('scroll', crossInView);
     document.addEventListener('scroll', upInView);

@@ -103,7 +103,22 @@ header .site-header {
     text-decoration: underline;
 }
 
+#cactusContainer .product-price-box{
+    bottom: 0;
+    margin-bottom: 7px;
+    display:flex;
+    flex-direction: column;
+}
+
 #cactusContainer .product .product-price {
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: 0.5px;
+    color: red;
+    text-align: center;
+}
+
+#cactusContainer .product .product-discounted-price {
     font-weight: 600;
     color: #333333;
     font-size: 20px;
@@ -112,9 +127,16 @@ header .site-header {
     text-align: center;
 }
 
-#cactusContainer .product-price-box{
-    bottom: 0;
-    margin-bottom: 7px;
+#cactusContainer .product-discount {
+    position:absolute;
+    font-size: 17px;
+    background-color:red;
+    color: white;
+    top: 0;
+    right: 0;
+    margin: 7px 7px 0 0;
+    border-radius: 30px;
+    padding: 2px 10px 2px 10px;
 }
 
 #cactusContainer .ctrl-btn {
@@ -145,6 +167,7 @@ header .site-header {
         }
     } 
 
+/* ----- Change in product page layout ----- */  
 .product-view {
     position: relative;
     margin-bottom: 20px;
@@ -160,6 +183,10 @@ header .site-header {
     font-weight: 400;
     color: #9D9D9D;
     display: none; /* este */
+}
+
+.product-view .product-additional {
+    display: none;
 }
 
 /* ----- start button ----- */
@@ -189,5 +216,3 @@ header .site-header {
     text-decoration: none;
     color: white;
 }
-
-/* ----- end button ----- */
