@@ -16,10 +16,10 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
-            <h3 class="text-3xl my-2 font-semibold leading-normal">
+            <h3 class="text-3xl mt-2 font-semibold leading-normal">
                 Siempre hay algo más que comprar
             </h3>
-            <p class="text-lg font-light leading-relaxed mt-4 mb-4 text-gray-700">
+            <p class="text-lg font-light leading-relaxed mt-2 mb-4 text-gray-700">
                 Ofrece <span class="font-semibold">productos similares y relacionados</span> al que el cliente esta buscando, así tiene mas variedad para escoger <span class="font-semibold ">en el mismo lugar.</span>
             </p>
             <div class="mt-4 flex lg:mt-6 lg:flex-shrink-0">

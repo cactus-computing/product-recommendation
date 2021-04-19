@@ -76,7 +76,7 @@
       </div>
 
       <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
-        <div class="sm:text-center lg:text-left">
+        <div class="text-left">
           <h1 class="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl md:text-5xl">
             <span class="block xl:inline">Recomienda productos a tus clientes.</span>
             <span class="block text-cactus-green">Aumenta las ventas de tu e-Commerce, hoy.</span>
