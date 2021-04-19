@@ -18,7 +18,7 @@
           <h1 class="text-black font-semibold text-2xl">Emprendedor</h1>
           <p class="pt-2 tracking-wide">
             <span class="text-gray-400 align-top">$ </span>
-            <span class="text-3xl font-semibold">9.990</span>
+            <span class="text-3xl font-semibold">14.990</span>
             <span class="text-gray-400 font-medium">/ mes</span>
           </p>
           <hr class="mt-4 border-1" />

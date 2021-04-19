@@ -24,7 +24,7 @@
     import HowItWorks from './components/HowItWorks.vue'
     import Cta from './components/Cta.vue'
     import Pricing from './components/Pricing.vue'
-    import Contact from './components/Contact.vue'
+    import Contact from './components/Contact.vue' 
     import LogoCloud from './components/LogoCloud.vue'
 
     export default {
