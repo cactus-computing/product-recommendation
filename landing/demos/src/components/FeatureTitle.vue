@@ -8,7 +8,7 @@
             Mejora la experiencia de tus compradores
         </p>
         <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-            Recomendamos en base al historial de compras del cliente, productos en el carro, productos visitados, entre otros.
+            Personalizamos las recomendaciones en base al historial de compras del cliente, productos en el carro y productos visitados, entre otros.
         </p>
     </div>
   </div>

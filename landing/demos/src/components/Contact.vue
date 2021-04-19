@@ -69,7 +69,7 @@
                             Formulario enviado, te contactaremos pronto!
                         </p>
 
-                        <button v-if="!success" type="submit" class="bg-cactus-green hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-md mt-3 hover:bg-blue-50 transition ease-in-out duration-300">
+                        <button v-if="!success" type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-md mt-3 hover:bg-blue-50 transition ease-in-out duration-300">
                             Quiero un Demo
                         </button>
                     </form>

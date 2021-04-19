@@ -84,7 +84,7 @@
                 </p>
             </div>
                 <a href="#contact" class="">
-                <p class="w-full py-4 bg-cactus-green mt-8 rounded-xl text-white">
+                <p class="w-full py-4 bg-blue-600 mt-8 rounded-xl text-white">
                     <span class="font-medium"> Quiero este Plan </span>
                 </p>
                 </a>
@@ -163,7 +163,7 @@
                 </p>
             </div>
                 <a href="#contact" class="">
-                <p class="w-full py-4 bg-cactus-green mt-8 rounded-xl text-white">
+                <p class="w-full py-4 bg-blue-600 mt-8 rounded-xl text-white">
                     <span class="font-medium"> Quiero este Plan </span>
                 </p>
                 </a>
@@ -244,7 +244,7 @@
                 </p>
             </div>
             <a href="#contact" class="">
-              <p class="w-full py-4 bg-cactus-green mt-8 rounded-xl text-white">
+              <p class="w-full py-4 bg-blue-600 mt-8 rounded-xl text-white">
                 <span class="font-medium"> Quiero este Plan </span>
               </p>
             </a>
