@@ -205,7 +205,7 @@ function createProductHtml(data, productsDiv, type) {
 
 const getPredictions = async function (productsDiv, type, productName, k) {
     const response = await fetch(
-        `https://www.cactusco.cl/api/${type}?name=${productName}&company=${company
+        `${HOST_DICT[codeStatus]}/api/${type}?name=${productName}&company=${company
         }&top-k=${k}`,
     );
     const data = await response.json();
