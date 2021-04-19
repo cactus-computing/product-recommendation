@@ -30,7 +30,7 @@
                 }   
             },         
         mounted() {
-            fetch(`https://dev.cactusco.cl/api/${type}?company=${client}`)
+            fetch(`https://www.cactusco.cl/api/${type}?company=${client}`)
                 .then(response => response.json())
                 .then(data => {this.$emit('random-product',data.selected_product)}); 
         },

@@ -70,7 +70,7 @@
 }
 
 #cactusContainer .product img {
-    height: 200px;
+    height: 240px;
 	width: 200px;
 	object-fit: cover;
 	box-sizing: border-box;
@@ -82,7 +82,7 @@
 #cactusContainer .product .product-name{
     font-size: 15px;
     font-weight: 600;
-    color: #929292;
+    color: #d7b766;
 	letter-spacing: 0.5px;
     margin-left: 10px;
     margin-right: 10px;
@@ -97,10 +97,9 @@
 
 #cactusContainer .product .product-price {
     font-weight: 600;
-    color: #333333;
     font-size: 20px;
     letter-spacing: 0.5px;
-    color: red;
+    color: black;
     text-align: center;
 }
 

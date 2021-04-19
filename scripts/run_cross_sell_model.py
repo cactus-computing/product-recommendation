@@ -13,7 +13,7 @@ BILL = 'bill'
 USER = 'user'
 QTY = 'product_qty'
 
-K = 30
+K = 50
 logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s",
