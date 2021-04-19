@@ -39,7 +39,7 @@
               </svg>
               <p class="font-semibold text-gray-400 text-left">
                 <span class="pl-2">
-                  Hasta <span class="text-black">200 SKU's</span>
+                  Hasta <span class="text-black">1.000 SKU's</span>
                 </span>
               </p>
             </div>
