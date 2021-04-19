@@ -5,7 +5,7 @@
       <div class="text-center font-semibold">
         <h1 class="text-5xl">
           <span>Planes </span>
-          <span class="text-blue-600 tracking-wide">a tu Medida </span>
+          <span class="text-cactus-green tracking-wide">a tu Medida </span>
         </h1>
         <p class="pt-6 text-xl text-gray-400 font-normal w-full px-8 md:w-full">
           Si no estas contento contáctanos dentro de los primeros 14 días y te
@@ -84,7 +84,7 @@
                 </p>
             </div>
                 <a href="#contact" class="">
-                <p class="w-full py-4 bg-blue-600 mt-8 rounded-xl text-white">
+                <p class="w-full py-4 bg-cactus-green mt-8 rounded-xl text-white">
                     <span class="font-medium"> Quiero este Plan </span>
                 </p>
                 </a>
@@ -163,7 +163,7 @@
                 </p>
             </div>
                 <a href="#contact" class="">
-                <p class="w-full py-4 bg-blue-600 mt-8 rounded-xl text-white">
+                <p class="w-full py-4 bg-cactus-green mt-8 rounded-xl text-white">
                     <span class="font-medium"> Quiero este Plan </span>
                 </p>
                 </a>
@@ -244,7 +244,7 @@
                 </p>
             </div>
             <a href="#contact" class="">
-              <p class="w-full py-4 bg-blue-600 mt-8 rounded-xl text-white">
+              <p class="w-full py-4 bg-cactus-green mt-8 rounded-xl text-white">
                 <span class="font-medium"> Quiero este Plan </span>
               </p>
             </a>

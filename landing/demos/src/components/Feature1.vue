@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="w-full md:w-5/12 lg:pl-10 lg:pr-4 text-justify md:text-right flex flex-col items-start md:items-end order-first md:order-last">
-            <div class="relative flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white">
+            <div class="relative flex items-center justify-center h-12 w-12 rounded-md bg-cactus-blue text-white">
               <!-- Heroicon name: outline/globe-alt -->
               <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -26,7 +26,7 @@
                 El carrusel de cross-sells muestra <span class="font-medium">productos relacionados</span> al que el cliente buscó, asi puede complementar su compra y llevar todo lo que necesita <span class="font-medium">(o no).</span>
             </p>
             <div class="mt-4 flex lg:mt-6 lg:flex-shrink-0">
-                <a href="#contact" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                <a href="#contact" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-cactus-green hover:bg-blue-700">
                     Empieza a recomendar
                 </a>
             </div>

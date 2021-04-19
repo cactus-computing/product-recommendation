@@ -7,7 +7,7 @@
                     <div class="p-6 mr-2 bg-gray-50 dark:bg-gray-800 sm:rounded-lg">
                         <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
                             <span class="block">Convencido?</span>
-                            <span class="block text-blue-600">Implementa Cactus hoy.</span>
+                            <span class="block text-cactus-green">Implementa Cactus hoy.</span>
                         </h2>
                         <div class="flex items-center ml-4 mt-12 text-gray-600 dark:text-gray-400">
                             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500">
@@ -69,7 +69,7 @@
                             Formulario enviado, te contactaremos pronto!
                         </p>
 
-                        <button v-if="!success" type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-md mt-3 hover:bg-blue-50 transition ease-in-out duration-300">
+                        <button v-if="!success" type="submit" class="bg-cactus-green hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-md mt-3 hover:bg-blue-50 transition ease-in-out duration-300">
                             Quiero un Demo
                         </button>
                     </form>

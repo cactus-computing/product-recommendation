@@ -3,7 +3,7 @@
 <div id="features" class="py-12 bg-gray-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="lg:text-center">
-        <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase">Resultados</h2>
+        <h2 class="text-base text-cactus-green font-semibold tracking-wide uppercase">Resultados</h2>
         <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
             Aumenta tus ventas entre un 3% y 8%
         </p>
@@ -16,7 +16,7 @@
       <dl class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
         <div class="relative">
           <dt>
-            <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white">
+            <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-cactus-blue text-white">
               <!-- Heroicon name: outline/globe-alt -->
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
             </div>
@@ -29,7 +29,7 @@
 
         <div class="relative">
           <dt>
-            <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white">
+            <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-cactus-blue text-white">
               <!-- Heroicon name: outline/scale -->
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             </div>
@@ -42,7 +42,7 @@
 
         <div class="relative">
           <dt>
-            <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white">
+            <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-cactus-blue text-white">
               <!-- Heroicon name: outline/lightning-bolt -->
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 2v6h6M2.66 15.57a10 10 0 1 0 .57-8.38"/></svg>
             </div>
@@ -55,7 +55,7 @@
 
         <div class="relative">
           <dt>
-            <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white">
+            <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-cactus-blue text-white">
               <!-- Heroicon name: outline/annotation -->
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.2 7.8l-7.7 7.7-4-4-5.7 5.7"/><path d="M15 7h6v6"/></svg>
             </div>
