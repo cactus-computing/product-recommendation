@@ -171,7 +171,24 @@ function createProductHtml(data, productsDiv, type) {
 
         const productPriceDiv = document.createElement('div');
         productPriceDiv.className = 'product-price-box';
+        if(prod.compare_at_price !== null) {
+            const intPrice = parseInt(prod.price.replaceAll('.', '').replaceAll('$', ''));
+            const intComparedPrice = parseInt(prod.compare_at_price.replaceAll('.', '').replaceAll('$', ''));
+            if (intComparedPrice > intPrice) {
+                const discount = Math.round(100 * (1 - intPrice / intComparedPrice));
 
+                const productComparedPrice = document.createElement('span');
+                productComparedPrice.innerText = prod.compare_at_price;
+                productComparedPrice.className = 'product-compared-price';
+                productPriceDiv.appendChild(productComparedPrice);
+
+                const productDiscount = document.createElement('p');
+                productDiscount.innerText = `${discount} %`;
+                productDiscount.className = 'product-discount';
+                productPriceDiv.appendChild(productDiscount);
+            }
+        }
+        
         const productPrice = document.createElement('span');
         productPrice.innerText = prod.price;
         productPrice.className = 'product-price';
@@ -199,7 +216,7 @@ const getPredictions = async function (productsDiv, type, productName, k) {
 
 const getProductsInfo = async function (productsDiv, endpoint, productNames) {
     const response = await fetch(
-        `https://production-cactus.herokuapp.com/api/${endpoint}?products=${productNames}&company=${company
+        `${HOST_DICT[codeStatus]}/api/${endpoint}?products=${productNames}&company=${company
         }`,
     );
     const data = await response.json();
@@ -336,7 +353,8 @@ function processProduct() {
             });
         }
     }
-    setTimeout(processRecentlyViewedCarousel, 3000);
+
+    setTimeout(processRecentlyViewedCarousel, 700);
     createScrollToRpButton();
     document.addEventListener('scroll', crossInView);
     document.addEventListener('scroll', upInView);

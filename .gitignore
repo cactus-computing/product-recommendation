@@ -158,3 +158,10 @@ tf_logs
 trained_models
 staticfiles
 cactusco/superuser_password
+webpack-stats.json
+
+
+## pipenv files
+Pipfile
+Pipfile.lock
+personalized-predictions.csv

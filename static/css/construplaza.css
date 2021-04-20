@@ -102,6 +102,13 @@ header .site-header {
     text-decoration: underline;
 }
 
+#cactusContainer .product-price-box{
+    bottom: 0;
+    margin-bottom: 7px;
+    display:flex;
+    flex-direction: column;
+}
+
 #cactusContainer .product .product-price {
     font-weight: 600;
     color: #333333;
@@ -111,9 +118,25 @@ header .site-header {
     text-align: center;
 }
 
-#cactusContainer .product-price-box{
-    bottom: 0;
-    margin-bottom: 7px;
+#cactusContainer .product .product-compared-price {
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    color: gray;
+    text-align: center;
+    text-decoration: line-through;
+}
+
+#cactusContainer .product-discount {
+    position:absolute;
+    font-size: 17px;
+    background-color:red;
+    color: white;
+    top: 0;
+    right: 0;
+    margin: 7px 7px 0 0;
+    border-radius: 30px;
+    padding: 2px 10px 2px 10px;
 }
 
 #cactusContainer .ctrl-btn {

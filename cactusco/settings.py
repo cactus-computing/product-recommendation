@@ -173,7 +173,6 @@ CORS_ORIGIN_WHITELIST = ['http://localhost:8000']
 
 django_heroku.settings(locals())
 
-
 WEBPACK_LOADER = {
     'DEFAULT': {
         'CACHE': not DEBUG,
@@ -187,7 +186,14 @@ WEBPACK_LOADER = {
 }
 
 INTERNAL_IPS = [
-    # ...
     '127.0.0.1',
-    # ...
 ]
+
+
+# Celery setting
+CELERY_BROKER_URL = env('REDIS_URL')
+CELERY_RESULT_BACKEND = env('REDIS_URL')
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+

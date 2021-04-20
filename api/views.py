@@ -60,7 +60,7 @@ def cross_selling(request):
         serializer = CrossSellPredictionsSerializer(predictions, many=True)
         for obj in  serializer.data:
             obj["recommended_code"]["price"] = format_price(obj["recommended_code"]["price"])
-            obj["recommended_code"]["discounted_price"] = format_price(obj["recommended_code"]["discounted_price"])
+            obj["recommended_code"]["compare_at_price"] = format_price(obj["recommended_code"]["compare_at_price"])
 
         return Response({
             "message": f"Sending top 10 cross_sell predictions",
@@ -102,7 +102,7 @@ def up_selling(request):
         serializer = UpSellPredictionsSerializer(predictions, many=True)
         for obj in  serializer.data:
             obj["recommended_code"]["price"] = format_price(obj["recommended_code"]["price"])
-            obj["recommended_code"]["discounted_price"] = format_price(obj["recommended_code"]["discounted_price"])
+            obj["recommended_code"]["compare_at_price"] = format_price(obj["recommended_code"]["compare_at_price"])
             
         return Response({
             "message": "Sending top 10 Up Selling predictions",
@@ -188,7 +188,6 @@ class ProductInfo(APIView):
     '''
     def get(self, request, format=None):
         product_names = json.loads(request.query_params.get("products"))
-        
         company = request.query_params.get("company")
         product_objects = set()
         errors = []
@@ -206,9 +205,10 @@ class ProductInfo(APIView):
 
         for obj in  product_serializer.data:
             obj["price"] = format_price(obj["price"])
-            obj["discounted_price"] = format_price(obj["discounted_price"])
+            obj["compare_at_price"] = format_price(obj["compare_at_price"])
 
         res = {}
         res['data'] = product_serializer.data
         res['errors'] = errors
         return Response(res)
+

@@ -4,6 +4,10 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /code
 
+RUN apt update
+
+RUN apt install redis-server -y
+
 COPY requirements.txt /code/
 
 COPY requirements-ia.txt /code/
