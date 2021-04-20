@@ -16,8 +16,6 @@ RUN pip install -r requirements.txt
 
 RUN pip install -r requirements-ia.txt
 
-RUN celery -A cactusco worker -l INFO
-
 COPY . /code/
 
 CMD ["gunicorn", "-b", "0.0.0.0:${PORT}", "cactusco.wsgi"]
