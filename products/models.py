@@ -15,7 +15,7 @@ class ProductAttributes(ProductsModel):
     sku = models.CharField(max_length=2000, default=None, null=True, blank=True)
     name = models.CharField(max_length=2000)
     price = models.DecimalField(decimal_places=2, max_digits=50, null=True, blank=True)
-    discounted_price = models.DecimalField(decimal_places=2, max_digits=50, null=True, blank=True)
+    compare_at_price = models.DecimalField(decimal_places=2, max_digits=50, null=True, blank=True)
     img_url = models.CharField(max_length=2000, default=None)
     permalink = models.CharField(max_length=2000)
     status = models.BooleanField(null=True, blank=True, default=False)
