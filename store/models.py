@@ -3,6 +3,7 @@ from django_cryptography.fields import encrypt
 
 class Store(models.Model):
     company = models.CharField(max_length=500)
+    fare = models.IntegerField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     published_at = models.DateTimeField(default=None, null=True)
