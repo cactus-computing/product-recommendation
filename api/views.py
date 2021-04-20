@@ -205,7 +205,7 @@ class ProductInfo(APIView):
 
         for obj in  product_serializer.data:
             obj["price"] = format_price(obj["price"])
-            obj["discounted_price"] = format_price(obj["discounted_price"])
+            obj["compare_at_price"] = format_price(obj["compare_at_price"])
 
         res = {}
         res['data'] = product_serializer.data
