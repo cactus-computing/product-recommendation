@@ -171,31 +171,28 @@ function createProductHtml(data, productsDiv, type) {
 
         const productPriceDiv = document.createElement('div');
         productPriceDiv.className = 'product-price-box';
+        if(prod.compare_at_price !== null) {
+            const intPrice = parseInt(prod.price.replaceAll('.', '').replaceAll('$', ''));
+            const intComparedPrice = parseInt(prod.compare_at_price.replaceAll('.', '').replaceAll('$', ''));
+            if (intComparedPrice > intPrice) {
+                const discount = Math.round(100 * (1 - intPrice / intComparedPrice));
 
+                const productComparedPrice = document.createElement('span');
+                productComparedPrice.innerText = prod.compare_at_price;
+                productComparedPrice.className = 'product-compared-price';
+                productPriceDiv.appendChild(productComparedPrice);
+
+                const productDiscount = document.createElement('p');
+                productDiscount.innerText = `${discount} %`;
+                productDiscount.className = 'product-discount';
+                productPriceDiv.appendChild(productDiscount);
+            }
+        }
+        
         const productPrice = document.createElement('span');
         productPrice.innerText = prod.price;
         productPrice.className = 'product-price';
         productPriceDiv.appendChild(productPrice);
-
-        if (prod.discounted_price !== null) {
-            const intPrice = parseInt(prod.price.replaceAll('.', '').replaceAll('$', ''));
-            const intDiscountedPrice = parseInt(prod.discounted_price.replaceAll('.', '').replaceAll('$', ''));
-            const discount = Math.round(100 * (1 - intDiscountedPrice / intPrice));
-
-            const productDiscountedPrice = document.createElement('span');
-            productDiscountedPrice.innerText = prod.discounted_price;
-            productDiscountedPrice.className = 'product-discounted-price';
-            productPriceDiv.appendChild(productDiscountedPrice);
-
-            const productDiscount = document.createElement('p');
-            productDiscount.innerText = `${discount} %`;
-            productDiscount.className = 'product-discount';
-            productPriceDiv.appendChild(productDiscount);
-
-            productPrice.style.fontSize = '13px';
-            productPrice.style.color = 'gray';
-            productPrice.style.textDecoration = 'line-through';
-        }
 
         productDiv.appendChild(productPriceDiv);
 
