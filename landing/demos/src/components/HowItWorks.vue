@@ -1,7 +1,7 @@
 <template>
   <!-- This example requires Tailwind CSS v2.0+ -->
 <div id="how-it-works" class="py-12 bg-gray-50">
-  <div class="flex flex-wrap justify-between items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="flex flex-wrap justify-around items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="lg:text-center w-full md:w-5/12 lg:pr-10 lg:pl-4">
         <h2 class="text-base text-cactus-green font-semibold tracking-wide uppercase">Integración</h2>
         <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
@@ -12,7 +12,7 @@
         </p> -->
     </div>
 
-    <div class="my-5 flex flex-col flex-wrap w-full md:w-7/12 lg:pr-10 lg:pl-4 text-left">
+    <div class="my-5 flex flex-col flex-wrap w-full md:w-5/12 lg:pr-10 lg:pl-4 text-left">
         <div class="relative mb-5">
             <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white">
               <!-- Heroicon name: outline/globe-alt -->
