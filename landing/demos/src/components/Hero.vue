@@ -96,7 +96,7 @@
     </div>
   </div>
   <div class="hidden md:py-12 md:mt-12 lg:list-item lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-    <img class="pt-14 pb-10 h-52 sm:p-0 w-full object-cover sm:h-72 md:h-96 sm:object-scale-down lg:w-full lg:h-full" src="https://www.cactusco.cl/static/img/hero_example.png" alt="">
+    <img class="pt-14 pb-10 h-52 sm:p-0 w-full object-cover sm:h-72 md:h-96 sm:object-scale-down lg:w-full lg:h-full" src="/static/img/hero_illustration_man.png" alt="">
   </div>
 </div>
 
