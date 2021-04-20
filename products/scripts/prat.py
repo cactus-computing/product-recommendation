@@ -73,8 +73,8 @@ def get_products(company_name):
                         'img_url': image_url,
                         'stock_quantity': stock,
                         'status': result["status"],
-                        'price': discounted_price if discounted_price else int(result["price"]),
-                        'compare_at_price': int(result["price"]) if discounted_price else None,
+                        'price': int(discounted_price.split('.')[0]) if discounted_price else int(result["price"].split('.')[0]),
+                        'compare_at_price': int(result["price"].split('.')[0]) if discounted_price else None,
                         'product_created_at': result['created_at']
                     }
                 )
