@@ -77,7 +77,7 @@ def get_products(store_name, url=None):
                     'stock_quantity': True if product['variants'][0]['inventory_quantity'] > 0 else False,
                     'status': status,
                     'price': product['variants'][0]['price'],
-                    'discounted_price': product['variants'][0]['compare_at_price'],
+                    'compare_at_price': product['variants'][0]['compare_at_price'],
                     'product_created_at': product['created_at']
                 }
             )

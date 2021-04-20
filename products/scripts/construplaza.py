@@ -78,7 +78,7 @@ def get_products(store_name):
                             'stock_quantity': get_stock(product_html),
                             'status': True,
                             'price': price['compare_at_price'] if price['compare_at_price'] else price['price'],
-                            'discounted_price': price['price'] if price['compare_at_price'] else None,
+                            'compare_at_price': price['price'] if price['compare_at_price'] else None,
                             'product_created_at': timezone.now()
                         }
                     ))

@@ -72,7 +72,7 @@ def get_products(company_name):
                             'stock_quantity': False if item['stock_status'] == "outofstock" else True,
                             'status': status,
                             'price': item['sale_price'] if item['sale_price'] else price,
-                            'discounted_price': price if item['sale_price'] else None,
+                            'compare_at_price': price if item['sale_price'] else None,
                             'product_created_at': item['date_created']
                         }
                     )
