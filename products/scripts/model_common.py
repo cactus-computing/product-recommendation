@@ -15,6 +15,7 @@ EUCLIDEAN = 'euc'
 ITEM = 'product_id'
 BILL = 'bill'
 USER = 'user'
+ITEM_NAME = 'product_name'
 QTY = 'product_qty'
 
 logging.basicConfig(
@@ -176,3 +177,9 @@ def train_collaborative_filters(ratings, n, m, client, build=False):
     )
     
     return model, history
+
+def rate_items_for_user(model, user_id, item_ids):
+    rates = []
+    for id_ in item_ids:
+        rates.append(model.predict(user_id))
+    return rates

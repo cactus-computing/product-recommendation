@@ -53,6 +53,7 @@ class OrderAttributes(ProductsModel):
             "product_id": self.product_id,
             "bill": self.bill,
             "user": self.user,
+            "product_name": self.product_name,
             "product_qty": self.product_qty
         }
 
