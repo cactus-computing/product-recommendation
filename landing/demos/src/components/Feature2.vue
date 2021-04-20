@@ -9,14 +9,13 @@
               </svg>
             </div>
             <h3 class="text-3xl my-2 font-semibold leading-normal">
-                Nunca es suficiente
+                Vistos recientemente
             </h3>
             <p class="text-lg font-light leading-relaxed mt-4 mb-4 text-gray-700">
             Una persona tiene que ver algo por lo menos <span class="font-semibold">7 veces</span> antes de decidirse a comprarlo.
             </p>
             <p class="text-lg font-light leading-relaxed mt-0 mb-4 text-gray-700">
-            Nuestro carrusel de <span class="font-semibold"> Vistos Recientemente</span> trackea el recorrido de tus clientes
-            en tu e-Commerce y muestra los productos a lo largo del ciclo de compra para <span class="font-semibold"> aumentar la probabilidad de conversión.</span>
+            Nuestro carrusel trackea el recorrido de tus clientes en tu e-Commerce y muestra los productos a lo largo del ciclo de compra para <span class="font-semibold"> aumentar la probabilidad de conversión.</span>
             </p>
             <div class="mt-4 flex lg:mt-6 lg:flex-shrink-0">
             <a href="#contact" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">

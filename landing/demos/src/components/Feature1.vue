@@ -9,7 +9,7 @@
                     />
             </div>
         </div>
-        <div class="w-full md:w-5/12 lg:pl-10 lg:pr-4 text-justify md:text-right flex flex-col items-start md:items-end order-first md:order-last">
+        <div class="w-full md:w-5/12 lg:pl-10 lg:pr-4 text-left md:text-right flex flex-col items-start md:items-end order-first md:order-last">
             <div class="relative flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white">
               <!-- Heroicon name: outline/globe-alt -->
               <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -17,7 +17,7 @@
               </svg>
             </div>
             <h3 class="text-3xl mt-2 font-semibold leading-normal">
-                Siempre hay algo más que comprar
+                Up-Selling & Cross-Selling
             </h3>
             <p class="text-lg font-light leading-relaxed mt-2 mb-4 text-gray-700">
                 Ofrece <span class="font-semibold">productos similares y relacionados</span> al que el cliente esta buscando, así tiene mas variedad para escoger <span class="font-semibold ">en el mismo lugar.</span>

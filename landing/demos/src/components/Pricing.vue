@@ -1,14 +1,14 @@
 <template>
   <!-- component -->
   <div id="pricing" class="py-12 flex justify-center items-center bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center font-semibold">
-        <h1 class="text-5xl">
-          <span>Planes </span>
-          <span class="text-cactus-green tracking-wide">a tu Medida </span>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
+      <div class="text-center ">
+        <h2 class="text-base text-cactus-green font-semibold tracking-wide uppercase">Precios</h2>
+        <h1 class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+          <span>Planes a tu medida</span>
         </h1>
-        <p class="pt-6 text-xl text-gray-400 font-normal w-full px-8 md:w-full">
-          Si no estas contento contáctanos dentro de los primeros 14 días y te
+        <p class="px-8 mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+          Si no estas contento, contáctanos dentro de los primeros 14 días y te
           devolveremos lo pagado, sin preguntas.
         </p>
       </div>
@@ -252,10 +252,6 @@
         </div>
       </div>
     </div>
-    <link
-      rel="stylesheet"
-      href="/path/to/material-icons/iconfont/material-icons.css"
-    />
   </div>
 </template>
 
