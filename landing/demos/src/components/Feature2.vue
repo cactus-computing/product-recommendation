@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-wrap justify-between items-center pb-12 md:pb-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-wrap justify-between items-center pb-12 md:pb-12 max-w-7xl mx-auto px-6 sm:px-6 lg:px-8">
 
         <div class="w-full md:w-5/12 lg:pr-10 lg:pl-4 text-justify md:text-left">
             <div class="relative flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white">

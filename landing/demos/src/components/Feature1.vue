@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-wrap justify-between items-center pb-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-wrap justify-between items-center pb-12 max-w-7xl mx-auto px-6 sm:px-6 lg:px-8">
         <div class="w-full md:w-7/12 lg:ml-0">
             <div class="relative flex flex-col mt-12 min-w-0 break-words bg-white w-full mb-3 ">
                     <img

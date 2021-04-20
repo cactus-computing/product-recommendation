@@ -1,7 +1,7 @@
 <template>
   <!-- This example requires Tailwind CSS v2.0+ -->
 <div id="" class="py-12 bg-gray-50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto px-6 sm:px-6 lg:px-8">
     <div class="lg:text-center">
         <h2 class="text-base text-cactus-green font-semibold tracking-wide uppercase">Resultados</h2>
         <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
@@ -14,7 +14,7 @@
 
     <div class="mt-10">
       <dl class="space-y-10 md:space-y-0 md:grid md:grid-cols-4 md:gap-x-10 md:gap-y-10 text-left">
-        <div class="relative mr-4 sm:mr-0 flex flex-col items-start">
+        <div class="relative sm:mr-4 flex flex-col items-start">
           <dt class="flex items-center justify-start">
             <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white">
               <!-- Heroicon name: outline/globe-alt -->
@@ -27,7 +27,7 @@
           </dd>
         </div>
 
-        <div class="relative mr-4 sm:mr-0 flex flex-col items-start">
+        <div class="relative sm:mr-4  flex flex-col items-start">
           <dt class="flex items-center justify-start">
             <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white ">
               <!-- Heroicon name: outline/scale -->
@@ -40,7 +40,7 @@
           </dd>
         </div>
 
-        <div class="relative mr-4 sm:mr-0 flex flex-col items-start">
+        <div class="relative sm:mr-4 flex flex-col items-start">
           <dt class="flex items-center justify-start">
             <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white">
               <!-- Heroicon name: outline/lightning-bolt -->
@@ -53,7 +53,7 @@
           </dd>
         </div>
 
-        <div class="relative mr-4 sm:mr-0 flex flex-col items-start">
+        <div class="relative sm:mr-4 flex flex-col items-start">
           <dt class="flex items-center justify-start">
             <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white">
               <!-- Heroicon name: outline/annotation -->
