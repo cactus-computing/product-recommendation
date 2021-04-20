@@ -164,3 +164,4 @@ webpack-stats.json
 ## pipenv files
 Pipfile
 Pipfile.lock
+personalized-predictions.csv
