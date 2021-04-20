@@ -25,7 +25,7 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 370px;
+    height: 380px;
     position: relative;
     max-width: 1400px;
 }
@@ -52,7 +52,7 @@
   #cactusContainer .product {
     width:200px; 
     min-width:200px;
-    height: 320px;
+    height: 330px;
     border: 1px solid;
     border-color: #ebebeb;
 	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
@@ -123,7 +123,7 @@
 #cactusContainer .product-discount {
     position:absolute;
     font-size: 17px;
-    background-color:red;
+    background-color: #d7b766;
     color: white;
     top: 0;
     right: 0;

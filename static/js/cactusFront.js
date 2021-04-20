@@ -216,7 +216,7 @@ const getPredictions = async function (productsDiv, type, productName, k) {
 
 const getProductsInfo = async function (productsDiv, endpoint, productNames) {
     const response = await fetch(
-        `https://production-cactus.herokuapp.com/api/${endpoint}?products=${productNames}&company=${company
+        `${HOST_DICT[codeStatus]}/api/${endpoint}?products=${productNames}&company=${company
         }`,
     );
     const data = await response.json();
