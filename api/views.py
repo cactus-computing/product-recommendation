@@ -188,7 +188,6 @@ class ProductInfo(APIView):
     '''
     def get(self, request, format=None):
         product_names = json.loads(request.query_params.get("products"))
-        
         company = request.query_params.get("company")
         product_objects = set()
         errors = []
@@ -212,3 +211,4 @@ class ProductInfo(APIView):
         res['data'] = product_serializer.data
         res['errors'] = errors
         return Response(res)
+

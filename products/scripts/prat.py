@@ -16,15 +16,15 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
-        logging.FileHandler(f'./scripts/magento/logs/log_{date}.log'),
+        logging.FileHandler('./products/scripts/magento/logs/log_.log'),
         logging.StreamHandler()
     ]
 )
 logger = logging.getLogger(__name__)
-prat_product_gs = "scripts/productos_prat.csv"
 
-def run():
-    company_name = 'prat'
+
+def get_products(company_name):
+    products = f"products/scripts/magento/products_{company_name}.csv"
     company = Store.objects.get(company=company_name)
     consumer_key = company.consumer_key
     consumer_secret = company.consumer_secret
@@ -33,7 +33,7 @@ def run():
     soap_client = Client(wsdl=wsdl_url) 
     session = soap_client.service.login(consumer_key, consumer_secret)
     logger.info("Downloading all products")
-    lista_productos = pd.read_csv(prat_product_gs, names = ["skus"], header=None)["skus"].to_list()
+    lista_productos = pd.read_csv(products, names = ["skus"], header=None)["skus"].to_list()
     for e, prod in enumerate(tqdm(lista_productos)):
         try:
             result = soap_client.service.catalogProductInfo(session, prod)
@@ -73,12 +73,35 @@ def run():
                         'img_url': image_url,
                         'stock_quantity': stock,
                         'status': result["status"],
-                        'price': int(result["price"].split(".")[0]),
-                        'discounted_price':discounted_price,
+                        'price': discounted_price if discounted_price else int(result["price"]),
+                        'discounted_price': int(result["price"]) if discounted_price else None,
                         'product_created_at': result['created_at']
                     }
                 )
             except IntegrityError as f:
                 logger.error(f)
                 continue
-        
+
+def get_orders(company_name):
+    df = pd.read_csv(f"scripts/magento/orders_{company_name}.csv")
+    company = Store.objects.get(company=company_name)
+    logger.info("Getting orders")
+    for e, row in tqdm(df.iterrows()):
+        if row['Estado'] in ['Pagado', 'Preparación', 'Recibido', 'Retiro', 'Despachado']:
+            try:
+                product_code = ProductAttributes.objects.get(sku=row['SKU'], company=company)
+            except ProductAttributes.DoesNotExist as f:
+                logger.error(f)
+                continue
+            try:
+                OrderAttributes.objects.update_or_create(
+                    user=row['Rut'].replace('.','').replace('-',''),
+                    product=product_code,
+                    product_qty=row['Cantidad'],
+                    bill=row['ID Pedido'],
+                    product_name=row['Producto'],
+                    company=company
+                    )
+            except IntegrityError as f:
+                logger.error(f)
+                continue

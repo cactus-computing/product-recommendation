@@ -11,7 +11,8 @@ from django.utils import timezone
 from products.models import ProductAttributes
 import pytz
 
-def get_product(sku):
+def get_url(sku):
+    print(sku)
     search_url = f"https://www.construplaza.cl/catalogsearch/result/?q={sku}"
     href = "body > div.wrapper > div.page.backgroundMTS > div > div:nth-child(3) > div.col-main > div > div.category-products > ul > li > div > div.product-info > div.containerNombreYMarca > h2 > a"
     response = req.get(search_url)
@@ -51,18 +52,20 @@ def get_price(product_html):
         discounted_price = product_html.find('p', {'class':'special-price'}).find('span', {'class':'price'}).text.strip().replace("$", "").replace(".","")
     original_price = product_html.find("span", {'class':'price'}).text.strip().replace("$", "").replace(".","")
     discounted_price = None
-    return [original_price, discounted_price]
+    return {
+        'price':original_price, 
+        'compare_at_price':discounted_price}
 
-def run():
-    df = pd.read_csv("scripts/products_construplaza.csv", sep=";")
-    store_name = "construplaza"
+def get_products(store_name):
+    df = pd.read_csv("products/scripts/magento/products_construplaza.csv", sep=";")
     company = Store.objects.get(company=store_name)
     for e, row in df.iterrows():
-        product_url = get_product(row['SKU'])
+        product_url = get_url(row['SKU'])
         if product_url is not None:
             product_res = req.get(product_url)
             product_html = BeautifulSoup(product_res.text, 'html.parser')
             if get_sku(product_html) == row['SKU']:
+                price = get_price(product_html)
                 try:
                     print(ProductAttributes.objects.update_or_create(
                         name=get_name(product_html),
@@ -74,8 +77,8 @@ def run():
                             'img_url': get_img(product_html),
                             'stock_quantity': get_stock(product_html),
                             'status': True,
-                            'discounted_price': get_price(product_html)[1],
-                            'price': get_price(product_html)[0],
+                            'price': price['compare_at_price'] if price['compare_at_price'] else price['price'],
+                            'discounted_price': price['price'] if price['compare_at_price'] else None,
                             'product_created_at': timezone.now()
                         }
                     ))
