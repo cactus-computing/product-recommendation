@@ -102,7 +102,7 @@ def up_selling(request):
         serializer = UpSellPredictionsSerializer(predictions, many=True)
         for obj in  serializer.data:
             obj["recommended_code"]["price"] = format_price(obj["recommended_code"]["price"])
-            obj["recommended_code"]["discounted_price"] = format_price(obj["recommended_code"]["discounted_price"])
+            obj["recommended_code"]["compare_at_price"] = format_price(obj["recommended_code"]["compare_at_price"])
             
         return Response({
             "message": "Sending top 10 Up Selling predictions",

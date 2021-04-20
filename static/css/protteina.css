@@ -114,13 +114,13 @@
     text-align: center;
 }
 
-#cactusContainer .product .product-discounted-price {
+#cactusContainer .product .product-compared-price {
     font-weight: 600;
-    color: #333333;
-    font-size: 20px;
+    font-size: 13px;
     letter-spacing: 0.5px;
-    color: red;
+    color: gray;
     text-align: center;
+    text-decoration: line-through;
 }
 
 #cactusContainer .product-discount {
