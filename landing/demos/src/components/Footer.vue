@@ -2,29 +2,31 @@
   <!-- component -->
   <div class="footer">
     <div class="bg-gray-100">
-      <div class="max-w-6xl m-auto text-gray-800 flex flex-wrap justify-center">
-        <div class="p-5 w-48">
-          <div class="text-xs uppercase text-gray-500 font-medium">Home</div>
-          <a class="my-3 block" href="/#features"
-            >Productos <span class="text-teal-600 text-xs p-1"></span></a
-          ><a class="my-3 block" href=""
-            >About Us <span class="text-teal-600 text-xs p-1"></span></a
-          ><a class="my-3 block" href="/#pricing"
-            >Precios <span class="text-teal-600 text-xs p-1"></span></a
-          >
+        
+        <div class="max-w-6xl m-auto text-gray-800 flex flex-wrap justify-center items-center">
+            <img class="p-7 w-48" src="/static/img/pv-logo-square.webp"> 
+            <div class="p-5 w-48">
+                <div class="text-xs uppercase text-gray-500 font-medium">Home</div>
+                    <a class="my-3 block" href="/#features"
+                        >Productos <span class="text-teal-600 text-xs p-1"></span></a
+                    ><a class="my-3 block" href=""
+                        >About Us <span class="text-teal-600 text-xs p-1"></span></a
+                    ><a class="my-3 block" href="/#pricing"
+                        >Precios <span class="text-teal-600 text-xs p-1"></span></a
+                    >
+                </div>
+            <div class="p-5 w-48">
+            <div class="text-xs uppercase text-gray-500 font-medium">
+                Contáctanos
+            </div>
+            <a class="my-3 block" href=""
+                >Los Conquistadores 2461, Providencia.
+                <span class="text-teal-600 text-xs p-1"></span></a
+            ><a class="my-3 block" href="/#contact"
+                >contacto@cactusco.cl <span class="text-teal-600 text-xs p-1"></span
+            ></a>
+            </div>
         </div>
-        <div class="p-5 w-48">
-          <div class="text-xs uppercase text-gray-500 font-medium">
-            Contáctanos
-          </div>
-          <a class="my-3 block" href=""
-            >Los Conquistadores 2461, Providencia.
-            <span class="text-teal-600 text-xs p-1"></span></a
-          ><a class="my-3 block" href="/#contact"
-            >contacto@cactusco.cl <span class="text-teal-600 text-xs p-1"></span
-          ></a>
-        </div>
-      </div>
     </div>
 
     <div class="bg-gray-100 pt-2">

@@ -10,7 +10,7 @@
                     <div class="">
                         <img
                         alt="..."
-                        src="/static/img/MTS.png"
+                        src="/static/img/MTS.webp"
                         class="max-w-full opacity-80"
                         style="max-width: 120px"
                         />
@@ -20,7 +20,17 @@
                     <div class="">
                         <img
                         alt="..."
-                        src="/static/img/AMANTANI.png"
+                        src="/static/img/AMANTANI.webp"
+                        class="max-w-full opacity-80"
+                        style="max-width: 120px"
+                        />
+                    </div>
+                </div>
+                <div class="mb-4 px-4 hidden sm:list-item">
+                    <div class="">
+                        <img
+                        alt="..."
+                        src="/static/img/CONSTRUPLAZA_2.webp"
                         class="max-w-full opacity-80"
                         style="max-width: 120px"
                         />
@@ -30,7 +40,7 @@
                     <div class="">
                         <img
                         alt="..."
-                        src="/static/img/CONSTRUPLAZA_2.png"
+                        src="/static/img/PIPPA.webp"
                         class="max-w-full opacity-80"
                         style="max-width: 120px"
                         />
@@ -40,17 +50,7 @@
                     <div class="">
                         <img
                         alt="..."
-                        src="/static/img/PIPPA.png"
-                        class="max-w-full opacity-80"
-                        style="max-width: 120px"
-                        />
-                    </div>
-                </div>
-                <div class="mb-4 px-4">
-                    <div class="">
-                        <img
-                        alt="..."
-                        src="/static/img/PROTTEINA_FOODS.png"
+                        src="/static/img/PROTTEINA_FOODS.webp"
                         class="max-w-full opacity-80"
                         style="max-width: 120px"
                         />
@@ -60,17 +60,17 @@
                     <div class="">
                         <img
                             alt="..."
-                            src="/static/img/QUEMA.png"
+                            src="/static/img/QUEMA.webp"
                             class="max-w-full opacity-80"
                             style="max-width: 120px"
                         />
                     </div>
                 </div>
-                <div class="mb-4 px-4">
+                <div class="mb-4 px-4 hidden sm:list-item">
                     <div class="">
                         <img
                             alt="..."
-                            src="/static/img/RONDO.png"
+                            src="/static/img/RONDO.webp"
                             class="max-w-full opacity-80"
                             style="max-width: 120px"
                         />
@@ -80,7 +80,7 @@
                     <div class="">
                         <img
                         alt="..."
-                        src="/static/img/KONSTRUYENDO_PRAT.png"
+                        src="/static/img/KONSTRUYENDO_PRAT.webp"
                         class="max-w-full opacity-80"
                         style="max-width: 120px"
                         />

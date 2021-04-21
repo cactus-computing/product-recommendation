@@ -5,10 +5,10 @@
     <div class="lg:text-center">
         <h2 class="text-base text-cactus-green font-semibold tracking-wide uppercase">Recomendaciones</h2>
         <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-            Mejora la experiencia de tus compradores
+            Personaliza la experiencia de tus compradores
         </p>
         <p class="mt-4 mb-6 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-            Personalizamos las recomendaciones en base al historial de compras del cliente, productos en el carro y productos visitados, entre otros.
+            Nuestras recomendaciones son diferentes para cada uno de tus clientes y se basan en historial de compras y navegación.
         </p>
     </div>
   </div>

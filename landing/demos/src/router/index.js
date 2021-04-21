@@ -9,5 +9,6 @@ const routes = [
 const router = new Router({
     base: '/',
     routes,
+    mode: 'history',
 });
 export default router;

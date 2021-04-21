@@ -14,11 +14,12 @@
       </div>
       <div class="pt-6 flex flex-row flex-wrap justify-center">
         <!-- Basic Card -->
-        <div class="w-80 p-8 m-4 bg-white text-center rounded-xl shadow-xl">
+        <div class="w-80 p-8 m-4 bg-white text-center rounded-xl shadow-xl border-blue-600 border-2">
           <h1 class="text-black font-semibold text-2xl">Emprendedor</h1>
           <p class="pt-2 tracking-wide">
             <span class="text-gray-400 align-top">$ </span>
-            <span class="text-3xl font-semibold">14.990</span>
+            <span class="text-2xl font-semibold line-through">1 UF</span>
+            <span class="text-3xl font-semibold ">0,5 UF</span>
             <span class="text-gray-400 font-medium">/ mes</span>
           </p>
           <hr class="mt-4 border-1" />
@@ -39,7 +40,7 @@
               </svg>
               <p class="font-semibold text-gray-400 text-left">
                 <span class="pl-2">
-                  Hasta <span class="text-black">1.000 SKU's</span>
+                  Hasta <span class="text-black">500 SKU's</span>
                 </span>
               </p>
             </div>
@@ -59,7 +60,7 @@
               </svg>
                 <p class="font-semibold text-gray-400 text-left">
                 <span class="pl-2">
-                    <span class="text-black">5.000 sesiones</span> / mes
+                    Máx <span class="text-black">5.000 sesiones</span> / mes
                 </span>
                 </p>
             </div>
@@ -79,7 +80,7 @@
               </svg>
                 <p class="font-semibold text-gray-400 text-left">
                 <span class="pl-2">
-                    <span class="text-black"> Up-Sellings</span>
+                    Página de<span class="text-black"> producto</span>
                 </span>
                 </p>
             </div>
@@ -90,7 +91,7 @@
                 </a>
           </div>
         </div>
-        <!-- StartUp Card -->
+        <!-- StartUp Card
         <div
           class="w-80 p-8 m-4 bg-gray-900 text-center rounded-xl text-white shadow-2xl"
         >
@@ -168,15 +169,13 @@
                 </p>
                 </a>
           </div>
-          <!-- <div class="absolute top-4 right-4">
-                        <p class="bg-blue-700 font-semibold px-4 py-1 rounded-full uppercase text-xs">Popular</p>
-                    </div> -->
         </div>
+         -->
         <!-- Enterprise Card -->
-        <div class="w-80 p-8 m-4 bg-white text-center rounded-xl shadow-xl">
+        <div class="w-80 p-8 m-4 bg-white text-center rounded-xl shadow-xl border-blue-600 border-2">
           <h1 class="text-black font-semibold text-2xl">Gran Empresa</h1>
           <p class="pt-2 tracking-wide">
-            <span class="text-2xl font-semibold">Contáctanos </span>
+            <span class="text-2xl font-semibold text-blue-600">Contáctanos </span>
           </p>
           <hr class="mt-4 border-1" />
           <div class="pt-8">
@@ -197,7 +196,7 @@
                 <p class="font-semibold text-gray-400 text-left">
             
                 <span class="pl-2">
-                    + <span class="text-black">5.000 SKU's</span>
+                    SKU's <span class="text-black">ilimitados</span>
                 </span>
                 </p>
               </div>
@@ -216,36 +215,34 @@
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
                 <p class="font-semibold text-gray-400 text-left">
-
                 <span class="pl-2">
-                    + <span class="text-black">100.000 sesiones / mes</span>
+                    Sesiones <span class="text-black">ilimitadas</span>
                 </span>
                 </p>
             </div>
             <div class="flex justify-start pt-5">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#2563EB"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <polyline points="20 6 9 17 4 12"></polyline>
-              </svg>
-                <p class="font-semibold text-gray-400 text-left">
-
-                <span class="pl-2">
-                    <span class="text-black">Up, Cross y Vistos recientemente</span>
-                </span>
-                </p>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#2563EB"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    >
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                    <p class="font-semibold text-gray-400 text-left">
+                    <span class="pl-2">
+                        Página de<span class="text-black"> producto, <br>home, mail, checkout</span>
+                    </span>
+                    </p>
             </div>
             <a href="#contact" class="">
               <p class="w-full py-4 bg-blue-600 mt-8 rounded-xl text-white">
-                <span class="font-medium"> Quiero este Plan </span>
+                <span class="font-medium bottom-0"> Quiero este Plan </span>
               </p>
             </a>
           </div>
