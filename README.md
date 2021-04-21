@@ -324,65 +324,10 @@ docker-compose run web /usr/local/bin/python ./integrations/woocommerce/upload_p
 - [Index](##index)
 ## Django scripts
 ### Get products
-```
-docker-compose run --rm web /usr/local/bin/python manage.py runscript wc_get_products
-docker-compose run --rm web /usr/local/bin/python manage.py runscript prat_get_products
-docker-compose run --rm web /usr/local/bin/python manage.py runscript pippa_scraper
-```
 
-```
-docker-compose run --rm web /usr/local/bin/python manage.py runscript wc_get_orders
-docker-compose run --rm web /usr/local/bin/python manage.py runscript prat_get_orders
-```
+sudo docker run --rm cactusco /usr/local/bin/python manage.py runscript predict_cross_sell --script-args pippa
 
-```
-docker-compose run --rm web /usr/local/bin/python manage.py runscript run_cross_sell_model --script-args amantani
-docker-compose run --rm web /usr/local/bin/python manage.py runscript run_cross_sell_model --script-args makerschile
-docker-compose run --rm web /usr/local/bin/python manage.py runscript run_cross_sell_model --script-args prat
-```
-
-```
-docker-compose run --rm web /usr/local/bin/python manage.py runscript run_up_sell_model --script-args quema
-docker-compose run --rm web /usr/local/bin/python manage.py runscript run_up_sell_model --script-args makerschile
-docker-compose run --rm web /usr/local/bin/python manage.py runscript run_up_sell_model --script-args prat
-docker-compose run --rm web /usr/local/bin/python manage.py runscript run_up_sell_model --script-args pippa
-```
-
-docker run --rm cactusco /usr/local/bin/python manage.py runscript run_cross_sell_model --script-args prat
-
-#### Production:
-```
-python manage.py runscript wc_get_products 
-python manage.py runscript prat_get_products
-python manage.py runscript pippa_scraper
-```
-
-```
-python manage.py runscript wc_get_orders
-python manage.py runscript prat_get_orders
-```
-
-Cross sell:
-```
-python manage.py runscript run_cross_sell_model --script-args quema
-python manage.py runscript run_cross_sell_model --script-args makerschile
-python manage.py runscript run_cross_sell_model --script-args prat
-```
-up sell:
-```
-python manage.py runscript run_up_sell_model --script-args quema
-python manage.py runscript run_up_sell_model --script-args makerschile
-python manage.py runscript run_up_sell_model --script-args prat
-python manage.py runscript run_up_sell_model --script-args pippa
-```
-
-sudo docker run --rm cactusco /usr/local/bin/python manage.py runscript wc_get_products
-sudo docker run --rm cactusco /usr/local/bin/python manage.py runscript shopify --script-args pippa
-sudo docker run --rm cactusco /usr/local/bin/python manage.py runscript shopify --script-args protteina
-sudo docker run --rm cactusco /usr/local/bin/python manage.py runscript shopify --script-args amantani
-sudo docker run --rm cactusco /usr/local/bin/python manage.py runscript prat_get_products
-sudo docker run --rm cactusco /usr/local/bin/python manage.py runscript scraper_construplaza
-
+sudo docker run --rm cactusco /usr/local/bin/python manage.py runscript predict_up_sell --script-args pippa
 
 - [Index](##index)
 ## API Documentation
@@ -395,10 +340,7 @@ To test cross_selling
 http://localhost:8000/api/cross_selling?name=kit impresora 3d tarjeta controladora ramps 1.4 arduino mega&company=makerschile&top-k=4
 http://localhost:8000/api/cross_selling?name=PMG - Karma&company=quema&top-k=4
 ```
-
-
 To test up_selling
-
 
 ```
 http://localhost:8000/api/up_selling?name=kit impresora 3d tarjeta controladora ramps 1.4 arduino mega&company=makerschile&top-k=4

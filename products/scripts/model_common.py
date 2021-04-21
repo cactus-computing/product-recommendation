@@ -4,7 +4,7 @@ import os
 import tensorflow as tf
 from store.models import Store
 from tqdm import tqdm
-from scripts.cactus.ml import CollaborativeFiltering
+from products.scripts.cactus.ml import CollaborativeFiltering
 from products.models import ProductAttributes, OrderAttributes
 import logging 
 

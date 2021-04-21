@@ -103,5 +103,4 @@ def run(*arg):
         cs["product_id"] = cs.product_id.map(item_encoded2item)
         cs["recommended_id"] = cs.recommended_id.map(item_encoded2item)
         
-        cs.to_csv("./cs.csv", index=False)
         send_to_db(cs, company_name=company, django_model=CrossSellPredictions)
