@@ -4,7 +4,7 @@
             <div class="relative flex flex-col mt-12 min-w-0 break-words bg-white w-full mb-3 ">
                     <img
                     alt="..."
-                    src="https://www.cactusco.cl/static/img/up_y_cross_sells.png"
+                    src="/static/img/up_y_cross_sells.webp"
                     class="relative w-full align-middle p-2 sm:p-6 md:p-0 lg:p-0 relative rounded-lg"
                     />
             </div>

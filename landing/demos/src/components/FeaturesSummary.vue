@@ -5,7 +5,7 @@
     <div class="lg:text-center">
         <h2 class="text-base text-cactus-green font-semibold tracking-wide uppercase">Resultados</h2>
         <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-            Aumenta las ventas hasta en un 8%
+            Aumenta las ventas hasta en un 6%
         </p>
         <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
             Mejorará a medida que el algoritmo aprenda de las interacciones de los usuarios.

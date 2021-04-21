@@ -8,7 +8,7 @@
             <div class="flex items-center justify-between w-full md:w-auto pl-4">
               <a href="#">
                 <span class="sr-only">Workflow</span>
-                <img class="h-7 w-auto sm:h-7" src="http://www.cactusco.cl/static/img/imagotipo_cactus.png">
+                <img class="h-7 w-auto sm:h-7" src="/static/img/imagotipo_cactus.webp">
               </a>
               <div class="-mr-2 flex items-center md:hidden">
                 <button @click="isHeaderVisible = !isHeaderVisible" type="button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500" aria-expanded="false">
@@ -34,7 +34,7 @@
     <div class="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
         <div class="px-5 pt-4 flex items-center justify-between">
         <div>
-            <img class="h-6 w-auto" src="http://www.cactusco.cl/static/img/imagotipo_cactus.png" alt="">
+            <img class="h-6 w-auto" src="/static/img/imagotipo_cactus.webp" alt="">
         </div>
         <div class="-mr-2">
             <button @click="isHeaderVisible = !isHeaderVisible" type="button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
@@ -83,7 +83,7 @@
             </div>
         </div>
         <div class="md:py-12 md:mt-12 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 order-1 lg:order-2">
-            <img class="h-72 sm:p-0 w-full object-contain sm:h-72 md:h-96 sm:object-scale-down lg:w-full lg:h-full" src="/static/img/hero_illustration_man.png" alt="">
+            <img class="h-72 sm:p-0 w-full object-contain sm:h-72 md:h-96 sm:object-scale-down lg:w-full lg:h-full" src="/static/img/hero_illustration_man.webp" alt="">
         </div>
     </div>
 </div>

@@ -28,7 +28,7 @@
                 <a href="https://protteina.com/products/beyond-meat-the-beyond-sausage-hot-italian">  
                     <img
                     alt="..."
-                    src="https://www.cactusco.cl/static/img/recently_viewed.png"
+                    src="/static/img/recently_viewed.webp"
                     class="relative w-full align-middle p-2 sm:p-6 md:p-0 lg:p-0 relative rounded-lg"
                     />
                 </a>
