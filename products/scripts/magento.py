@@ -20,11 +20,16 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
-        logging.FileHandler(f'./scripts/magento/logs/log_{date}.log'),
         logging.StreamHandler()
     ]
 )
 logger = logging.getLogger(__name__)
+
+
+urls = {
+    'prat':"https://www.ferreteriaprat.cl/",
+    'construplaza':"https://www.construplaza.cl/"
+}
 
 
 def get_products(company_name):
@@ -36,7 +41,7 @@ def get_products(company_name):
     wsdl_url = company.api_url
     soap_client = Client(wsdl=wsdl_url) 
     session = soap_client.service.login(consumer_key, consumer_secret)
-    logger.info("Downloading all products")
+    logger.info(f"Downloading all products for {company_name}")
     lista_productos = pd.read_csv(products, names = ["skus"], header=None)["skus"].to_list()
     for e, prod in enumerate(tqdm(lista_productos)):
         try:
@@ -45,7 +50,7 @@ def get_products(company_name):
             logger.error(f)
             continue
         url = result['url_path']
-        req = requests.get(f"https://www.ferreteriaprat.cl/{url}")
+        req = requests.get(urls[company_name])
         soup = BeautifulSoup(req.text, 'html.parser')
         non_existing = soup.find(text="esta página no está disponible o no existe.")
         logger.info(f"{non_existing}, https://www.ferreteriaprat.cl/{result['url_path']}")
@@ -90,7 +95,7 @@ def get_products(company_name):
 def get_orders(company_name):
     df = pd.read_csv(f"scripts/magento/orders_{company_name}.csv")
     company = Store.objects.get(company=company_name)
-    logger.info("Getting orders")
+    logger.info(f"Getting orders for {company_name}")
     for e, row in tqdm(df.iterrows()):
         if row['Estado'] in ['Pagado', 'Preparación', 'Recibido', 'Retiro', 'Despachado']:
             try:

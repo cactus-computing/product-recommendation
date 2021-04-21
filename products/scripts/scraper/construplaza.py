@@ -12,7 +12,6 @@ from products.models import ProductAttributes
 import pytz
 
 def get_url(sku):
-    print(sku)
     search_url = f"https://www.construplaza.cl/catalogsearch/result/?q={sku}"
     href = "body > div.wrapper > div.page.backgroundMTS > div > div:nth-child(3) > div.col-main > div > div.category-products > ul > li > div > div.product-info > div.containerNombreYMarca > h2 > a"
     response = req.get(search_url)
@@ -21,6 +20,7 @@ def get_url(sku):
         url = None
     else:
         url = html.select(href)[0].get('href')
+    print(url)
     return url
 
 def get_name(product_html):
