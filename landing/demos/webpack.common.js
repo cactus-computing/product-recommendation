@@ -1,7 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const webpack = require('webpack');
 const BundleTracker = require('webpack-bundle-tracker');
-//const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 require('@babel/polyfill');
 const path = require('path');
@@ -12,7 +11,8 @@ module.exports = {
         main: './src/main',
     },
     output: {
-        path: path.resolve('./staticfiles/demo'),
+        path: path.resolve('./static/demo/'),
+        publicPath: '/static/demo/',
     },
     plugins: [
         new BundleTracker({ filename: './webpack-stats.json' }),

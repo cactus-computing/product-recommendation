@@ -165,3 +165,4 @@ webpack-stats.json
 Pipfile
 Pipfile.lock
 personalized-predictions.csv
+static/demo/
