@@ -11,7 +11,7 @@ import requests
 from bs4 import BeautifulSoup
 from django.db.utils import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
-from products.models import OrderAttributes, ProductAttributes
+from products.models import Orders, Products
 from store.models import Store
 
 
@@ -67,7 +67,7 @@ def get_products(company_name):
             else:
                 discounted_price = None
             try:
-                ProductAttributes.objects.update_or_create(
+                Products.objects.update_or_create(
                     company=company,
                     name=result["name"],
                     defaults={
@@ -94,12 +94,12 @@ def get_orders(company_name):
     for e, row in tqdm(df.iterrows()):
         if row['Estado'] in ['Pagado', 'Preparación', 'Recibido', 'Retiro', 'Despachado']:
             try:
-                product_code = ProductAttributes.objects.get(sku=row['SKU'], company=company)
-            except ProductAttributes.DoesNotExist as f:
+                product_code = Products.objects.get(sku=row['SKU'], company=company)
+            except Products.DoesNotExist as f:
                 logger.error(f)
                 continue
             try:
-                OrderAttributes.objects.update_or_create(
+                Orders.objects.update_or_create(
                     user=row['Rut'].replace('.','').replace('-',''),
                     product=product_code,
                     product_qty=row['Cantidad'],
