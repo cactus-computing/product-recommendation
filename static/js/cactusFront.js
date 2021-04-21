@@ -354,7 +354,7 @@ function processProduct() {
         }
     }
 
-    setTimeout(processRecentlyViewedCarousel, 700);
+    processRecentlyViewedCarousel();
     createScrollToRpButton();
     document.addEventListener('scroll', crossInView);
     document.addEventListener('scroll', upInView);

@@ -1,5 +1,12 @@
 module.exports = {
-    purge: [],
+    purge: {
+        enabled: process.env.ENV === 'production',
+        content: [
+            './landing/demos/**/*.html',
+            './landing/demos/**/*.vue',
+            './landing/demos/**/*.jsx',
+        ],
+    },
     darkMode: false, // or 'media' or 'class'
     theme: {
         extend: {
