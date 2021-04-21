@@ -97,9 +97,6 @@ def send_to_db(df, company_name, django_model):
         except Products.DoesNotExist as dne:
             logger.error(dne)
             continue
-        except Products.MultipleObjectsReturned as mor:
-            logger.error(mor)
-            continue
 
 
         if prod.id not in deleted_ids:
