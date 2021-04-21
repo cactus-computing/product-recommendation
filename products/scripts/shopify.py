@@ -87,7 +87,7 @@ def get_products(store_name, url=None):
 
     new_api_url_clean = get_next_url(r.headers)
     next_url = f"https://{api_client}:{api_secret}@{new_api_url_clean}" 
-    if next_url:
+    if new_api_url_clean:
         logger.info('new page found, getting products')
         get_products(store_name, next_url)
         
