@@ -6,9 +6,8 @@ from rest_framework.response import Response
 import random
 import json
 from products.models import CrossSellPredictions, UpSellPredictions, ProductAttributes
-from store.models import Store
-from .serializers import StoreSerializer
-from .serializers import CrossSellPredictionsSerializer, UpSellPredictionsSerializer, ProductAttributesSerializer
+from store.models import Store, Front, Integration
+from .serializers import CrossSellPredictionsSerializer, UpSellPredictionsSerializer, ProductAttributesSerializer, StoreIntegrationSerializer, StoreFrontSerializer
 
 
 def format_price(price):
@@ -161,25 +160,43 @@ def update_price_and_stock(request):
             "stock": stock
         })
 
-@api_view(['GET'])
-def get_store_details(request):
+
+class GetStoreAPICredentials(APIView):
     '''
     Updates the price and stock availability of a give product
     '''
 
-    if request.method == "GET":
-        company = request.query_params.get("company")
-        print(company)
+    def get(self, request, format=None):
+        store_name = request.query_params.get("company")
         try: 
-            store = Store.objects.filter(company=company).first()
-        except Store.DoesNotExist:
+            integration = Integration.objects.filter(store__company=store_name).first()
+        except Integration.DoesNotExist:
             return Response({
                 "error": f"Product {company} was not found"
             })
-        store_serializer = StoreSerializer(store)
+        integration_serializer = StoreIntegrationSerializer(integration)
         return Response({
             "message": "Store successfully retrieved",
-            "store_data": store_serializer.data
+            "store_data": integration_serializer.data
+        })
+
+class GetStoreFrontDetails(APIView):
+    '''
+    Updates the price and stock availability of a give product
+    '''
+
+    def get(self, request, format=None):
+        store_name = request.query_params.get("company")
+        try: 
+            integration = Front.objects.filter(store__company=store_name).first()
+        except Front.DoesNotExist:
+            return Response({
+                "error": f"Product {company} was not found"
+            })
+        integration_serializer = StoreFrontSerializer(integration)
+        return Response({
+            "message": "Store successfully retrieved",
+            "store_data": integration_serializer.data
         })
 
 class ProductInfo(APIView):
