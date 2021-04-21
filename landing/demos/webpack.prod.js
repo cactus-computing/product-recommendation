@@ -20,7 +20,7 @@ module.exports = merge(common, {
             filename: '[name]-[hash].css',
             chunkFilename: '[id]-[hash].css',
         }),
-        new CleanWebpackPlugin(['./staticfiles/demo']),
+        new CleanWebpackPlugin(['./static/demo']),
         new OptimizeCSSAssetsPlugin({}),
     ],
     devtool: 'source-map',
