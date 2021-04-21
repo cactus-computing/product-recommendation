@@ -23,7 +23,8 @@ def get_categories():
         category_links += [ base_url +  cat_element.find('a').get('href')]
     return category_links
 
-def get_products(store_name, categories):
+def get_products(store_name):
+    categories = get_categories()
     for category in tqdm(categories):
         category_res = req.get(category)
         catalog_html = BeautifulSoup(category_res.text, 'html.parser')
@@ -32,8 +33,11 @@ def get_products(store_name, categories):
         company = Store.objects.get(company=store_name)
         for product in products:
             product_url = base_url[:-1] + product.find('a').get('href')
+            print(product_url)
             product_res = req.get(product_url)
             product_html = BeautifulSoup(product_res.text, 'html.parser')
+            price =  get_price(product_html)
+            discounted_price = get_discounted_price(product_html)
             try:
                 ProductAttributes.objects.update_or_create(
                     name=get_title(product_html),
@@ -45,8 +49,8 @@ def get_products(store_name, categories):
                         'img_url': get_img(product_html),
                         'stock_quantity': get_stock(product_html),
                         'status': True,
-                        'discounted_price': get_discounted_price(product_html),
-                        'price': get_price(product_html),
+                        'compare_at_price': price if discounted_price else None,
+                        'price': discounted_price if discounted_price else price,
                         'product_created_at': timezone.now()
                     }
                 )
@@ -66,13 +70,20 @@ def get_sku(product_html):
     
 def get_price(product_html):
     selector = "#main > div > div.single-product-wrapper > div.product-actions-wrapper > div.product-actions > div > p > span > del > span"
-    element = product_html.select(selector)[0]
+    element = product_html.select(selector)
+    if element == []:
+        selector = "#main > div > div.single-product-wrapper > div.product-actions-wrapper > div.product-actions > div > p > span > ins > span"
+        element = product_html.select(selector)
+    element = element[0]
     clean_str = element.text.replace('$', '').replace('.', '')
     return clean_str
 
 def get_discounted_price(product_html):
     selector = "#main > div > div.single-product-wrapper > div.product-actions-wrapper > div.product-actions > div > p > span > ins > span"
-    element = product_html.select(selector)[0]
+    element = product_html.select(selector)
+    if element == []:
+        return None
+    element = element[0]
     clean_str = element.text.replace('$', '').replace('.', '')
     return clean_str
 
@@ -98,8 +109,3 @@ def get_img(product_html):
     element = product_html.find("img", img_class_name)
     clean_str = element.get('src')
     return clean_str
-
-def run(*arg):
-    store_name = 'Konstruyendo'
-    categories = get_categories()
-    get_products(store_name, categories)
