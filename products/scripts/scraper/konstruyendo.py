@@ -8,6 +8,7 @@ from products.models import ProductAttributes
 from store.models import Store
 from django.utils import timezone
 
+company = None
 class KonstruyendoSpider(CrawlSpider):
     name = 'konstruyendo.com'
     allowed_domains = ['konstruyendo.com']
@@ -38,7 +39,7 @@ class KonstruyendoSpider(CrawlSpider):
         
         ProductAttributes.objects.update_or_create(
             name=item['name'],
-            company='konstruyendo',
+            company=company,
             permalink= item['permalink'],
             defaults={    
                 'product_code': 100,
@@ -53,7 +54,9 @@ class KonstruyendoSpider(CrawlSpider):
         )
         
 def get_products(store_name):
+    global company
     from scrapy.crawler import CrawlerProcess
+    company = Store.objects.get(company=store_name)
     process = CrawlerProcess()
     process.crawl(KonstruyendoSpider)
     process.start()
