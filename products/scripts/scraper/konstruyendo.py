@@ -26,12 +26,15 @@ class KonstruyendoSpider(CrawlSpider):
 
     def parse_item(self, response):
         self.logger.info('Hi, this is an item page! %s', response.url)
-
+        price = response.xpath('//*[@id="main"]/div/div[1]/div[5]/div[1]/div/p/span/ins/span/text()').get()
+        compare_at_price = response.xpath('//*[@id="main"]/div/div[1]/div[5]/div[1]/div/p/span/del/span/text()').get()
+        price = price.replace('$', '').replace(',', '') if price is not None else None
+        compare_at_price = compare_at_price.replace('$', '').replace(',', '') if compare_at_price is not None else None
         item = {}
         item['sku'] = response.xpath('//*[@id="main"]/div/div[1]/div[4]/div/p/text()').get()
         item['name'] = response.xpath('//*[@id="main"]/div/div[1]/div[4]/h1/text()').get()
-        item['price'] = response.xpath('//*[@id="main"]/div/div[1]/div[5]/div[1]/div/p/span/ins/span/text()').get()
-        item['compare_at_price'] = response.xpath('//*[@id="main"]/div/div[1]/div[5]/div[1]/div/p/span/del/span/text()').get()
+        item['price'] = price
+        item['compare_at_price'] = compare_at_price
         item['permalink'] = response.url
         item['img_url'] = response.css('.wp-post-image::attr(src)')[0].get()
         item['vendor'] = response.xpath('//*[@id="tab-specification"]/table/tbody/tr[1]/td[2]/a/text()').get()
