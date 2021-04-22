@@ -17,7 +17,6 @@
         <div class="w-80 p-8 m-4 bg-white text-center rounded-xl shadow-xl border-blue-600 border-2">
           <h1 class="text-black font-semibold text-2xl">Emprendedor</h1>
           <p class="pt-2 tracking-wide">
-            <span class="text-gray-400 align-top">$ </span>
             <span class="text-2xl font-semibold line-through">1 UF</span>
             <span class="text-3xl font-semibold ">0,5 UF</span>
             <span class="text-gray-400 font-medium">/ mes</span>
