@@ -1,6 +1,5 @@
 from django.db import models
 from django_cryptography.fields import encrypt
-
 from django.db import models
 from django_cryptography.fields import encrypt
 
@@ -41,5 +40,6 @@ class Customers(models.Model):
     name = models.CharField(max_length=2000, null=True)
     last_name = models.CharField(max_length=2000, null=True)
     email = models.CharField(max_length=2000, null=True)
+    customers_code =  models.BigIntegerField()
     accepts_marketing = models.BooleanField(default=False)
     accepts_marketing_updated_at = models.DateTimeField(auto_now_add=True)

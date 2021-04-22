@@ -41,7 +41,7 @@ class OrderAttributes(ProductsModel):
     '''
     Order table. This table contains all of the store's orders and their atributes.
     '''
-    user = models.CharField(max_length=2000)
+    user = models.ForeignKey(Customers, on_delete=models.CASCADE)
     product = models.ForeignKey(ProductAttributes, on_delete=models.CASCADE)
     product_qty = models.IntegerField()
     bill = models.CharField(max_length=2000)

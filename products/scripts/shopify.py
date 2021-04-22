@@ -4,7 +4,7 @@ import requests
 import json
 from tqdm import tqdm
 import logging
-from store.models import Store
+from store.models import Store, Customers, Integration
 from products.models import ProductAttributes, OrderAttributes
 
 logging.basicConfig(
@@ -15,11 +15,6 @@ logging.basicConfig(
     ]
 )
 logger = logging.getLogger(__name__)
-
-store = None
-api_client = None
-api_secret = None
-api_url = None
 
 status2bool = {
     'active': True,
@@ -47,15 +42,15 @@ def get_next_url(headers):
 
 def get_products(store_name, url=None):
     store = Store.objects.get(company=store_name)
-    api_client = store.consumer_key
-    api_secret = store.consumer_secret
-    api_url = store.api_url
+    store_credentials = Integration.objects.get(store=store)
+    api_client = store_credentials.consumer_key
+    api_secret = store_credentials.consumer_secret
+    api_url = store_credentials.api_url
     if url is None:
         logger.info(f"getting products for {store_name}, shopify")
         resource = 'products'
         base_url = f"https://{api_client}:{api_secret}@{api_url}/"
         url =  f"{base_url}/{resource}.json"
-    print(url)
     r = requests.get(url)
     data = json.loads(r.text)
     products = data['products']
@@ -93,11 +88,45 @@ def get_products(store_name, url=None):
         
     return None
 
+def get_customers(store_name, url=None):
+    store = Store.objects.get(company=store_name)
+    store_credentials = Integration.objects.get(store=store)
+    api_client = store_credentials.consumer_key
+    api_secret = store_credentials.consumer_secret
+    api_url = store_credentials.api_url
+    if url is None:
+        logger.info(f"getting customers for {store_name}, shopify")
+        resource = 'customers'
+        base_url = f"https://{api_client}:{api_secret}@{api_url}/"
+        url =  f"{base_url}/{resource}.json"
+    r = requests.get(url)
+    data = json.loads(r.text)
+    customer = data['customers']
+    for customer in tqdm(customer):
+        Customers.objects.update_or_create(
+            store = store,
+            name = customer['first_name'],
+            last_name = customer['last_name'],
+            email = customer['email'],
+            customers_code = customer['id'],
+            defaults={
+                'accepts_marketing': customer['accepts_marketing'],
+            }
+            )
+    
+    new_api_url_clean = get_next_url(r.headers)
+    next_url = f"https://{api_client}:{api_secret}@{new_api_url_clean}" 
+    if new_api_url_clean:
+        get_customers(store_name, next_url)
+    
+    return None
+
 def get_orders(store_name, url=None):
     store = Store.objects.get(company=store_name)
-    api_client = store.consumer_key
-    api_secret = store.consumer_secret
-    api_url = store.api_url
+    store_credentials = Integration.objects.get(store=store)
+    api_client = store_credentials.consumer_key
+    api_secret = store_credentials.consumer_secret
+    api_url = store_credentials.api_url
     if url is None:
         logger.info(f"getting orders for {store_name}, shopify")
         resource = 'orders'
@@ -107,6 +136,7 @@ def get_orders(store_name, url=None):
     data = json.loads(r.text)
     orders = data['orders']
     for order in tqdm(orders):
+        customer_id = Customers.objects.get(customers_code=order['customer']['id'], store=store)
         for product in order['line_items']:
             try:
                 product_code = ProductAttributes.objects.get(product_code=product['product_id'], company=store)
@@ -114,19 +144,20 @@ def get_orders(store_name, url=None):
                 print(f)
                 print(product)
                 continue
-
             OrderAttributes.objects.update_or_create(
-                    user=order['email'],
                     product=product_code,
                     product_qty=product['quantity'],
                     bill=order['order_number'],
                     product_name=product['title'],
-                    company=store
+                    company=store,
+                    defaults={
+                        'user':customer_id,
+                    }
                 )
     
     new_api_url_clean = get_next_url(r.headers)
     next_url = f"https://{api_client}:{api_secret}@{new_api_url_clean}" 
     if new_api_url_clean:
         get_orders(store_name, next_url)
-    
+
     return None
