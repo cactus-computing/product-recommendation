@@ -55,7 +55,7 @@ class KonstruyendoSpider(CrawlSpider):
 def get_products(store_name):
     from scrapy.crawler import CrawlerProcess
     process = CrawlerProcess()
-    process.crawl(KonstruyendoSpider())
+    process.crawl(KonstruyendoSpider)
     process.start()
 
 def get_orders(store_name):
