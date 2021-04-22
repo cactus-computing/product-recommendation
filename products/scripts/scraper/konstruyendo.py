@@ -52,6 +52,7 @@ class KonstruyendoSpider(CrawlSpider):
                 'status': True,
                 'price': item['price'],
                 'compare_at_price': item['compare_at_price'],
+                'vendor': item['vendor'],
                 'product_created_at': timezone.now()
             }
         )
