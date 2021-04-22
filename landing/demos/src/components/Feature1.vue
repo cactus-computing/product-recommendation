@@ -25,7 +25,7 @@
             <div class="relative flex flex-col mt-12 min-w-0 break-words bg-white w-full mb-3 ">
                 <img
                 alt="..."
-                src="static/img/carousel_illustration.webp"
+                src="static/img/carrousel_illustration.webp"
                 class="relative w-full align-middle sm:p-6 md:p-0 lg:p-0 relative rounded-lg"
                 />
             </div>

@@ -45,6 +45,7 @@
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
 
 html {
   scroll-behavior: smooth;
@@ -58,8 +59,5 @@ html {
   color: #2c3e50;
   margin-top: 10px;
 }
-
-
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
 
 </style> 
