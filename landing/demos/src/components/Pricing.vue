@@ -1,7 +1,7 @@
 <template>
   <!-- component -->
   <div id="pricing" class="py-12 flex justify-center items-center bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 ">
       <div class="text-center ">
         <h2 class="text-base text-cactus-green font-semibold tracking-wide uppercase">Precios</h2>
         <h1 class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
