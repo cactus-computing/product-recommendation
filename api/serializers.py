@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from products.models import CrossSellPredictions, UpSellPredictions, ProductAttributes
-from store.models import Store
+from store.models import Front, Integration
 
 
 
@@ -23,5 +23,18 @@ class ProductAttributesSerializer(serializers.ModelSerializer):
 
 class StoreSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Store
-        fields = ("company", "store_logo_url", "gtm_id", "ga_measurement_id", "target_div", "product_name_selector", "insert_before", "product_page_identifier", "product_page_regex")
+        model = Front
+        depth = 1
+        fields = ("company", "front", "Integration")
+
+class StoreFrontSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Front
+        depth = 1
+        fields = ("store_logo_url", "target_div", "product_name_selector", "target_div", "product_name_selector", "insert_before", "product_page_identifier", "product_page_regex")
+                
+class StoreIntegrationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Integration
+        depth = 1
+        fields = ("api_name", "consumer_key", "consumer_secret", "api_url")

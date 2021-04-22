@@ -1,5 +1,5 @@
 from django.db import models
-from store.models import Store
+from store.models import Store, Customers
 
 class ProductsModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -89,6 +89,24 @@ class UpSellPredictions(ProductsModel):
     class Meta:
         indexes = [
             models.Index(fields=['-distance'], name='up_distance_idx')
+        ]
+
+    def __str__(self):
+        return self.product_code
+
+
+class CustomerPredictions(ProductsModel):
+    '''
+    Up selling output. A relation of every product and the distance to every other product.
+    '''
+    customer = models.ForeignKey(Customers, on_delete=models.CASCADE)
+    recommended_code = models.ForeignKey(ProductAttributes, related_name="personalized_prediction", on_delete=models.CASCADE)
+    rate = models.FloatField()
+    company = models.ForeignKey(Store, on_delete=models.CASCADE)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['-rate'], name='up_rate_idx')
         ]
 
     def __str__(self):
