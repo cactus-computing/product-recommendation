@@ -22,6 +22,7 @@ class ProductAttributes(ProductsModel):
     stock_quantity = models.BooleanField(null=True, blank=True, default=None)
     company = models.ForeignKey(Store, on_delete=models.CASCADE)
     product_created_at = models.DateTimeField()
+    vendor = models.CharField(max_length=2000, null=True, blank=True)
     
     class Meta:
         indexes = [
