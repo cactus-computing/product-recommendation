@@ -83,7 +83,7 @@
             </div>
         </div>
         <div class="md:py-12 md:mt-12 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 order-1 lg:order-2">
-            <img class="h-72 sm:p-0 w-full object-contain sm:h-72 md:h-96 sm:object-scale-down lg:w-full lg:h-full" src="/static/img/hero_illustration_man.webp" alt="">
+            <img class="h-72 sm:p-0 w-full object-contain sm:h-72 md:h-96 sm:object-scale-down lg:w-full lg:h-full" src="/static/img/hero_illustration.webp" alt="">
         </div>
     </div>
 </div>

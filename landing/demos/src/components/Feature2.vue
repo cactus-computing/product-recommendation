@@ -4,7 +4,7 @@
             <div class="relative flex flex-col mt-12 min-w-0 break-words bg-white w-full mb-3 ">
                     <img
                     alt="..."
-                    src="static/img/carousel_emailing.webp"
+                    src="static/img/emailing_illustration.webp"
                     class="relative w-full align-middle sm:p-6 md:p-0 lg:p-0 relative rounded-lg"
                     />
             </div>
