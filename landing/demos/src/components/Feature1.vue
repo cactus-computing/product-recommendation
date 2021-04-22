@@ -23,13 +23,11 @@
         </div>
         <div class="w-full md:w-6/12 lg:ml-0 ml-auto">
             <div class="relative flex flex-col mt-12 min-w-0 break-words bg-white w-full mb-3 ">
-                <a href="https://protteina.com/products/beyond-meat-the-beyond-sausage-hot-italian">  
-                    <img
-                    alt="..."
-                    src="static/img/carousel_illustration.webp"
-                    class="relative w-full align-middle sm:p-6 md:p-0 lg:p-0 relative rounded-lg"
-                    />
-                </a>
+                <img
+                alt="..."
+                src="static/img/carousel_illustration.webp"
+                class="relative w-full align-middle sm:p-6 md:p-0 lg:p-0 relative rounded-lg"
+                />
             </div>
         </div>
     </div>
