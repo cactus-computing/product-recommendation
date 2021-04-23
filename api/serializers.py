@@ -31,7 +31,7 @@ class StoreFrontSerializer(serializers.ModelSerializer):
     class Meta:
         model = Front
         depth = 1
-        fields = ("store_logo_url", "target_div", "product_name_selector", "target_div", "product_name_selector", "insert_before", "product_page_identifier", "product_page_regex")
+        fields = ("store_logo_url", "target_div", "product_name_selector", "target_div", "product_name_selector", "insert_before", "product_page_identifier", "product_page_regex", "button_target_div", "button_insert_before")
                 
 
 class StoreMeasurementSerializer(serializers.ModelSerializer):
