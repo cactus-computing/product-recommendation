@@ -42,7 +42,7 @@ class OrderAttributes(ProductsModel):
     '''
     Order table. This table contains all of the store's orders and their atributes.
     '''
-    user = models.CharField(max_length=2000)
+    customer = models.ForeignKey(Customers, on_delete=models.CASCADE)
     product = models.ForeignKey(ProductAttributes, on_delete=models.CASCADE)
     product_qty = models.IntegerField()
     bill = models.CharField(max_length=2000)
@@ -53,7 +53,7 @@ class OrderAttributes(ProductsModel):
         return {
             "product_id": self.product_id,
             "bill": self.bill,
-            "user": self.user,
+            "customer": self.customer,
             "product_name": self.product_name,
             "product_qty": self.product_qty
         }

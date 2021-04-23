@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 from django.db.utils import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
 from products.models import OrderAttributes, ProductAttributes
-from store.models import Store
+from store.models import Store, Customers
 
 
 date = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
@@ -92,12 +92,39 @@ def get_products(company_name):
                 continue
 
 
+def get_customers(company_name):
+    df = pd.read_csv(f"scripts/magento/orders_{company_name}.csv")
+    store = Store.objects.get(company=company_name)
+    logger.info(f"Getting orders for {company_name}")
+    for e, row in tqdm(df.iterrows()):
+        if row['Estado'] in ['Pagado', 'Preparación', 'Recibido', 'Retiro', 'Despachado']:
+            nombre = row['Nombre del cliente'].split(' ')[0] if row['Nombre del cliente'].split(' ')[0] else None
+            apellido = row['Nombre del cliente'].split(' ')[1] if row['Nombre del cliente'].split(' ')[1] else None
+            try:
+                Customers.objects.update_or_create(
+                    customer_code = row['Rut'].replace('.','').replace('-','').replace('k','0').replace('K','0'),
+                    store = store,
+                    name =  nombre,
+                    last_name = apellido,
+                    email = None,                                 
+                    defaults={
+                        'accepts_marketing': row['accepts_marketing'],
+                    }
+                    )
+            except IntegrityError as f:
+                logger.error(f)
+                continue
+    
+
+
 def get_orders(company_name):
     df = pd.read_csv(f"scripts/magento/orders_{company_name}.csv")
     company = Store.objects.get(company=company_name)
     logger.info(f"Getting orders for {company_name}")
     for e, row in tqdm(df.iterrows()):
         if row['Estado'] in ['Pagado', 'Preparación', 'Recibido', 'Retiro', 'Despachado']:
+            rut = row['Rut'].replace('.','').replace('-','').replace('k','0').replace('K','0')
+            customer_id = Customers.objects.get(customers_code=rut, store=store)
             try:
                 product_code = ProductAttributes.objects.get(sku=row['SKU'], company=company)
             except ProductAttributes.DoesNotExist as f:
@@ -105,7 +132,7 @@ def get_orders(company_name):
                 continue
             try:
                 OrderAttributes.objects.update_or_create(
-                    user=row['Rut'].replace('.','').replace('-',''),
+                    customer=customer_id,
                     product=product_code,
                     product_qty=row['Cantidad'],
                     bill=row['ID Pedido'],
@@ -115,3 +142,4 @@ def get_orders(company_name):
             except IntegrityError as f:
                 logger.error(f)
                 continue
+

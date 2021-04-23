@@ -1,7 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 from celery.decorators import task
 from .scripts import woocommerce, magento, shopify
-from .scripts.scraper import construplaza, konstruyendo
+from .scripts.scraper import konstruyendo
 
 store_type = {
     'protteina':shopify,
@@ -10,7 +10,7 @@ store_type = {
     'quema':woocommerce,
     'makerschile':woocommerce,
     'prat':magento,
-    'construplaza':construplaza,
+    'construplaza':magento,
     'konstruyendo':konstruyendo
 }
 
@@ -21,4 +21,8 @@ def get_products(store):
 @task(name="get_orders")
 def get_orders(store):
     store_type[store].get_orders(store)
+
+@task(name="get_customers")
+def get_customers(store):
+    store_type[store].get_customers(store)
         
