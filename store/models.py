@@ -29,6 +29,9 @@ class Front(models.Model):
     insert_before = models.CharField(max_length=500, null=True)
     product_page_identifier = models.CharField(max_length=500, null=True)
     product_page_regex = models.CharField(max_length=500, null=True)
+    button_target_div = models.CharField(max_length=500, null=True) 
+    button_insert_before = models.CharField(max_length=500, null=True)
+    
     def __str__(self):
         return self.store.company
 

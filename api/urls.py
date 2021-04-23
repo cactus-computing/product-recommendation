@@ -10,5 +10,6 @@ urlpatterns = [
     path('update_price_and_stock', views.update_price_and_stock, name="update_price_and_stock"),
     path('store/api_credentials', views.GetStoreAPICredentials.as_view(), name="store_api_creds"),
     path('store/front_info', views.GetStoreFrontDetails.as_view(), name="store_front_info"),
+    path('store/analytics_info', views.GetStoreAnalytics.as_view(), name="store_analytics_info"),
     path('get_product_info', views.ProductInfo.as_view(), name="get_product_info"),
 ]

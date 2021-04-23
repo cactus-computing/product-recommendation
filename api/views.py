@@ -6,8 +6,8 @@ from rest_framework.response import Response
 import random
 import json
 from products.models import CrossSellPredictions, UpSellPredictions, ProductAttributes
-from store.models import Store, Front, Integration
-from .serializers import CrossSellPredictionsSerializer, UpSellPredictionsSerializer, ProductAttributesSerializer, StoreIntegrationSerializer, StoreFrontSerializer
+from store.models import Store, Front, Measurement
+from .serializers import CrossSellPredictionsSerializer, UpSellPredictionsSerializer, ProductAttributesSerializer, StoreFrontSerializer, StoreMeasurementSerializer
 
 
 def format_price(price):
@@ -161,7 +161,8 @@ def update_price_and_stock(request):
         })
 
 
-class GetStoreAPICredentials(APIView):
+
+class GetStoreAnalytics(APIView):
     '''
     Updates the price and stock availability of a give product
     '''
@@ -169,12 +170,12 @@ class GetStoreAPICredentials(APIView):
     def get(self, request, format=None):
         store_name = request.query_params.get("company")
         try: 
-            integration = Integration.objects.filter(store__company=store_name).first()
-        except Integration.DoesNotExist:
+            integration = Measurement.objects.filter(store__company=store_name).first()
+        except Measurement.DoesNotExist:
             return Response({
                 "error": f"Product {company} was not found"
             })
-        integration_serializer = StoreIntegrationSerializer(integration)
+        integration_serializer = StoreMeasurementSerializer(integration)
         return Response({
             "message": "Store successfully retrieved",
             "store_data": integration_serializer.data
