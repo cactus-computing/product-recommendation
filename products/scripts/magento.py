@@ -132,7 +132,7 @@ def get_orders(company_name):
                 continue
             try:
                 OrderAttributes.objects.update_or_create(
-                    user=customer_id,
+                    customer=customer_id,
                     product=product_code,
                     product_qty=row['Cantidad'],
                     bill=row['ID Pedido'],

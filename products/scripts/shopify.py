@@ -151,7 +151,7 @@ def get_orders(store_name, url=None):
                     product_name=product['title'],
                     company=store,
                     defaults={
-                        'user':customer_id,
+                        'customer':customer_id,
                     }
                 )
     

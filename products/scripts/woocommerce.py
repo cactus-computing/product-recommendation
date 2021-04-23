@@ -171,7 +171,7 @@ def get_orders(store_name):
                             product_name=prod['name'],
                             company=store,
                             defaults={
-                                  'user':customer_id
+                                  'customer':customer_id
                             }
                             )
                     except IntegrityError as f:
