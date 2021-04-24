@@ -33,6 +33,7 @@ base_urls = {
 
 
 def get_products(store_name):
+    logger.info(f"Gettting all products for {store_name}")
     products = f"products/scripts/magento/products_{store_name}.csv"
     store = Store.objects.get(company=store_name)
     store_credentials = Integration.objects.get(store=store)
@@ -41,16 +42,31 @@ def get_products(store_name):
     wsdl_url = store_credentials.api_url
     soap_client = Client(wsdl=wsdl_url) 
     session = soap_client.service.login(consumer_key, consumer_secret)
-    logger.info(f"Gettting all products for {store_name}")
-    lista_productos = pd.read_csv(products, names = ["skus"], header=None)["skus"].to_list()
+    if store_name == 'prat':
+        lista_productos = pd.read_csv(products, names = ["skus"], header=None)["skus"].to_list()
+    else:
+        complexFilter = {
+        'complex_filter': [
+            {
+                'key': 'type',
+                'value': {
+                    'key': 'in',
+                    'value': 'simple,configurable'
+                }
+            }
+        ]
+        }
+        lista_productos = soap_client.service.catalogProductList(session, complexFilter)
     for prod in tqdm(lista_productos):
         try:
-            result = soap_client.service.catalogProductInfo(session, prod)
+            if store_name == 'prat':
+                result = soap_client.service.catalogProductInfo(session, prod)
+            else:
+                result = soap_client.service.catalogProductInfo(session, prod['product_id'])
         except Fault as f:
             logger.error(f)
             continue
         url = base_urls[store_name] + result['url_path']
-        print(url)
         req = requests.get(url)
         soup = BeautifulSoup(req.text, 'html.parser')
         non_existing = soup.find(text="esta página no está disponible o no existe.")
@@ -94,9 +110,9 @@ def get_products(store_name):
 
 
 def get_customers(store_name):
+    logger.info(f"Getting orders for {store_name}")
     df = pd.read_csv(f"scripts/magento/orders_{store_name}.csv")
     store = Store.objects.get(company=store_name)
-    logger.info(f"Getting orders for {store_name}")
     for e, row in tqdm(df.iterrows()):
         if row['Estado'] in ['Pagado', 'Preparación', 'Recibido', 'Retiro', 'Despachado']:
             nombre = row['Nombre del cliente'].split(' ')[0] if row['Nombre del cliente'].split(' ')[0] else None
@@ -119,9 +135,9 @@ def get_customers(store_name):
 
 
 def get_orders(store_name):
+    logger.info(f"Getting orders for {store_name}")
     df = pd.read_csv(f"scripts/magento/orders_{store_name}.csv")
     store = Store.objects.get(company=store_name)
-    logger.info(f"Getting orders for {store_name}")
     for e, row in tqdm(df.iterrows()):
         if row['Estado'] in ['Pagado', 'Preparación', 'Recibido', 'Retiro', 'Despachado']:
             rut = row['Rut'].replace('.','').replace('-','').replace('k','0').replace('K','0')
