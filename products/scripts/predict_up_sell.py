@@ -40,7 +40,7 @@ def upselling_pipeline(products_df, item_encoded2item, k):
 def run(*arg):
 
     if arg[0] == 'all':
-        companies = ['quema', 'makers', 'pippa', 'prat']
+        companies = ['quema', 'makerschile', 'pippa','amantani','protteina', 'prat','construplaza','konstruyendo']
     else:
         companies = [ arg[0] ]
         

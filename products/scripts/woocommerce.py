@@ -13,7 +13,6 @@ logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s",
         handlers=[
-            logging.FileHandler('./products/scripts/logs/log_.log'),
             logging.StreamHandler()
         ]
     )
@@ -113,12 +112,12 @@ def get_customers(store_name):
                 if customer['role'] == "customer":
                     try:
                         Customers.objects.update_or_create(
+                            customers_code= customer['id'],
                             store = store,
-                            name = customer['first_name'],
-                            last_name = customer['last_name'],
-                            email = customer['email'],
+                            name = customer['first_name'].lower() if customer['first_name'] else customer['first_name'],
+                            last_name = customer['last_name'].lower() if customer['first_name'] else customer['first_name'],
+                            email = customer['email'].lower() if customer['email'] else customer['email'],
                             defaults={
-                                'customers_code': customer['id'],
                                 'accepts_marketing': True,
                             }
                             )
@@ -156,7 +155,11 @@ def get_orders(store_name):
             break
         else:
             for item in resp:
-                customer_id = Customers.objects.get(customers_code=item['customer_id'], store=store)
+                try:
+                    customer_id = Customers.objects.get(email=item['billing']['email'].lower(), store=store)
+                except Customers.DoesNotExist as f:
+                    logger.error(f)
+                    continue
                 for prod in item['line_items']:
                     try:
                         product_code = ProductAttributes.objects.get(product_code=prod['product_id'], company=store)
@@ -165,14 +168,12 @@ def get_orders(store_name):
                         continue
                     try:
                         OrderAttributes.objects.update_or_create(
+                            customer=customer_id,
                             product=product_code,
                             product_qty=prod['quantity'],
                             bill=item['id'],
                             product_name=prod['name'],
-                            company=store,
-                            defaults={
-                                  'customer':customer_id
-                            }
+                            company=store
                             )
                     except IntegrityError as f:
                         logger.error(f)
