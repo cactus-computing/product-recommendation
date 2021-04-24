@@ -56,7 +56,7 @@ def cross_selling_pipeline(ratings, n, m, client, item_encoded2item, k):
 def run(*arg):
     logger.info(f"selection: {arg[0]}")
     if arg[0] == 'all':
-        companies = ['quema', 'makers', 'pippa', 'prat']
+        companies = ['quema', 'makerschile', 'pippa','amantani','protteina', 'prat','construplaza']
     else:
         companies = [ arg[0] ]
 
