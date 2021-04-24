@@ -10,7 +10,7 @@ BUCKET = 'cactus_recommender'
 
 ITEM = 'product_id'
 BILL = 'bill'
-USER = 'user'
+USER = 'customer'
 QTY = 'product_qty'
 
 K = 50

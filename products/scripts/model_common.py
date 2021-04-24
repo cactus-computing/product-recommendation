@@ -2,10 +2,10 @@ import pandas as pd
 import time
 import os
 import tensorflow as tf
-from store.models import Store
+from store.models import Store, Customers
 from tqdm import tqdm
 from products.scripts.cactus.ml import CollaborativeFiltering
-from products.models import ProductAttributes, OrderAttributes
+from products.models import ProductAttributes, OrderAttributes, CustomerPredictions
 import logging 
 
 DOT = 'dot'
@@ -14,7 +14,7 @@ EUCLIDEAN = 'euc'
 
 ITEM = 'product_id'
 BILL = 'bill'
-USER = 'user'
+USER = 'customer'
 ITEM_NAME = 'product_name'
 QTY = 'product_qty'
 
@@ -113,6 +113,34 @@ def send_to_db(df, company_name, django_model):
             recommended_code=recommendation,
             company=company,
             distance=row.distance
+        )
+
+def send_personalization_to_db(df, store_name):
+    deleted_ids = []
+    store = Store.objects.get(company=store_name)
+    for _, row in tqdm(df.iterrows(), total=len(df)):
+        try:
+            customer = Customers.objects.get(email=row.customer, store=store)
+            recommendation = ProductAttributes.objects.get(id=row.product_id, company=store)
+        except ProductAttributes.DoesNotExist as dne:
+            logger.error(dne)
+            continue
+        except ProductAttributes.MultipleObjectsReturned as mor:
+            logger.error(mor)
+            continue
+
+
+        if customer.id not in deleted_ids:
+            deleted_ids.append(customer.id)
+            CustomerPredictions.objects.filter(
+                recommended_code=recommendation
+            ).delete()
+        
+        CustomerPredictions.objects.create(
+            customer=customer,
+            recommended_code=recommendation,
+            rate=row.rates,
+            company=store
         )
 
 def get_products_df(client):

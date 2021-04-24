@@ -1,7 +1,6 @@
 from django.db import models
 from django_cryptography.fields import encrypt
 from django.db import models
-from django_cryptography.fields import encrypt
 
 class Store(models.Model):
     company = models.CharField(max_length=500)
