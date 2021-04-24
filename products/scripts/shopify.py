@@ -58,7 +58,7 @@ def get_products(store_name, url=None):
         status = status2bool[product['status']] if 'status' in product else False
         status = status if product['published_at'] is not None else False
         try:
-            ProductAttributes.objects.update_or_create(
+            resp = ProductAttributes.objects.update_or_create(
                 name=product['title'],
                 company=store,
                 permalink= base_urls[store.company] + product['handle'],
@@ -73,12 +73,13 @@ def get_products(store_name, url=None):
                     'product_created_at': product['created_at']
                 }
             )
+            logger.info(resp)
         except TypeError as e:
-            print(e)
-            print(product)
+            logger.error(e)
+            logger.error(product)
         except ProductAttributes.MultipleObjectsReturned as f:
-            print(f)
-            print(product['title'])
+            logger.error(f)
+            logger.error(product['title'])
 
     new_api_url_clean = get_next_url(r.headers)
     next_url = f"https://{api_client}:{api_secret}@{new_api_url_clean}" 
@@ -103,17 +104,17 @@ def get_customers(store_name, url=None):
     data = json.loads(r.text)
     customer = data['customers']
     for customer in tqdm(customer):
-        Customers.objects.update_or_create(
+        resp = Customers.objects.update_or_create(
             store = store,
-            name = customer['first_name'],
-            last_name = customer['last_name'],
-            email = customer['email'],
+            name = customer['first_name'].lower() if customer['first_name'] else customer['first_name'],
+            last_name = customer['last_name'].lower() if customer['first_name'] else customer['first_name'],
+            email = customer['email'].lower() if customer['email'] else customer['email'],
             customers_code = customer['id'],
             defaults={
-                'accepts_marketing': customer['accepts_marketing'],
+                'accepts_marketing': customer['accepts_marketing'] if customer['accepts_marketing'] else True,
             }
             )
-    
+        logger.info(resp)
     new_api_url_clean = get_next_url(r.headers)
     next_url = f"https://{api_client}:{api_secret}@{new_api_url_clean}" 
     if new_api_url_clean:
@@ -131,32 +132,35 @@ def get_orders(store_name, url=None):
         logger.info(f"getting orders for {store_name}, shopify")
         resource = 'orders'
         base_url = f"https://{api_client}:{api_secret}@{api_url}/"
-        url =  f"{base_url}/{resource}.json"
+        url =  f"{base_url}/{resource}.json?status=any"
     r = requests.get(url)
     data = json.loads(r.text)
     orders = data['orders']
     for order in tqdm(orders):
-        customer_id = Customers.objects.get(customers_code=order['customer']['id'], store=store)
+        try:    
+            customer_id = Customers.objects.get(email=order['customer']['email'], store=store)
+        except Customers.DoesNotExist as f:
+            logger.error(f)
+            continue
         for product in order['line_items']:
             try:
                 product_code = ProductAttributes.objects.get(product_code=product['product_id'], company=store)
             except ProductAttributes.DoesNotExist as f:
-                print(f)
-                print(product)
+                logger.error(f)
+                logger.error(product)
                 continue
-            OrderAttributes.objects.update_or_create(
+            resp = OrderAttributes.objects.update_or_create(
+                    customer=customer_id,
                     product=product_code,
                     product_qty=product['quantity'],
                     bill=order['order_number'],
                     product_name=product['title'],
                     company=store,
-                    defaults={
-                        'customer':customer_id,
-                    }
-                )
-    
+                    )
+            logger.info(resp) 
     new_api_url_clean = get_next_url(r.headers)
     next_url = f"https://{api_client}:{api_secret}@{new_api_url_clean}" 
+    print(new_api_url_clean)
     if new_api_url_clean:
         get_orders(store_name, next_url)
 

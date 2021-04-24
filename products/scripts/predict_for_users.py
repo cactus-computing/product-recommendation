@@ -51,7 +51,7 @@ def train_cross_sell(ratings, n, m, client):
 def run(*arg):
     logger.info(f"selection: {arg[0]}")
     if arg[0] == 'all':
-        companies = ['quema', 'makers', 'pippa', 'prat']
+        companies = ['quema', 'makerschile', 'pippa','amantani','protteina', 'prat','construplaza']
     else:
         companies = [ arg[0] ]
 

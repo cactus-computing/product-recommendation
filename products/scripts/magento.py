@@ -50,7 +50,6 @@ def get_products(store_name):
             logger.error(f)
             continue
         url = base_urls[store_name] + result['url_path']
-        print(url)
         req = requests.get(url)
         soup = BeautifulSoup(req.text, 'html.parser')
         non_existing = soup.find(text="esta página no está disponible o no existe.")
@@ -73,7 +72,7 @@ def get_products(store_name):
             else:
                 discounted_price = None
             try:
-                ProductAttributes.objects.update_or_create(
+                resp = ProductAttributes.objects.update_or_create(
                     company=store,
                     name=result["name"],
                     defaults={
@@ -88,25 +87,26 @@ def get_products(store_name):
                         'product_created_at': result['created_at']
                     }
                 )
+                logger.info(resp)
             except IntegrityError as f:
                 logger.error(f)
                 continue
 
 
 def get_customers(store_name):
-    df = pd.read_csv(f"scripts/magento/orders_{store_name}.csv")
+    df = pd.read_csv(f"products/scripts/magento/orders_{store_name}.csv")
     store = Store.objects.get(company=store_name)
-    logger.info(f"Getting orders for {store_name}")
+    logger.info(f"Getting customers for {store_name}")
     for e, row in tqdm(df.iterrows()):
         if row['Estado'] in ['Pagado', 'Preparación', 'Recibido', 'Retiro', 'Despachado']:
             nombre = row['Nombre del cliente'].split(' ')[0] if row['Nombre del cliente'].split(' ')[0] else None
             apellido = row['Nombre del cliente'].split(' ')[1] if row['Nombre del cliente'].split(' ')[1] else None
             try:
                 Customers.objects.update_or_create(
-                    customer_code = row['Rut'].replace('.','').replace('-','').replace('k','0').replace('K','0'),
+                    customers_code = row['Rut'].replace('.','').replace('-','').replace('k','0').replace('K','0'),
                     store = store,
-                    name =  nombre,
-                    last_name = apellido,                                
+                    name =  nombre.lower() if nombre else nombre,
+                    last_name = apellido.lower() if apellido else apellido,                                
                     defaults={
                         'accepts_marketing': True,
                         'email': None, 
@@ -116,10 +116,8 @@ def get_customers(store_name):
                 logger.error(f)
                 continue
     
-
-
 def get_orders(store_name):
-    df = pd.read_csv(f"scripts/magento/orders_{store_name}.csv")
+    df = pd.read_csv(f"products/scripts/magento/orders_{store_name}.csv")
     store = Store.objects.get(company=store_name)
     logger.info(f"Getting orders for {store_name}")
     for e, row in tqdm(df.iterrows()):
