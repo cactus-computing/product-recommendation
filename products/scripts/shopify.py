@@ -3,6 +3,7 @@ import os
 import requests
 import json
 from tqdm import tqdm
+import time
 import logging
 from store.models import Store, Customers, Integration
 from products.models import ProductAttributes, OrderAttributes
@@ -55,13 +56,16 @@ def get_products(store_name, url=None):
     data = json.loads(r.text)
     products = data['products']
     for product in tqdm(products):
-        status = status2bool[product['status']] if 'status' in product else False
-        status = status if product['published_at'] is not None else False
+        time.sleep(1)
+        product_url = base_urls[store.company] + product['handle']
+        resp = requests.get(product_url).status_code
+        print(f'{resp}, {product_url}')
+        status = True if resp == 200 else False
         try:
             ProductAttributes.objects.update_or_create(
                 name=product['title'],
                 company=store,
-                permalink= base_urls[store.company] + product['handle'],
+                permalink= product_url,
                 defaults={
                     'product_code': product['id'],
                     'sku': product['variants'][0]['sku'],
