@@ -25,4 +25,9 @@ def get_orders(store):
 @task(name="get_customers")
 def get_customers(store):
     store_type[store].get_customers(store)
-        
+
+@task(name="get_info")
+def get_info(store):
+    store_type[store].get_products(store)
+    store_type[store].get_customers(store)
+    store_type[store].get_orders(store)
