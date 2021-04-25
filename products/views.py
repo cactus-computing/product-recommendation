@@ -11,6 +11,7 @@ class GetProductsInfo(APIView):
         for store in stores:
             task = get_products.delay(store)
             task_ids.append({
+                'method': "get_products",
                 'Company':store,
                 'Task_id': task.id
             })
@@ -23,6 +24,7 @@ class GetOrdersInfo(APIView):
         for store in stores:
             task = get_orders.delay(store)
             task_ids.append({
+                'method': "get_orders",
                 'Company':store,
                 'Task_id': task.id
             })
@@ -35,6 +37,7 @@ class GetCustomersInfo(APIView):
         for store in stores:
             task = get_customers.delay(store)
             task_ids.append({
+                'method': "get_customers",
                 'Company':store,
                 'Task_id': task.id
             })
@@ -47,6 +50,7 @@ class GetAllInfo(APIView):
         for store in stores:
             task = get_info.delay(store)
             task_ids.append({
+                'method': "get_all_info",
                 'Company':store,
                 'Task_id': task.id
             })
@@ -60,6 +64,7 @@ class CheckTaskStatus(APIView):
         for status in statuses:
             resp = AsyncResult(status['Task_id']).status
             status_res.append({
+                'method': status['methos'],
                 'Company': status['Company'],
                 'Status': resp
             })
