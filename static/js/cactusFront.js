@@ -33,9 +33,9 @@ const CLIENT_METADATA = {
         'button-insert-before': 'nextElementSibling',
     },
     pippa: {
-        'target-div': '.seven.columns.omega',
+        'target-div': '.sixteen.columns .container',
         'product-name-selector': '.product_name',
-        'insert-before': 'nextElementSibling.nextElementSibling',
+        'insert-before': 'nextElementSibling',
         'ga-measurement-id': 'UA-105999666-1',
         'product-page-identifier': 'url',
         'product-page-regex': '/products/',

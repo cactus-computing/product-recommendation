@@ -1,111 +1,69 @@
-import requests as req
-from bs4 import BeautifulSoup
-from tqdm.notebook import tqdm
-import pandas as pd
-import json 
-import os
-from tqdm import tqdm
-from store.models import Store
-from django.db.utils import IntegrityError
-from django.utils import timezone
+'''
+Esto puede quedar mucho mejor usando los métodos de las Scrapy Spiders, pero por ahora lo dejaré así.
+'''
+import scrapy
+from scrapy.spiders import CrawlSpider, Rule
+from scrapy.linkextractors import LinkExtractor
 from products.models import ProductAttributes
-import pytz
+from store.models import Store
+from django.utils import timezone
 
-category_url = "https://www.konstruyendo.com/categorias/cat51000000/materiales-de-construccion"
-base_url = "https://www.konstruyendo.com/"
-res = req.get(category_url)
-category_html = BeautifulSoup(res.text)
+company = None
+class KonstruyendoSpider(CrawlSpider):
+    name = 'konstruyendo.com'
+    allowed_domains = ['konstruyendo.com']
+    start_urls = ['http://www.konstruyendo.com']
 
-def get_categories():
-    category_elements = category_html.find_all('li', {'class': 'cat-item'})
-    category_links = []
-    for cat_element in category_elements:
-        category_links += [ base_url +  cat_element.find('a').get('href')]
-    return category_links
+    rules = (
+        # Extract links matching 'category.php' (but not matching 'subsection.php')
+        # and follow links from them (since no callback means follow=True by default).
+        #Rule(LinkExtractor(allow=('categorias', ), deny=('subsection\.php', ))),
+        Rule(LinkExtractor(allow=('categorias', ))),
 
+        # Extract links matching 'item.php' and parse them with the spider's method parse_item
+        Rule(LinkExtractor(allow=('product', )), callback='parse_item'),
+    )
+
+    def parse_item(self, response):
+        self.logger.info('Hi, this is an item page! %s', response.url)
+        price = response.xpath('//*[@id="main"]/div/div[1]/div[5]/div[1]/div/p/span/ins/span/text()').get()
+        compare_at_price = response.xpath('//*[@id="main"]/div/div[1]/div[5]/div[1]/div/p/span/del/span/text()').get()
+        price = price.replace('$', '').replace(',', '') if price is not None else None
+        compare_at_price = compare_at_price.replace('$', '').replace(',', '') if compare_at_price is not None else None
+        item = {}
+        item['sku'] = response.xpath('//*[@id="main"]/div/div[1]/div[4]/div/p/text()').get()
+        item['name'] = response.xpath('//*[@id="main"]/div/div[1]/div[4]/h1/text()').get()
+        item['price'] = price
+        item['compare_at_price'] = compare_at_price
+        item['permalink'] = response.url
+        item['img_url'] = response.css('.wp-post-image::attr(src)')[0].get()
+        item['vendor'] = response.xpath('//*[@id="tab-specification"]/table/tbody/tr[1]/td[2]/a/text()').get()
+        item['stock'] = True if response.xpath('//*[@id="main"]/div/div[1]/div[5]/div[1]/form/div/div[2]/a/text()').get() == "Agregar al Carro" else False
+        
+        ProductAttributes.objects.update_or_create(
+            name=item['name'],
+            company=company,
+            permalink= item['permalink'],
+            defaults={    
+                'product_code': 100,
+                'sku': item['sku'],
+                'img_url': item['img_url'],
+                'stock_quantity': item['stock'],
+                'status': True,
+                'price': item['price'],
+                'compare_at_price': item['compare_at_price'],
+                'vendor': item['vendor'],
+                'product_created_at': timezone.now()
+            }
+        )
+        
 def get_products(store_name):
-    categories = get_categories()
-    for category in tqdm(categories):
-        category_res = req.get(category)
-        catalog_html = BeautifulSoup(category_res.text, 'html.parser')
-        products = catalog_html.find_all('li', {'class': 'product'})
-        product_links = []
-        company = Store.objects.get(company=store_name)
-        for product in products:
-            product_url = base_url[:-1] + product.find('a').get('href')
-            print(product_url)
-            product_res = req.get(product_url)
-            product_html = BeautifulSoup(product_res.text, 'html.parser')
-            price =  get_price(product_html)
-            discounted_price = get_discounted_price(product_html)
-            try:
-                ProductAttributes.objects.update_or_create(
-                    name=get_title(product_html),
-                    company=company,
-                    permalink=product_url,
-                    defaults={
-                        'product_code': 100,
-                        'sku': get_sku(product_html),
-                        'img_url': get_img(product_html),
-                        'stock_quantity': get_stock(product_html),
-                        'status': True,
-                        'compare_at_price': price if discounted_price else None,
-                        'price': discounted_price if discounted_price else price,
-                        'product_created_at': timezone.now()
-                    }
-                )
-            except IntegrityError as f:
-                print(f)
-                continue
-            except IndexError as ie:
-                print(product_url)
-                print(ie)
-                continue
-    
-def get_sku(product_html):
-    selector = "#main > div > div.single-product-wrapper > div.summary.entry-summary.hidden-xs > div > p"
-    element = product_html.select(selector)[0]
-    clean_str = element.text.split(':')[1].strip()
-    return clean_str
-    
-def get_price(product_html):
-    selector = "#main > div > div.single-product-wrapper > div.product-actions-wrapper > div.product-actions > div > p > span > del > span"
-    element = product_html.select(selector)
-    if element == []:
-        selector = "#main > div > div.single-product-wrapper > div.product-actions-wrapper > div.product-actions > div > p > span > ins > span"
-        element = product_html.select(selector)
-    element = element[0]
-    clean_str = element.text.replace('$', '').replace('.', '')
-    return clean_str
+    global company
+    from scrapy.crawler import CrawlerProcess
+    company = Store.objects.get(company=store_name)
+    process = CrawlerProcess()
+    process.crawl(KonstruyendoSpider)
+    process.start()
 
-def get_discounted_price(product_html):
-    selector = "#main > div > div.single-product-wrapper > div.product-actions-wrapper > div.product-actions > div > p > span > ins > span"
-    element = product_html.select(selector)
-    if element == []:
-        return None
-    element = element[0]
-    clean_str = element.text.replace('$', '').replace('.', '')
-    return clean_str
-
-
-def get_stock(product_html):
-    selector = "#main > div > div.single-product-wrapper > div.product-actions-wrapper > div.product-actions > form > div > div.woocommerce-variation-add-to-cart.variations_button > a"
-    element = product_html.select(selector)[0]
-    clean_str = element.text
-    if clean_str == 'Agregar al Carro':
-        stock = True
-    else:
-        stock = False
-    return stock
-
-def get_title(product_html):
-    selector = "#main > div > div.single-product-wrapper > div.summary.entry-summary.hidden-xs > h1"
-    element = product_html.select(selector)[0]
-    clean_str = element.text
-    return clean_str
-
-def get_img(product_html):
-    img_class_name = "wp-post-image"
-    element = product_html.find("img", img_class_name)
-    clean_str = element.get('src')
-    return clean_str
+def get_orders(store_name):
+    return None

@@ -25,6 +25,6 @@ class Contact(models.Model):
     name = models.CharField(max_length=250)
     email = models.EmailField(max_length=250)
     phone = models.CharField(max_length=9)
-    website = models.CharField(max_length=2000)
+    website = models.CharField(max_length=2000, default=None)
     created_at = models.DateTimeField(auto_now=True)
     

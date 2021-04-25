@@ -1,17 +1,17 @@
 import tensorflow_hub as hub
 import pandas as pd
-from .model_common import get_top_k_for_each, send_to_db, get_orders, train_collaborative_filters
+from .model_common import get_top_k_for_each, send_to_db, send_personalization_to_db, get_orders, train_collaborative_filters
 import logging
 import time
-from products.models import CrossSellPredictions, ProductAttributes
-from store.models import Store
+from products.models import CrossSellPredictions, ProductAttributes, CustomerPredictions
+from store.models import Store, Customers
 
 BUCKET = 'cactus_recommender'
 
 ITEM = 'product_id'
 NAME = 'product_name'
 BILL = 'bill'
-USER = 'user'
+USER = 'customer'
 QTY = 'product_qty'
 
 K = 30
@@ -51,7 +51,7 @@ def train_cross_sell(ratings, n, m, client):
 def run(*arg):
     logger.info(f"selection: {arg[0]}")
     if arg[0] == 'all':
-        companies = ['quema', 'makers', 'pippa', 'prat']
+        companies = ['quema', 'makerschile', 'pippa','amantani','protteina', 'prat','construplaza']
     else:
         companies = [ arg[0] ]
 
@@ -97,7 +97,7 @@ def run(*arg):
         )
         
         records = []
-        print(f"Users: {len(users)}, Items: {len(items)} Entries: {ratings.shape[0]}")
+        logger.info(f"Users: {len(users)}, Items: {len(items)} Entries: {ratings.shape[0]}")
         for user in df[USER].values:
             for item in df[ITEM].values:
                 records.append({
@@ -106,20 +106,19 @@ def run(*arg):
                 })
 
         unrated = pd.DataFrame.from_records(records)
-        print(f"Unrated predictions {len(unrated):,}")
+        logger.info(f"Unrated predictions {len(unrated):,}")
         predictions = model.predict(unrated.values)
         unrated['rates'] = predictions[:,0]
-        k=10
+        k=20
         unrated_join = unrated.set_index([USER, ITEM]).join(ratings.set_index([USER, ITEM]))
         unrated_join = unrated_join[pd.notna(unrated_join['product_qty'])]
-        print(unrated_join)
         
         # final output processing
         rated_top_k = unrated.groupby(USER).head(k).sort_values([USER, ITEM], ascending=[True, False])
         rated_top_k[USER] = rated_top_k[USER].map(user_encoded2user)
         rated_top_k[ITEM] = rated_top_k[ITEM].map(item_encoded2item)
         rated_top_k[NAME] = rated_top_k[ITEM].map(item2item_name)
-
-        print(rated_top_k[rated_top_k['user'] == 'mp-cristi@hotmail.com'])
-        print(f"Top predictions for each user {len(rated_top_k):,}")
-        rated_top_k.to_csv('./personalized-predictions.csv', index=False)
+        
+        logger.info(f"Top predictions for each user {len(rated_top_k):,}")
+        
+        send_personalization_to_db(rated_top_k, store_name=company)

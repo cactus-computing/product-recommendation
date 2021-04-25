@@ -1,5 +1,5 @@
 from django.db import models
-from store.models import Store
+from store.models import Store, Customers
 
 class ProductsModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -22,6 +22,7 @@ class ProductAttributes(ProductsModel):
     stock_quantity = models.BooleanField(null=True, blank=True, default=None)
     company = models.ForeignKey(Store, on_delete=models.CASCADE)
     product_created_at = models.DateTimeField()
+    vendor = models.CharField(max_length=2000, null=True, blank=True)
     
     class Meta:
         indexes = [
@@ -41,7 +42,7 @@ class OrderAttributes(ProductsModel):
     '''
     Order table. This table contains all of the store's orders and their atributes.
     '''
-    user = models.CharField(max_length=2000)
+    customer = models.ForeignKey(Customers, on_delete=models.CASCADE)
     product = models.ForeignKey(ProductAttributes, on_delete=models.CASCADE)
     product_qty = models.IntegerField()
     bill = models.CharField(max_length=2000)
@@ -52,7 +53,7 @@ class OrderAttributes(ProductsModel):
         return {
             "product_id": self.product_id,
             "bill": self.bill,
-            "user": self.user,
+            "customer": self.customer,
             "product_name": self.product_name,
             "product_qty": self.product_qty
         }
@@ -89,6 +90,24 @@ class UpSellPredictions(ProductsModel):
     class Meta:
         indexes = [
             models.Index(fields=['-distance'], name='up_distance_idx')
+        ]
+
+    def __str__(self):
+        return self.product_code
+
+
+class CustomerPredictions(ProductsModel):
+    '''
+    Up selling output. A relation of every product and the distance to every other product.
+    '''
+    customer = models.ForeignKey(Customers, on_delete=models.CASCADE)
+    recommended_code = models.ForeignKey(ProductAttributes, related_name="personalized_prediction", on_delete=models.CASCADE)
+    rate = models.FloatField()
+    company = models.ForeignKey(Store, on_delete=models.CASCADE)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['-rate'], name='up_rate_idx')
         ]
 
     def __str__(self):
