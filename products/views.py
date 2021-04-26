@@ -1,5 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from datetime import datetime
+from datetime import timedelta
 import json
 from celery.result import AsyncResult
 from products.tasks import get_products, get_orders, get_customers, get_info
@@ -11,6 +13,8 @@ class GetProductsInfo(APIView):
         for store in stores:
             task = get_products.delay(store)
             task_ids.append({
+                'method': "get_products",
+                'Start time': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
                 'Company':store,
                 'Task_id': task.id
             })
@@ -23,6 +27,8 @@ class GetOrdersInfo(APIView):
         for store in stores:
             task = get_orders.delay(store)
             task_ids.append({
+                'method': "get_orders",
+                'Start time': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
                 'Company':store,
                 'Task_id': task.id
             })
@@ -35,6 +41,8 @@ class GetCustomersInfo(APIView):
         for store in stores:
             task = get_customers.delay(store)
             task_ids.append({
+                'method': "get_customers",
+                'Start time': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
                 'Company':store,
                 'Task_id': task.id
             })
@@ -47,6 +55,8 @@ class GetAllInfo(APIView):
         for store in stores:
             task = get_info.delay(store)
             task_ids.append({
+                'method': "get_all_info",
+                'Start time': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
                 'Company':store,
                 'Task_id': task.id
             })
@@ -60,6 +70,8 @@ class CheckTaskStatus(APIView):
         for status in statuses:
             resp = AsyncResult(status['Task_id']).status
             status_res.append({
+                'method': status['method'],
+                'Start time': status['Start time'],
                 'Company': status['Company'],
                 'Status': resp
             })
