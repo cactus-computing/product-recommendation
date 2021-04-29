@@ -4,6 +4,25 @@ _This codebase is no longer mantained_
 
 This is Cactus Computing Cross-Selling and Up-Selling software which is now open sourced. The documentation is a little messy and you should use it at your own risk.
 
+## What does this repository do
+
+This is an implementation of cross-selling and up-selling product recommendation generation algorithms, API and frontend carrousels. 
+
+## How it works
+
+We build an API to serve the models by selecting the top-k closest recommendation for a given product and company. This API is feed from a prediction database which is updated daily through the scripts in `products/scripts`.
+
+The way to integrate with the sites frontend is thorugh a Google Tag Manager Custom Tag. You need to insert this script, replacing example.com with your own host.
+
+```html
+<script src="https://example.com/cactusScript.js">
+```
+
+
+The code in `cactusScript.js` is plain vanilla javascript and all it does is generate the necesary html to create the carrousel and import the styles for every customer. The styling specific to each customer need to be changed for each one of them manually. 
+
+Bellow you will find the instructions necessary to run this application in a dev environment and how we used it in production (we know it's a little messy but we hope it helps!).
+
 ## Index:
 
 - [Runnig Dev Envirnoment](##runnig-dev-envirnoment)
