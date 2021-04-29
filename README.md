@@ -1,5 +1,5 @@
 
-# Cactus Computing Recommendation Sotfware
+# Cactus Computing Product Recommendation Sotfware for eCommerce
 _This codebase is no longer mantained_
 
 This is Cactus Computing Cross-Selling and Up-Selling software which is now open sourced. The documentation is a little messy and you should use it at your own risk.
