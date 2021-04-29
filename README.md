@@ -36,6 +36,24 @@ Bellow you will find the instructions necessary to run this application in a dev
 - [API Documentation](##api-documentation)
 - [Google Tag Manager (GTM)](##google-tag-manager-(gtm))
 - [Django Linting](##django-linting)
+
+## Environment Variables
+
+The following environment variables are required for the application to work. A file is created `.env-dev` as a template for you to fill up. You need to change its name to `.env` for it to work locally. Here is a description of each variable
+
+```
+SECRET_KEY: Django Secret Key
+GOOGLE_APPLICATION_CREDENTIALS: Path to your GCP Service Account key
+EMAIL_HOST_USER: this is an email account to send emails from the landing page contact form
+EMAIL_HOST_PASSWORD: You need to create a passwork from the google application credentials panel in order for this to work
+DATABASE_URL: database url as per sqlalchemy
+DEBUG: true/false
+HOST: allowed host
+NGROK_AUTHTOKEN: you need an ngrok account for this. Its only used to tunnel your local changes to a Google Tag Manager tag for developing purposes
+REDIS_TLS_URL: Redis URL
+REDIS_URL: Redis URL
+```
+
 ## Dev Environment Setup
 
 Clone the repository
